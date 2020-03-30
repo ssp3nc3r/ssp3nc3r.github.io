@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Scott Spencer">
+<meta name="description" content="From logistic regression to a neural net Fitting a logistic regression in R Basic Neural network Forward propogation Back propogation Training the network Our neural network  Bibliography   From logistic regression to a neural net With all the terminology and perhaps unfamiliar looking plots designed to resemble the inner workings of a brain, neural networks may seem confusing. So let’s bypass all the jargon and such for a few minutes." />
+<meta name="keywords" content=", Neural Networks, Machine Learning, R" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="/post/neural-networks-the-real-basics/" />
+
+
+    <title>
+        
+            Neural networks — the real basics :: p( ssp3nc3r | Columbian )  — Hello Friend NG Theme
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.min.84ed5579024525d4b50458514d1a43e40dd5272df45c7cd6da85b225af457154.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+<meta itemprop="name" content="Neural networks — the real basics">
+<meta itemprop="description" content="With all the terminology and perhaps unfamiliar looking plots designed to resemble the inner workings of a brain, neural networks may seem confusing. So let&#39;s bypass all the jargon and look at the basics.">
+<meta itemprop="datePublished" content="2018-04-05T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2018-04-05T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1292">
+<meta itemprop="image" content="/"/>
+
+
+
+<meta itemprop="keywords" content="Neural Networks,Machine Learning,R," /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="/"/>
+
+<meta name="twitter:title" content="Neural networks — the real basics"/>
+<meta name="twitter:description" content="With all the terminology and perhaps unfamiliar looking plots designed to resemble the inner workings of a brain, neural networks may seem confusing. So let&#39;s bypass all the jargon and look at the basics."/>
+
+
+
+
+
+    <meta property="article:published_time" content="2018-04-05 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/about/">About</a></li><li><a href="/post/">Posts</a></li><li><a href="/publications/">Publications</a></li><li><a href="/teaching/">Teaching</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="/post/neural-networks-the-real-basics/">Neural networks — the real basics</a></h2>
+
+            
+
+            <div class="post-content">
+                
+
+<div id="TOC">
+<ul>
+<li><a href="#from-logistic-regression-to-a-neural-net">From logistic regression to a <em>neural net</em></a></li>
+<li><a href="#fitting-a-logistic-regression-in-r">Fitting a logistic regression in R</a></li>
+<li><a href="#basic-neural-network">Basic Neural network</a><ul>
+<li><a href="#forward-propogation">Forward propogation</a></li>
+<li><a href="#back-propogation">Back propogation</a></li>
+<li><a href="#training-the-network">Training the network</a></li>
+<li><a href="#our-neural-network">Our neural network</a></li>
+</ul></li>
+<li><a href="#bibliography">Bibliography</a></li>
+</ul>
+</div>
+
+<div id="from-logistic-regression-to-a-neural-net" class="section level1">
+<h1>From logistic regression to a <em>neural net</em></h1>
+<p>With all the terminology and perhaps unfamiliar looking plots designed to resemble the inner workings of a brain, neural networks may seem confusing. So let’s bypass all the jargon and such for a few minutes. A basic neural network can be thought of as just chaining together regressions that use a nonlinear function to transform <span class="math inline">\(\boldsymbol{X}\)</span>. <span class="citation">(Murphy <a href="#ref-Murphy:2012ua">2012</a>)</span> writes,</p>
+<blockquote>
+<p>A (feedforward) <strong>neural network</strong> . . . is a series of logistic regression models stacked on top of each other, with the final layer being either another logistic regression or a linear regression model, depending on whether we are solving a classification or regression problem.</p>
+</blockquote>
+<p>Of course, he explains that the logistic regression function may be replaced with other functions, such as a <strong>rectified linear units or ReLU</strong> for some applications, but he starts with using the logistic function, and so shall we.</p>
+<p>Mathematically we write,</p>
+<p><span class="math display">\[
+y_i \sim \textrm{Bernoulli}(\mu_i) \\
+\mu = \frac{1}{1 + e^{-\eta_i}} = logit(\eta_i)\\
+\eta_i = \alpha + \sum_{k=1}^{K}{x_{ik} \beta_k}
+\]</span>
+where in the above, <span class="math inline">\(\eta\)</span> is transformed to <span class="math inline">\(\mu\)</span> using the logit function. The coefficients <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> are also referred to as <em>weights</em> and denoted <span class="math inline">\(w\)</span>. Thus, let’s rewrite the above as,</p>
+<p><span class="math display">\[
+p(y|\boldsymbol{x}, \boldsymbol{w}) = \textrm{bernoulli}(y|\mu(\boldsymbol{x}))
+\]</span>
+where</p>
+<p><span class="math display">\[
+\mu(\boldsymbol{x}) = \textrm{logit}(\boldsymbol{w}^T\boldsymbol{x})
+\]</span>
+All together,</p>
+<p><span class="math display">\[
+p(y|\boldsymbol{x}, \boldsymbol{w}) = bernoulli(y|logit(\boldsymbol{w}^T\boldsymbol{x}))
+\]</span></p>
+<p>With that expression of a logistic regression, let’s chain them together, which just means the output of a first regression is used as parameters in the second, and so forth. Thus,</p>
+<p><span class="math display">\[
+p(y|\boldsymbol{x}, \boldsymbol{w}) = bernoulli(y|logit(\boldsymbol{w}^Tz(\boldsymbol{x}))) \\
+z(x) = logit(\boldsymbol{V}\boldsymbol{x})
+\]</span>
+where <span class="math inline">\(V\)</span> is a vector of weights applied to our input variables. And we can have as many <span class="math inline">\(z(\cdot)\)</span> as we decide. We can also have more transformations between the two such that <span class="math inline">\(z(\boldsymbol{x}) = logit(\boldsymbol{V}g(\boldsymbol{x}))\)</span> where <span class="math inline">\(g(x) = logit(\boldsymbol{V}\boldsymbol{x})\)</span>. We can also use functions other than the logit (a type of sigmoid).</p>
+</div>
+<div id="fitting-a-logistic-regression-in-r" class="section level1">
+<h1>Fitting a logistic regression in R</h1>
+<p>As a start to exploring a neural net, let’s create some fake data, which includes observations of two classes, each generated slightly differently:</p>
+<pre class="r"><code>golden_ratio &lt;- ( sqrt(5) + 1 ) / 2
+fibonacci_angle &lt;- 80 / ( golden_ratio ^ 3 )
+
+n &lt;- seq(250)
+
+x1     &lt;- sqrt(n) * cos(fibonacci_angle * n) + rnorm(n, 0, .5)
+x2     &lt;- sqrt(n) * sin(fibonacci_angle * n) + rnorm(n, 0, .5)
+
+fibonacci_angle &lt;- 270 / ( golden_ratio ^ 3 )
+x1     &lt;- c(x1, sqrt(n) * cos(fibonacci_angle * n) + rnorm(n, 0, .5) )
+x2     &lt;- c(x2, sqrt(n) * sin(fibonacci_angle * n) + rnorm(n, 0, .5) )
+
+class &lt;- rep(c(&#39;FALSE&#39;, &#39;TRUE&#39;), each = length(n))
+df    &lt;- data.frame(x1, x2, class)</code></pre>
+<p>These data look like,</p>
+<p><img src="/./post/2018-04-05-neural-networks-the-real-basics_files/figure-html/unnamed-chunk-2-1.svg" width="480" style="display: block; margin: auto;" /></p>
+<p>As a baseline, let’s fit a logistic regression on these data:</p>
+<pre class="r"><code># logistic regression
+log_reg &lt;- glm(class ~ x1 + x2, family = binomial(link = &#39;logit&#39;), data = df)
+
+# new data
+grid &lt;- expand.grid(x1 = seq(min(df$x1) - 1,
+                             max(df$x1) + 1,
+                             by = .25),
+                    x2 = seq(min(df$x2) - 1,
+                             max(df$x2) + 1,
+                             by = .25))
+
+# predict class across grid
+pred       &lt;- predict.glm(log_reg, newdata = grid)
+invlogit   &lt;- function(x) exp(x) / (1 + exp(x) )
+grid$class &lt;- invlogit(pred) &gt; 0.5</code></pre>
+<p>Our prediction looks like,</p>
+<p><img src="/./post/2018-04-05-neural-networks-the-real-basics_files/figure-html/unnamed-chunk-4-1.svg" width="480" style="display: block; margin: auto;" /></p>
+<p>As graphically evident, these data aren’t distinguished along a linear boundary.</p>
+</div>
+<div id="basic-neural-network" class="section level1">
+<h1>Basic Neural network</h1>
+<p>Now let’s try a basic neural network. In chaining the logistic regressions together, we <strong>feed forward</strong> the output of a regression into the parameters of the next. Here’s a function to do that:</p>
+<div id="forward-propogation" class="section level2">
+<h2>Forward propogation</h2>
+<pre class="r"><code>feedforward &lt;- 
+  function(x, w1, w2) {
+    z1 &lt;- cbind(1, x) %*% w1
+    h  &lt;- sigmoid(z1)
+    z2 &lt;- cbind(1, h) %*% w2
+  
+    return( list(output = sigmoid(z2), h = h) )
+}</code></pre>
+<p>where,</p>
+<pre class="r"><code>sigmoid &lt;- function(x) 1 / (1 + exp(-x))</code></pre>
+<p>In the above, <code>w1</code> and <code>w2</code> are weight parameters, where we multiply predictors by one weight, transform them with the logistic (sigmoid) function, multiply the output with another weight, which is transformed through the next logistic function and returned.</p>
+</div>
+<div id="back-propogation" class="section level2">
+<h2>Back propogation</h2>
+<p>After reaching the end of the logistic chain — at least when training our model — we compare the output to our observed class, and use the errors to adjust our original weights. The process is called <strong>back propogation</strong>. Here’s a function to handle this step:</p>
+<pre class="r"><code>backpropagate &lt;- 
+  function(x, y, y_hat, w1, w2, h, learn_rate) {
+    dw2 &lt;- t(cbind(1, h)) %*% (y_hat - y)
+    dh  &lt;- (y_hat - y) %*% t(w2[-1, , drop = FALSE])
+    dw1 &lt;- t(cbind(1, x)) %*% (h * (1 - h) * dh)
+  
+    w1 &lt;- w1 - learn_rate * dw1
+    w2 &lt;- w2 - learn_rate * dw2
+  
+    return( list(w1 = w1, w2 = w2) )
+}</code></pre>
+<p>In the function, we see the comparison between our estimate and observed (<code>y_hat - y</code>), and adjust our weights. Notice we multiply the change in weight by <strong>learning_rate</strong>, which is called a <em>tuning parameter</em> and allows us to tweak the relative amount of weight change.</p>
+</div>
+<div id="training-the-network" class="section level2">
+<h2>Training the network</h2>
+<p>Finally, we wrap our above functions together, using them to train our model. In this crude model, we just specify how many intermediate logistic functions (the neural net lingo is <strong>hidden layers</strong>) to be used before the final one that estimates the class, and we specify the number of iterations to feed forward and back propogate:</p>
+<pre class="r"><code>train &lt;- 
+  function(x, y, hidden = 5, learn_rate = 1e-2, iterations = 1e4) {
+    d  &lt;- ncol(x) + 1
+    w1 &lt;- matrix(rnorm(d * hidden), d, hidden)
+    w2 &lt;- as.matrix(rnorm(hidden + 1))
+    for (i in 1:iterations) {
+      ff &lt;- feedforward(x, w1, w2)
+      bp &lt;- backpropagate(x, y,
+                          y_hat = ff$output,
+                          w1, w2,
+                          h = ff$h,
+                          learn_rate = learn_rate)
+    w1 &lt;- bp$w1
+    w2 &lt;- bp$w2
+  }
+  return( list(output = ff$output, w1 = w1, w2 = w2) )
+}</code></pre>
+</div>
+<div id="our-neural-network" class="section level2">
+<h2>Our neural network</h2>
+<p>The hard work is done. Now let’s setup these data to feed into our neural network (or chain of regressions), and see how, say, five intermediate transformations compare against our basic logistic regression above.</p>
+<pre class="r"><code>x        &lt;- data.matrix(df[, c(&#39;x1&#39;, &#39;x2&#39;)])
+y        &lt;- df$class == &#39;TRUE&#39;
+nnet5    &lt;- train(x, y, hidden = 5, iterations = 1e5)
+acc_net5 &lt;- mean((nnet5$output &gt; .5) == y)</code></pre>
+<p>With a fraction of 0.582, our accuracy has only improved slightly against training data. Let’s see graphically review how this model estimated the boundaries. For that, we setup a grid of fake data across the range of <code>x1</code> and <code>x2</code> values.</p>
+<pre class="r"><code>ff_grid &lt;- feedforward(x = data.matrix(grid[, c(&#39;x1&#39;, &#39;x2&#39;)]),
+                       w1 = nnet5$w1,
+                       w2 = nnet5$w2)
+grid$class &lt;- factor((ff_grid$output &gt; .5) * 1,
+                     levels = c(0, 1),
+                     labels = levels(df$class))</code></pre>
+<p>The boundaries of this network, though nonlinear, do not capture the data generating process:</p>
+<pre class="r"><code>ggplot() + 
+  geom_point(grid, mapping = aes(x1, x2, color = class), size = .1, alpha = .3) + 
+  geom_point(df, mapping = aes(x1, x2, color = class)) + 
+  scale_colour_manual(values=c(&#39;gray42&#39;, &#39;gray88&#39;)) + 
+  theme_void() + theme(legend.position = &#39;&#39;)</code></pre>
+<p><img src="/./post/2018-04-05-neural-networks-the-real-basics_files/figure-html/unnamed-chunk-11-1.svg" width="480" style="display: block; margin: auto;" /></p>
+<p>Let’s try again, this time using 30 intermediate transformations:</p>
+<pre class="r"><code>nnet30 &lt;- train(x, y, hidden = 30, iterations = 1e5)
+acc_net30 &lt;- mean((nnet30$output &gt; .5) == y)</code></pre>
+<p>Our accuracy is starting to improve; the fraction correct among the training set is now 0.748. As before, let’s review the model’s estimated class boundaries:</p>
+<pre class="r"><code>ff_grid &lt;- feedforward(x = data.matrix(grid[, c(&#39;x1&#39;, &#39;x2&#39;)]),
+                       w1 = nnet30$w1,
+                       w2 = nnet30$w2)
+grid$class &lt;- factor((ff_grid$output &gt; .5) * 1,
+                     levels = c(0, 1),
+                     labels = levels(df$class))</code></pre>
+<p>The model is getting closer to representing the training data but, of course, can be improved substantially.</p>
+<pre class="r"><code>ggplot() + 
+  geom_point(grid, mapping = aes(x1, x2, color = class), size = .1, alpha = .3) + 
+  geom_point(df, mapping = aes(x1, x2, color = class)) + 
+  scale_colour_manual(values=c(&#39;gray42&#39;, &#39;gray88&#39;)) + 
+  theme_void() + theme(legend.position = &#39;&#39;)</code></pre>
+<p><img src="/./post/2018-04-05-neural-networks-the-real-basics_files/figure-html/unnamed-chunk-14-1.svg" width="480" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="bibliography" class="section level1 unnumbered">
+<h1>Bibliography</h1>
+<div id="refs" class="references">
+<div id="ref-Murphy:2012ua">
+<p>Murphy, Kevin P. 2012. <em>Machine Learning</em>. A Probabilistic Perspective. MIT Press.</p>
+</div>
+</div>
+</div>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/neural-networks">Neural Networks</a></span><span class="tag"><a href="/tags/machine-learning">Machine Learning</a></span><span class="tag"><a href="/tags/r">R</a></span>
+  				</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+                <span><a href="/">ssp3nc3r</a></span>
+            
+            <span></span>
+            <span> <a href="/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+        </div>
+    </div>
+    <script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.2d5469329143160ae2456a69c3c76dc2d0a3b212b46afe291a51bd68650ed6f8697e001dab54f1c272c77ce08092a8c55e5bb4314e0ee334aab4b927ec896638.js" integrity="sha512-LVRpMpFDFgriRWppw8dtwtCjshK0av4pGlG9aGUO1vhpfgAdq1TxwnLHfOCAkqjFXlu0MU4O4zSqtLkn7IlmOA=="></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+
+
+
+    </body>
+</html>

@@ -1,0 +1,33 @@
+---
+title: McElreath's Statistical Rethinking examples recoded into Stan
+author: Scott Spencer
+date: '2018-10-09'
+slug: mcelreath-s-statistical-rethinking-examples-recoded-into-stan
+categories: []
+tags:
+  - Stan
+  - Bayes
+description: "McElreath's Statistical Rethinking is among the best books for learning Bayesian statistics. As an exercise in pedagogy, I've recoded all his examples directly into Stan, a probabilistic programming language."
+draft: no
+disable_comments: yes
+output:
+  blogdown::html_page:
+    toc: true
+    dev: "svg"
+link-citations: true
+linkcolor: black
+urlcolor: MidnightBlue
+---
+
+-----
+
+```{r setup, include=FALSE}
+library(tint)
+# invalidate cache when the package version changes
+knitr::opts_chunk$set(tidy = FALSE, 
+                      cache.extra = packageVersion('tint'),
+                      message = F, warning = F, error = F)
+options(htmltools.dir.version = FALSE)
+```
+
+McElreath's *Statistical Rethinking* is among the best books for learning Bayesian statistics (he has a second edition coming out too). As an exercise in pedagogy, I've recoded all his examples directly into Stan, a probabilistic programming language. Recoding examples from one programming language into another is a great way to practice learning that other language. Give it a try. I've made my recoded examples available [here](https://github.com/ssp3nc3r/rethinking) if you get stuck or want to compare methods of coding.

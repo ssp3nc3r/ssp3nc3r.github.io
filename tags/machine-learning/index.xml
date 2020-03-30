@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Machine Learning on p( ssp3nc3r | Columbian )</title>
+    <link>/tags/machine-learning/</link>
+    <description>Recent content in Machine Learning on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Thu, 05 Apr 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/machine-learning/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Neural networks — the real basics</title>
+      <link>/post/neural-networks-the-real-basics/</link>
+      <pubDate>Thu, 05 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/neural-networks-the-real-basics/</guid>
+      <description>From logistic regression to a neural net Fitting a logistic regression in R Basic Neural network Forward propogation Back propogation Training the network Our neural network  Bibliography   From logistic regression to a neural net With all the terminology and perhaps unfamiliar looking plots designed to resemble the inner workings of a brain, neural networks may seem confusing. So let’s bypass all the jargon and such for a few minutes.</description>
+    </item>
+    
+  </channel>
+</rss>

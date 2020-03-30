@@ -1,0 +1,249 @@
+---
+title: Estimating the marginal value of baseball events
+author: Scott Spencer
+date: '2018-12-08'
+slug: estimating-the-marginal-value-of-baseball-events
+categories: []
+tags:
+  - Baseball
+  - Run Expectancy
+  - Expectations
+  - Batters
+  - Offense
+  - Stan
+  - Events
+description: "Teams score --- or *don't* --- event by event. Events change the state of the game, and whether a score results from an event depends upon prior events. By the events a player generates, or more accurately, by the change in expected runs to which they contribute, we can measure players' offensive values."
+draft: no
+disable_comments: yes
+output:
+  blogdown::html_page:
+    toc: true
+    dev: "svg"
+---
+
+Teams score --- or *don't* --- event by event. Events change the state of the game. Solo home runs aside, whether a score results from any event depends upon prior events: *a batter's double only "drives in a score" when an earlier batter made it on base.* By the collection of events a player generates, or more accurately, by the change in expected runs to which they contribute, we can measure players offensive values.
+
+In an earlier post, we walked through the steps for estimating the expected runs in a half-inning for each of the twenty-four unique game states. We build on that work here, estimating distributions of the possible differences in expected runs from each type of event. Later, we'll aggregate the distributions corresponding to realized events for each player to estimate their realized, offensive contributions.
+
+As before, we will use event data from Retrosheets.
+
+```{r, echo=T, results='hide', message=FALSE, error=FALSE, warning=FALSE}
+library(dplyr)
+rs <- readRDS("rs2018.RDS")
+desc <- readRDS("event_description.RDS")
+rs <- left_join(rs, desc)
+```
+
+Several transformations come next. We calculate the accumulated batting team runs before each event to the end of the half inning, ignoring incomplete innings and identifying the game state at the start and end of the event.
+
+```{r, echo=T, results='hide', message=FALSE, error=FALSE, warning=FALSE}
+library(dplyr)
+# identify runs accumulated for batting team before event
+rs <- rs %>% 
+  mutate(SCORE_CT = ifelse(BAT_HOME_ID == 1, 
+                           HOME_SCORE_CT, 
+                           AWAY_SCORE_CT))
+
+# calculate runs scored for batting team in the event
+rs <- rs %>% 
+  mutate(RUNS_SCORED = (BAT_DEST_ID > 3) +
+                       (RUN1_DEST_ID > 3) + 
+                       (RUN2_DEST_ID > 3) + 
+                       (RUN3_DEST_ID > 3))
+
+# accumulated runs before event to end of half inning
+rs <- rs %>% 
+  arrange(GAME_ID, EVENT_ID) %>%
+  group_by(GAME_ID, INN_CT, BAT_HOME_ID) %>% 
+  mutate(Complete = last(EVENT_OUTS_CT) + last(OUTS_CT) == 3) %>%
+  filter(Complete) %>% select(-Complete) %>%
+  mutate(RUNS_END_HALF = 
+         last(SCORE_CT) + last(RUNS_SCORED) - SCORE_CT)
+
+# create variable game states
+runners <- 
+  c("000", "100", "010", "001",
+    "110", "101", "011", "111")
+states <- c(paste0(rep(0:2, each = 8), runners), "3000")
+
+# identify state at start of each event
+rs <- rs %>% 
+  mutate(STATE = paste0(OUTS_CT, 
+         as.integer(BASE1_RUN_ID != ""),
+         as.integer(BASE2_RUN_ID != ""),
+         as.integer(BASE3_RUN_ID != ""))) 
+
+# identify state after each event completes
+rs <- rs %>% 
+  mutate(STATE_after = 
+         paste0(OUTS_CT + EVENT_OUTS_CT, 
+         as.numeric(RUN1_DEST_ID==1 | BAT_DEST_ID==1), 
+         as.numeric(RUN1_DEST_ID==2 | RUN2_DEST_ID==2 | 
+                    BAT_DEST_ID==2),
+         as.numeric(RUN1_DEST_ID==3 | RUN2_DEST_ID==3 | 
+                    RUN3_DEST_ID==3 | BAT_DEST_ID==3))) %>%
+  mutate(STATE_after = 
+         ifelse(OUTS_CT + EVENT_OUTS_CT == 3, 
+                "3000", STATE_after)) %>%
+  mutate(STATE = factor(STATE, levels = states),
+         STATE_after = factor(STATE_after, levels = states))
+```
+
+Then, we fit the data to a model using Stan. In the earlier post, we fit data with the R package `rstanarm`. This time, we code a model directly in Stan to provide more flexibility in how we obtain posterior distributions of marginal expected runs for each event type from the model itself.
+
+```{stan output.var="m_event", message=FALSE, error=FALSE, warning=FALSE}
+data {
+  int<lower=0> N;
+  vector[N] runs_event;
+  int<lower=0> runs_half[N];
+  int<lower=1, upper=24> state[N];
+  int<lower=1, upper=25> state_after[N];
+  int<lower=1> event[N];
+}
+
+parameters {
+  vector<lower=0>[24] a_state;
+  real<lower=0> phi;
+}
+
+model {
+  target += normal_lpdf(a_state | .5, 5);
+  target += neg_binomial_2_lpmf(runs_half | a_state[state], phi);
+}
+
+generated quantities {
+  vector[max(event)] ER_event = rep_vector(0, max(event));
+  
+  {
+  vector[max(event)] event_ct = rep_vector(0, max(event));
+    
+  for(i in 1:N) {
+    ER_event[event[i]] += state_after[i] != 25 ? 
+      runs_event[i] + neg_binomial_2_rng(a_state[state_after[i]], phi) -  
+      neg_binomial_2_rng(a_state[state[i]], phi) : 
+      runs_event[i] - neg_binomial_2_rng(a_state[state[i]], phi);
+    event_ct[event[i]] += 1;  
+  }
+  
+  ER_event = ER_event ./ event_ct;
+  }
+}
+
+```
+
+In the model, $\alpha_{\textrm{state}}$ or `a_state` is vector of random variables, one for each unique game state. We include a prior for these, $\textrm{Normal}(\alpha_{\textrm{game state}} \mid 0.5, 5)$. The likelihood we code as a $\textrm{Negative Binomial}(\textrm{runs}_{\textrm{after event}} \mid \alpha_{\textrm{game state}}, \phi)$, where $\phi$ represents an overdispersion parameter. In `generated quantities`, we compute the marginal change in expected runs for each event type. Next, we fit the data to the model,
+
+```{r, echo=T, results='hide', message=FALSE, error=FALSE, warning=FALSE}
+dat <- list(
+  N = NROW(rs),
+  runs_event = rs$RUNS_SCORED,
+  runs_half = rs$RUNS_END_HALF,
+  state = as.integer(rs$STATE),
+  state_after = as.integer(rs$STATE_after),
+  event = as.integer(factor(rs$EVENT_CD))
+)
+
+library(rstan)
+fit_re <- sampling(m_event, data = dat, 
+                   iter = 1000, chains = 4, cores = 4)
+```
+
+and extract the posterior estimates of the average expected runs for each event type,
+
+```{r, message=FALSE, error=FALSE, warning=FALSE}
+post <- as.data.frame(fit_re, pars = "ER_event")
+colnames(post) <- desc %>% 
+  mutate(EVENT_DESC = gsub("\\.", " ", EVENT_DESC)) %>%
+  filter(EVENT_CD %in% unique(rs$EVENT_CD)) %>% 
+  .$EVENT_DESC
+```
+
+The marginal differences in expected runs for some events, like strike outs, are more certain than others:
+
+```{r, fig.cap="Distribution of marginal difference in expected runs by event.", message=FALSE, error=FALSE, warning=FALSE}
+event_ord <- post %>%
+  tidyr::gather(key = 'event', value = 'runs') %>%
+  group_by(event) %>% 
+  summarise(avg_runs = mean(runs)) %>% 
+  arrange(avg_runs) %>%
+  ungroup() %>% .$event
+  
+event_runs <- post %>%
+  tidyr::gather(key = 'event', value = 'runs') %>%
+  mutate(event = factor(event, levels = event_ord, ordered = T))
+
+library(ggplot2); library(ggthemes)
+ggplot(event_runs) +
+  theme_tufte(base_family = 'sans') +
+  geom_density(aes(runs), fill = '#B9D9EB') +
+  geom_vline(xintercept = 0, color = "#000000", lwd = .4) +
+  facet_wrap(~event, nrow = 7, scales = 'free_y', dir = 'v') +
+  theme(axis.ticks.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.title = element_blank())
+```
+
+Next, we can aggregate these distributions per player to obtain their contributions to expected runs. Let's focus on a subset of the events, those that more closely reflect skills of batters and baserunners: *strike out, fielder choice, caught stealing, stolen base, walk, single, double, triple, and home run*. 
+
+```{r}
+# identify batter events
+bat_events <- c("Caught stealing", "Fielder choice", "Strikeout", 
+                "Pickoff", "Stolen base", "Walk", "Single", 
+                "Double", "Triple", "Home run")
+
+# aggregate events by player
+player_summaries <- rs %>% 
+  mutate(EVENT_DESC = gsub("\\.", " ", EVENT_DESC)) %>%
+  mutate(EVENT_DESC = factor(EVENT_DESC, levels = event_ord, ordered = T)) %>%
+  group_by(BAT_ID, EVENT_DESC) %>%
+  summarise(n = n()) %>%
+  ungroup() %>%
+  filter(EVENT_DESC %in% bat_events) %>%
+  tidyr::spread(key = EVENT_DESC, value = n, fill = 0) 
+
+# multiply event counts by distributions
+player_value <- 
+  as.matrix(player_summaries[-1]) %*% t(post[,bat_events]) %>% 
+  as.data.frame() %>% 
+  bind_cols(BAT_ID = player_summaries$BAT_ID, .) %>%
+  tidyr::gather(key = draw, value = runs, -BAT_ID) %>%
+  mutate(draw = as.integer(gsub("V", "", draw)))
+
+# calculate summary statistics
+player_probs <- 
+  player_value %>% 
+  group_by(BAT_ID) %>% 
+  summarise(p25 = quantile(runs, probs = .25), 
+            p50 = quantile(runs, probs = .5), 
+            p75 = quantile(runs, probs = .75)) %>%
+  arrange(desc(p50))
+
+# get names from Chadwick register and merge with retro ids
+register <- 
+  read.csv(paste0("https://raw.githubusercontent.com/", 
+                  "chadwickbureau/register/master/data/people.csv"), 
+           stringsAsFactors = F) %>%
+  select(key_retro, name_last, name_first) %>%
+  filter(key_retro != "")
+  
+player_probs <- left_join(player_probs, register, 
+                          by = c("BAT_ID" = "key_retro"))
+```
+
+Players sorted by their descending average of total expected runs contributed are
+
+```{r}
+library(kableExtra)
+player_probs %>% 
+  select(name_first, name_last, p25, p50,p75) %>% 
+  knitr::kable(digits = 0, full_width = F, 
+               align = c("l", "l", "r", "r", "r"), 
+               col.names = c("First", "Last", "25%", "50%", "75%"),
+               caption = "Expected runs contributed in 2018.") %>%
+  add_header_above(c("Player Name" = 2, "Range of Expected Runs Contributed" = 3)) %>%
+  kable_styling() %>%
+  scroll_box(width = "90%", height = "450px")
+```
+
+In a future post, we'll estimate the expected runs from events we would expect players to contribute. 
+

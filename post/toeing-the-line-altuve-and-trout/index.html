@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Scott Spencer">
+<meta name="description" content="Analysis Load and combine data Summarise and prepare data Getting running speed from timestamped coordinates Define variables Graphical overview of coordinates and running speeds Scenario 1: times to first when attempting a double Scenario 2: batters trying to beat a throw to first  Conclusions and Next Steps   In these analyzed data, described below, Trout demonstrated slightly higher expected footspeed and slightly shorter expected times to first base than did Altuve; although their performance is close and we expect a near toss up, given the data used, as to who comes out ahead on any given play." />
+<meta name="keywords" content=", Baseball, Batters, Footspeed, Data Visualization, MLB, R, rstanarm" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="/post/toeing-the-line-altuve-and-trout/" />
+
+
+    <title>
+        
+            Toeing the Line: Altuve and Trout :: p( ssp3nc3r | Columbian )  — Hello Friend NG Theme
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.min.84ed5579024525d4b50458514d1a43e40dd5272df45c7cd6da85b225af457154.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+<meta itemprop="name" content="Toeing the Line: Altuve and Trout">
+<meta itemprop="description" content="Baseball batter base running speeds can be estimated from timestamped coordinate data by considering what location data suggests about whether runners are attempting maximum effort, even without corresponding actual outcome data.">
+<meta itemprop="datePublished" content="2018-02-28T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2018-02-28T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="2915">
+<meta itemprop="image" content="/"/>
+
+
+
+<meta itemprop="keywords" content="Baseball,Batters,Footspeed,Data Visualization,MLB,R,rstanarm," /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="/"/>
+
+<meta name="twitter:title" content="Toeing the Line: Altuve and Trout"/>
+<meta name="twitter:description" content="Baseball batter base running speeds can be estimated from timestamped coordinate data by considering what location data suggests about whether runners are attempting maximum effort, even without corresponding actual outcome data."/>
+
+
+
+
+
+    <meta property="article:published_time" content="2018-02-28 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/about/">About</a></li><li><a href="/post/">Posts</a></li><li><a href="/publications/">Publications</a></li><li><a href="/teaching/">Teaching</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="/post/toeing-the-line-altuve-and-trout/">Toeing the Line: Altuve and Trout</a></h2>
+
+            
+
+            <div class="post-content">
+                
+
+<div id="TOC">
+<ul>
+<li><a href="#analysis">Analysis</a><ul>
+<li><a href="#load-and-combine-data">Load and combine data</a></li>
+<li><a href="#summarise-and-prepare-data">Summarise and prepare data</a></li>
+<li><a href="#getting-running-speed-from-timestamped-coordinates">Getting running speed from timestamped coordinates</a></li>
+<li><a href="#define-variables">Define variables</a></li>
+<li><a href="#graphical-overview-of-coordinates-and-running-speeds">Graphical overview of coordinates and running speeds</a></li>
+<li><a href="#scenario-1-times-to-first-when-attempting-a-double">Scenario 1: times to first <em>when attempting a double</em></a></li>
+<li><a href="#scenario-2-batters-trying-to-beat-a-throw-to-first">Scenario 2: batters trying to beat a throw to first</a></li>
+</ul></li>
+<li><a href="#conclusions-and-next-steps">Conclusions and Next Steps</a></li>
+</ul>
+</div>
+
+<hr />
+<p>In these analyzed data, described below, Trout demonstrated slightly higher expected footspeed and slightly shorter expected times to first base than did Altuve; although their performance is close and we expect a near toss up, given the data used, as to who comes out ahead on any given play.</p>
+<p>The conditions analyzed include use of 2016 regular season data on both players’ field coordinates when running. I subset these data in a few ways after deriving speed at each time measurement provided. Firstly, any speeds calculated to be greater than world record pace was discarded as unreliable due to measurement error. Also discarded were some data with missing <code>sv_pitch_id</code>. Secondly and as generally known, because runners do not always need maximum effort when running, the analysis attempted to single out circumstances where maximum effort was most likely.</p>
+<p>Specifically, the analysis focused on runs where the batter made it near second base (whether or not they actually earned a double) or significantly passed first base along the foul line. Doing so makes it likely that the batter attempted maximum effort from crack of the bat through first base. Other scenarios were not studied as these data would be less likely to distinguish maximum effort from other efforts. The details and code for my analysis follow.</p>
+<div id="analysis" class="section level2">
+<h2>Analysis</h2>
+<div id="load-and-combine-data" class="section level3">
+<h3>Load and combine data</h3>
+<p>First, we load in and combine the given data.</p>
+<pre class="r"><code>altuve  &lt;- read.csv(&#39;Altuve_baserunning.csv&#39;, header = T, stringsAsFactors = F)
+altuve  &lt;- within(altuve, Name &lt;- factor(&#39;Altuve&#39;, levels = c(&#39;Altuve&#39;, &#39;Trout&#39;)))
+
+trout   &lt;- read.csv(&#39;Trout_baserunning.csv&#39;, header = T, stringsAsFactors = F)
+trout   &lt;- within(trout, Name &lt;- factor(&#39;Trout&#39;, levels = c(&#39;Altuve&#39;, &#39;Trout&#39;)))
+
+runners &lt;- rbind(altuve, trout)
+rm(altuve, trout)</code></pre>
+</div>
+<div id="summarise-and-prepare-data" class="section level3">
+<h3>Summarise and prepare data</h3>
+<p>Let’s first review the data structure. I’ve coded a custom function to more cleanly display the structure of the data.</p>
+<pre class="r"><code>str_as_df &lt;- function(df) {
+  data.frame(Variable = names(df), Class = sapply(df, class),
+             `First Values` = sapply(df, function(x) paste0(head(x),  collapse = &#39;, &#39;)),
+             row.names = NULL) 
+  }
+
+kable(str_as_df(runners), caption = &#39;&#39;)</code></pre>
+<table>
+<caption><span id="tab:unnamed-chunk-1">Table 1: </span></caption>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Class</th>
+<th align="left">First.Values</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">sv_pitch_id</td>
+<td align="left">character</td>
+<td align="left">160605_143038, 160605_143038, 160605_143038, 160605_143038, 160605_143038, 160605_143038</td>
+</tr>
+<tr class="even">
+<td align="left">time_offset</td>
+<td align="left">numeric</td>
+<td align="left">-0.397331343, -0.364331343, -0.331331343, -0.297331343, -0.264331343, -0.231331343</td>
+</tr>
+<tr class="odd">
+<td align="left">id</td>
+<td align="left">integer</td>
+<td align="left">10, 10, 10, 10, 10, 10</td>
+</tr>
+<tr class="even">
+<td align="left">id_b</td>
+<td align="left">integer</td>
+<td align="left">514888, 514888, 514888, 514888, 514888, 514888</td>
+</tr>
+<tr class="odd">
+<td align="left">id_r1b</td>
+<td align="left">integer</td>
+<td align="left">0, 0, 0, 0, 0, 0</td>
+</tr>
+<tr class="even">
+<td align="left">id_r2b</td>
+<td align="left">integer</td>
+<td align="left">0, 0, 0, 0, 0, 0</td>
+</tr>
+<tr class="odd">
+<td align="left">x</td>
+<td align="left">numeric</td>
+<td align="left">-2.359, -2.327, -2.327, -2.295, -2.294, -2.326</td>
+</tr>
+<tr class="even">
+<td align="left">y</td>
+<td align="left">numeric</td>
+<td align="left">0.31, 0.406, 0.47, 0.566, 0.693, 0.789</td>
+</tr>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">factor</td>
+<td align="left">Altuve, Altuve, Altuve, Altuve, Altuve, Altuve</td>
+</tr>
+</tbody>
+</table>
+<p>Of note, as with the player names, the various <code>id</code>s will be more useful as factors, and the <code>sv_pitch_id</code> as a date and time,</p>
+<pre class="r"><code>runners &lt;- transform(runners, 
+                     id = factor(id),
+                     id_b = factor(id_b),
+                     id_r1b = factor(id_r1b),
+                     id_r2b = factor(id_r2b),
+                     gameday = as.Date(sv_pitch_id, format = &#39;%y%m%d_%H%M%S&#39;))</code></pre>
+<p>An overall summary indicates missing data in <code>sv_pitch_id</code>. Since we have no way of identifying these data in context, they will be ignored (discarded).</p>
+</div>
+<div id="getting-running-speed-from-timestamped-coordinates" class="section level3">
+<h3>Getting running speed from timestamped coordinates</h3>
+<p>We are mindful that information important to understanding runner speed is not in these, including whether the runner expects the batted ball to be caught or a homerun. Both expected events would slow or hold up the runner in situations with, say, less than two outs. Let’s calculate speed from runner <code>x</code> and <code>y</code> coordinates and <code>time_offset</code>,</p>
+<pre class="r"><code>require(dplyr)
+
+runners &lt;- 
+  
+  # original data
+  runners %&gt;%
+  
+  # unique key for run information
+  group_by(sv_pitch_id, id_b) %&gt;% 
+  
+  # organize by time within the run
+  arrange(time_offset) %&gt;% 
+  
+  # speed is euclidean distance / time ... also convert units
+  mutate(ftsec = sqrt((x - lag(x)) ^ 2 + (y - lag(y)) ^ 2) / 
+                (time_offset - lag(time_offset)),
+         mph = ftsec * 60 * 60 / 5280)</code></pre>
+</div>
+<div id="define-variables" class="section level3">
+<h3>Define variables</h3>
+<p>The Variable definitions now include,</p>
+<ul>
+<li><strong>sv_pitch_id</strong>: pitch timestamp, format yymmdd_hhmmss</li>
+<li><strong>time_offset</strong>: time in seconds relative to when the pitch crossed the front of home plate</li>
+<li><strong>id</strong>: identifier of player whose x,y coordinate data is recorded, 10 = batter-runner, 11 = first-base runner, 12 = second-base runner</li>
+<li><strong>x, y</strong>: coordinates, in feet, of center of mass of the player’s body. Coordinate origin is the tip of home plate. The y-axis runs out through second base toward center field. The x-axis is perpendicular to the y-axis and the positive direction points toward the first-base side.</li>
+<li><strong>id_b</strong>: MLBAM player id of batter</li>
+<li><strong>id_r1b</strong>: MLBAM player id of runner at first base, if none then 0</li>
+<li><strong>id_r2b</strong>: MLBAM player id of runner at second base, if none then 0</li>
+<li><strong>ftsec</strong>: speed of runner in feet per second</li>
+<li><strong>mph</strong>: speed of runner in miles per hour</li>
+</ul>
+</div>
+<div id="graphical-overview-of-coordinates-and-running-speeds" class="section level3">
+<h3>Graphical overview of coordinates and running speeds</h3>
+<p>Let’s review the coordinate information along with a distribution of footspeeds for Altuve and Trout, setting an upper bound on speed as the 100 meter world record set by Usain Bolt (for various reasons, including measurement error, some speed calculations will be <code>NA</code>, <code>Inf</code>, or unreasonably high).</p>
+<pre class="r"><code># MLB IDs
+altuve_id &lt;- &#39;514888&#39;
+trout_id &lt;- &#39;545361&#39;
+
+# world record speed in 100 meters, mph, Usain Bolt 2009
+# while the length here is more than three bases, 
+# runner speeds do not typically max until after 90 feet
+record60m &lt;- 27.8 
+
+require(ggplot2)
+# -----------------------------------------------------------------------------
+# create plot of available coordinates
+location &lt;- 
+  # create plot object with data
+  ggplot(subset(runners, id_b %in% c(altuve_id, trout_id))) + 
+  
+  # fix x y ratio
+  coord_fixed(ratio = 1) + 
+  
+  # plot batter coordinates
+  geom_point(aes(x, y), alpha = .01) + 
+  
+  # draw bases
+  geom_point(aes(x = 0, y = 0), 
+             fill = &#39;white&#39;, color = &#39;white&#39;, shape = 22) + # home
+  geom_point(aes(x = sin(pi/4) * 90, y = cos(pi/4) * 90), 
+             fill = &#39;white&#39;, color = &#39;white&#39;, shape = 23) + # 1st base
+  geom_point(aes(x = 0, y = 127.28125), 
+             fill = &#39;white&#39;, color = &#39;white&#39;, shape = 23) + # 2nd base
+  geom_point(aes(x = -sin(pi/4) * 90, y = cos(pi/4) * 90), 
+             fill = &#39;white&#39;, color = &#39;white&#39;, shape = 23) + # 3rd base
+  
+  # separate the two players
+  facet_wrap(~Name, nrow = 1, ncol = 2) +
+  
+  # clean up non-data ink
+  theme(panel.grid = element_blank(), 
+        panel.background = element_blank(),
+        axis.ticks = element_blank(),
+        axis.text = element_blank()) + 
+  labs(x = &#39; &#39;, y = &#39; &#39;)
+
+location</code></pre>
+<p><img src="/./post/2018-02-28-toeing-the-line-altuve-and-trout_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Runner coordinates show deviations from baserunning paths, which may arise in various contexts. One includes runners overshooting first base along the foul line in attempts to outrun a throw to first base. Another is consistent with runners leaving the field after an out (either by the runner or otherwise an out ending the half-inning). In such circumstances it may be difficult to know exactly when the runner is attempting max effort.</p>
+<pre class="r"><code># -----------------------------------------------------------------------------
+# create plot distributions of speeds at all observed times
+speed &lt;- 
+  # create plot object with data
+  ggplot(subset(runners, id_b %in% c(altuve_id, trout_id))) + 
+  
+  # plot histogram of speeds
+  geom_histogram(aes(mph), bins = 80, fill = &#39;#888888&#39;, color = &#39;white&#39;) +
+  
+  # limit speed to below world record pace
+  xlim(0, record60m) + 
+  
+  # separate the two players
+  facet_wrap(~Name, nrow = 2, ncol = 1) +
+  
+  # clean up non-data ink
+  theme(panel.grid = element_blank(), panel.background = element_blank()) + 
+  labs(x = &#39;mph&#39;, y = &#39;&#39;)
+
+# -----------------------------------------------------------------------------
+# plot runner speeds as a function of observed times
+time &lt;- 
+  # organize data
+  runners[runners$mph &lt; record60m &amp; !is.na(runners$mph),] %&gt;%
+  group_by(sv_pitch_id) %&gt;% arrange(time_offset) %&gt;%
+  
+  # create a plot object
+  ggplot() +
+  
+  # plot speed across time
+  geom_line(aes(time_offset, mph, group = sv_pitch_id), alpha = .01) + 
+  
+  # separate the two players
+  facet_wrap(~Name, nrow = 2, ncol = 1) +
+  
+  # clean up non-data ink
+  theme(panel.grid = element_blank(), 
+        panel.background = element_blank(),
+        axis.ticks = element_blank()) + 
+  labs(x = &#39;Seconds&#39;, y = &#39;MPH&#39;)
+
+# -----------------------------------------------------------------------------
+require(gridExtra)
+grid.arrange(speed, time, ncol = 2)</code></pre>
+<p><img src="/./post/2018-02-28-toeing-the-line-altuve-and-trout_files/figure-html/unnamed-chunk-4-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>Differences in speed distributions between the players as shown here are subtle. We can also see that for both players, their speed changes over time within a given run. These plots suggest that Trout — at least in the circumstances reviewed — accelerates a bit more consistency (the lines showing initial accelleration are more concentrated and slightly steeper) and better holds his speed (his histogram shows more instances gathered at higher speeds).</p>
+<p>Let’s go into more detail, keeping in mind that more likely estimates of max effort for <em>part of the run</em> may be found where batters — along with overshooting first base — have attempted to advance at least to second base. Unless due to a ground rule double or a home run, we may assume that max effort was likely at least to the penultimate base advanced. Max effort was likely at least through, say, first base when the batter ran at least near second base. Let’s study those scenarios, specifically including the reaction time from hitting to running since this scenario would seem to have the most impact on wins.</p>
+</div>
+<div id="scenario-1-times-to-first-when-attempting-a-double" class="section level3">
+<h3>Scenario 1: times to first <em>when attempting a double</em></h3>
+<p>Let’s start by identifying base locations, and plays where the runners were near these bases. We’ll choose some euclidean distance as a measure of “near”. Our first analysis will be of the two as batters where they appeared to earn a double.</p>
+<div id="identifying-time-to-first-for-each-play-in-scenario-1" class="section level4">
+<h4>Identifying time to first for each play in scenario 1</h4>
+<pre class="r"><code># base coordinates
+base1 &lt;- c(x = sin(pi/4) * 90, y = cos(pi/4) * 90)
+base2 &lt;- c(x = 0, y = 127.28125)
+base3 &lt;- c(x = -sin(pi/4) * 90, y = cos(pi/4) * 90)
+
+# identify coordinates near (within 2 feet of) each base
+runners[, &#39;firstbase&#39;] &lt;- FALSE
+runners[sqrt( (runners$x - base1[&#39;x&#39;])^2 + (runners$y - base1[&#39;y&#39;])^2 ) &lt; 4, 
+        &#39;firstbase&#39;] &lt;- TRUE
+
+runners[, &#39;secondbase&#39;] &lt;- FALSE
+runners[sqrt( (runners$x - base2[&#39;x&#39;])^2 + (runners$y - base2[&#39;y&#39;])^2 ) &lt; 15, 
+        &#39;secondbase&#39;] &lt;- TRUE
+
+runners[, &#39;thirdbase&#39;] &lt;- FALSE
+runners[sqrt( (runners$x - base3[&#39;x&#39;])^2 + (runners$y - base3[&#39;y&#39;])^2 ) &lt; 15, 
+        &#39;thirdbase&#39;] &lt;- TRUE
+
+# subset the plays where the batter attempted to earn a double
+r1 &lt;- 
+  runners %&gt;%                                        # all data
+  filter(id_b %in% c(altuve_id, trout_id)) %&gt;%       # just the two as batters
+  filter(id == &#39;10&#39;) %&gt;%                             # where x y is for batter
+  group_by(Name, sv_pitch_id) %&gt;%                    # group x, y into plays
+  arrange(time_offset) %&gt;%                           # order by time
+  mutate(taggedsecond = (sum(secondbase) &gt; 0)) %&gt;%   # runner near second base
+  mutate(taggedthird = (sum(thirdbase) &gt; 0)) %&gt;%     # runner near third base
+  filter(taggedsecond == TRUE &amp; 
+         taggedthird == FALSE) %&gt;%                   # near second, not third
+  filter(firstbase == TRUE) %&gt;%
+  filter(row_number() == 1) %&gt;% ungroup()            # quickest time near first</code></pre>
+</div>
+<div id="modeling-estimates-of-expected-time-for-scenario-1" class="section level4">
+<h4>Modeling estimates of <em>expected</em> time for scenario 1</h4>
+<p>From the code above, we have identified the earlierst <code>time_offset</code> in each play where the euclidean distance was within our (subjective) tolerance to first base. Let’s model these times, and compare expected estimates — <strong><em>and uncertainties in the estimations</em></strong> —between players.</p>
+<pre class="r"><code>require(rstanarm)
+fit &lt;- stan_glm(time_offset ~ -1 + Name,
+                data = r1,
+                iter = 2000,
+                chains = 4,
+                cores = 4)</code></pre>
+<p>While not shown here, all model checks (such as rhats and trace plots) looked good. We’ll trust the model, keeping in mind the data.</p>
+</div>
+<div id="posteriors-of-expected-time-to-first-slightly-favor-trout" class="section level4">
+<h4>Posteriors of expected time to first slightly favor Trout</h4>
+<p>Expected times to first, from 8000 simulations,</p>
+<pre class="r"><code># get posterior estimates for each player
+set.seed(123)
+trout &lt;- posterior_predict(fit, 
+                           newdata = data.frame(time_offset = 0, Name = &#39;Trout&#39;))
+set.seed(123)
+altuve &lt;- posterior_predict(fit, 
+                            newdata = data.frame(time_offset = 0, Name = &#39;Altuve&#39;))
+
+# calculate percent of time Trout is expected to be faster
+d &lt;- sum((trout-altuve) &lt;=0) / length(trout) * 100
+
+# plot distribution of Trout minus distribution of Altuve
+ggplot() + 
+  geom_histogram(aes(x = as.vector(trout-altuve)), 
+                 binwidth = 0.05, fill = &quot;#DDDDDD&quot;, color = &#39;#FFFFFF&#39;) + 
+  geom_vline(xintercept = 0) +
+  geom_vline(aes(xintercept = mean(trout-altuve)), linetype = &#39;dashed&#39;) + 
+  geom_segment(aes(x=0,y=650,xend=mean(trout-altuve),yend=650),
+               arrow = arrow(length = unit(0.1,&quot;cm&quot;)), color = &#39;dodgerblue3&#39;) +
+  annotate(&quot;text&quot;, x = -4, y = 400,
+           label = paste(&#39;Trout faster to first base than\nAltuve in&#39;, 
+                         round(d, 1), &#39;percent of simulations.&#39;), 
+           hjust = 0, color = &#39;#000000&#39;) + 
+  annotate(&quot;text&quot;, x = -.3, y = 650, color = &#39;dodgerblue3&#39;,
+           label = paste(&#39;On average,\n&#39;, round(mean(trout-altuve), 1), 
+                         &#39;seconds difference.&#39;), 
+           hjust = 1, color = &#39;#000000&#39;) + 
+  labs(x = &#39;Trout - Altuve: Difference in seconds to first base&#39;, 
+       y = &#39;Number of simulations&#39;)</code></pre>
+<p><img src="/./post/2018-02-28-toeing-the-line-altuve-and-trout_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>suggest that Trout was conditionally quicker to first base than Altuve 96.8 percent of the time. Though we also expect that either may be quicker on any given play. Next, let’s get our expectation of maximum speed with these data.</p>
+</div>
+<div id="identifying-max-speed-to-first-for-each-play" class="section level4">
+<h4>Identifying max speed to first for each play</h4>
+<p>First, as before, we setup the data,</p>
+<pre class="r"><code>r2 &lt;- 
+  runners %&gt;%                                        # all data
+  filter(id_b %in% c(altuve_id, trout_id)) %&gt;%       # just the two as batters
+  filter(id == &#39;10&#39;) %&gt;%                             # where x y is for batter
+  group_by(Name, sv_pitch_id) %&gt;%                    # group x, y into plays
+  mutate(taggedsecond = (sum(secondbase) &gt; 0)) %&gt;%   # near second base
+  mutate(taggedthird = (sum(thirdbase) &gt; 0)) %&gt;%     # near third base
+  filter(taggedsecond == TRUE &amp; 
+         taggedthird == FALSE) %&gt;%                   # near second, not third
+  filter(firstbase == TRUE) %&gt;%
+  filter(mph == max(mph)) %&gt;% ungroup()            # quickest time near first</code></pre>
+</div>
+<div id="modeling-maximum-expected-footspeed" class="section level4">
+<h4>Modeling maximum expected footspeed</h4>
+<p>Next, we model maximum footspeed to obtain posterior expectations.</p>
+<pre class="r"><code>fit_max &lt;- stan_glm(mph ~ -1 + Name,
+                    data = r2,
+                    iter = 4000,
+                    chains = 4)</code></pre>
+</div>
+<div id="difference-in-posterior-expected-max-speed-slightly-favors-trout" class="section level4">
+<h4>Difference in posterior expected max speed <em>slightly</em> favors Trout</h4>
+<p>Consistent with models of time, the expected max speed gives Trout a (ever) slight edge.</p>
+<pre class="r"><code># Get posterior estimates of both players
+set.seed(123)
+trout &lt;- posterior_predict(fit_max, 
+                           newdata = data.frame(mph = 0, Name = &#39;Trout&#39;))
+set.seed(123)
+altuve &lt;- posterior_predict(fit_max, 
+                            newdata = data.frame(mph = 0, Name = &#39;Altuve&#39;))
+
+# calculate probability that trout is faster
+d &lt;- sum((trout-altuve) &gt;=0) / length(trout) * 100
+
+# Overlay mph density plots for both players
+max1 &lt;- 
+  ggplot() + geom_density(aes(as.vector(trout)), 
+                          fill = &#39;red&#39;, color = &#39;red&#39;, alpha = .3) + 
+  geom_density(aes(as.vector(altuve)), 
+               fill = &#39;blue&#39;, color = &#39;blue&#39;, alpha = .3) +
+  labs(x = &#39;Max Speed: Trout (red), Altuve (blue)&#39;, y = &#39;&#39;)
+
+# plot distribution of Trout minus distribution of Altuve
+max2 &lt;- 
+  ggplot() + 
+  geom_histogram(aes(x = as.vector(trout-altuve)), 
+                 binwidth = 0.2, fill = &quot;#CCCCCC&quot;, color = &#39;#FFFFFF&#39;) + 
+  geom_vline(xintercept = 0) +
+  geom_vline(aes(xintercept = mean(trout-altuve)), linetype = &#39;dashed&#39;) + 
+  geom_segment(aes(x=0,y=650,xend=mean(trout-altuve),yend=650),
+               arrow = arrow(length = unit(0.1,&quot;cm&quot;)), color = &#39;dodgerblue3&#39;) +
+  annotate(&quot;text&quot;, x = -12, y = 200,
+           label = paste(&#39;Trout had higher maximum\nspeed than Altuve in &#39;, 
+                         round(d, 1), &#39;\npercent of simulations.&#39;), 
+           hjust = 0, color = &#39;#000000&#39;) + 
+  annotate(&quot;text&quot;, x = 0, y = 600,
+           label = paste(&#39;On average,\n&#39;, 
+                         round(mean(trout-altuve), 1), &#39;mph difference.&#39;), 
+           hjust = 1, color = &#39;dodgerblue3&#39;) + 
+  labs(x = &#39;Trout - Altuve: Time diff to first base&#39;, 
+       y = &#39;Number of simulations&#39;)
+
+# arrange both plots
+grid.arrange(max1, max2, ncol = 2)</code></pre>
+<p><img src="/./post/2018-02-28-toeing-the-line-altuve-and-trout_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+</div>
+<div id="scenario-2-batters-trying-to-beat-a-throw-to-first" class="section level3">
+<h3>Scenario 2: batters trying to beat a throw to first</h3>
+<p>Let’s now compare these players as batters when presumaably (as the data suggests) attempting to beat a throw to first. As before, we’ll setup the data, model our expectations, and compare the two.</p>
+<div id="identifying-quickest-times-to-first-in-scenario-2" class="section level4">
+<h4>Identifying quickest times to first in scenario 2</h4>
+<pre class="r"><code>base1past &lt;- c(x = sin(pi/4) * 110, y = cos(pi/4) * 110)
+runners[, &#39;pastfirst&#39;] &lt;- FALSE
+runners[sqrt( (runners$x - base1past[&#39;x&#39;])^2 + 
+              (runners$y - base1past[&#39;y&#39;])^2 ) &lt; 3, 
+        &#39;pastfirst&#39;] &lt;- TRUE
+
+r3 &lt;- 
+  runners %&gt;%                                        # all data
+  filter(id_b %in% c(altuve_id, trout_id)) %&gt;%       # just the two as batters
+  filter(id == &#39;10&#39;) %&gt;%                             # where x y is for batter
+  group_by(Name, sv_pitch_id) %&gt;%                    # group x, y into plays
+  arrange(time_offset) %&gt;%                           # order by time
+  mutate(taggedfirst = (sum(pastfirst) &gt; 0)) %&gt;%     # runner near second base
+  filter(taggedfirst == TRUE) %&gt;%                    # near second, not third
+  filter(firstbase == TRUE) %&gt;%
+  filter(row_number() == 1) %&gt;% ungroup()            # quickest time near first</code></pre>
+</div>
+<div id="modeling-expectations-of-quickest-times-to-first-in-scenario-2" class="section level4">
+<h4>Modeling expectations of quickest times to first in scenario 2</h4>
+<pre class="r"><code>fit3 &lt;- stan_glm(time_offset ~ -1 + Name,
+                data = r1,
+                iter = 4000,
+                chains = 4)</code></pre>
+</div>
+<div id="difference-in-posterior-expectation-slighltly-favors-trout-in-scenario-2" class="section level4">
+<h4>Difference in posterior expectation slighltly favors Trout in scenario 2</h4>
+<pre class="r"><code># get posterior expectations of both players
+set.seed(123)
+trout &lt;- posterior_predict(fit3, 
+                           newdata = data.frame(time_offset = 0, Name = &#39;Trout&#39;))
+set.seed(123)
+altuve &lt;- posterior_predict(fit3, 
+                            newdata = data.frame(time_offset = 0, Name = &#39;Altuve&#39;))
+
+# calculate probability that Trout&#39;s is better
+d &lt;- sum((trout-altuve) &lt;=0) / length(trout) * 100
+
+# plot distribution of Trout minus distribution of Altuve
+ggplot() + 
+  geom_histogram(aes(x = as.vector(trout-altuve)), 
+                 binwidth = 0.1, fill = &quot;#DDDDDD&quot;, color = &#39;#FFFFFF&#39;) + 
+  geom_vline(xintercept = 0) +
+  geom_vline(aes(xintercept = mean(trout-altuve)), linetype = &#39;dashed&#39;) + 
+  geom_segment(aes(x=0,y=2000,xend=mean(trout-altuve),yend=2000),
+               arrow = arrow(length = unit(0.1,&quot;cm&quot;)), color = &#39;dodgerblue3&#39;) +
+  annotate(&quot;text&quot;, x = -4, y = 400,
+           label = paste(&#39;Trout faster to first base than\nAltuve in&#39;, 
+                         round(d, 1), &#39;percent of simulations.&#39;), 
+           hjust = 0, color = &#39;#000000&#39;) + 
+  annotate(&quot;text&quot;, x = mean(trout-altuve), y = 2000,
+           label = paste(&#39;On average,\n&#39;, 
+                         round(mean(trout-altuve), 1), &#39;seconds difference.&#39;), 
+           hjust = 1, color = &#39;dodgerblue3&#39;) + 
+  labs(x = &#39;Trout - Altuve: Difference in seconds to first base&#39;, 
+       y = &#39;Number of simulations&#39;)</code></pre>
+<p><img src="/./post/2018-02-28-toeing-the-line-altuve-and-trout_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="conclusions-and-next-steps" class="section level2">
+<h2>Conclusions and Next Steps</h2>
+<p>Let’s keep in mind several things with this analysis. First, we can expect significant variation as to who may be quicker — or generate a higher max speed — on any given play. This should be understandable as the model does not account for the many conditions that could affect their runs. We can conduct a similar analysis, folding into the above models additional variables from, say, MLBAM’s PITCHf/x system, which gives us outcome information on each play: did two outs exist, in which case we can expect the runner to provide max effort? Did a field create an error such that the runner, after slowing down, sped back up with new efforts? Last, this analysis suggests that should these two players ever toe the line — side-by-side — we’d see a great race!</p>
+</div>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/baseball">Baseball</a></span><span class="tag"><a href="/tags/batters">Batters</a></span><span class="tag"><a href="/tags/footspeed">Footspeed</a></span><span class="tag"><a href="/tags/data-visualization">Data Visualization</a></span><span class="tag"><a href="/tags/mlb">MLB</a></span><span class="tag"><a href="/tags/r">R</a></span><span class="tag"><a href="/tags/rstanarm">rstanarm</a></span>
+  				</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+                <span><a href="/">ssp3nc3r</a></span>
+            
+            <span></span>
+            <span> <a href="/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+        </div>
+    </div>
+    <script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.2d5469329143160ae2456a69c3c76dc2d0a3b212b46afe291a51bd68650ed6f8697e001dab54f1c272c77ce08092a8c55e5bb4314e0ee334aab4b927ec896638.js" integrity="sha512-LVRpMpFDFgriRWppw8dtwtCjshK0av4pGlG9aGUO1vhpfgAdq1TxwnLHfOCAkqjFXlu0MU4O4zSqtLkn7IlmOA=="></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+
+
+
+    </body>
+</html>

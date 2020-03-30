@@ -1,0 +1,256 @@
+---
+title: Neural networks — the real basics
+author: Scott Spencer
+date: '2018-04-05'
+slug: neural-networks-the-real-basics
+categories: []
+tags:
+  - Neural Networks
+  - Machine Learning
+  - R
+description: "With all the terminology and perhaps unfamiliar looking plots designed to resemble the inner workings of a brain, neural networks may seem confusing. So let's bypass all the jargon and look at the basics."
+draft: no
+disable_comments: yes
+output:
+  blogdown::html_page:
+    toc: true
+    dev: "svg"
+bibliography: ["neuralnet.bib"] 
+biblio-style: "apalike"
+link-citations: true
+linkcolor: black
+urlcolor: MidnightBlue
+---
+
+
+# From logistic regression to a *neural net*
+
+With all the terminology and perhaps unfamiliar looking plots designed to resemble the inner workings of a brain, neural networks may seem confusing. So let's bypass all the jargon and such for a few minutes. A basic neural network can be thought of as just chaining together regressions that use a nonlinear function to transform $\boldsymbol{X}$. [@Murphy:2012ua] writes,
+
+>A (feedforward) **neural network** . . . is a series of logistic regression models stacked on top of each other, with the final layer being either another logistic regression or a linear regression model, depending on whether we are solving a classification or regression problem.
+
+Of course, he explains that the logistic regression function may be replaced with other functions, such as a **rectified linear units or ReLU** for some applications, but he starts with using the logistic function, and so shall we. 
+
+Mathematically we write,
+
+$$
+y_i \sim \textrm{Bernoulli}(\mu_i) \\
+\mu = \frac{1}{1 + e^{-\eta_i}} = logit(\eta_i)\\
+\eta_i = \alpha + \sum_{k=1}^{K}{x_{ik} \beta_k}
+$$
+where in the above, $\eta$ is transformed to $\mu$ using the logit function. The coefficients $\alpha$ and $\beta$ are also referred to as *weights* and denoted $w$. Thus, let's rewrite the above as,
+
+$$
+p(y|\boldsymbol{x}, \boldsymbol{w}) = \textrm{bernoulli}(y|\mu(\boldsymbol{x}))
+$$
+where
+
+$$
+\mu(\boldsymbol{x}) = \textrm{logit}(\boldsymbol{w}^T\boldsymbol{x})
+$$
+All together, 
+
+$$
+p(y|\boldsymbol{x}, \boldsymbol{w}) = bernoulli(y|logit(\boldsymbol{w}^T\boldsymbol{x}))
+$$
+
+With that expression of a logistic regression, let's chain them together, which just means the output of a first regression is used as parameters in the second, and so forth. Thus,
+
+$$
+p(y|\boldsymbol{x}, \boldsymbol{w}) = bernoulli(y|logit(\boldsymbol{w}^Tz(\boldsymbol{x}))) \\
+z(x) = logit(\boldsymbol{V}\boldsymbol{x})
+$$
+where $V$ is a vector of weights applied to our input variables. And we can have as many $z(\cdot)$ as we decide. We can also have more transformations between the two such that $z(\boldsymbol{x}) = logit(\boldsymbol{V}g(\boldsymbol{x}))$ where $g(x) = logit(\boldsymbol{V}\boldsymbol{x})$. We can also use functions other than the logit (a type of sigmoid).
+
+# Fitting a logistic regression in R
+
+As a start to exploring a neural net, let's create some fake data, which includes observations of two classes, each generated slightly differently:
+
+```{r}
+golden_ratio <- ( sqrt(5) + 1 ) / 2
+fibonacci_angle <- 80 / ( golden_ratio ^ 3 )
+
+n <- seq(250)
+
+x1     <- sqrt(n) * cos(fibonacci_angle * n) + rnorm(n, 0, .5)
+x2     <- sqrt(n) * sin(fibonacci_angle * n) + rnorm(n, 0, .5)
+
+fibonacci_angle <- 270 / ( golden_ratio ^ 3 )
+x1     <- c(x1, sqrt(n) * cos(fibonacci_angle * n) + rnorm(n, 0, .5) )
+x2     <- c(x2, sqrt(n) * sin(fibonacci_angle * n) + rnorm(n, 0, .5) )
+
+class <- rep(c('FALSE', 'TRUE'), each = length(n))
+df    <- data.frame(x1, x2, class)
+```
+
+These data look like,
+
+```{r, echo=FALSE, fig.align='center', fig.width=5, fig.height=3}
+library(ggplot2)
+ggplot(df) + geom_point(aes(x1, x2, color = class)) + scale_colour_manual(values=c('gray42', 'gray88')) + 
+  theme_void() + theme(legend.position = '')
+```
+
+As a baseline, let's fit a logistic regression on these data:
+
+```{r}
+# logistic regression
+log_reg <- glm(class ~ x1 + x2, family = binomial(link = 'logit'), data = df)
+
+# new data
+grid <- expand.grid(x1 = seq(min(df$x1) - 1,
+                             max(df$x1) + 1,
+                             by = .25),
+                    x2 = seq(min(df$x2) - 1,
+                             max(df$x2) + 1,
+                             by = .25))
+
+# predict class across grid
+pred       <- predict.glm(log_reg, newdata = grid)
+invlogit   <- function(x) exp(x) / (1 + exp(x) )
+grid$class <- invlogit(pred) > 0.5
+```
+
+Our prediction looks like,
+
+```{r, echo=FALSE, fig.align='center', fig.width=5, fig.height=3}
+ggplot() + 
+  geom_point(grid, mapping = aes(x1, x2, color = class), size = .1, alpha = .3) + 
+  geom_point(df, mapping = aes(x1, x2, color = class)) + 
+  scale_colour_manual(values=c('gray42', 'gray88')) + 
+  theme_void() + theme(legend.position = '')
+```
+
+As graphically evident, these data aren't distinguished along a linear boundary.
+
+# Basic Neural network
+
+Now let's try a basic neural network. In chaining the logistic regressions together, we **feed forward** the output of a regression into the parameters of the next. Here's a function to do that:
+
+## Forward propogation
+
+```{r}
+feedforward <- 
+  function(x, w1, w2) {
+    z1 <- cbind(1, x) %*% w1
+    h  <- sigmoid(z1)
+    z2 <- cbind(1, h) %*% w2
+  
+    return( list(output = sigmoid(z2), h = h) )
+}
+```
+
+where,
+
+```{r}
+sigmoid <- function(x) 1 / (1 + exp(-x))
+```
+
+In the above, `w1` and `w2` are weight parameters, where we multiply predictors by one weight, transform them with the logistic (sigmoid) function, multiply the output with another weight, which is transformed through the next logistic function and returned.
+
+## Back propogation
+
+After reaching the end of the logistic chain --- at least when training our model --- we compare the output to our observed class, and use the errors to adjust our original weights. The process is called **back propogation**. Here's a function to handle this step:
+
+```{r}
+backpropagate <- 
+  function(x, y, y_hat, w1, w2, h, learn_rate) {
+    dw2 <- t(cbind(1, h)) %*% (y_hat - y)
+    dh  <- (y_hat - y) %*% t(w2[-1, , drop = FALSE])
+    dw1 <- t(cbind(1, x)) %*% (h * (1 - h) * dh)
+  
+    w1 <- w1 - learn_rate * dw1
+    w2 <- w2 - learn_rate * dw2
+  
+    return( list(w1 = w1, w2 = w2) )
+}
+```
+
+In the function, we see the comparison between our estimate and observed (`y_hat - y`), and adjust our weights. Notice we multiply the change in weight by **learning_rate**, which is called a *tuning parameter* and allows us to tweak the relative amount of weight change. 
+
+## Training the network
+
+Finally, we wrap our above functions together, using them to train our model. In this crude model, we just specify how many intermediate logistic functions (the neural net lingo is **hidden layers**) to be used before the final one that estimates the class, and we specify the number of iterations to feed forward and back propogate: 
+
+```{r}
+train <- 
+  function(x, y, hidden = 5, learn_rate = 1e-2, iterations = 1e4) {
+    d  <- ncol(x) + 1
+    w1 <- matrix(rnorm(d * hidden), d, hidden)
+    w2 <- as.matrix(rnorm(hidden + 1))
+    for (i in 1:iterations) {
+      ff <- feedforward(x, w1, w2)
+      bp <- backpropagate(x, y,
+                          y_hat = ff$output,
+                          w1, w2,
+                          h = ff$h,
+                          learn_rate = learn_rate)
+    w1 <- bp$w1
+    w2 <- bp$w2
+  }
+  return( list(output = ff$output, w1 = w1, w2 = w2) )
+}
+```
+
+## Our neural network
+
+The hard work is done. Now let's setup these data to feed into our neural network (or chain of regressions), and see how, say, five intermediate transformations compare against our basic logistic regression above.
+
+```{r}
+x        <- data.matrix(df[, c('x1', 'x2')])
+y        <- df$class == 'TRUE'
+nnet5    <- train(x, y, hidden = 5, iterations = 1e5)
+acc_net5 <- mean((nnet5$output > .5) == y)
+```
+
+With a fraction of `r acc_net5`, our accuracy has only improved slightly against training data. Let's see graphically review how this model estimated the boundaries. For that, we setup a grid of fake data across the range of `x1` and `x2` values.
+
+```{r}
+ff_grid <- feedforward(x = data.matrix(grid[, c('x1', 'x2')]),
+                       w1 = nnet5$w1,
+                       w2 = nnet5$w2)
+grid$class <- factor((ff_grid$output > .5) * 1,
+                     levels = c(0, 1),
+                     labels = levels(df$class))
+```
+
+The boundaries of this network, though nonlinear, do not capture the data generating process: 
+
+```{r, fig.align='center', fig.width=5, fig.height=3}
+ggplot() + 
+  geom_point(grid, mapping = aes(x1, x2, color = class), size = .1, alpha = .3) + 
+  geom_point(df, mapping = aes(x1, x2, color = class)) + 
+  scale_colour_manual(values=c('gray42', 'gray88')) + 
+  theme_void() + theme(legend.position = '')
+```
+
+Let's try again, this time using 30 intermediate transformations: 
+
+```{r}
+nnet30 <- train(x, y, hidden = 30, iterations = 1e5)
+acc_net30 <- mean((nnet30$output > .5) == y)
+```
+
+Our accuracy is starting to improve; the fraction correct among the training set is now `r acc_net30`. As before, let's review the model's estimated class boundaries:
+
+```{r}
+ff_grid <- feedforward(x = data.matrix(grid[, c('x1', 'x2')]),
+                       w1 = nnet30$w1,
+                       w2 = nnet30$w2)
+grid$class <- factor((ff_grid$output > .5) * 1,
+                     levels = c(0, 1),
+                     labels = levels(df$class))
+```
+
+The model is getting closer to representing the training data but, of course, can be improved substantially. 
+
+```{r, fig.align='center', fig.width=5, fig.height=3}
+ggplot() + 
+  geom_point(grid, mapping = aes(x1, x2, color = class), size = .1, alpha = .3) + 
+  geom_point(df, mapping = aes(x1, x2, color = class)) + 
+  scale_colour_manual(values=c('gray42', 'gray88')) + 
+  theme_void() + theme(legend.position = '')
+```
+
+# Bibliography {-}
+

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Optimization on p( ssp3nc3r | Columbian )</title>
+    <link>/tags/optimization/</link>
+    <description>Recent content in Optimization on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 08 Jan 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/optimization/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Languages Behind Statistical Learning, and Useful Tools</title>
+      <link>/post/2018-01-08-languages-behind-statistical-learning/</link>
+      <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2018-01-08-languages-behind-statistical-learning/</guid>
+      <description>R Markdown—a tool for reproducible reporting From mathematical notation to R Linear Algebra Calculus Probability Distributions Regression  Optimization Gradient descent Simplex method  Algorithms  Data and model visualization Organizing Data Closing   “Can A.I. Be Taught to Explain Itself?” That’s the question recently posed in The New York Times Magazine. A search uncovered helpful references — An Introduction to Statistical Learning with Applications in R and The Elements of Statistical Learning, for example — but none with A.</description>
+    </item>
+    
+  </channel>
+</rss>

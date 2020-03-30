@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R on p( ssp3nc3r | Columbian )</title>
+    <link>/tags/r/</link>
+    <description>Recent content in R on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 08 Apr 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>NYC bike share rebalancing information graphic</title>
+      <link>/post/nyc-bike-share-rebalancing-information-graphic/</link>
+      <pubDate>Mon, 08 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/nyc-bike-share-rebalancing-information-graphic/</guid>
+      <description>We continue exploring the NYC bike share program. This time we create an information graphic visualizing bike and docking station availability by time of day and rate of new rides per minute.</description>
+    </item>
+    
+    <item>
+      <title>Approximating the components of Lupi&#39;s Nobel no degrees</title>
+      <link>/post/approximating-the-components-of-lupi-s-nobel-no-degrees/</link>
+      <pubDate>Fri, 15 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/approximating-the-components-of-lupi-s-nobel-no-degrees/</guid>
+      <description>Exemplary, award-winning information graphic Approximating the reference in R An exercise in design using R Data for Lupi’s display Main display of points and lines Per-category histograms or bar charts Per-era stacked bar charts Sankey diagram  Next steps References   Exemplary, award-winning information graphic Giorgia Lupi is a master at designing information for visual narrative — telling stories through visualization. Her portfolio includes a series of exploratory data visualizations published for the largest circulating Italian newspaper, La Lettura.</description>
+    </item>
+    
+    <item>
+      <title>Exploring CitiBike ride data</title>
+      <link>/post/exploring-citibike-ride-data/</link>
+      <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/exploring-citibike-ride-data/</guid>
+      <description>Background The Challenge How can we identify causes, relationships One approach for this analysis Identified data of measurements CitiBike ride data Alternative transportation data Weather information Traffic information  Beginning data exploration — daily bike usage   Background In 2013, the NYC Department of Transportation sought to start a bike share to reduce emissions, road wear, congestion, and improve public health.
+After selecting an operator and sponsor, the Citi Bike bike share was established with a bike fleet distributed over a network of docking stations throughout the city.</description>
+    </item>
+    
+    <item>
+      <title>Baseball Abstract 01</title>
+      <link>/post/baseball-abstract-01/</link>
+      <pubDate>Fri, 21 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/baseball-abstract-01/</guid>
+      <description> </description>
+    </item>
+    
+    <item>
+      <title>Neural networks — the real basics</title>
+      <link>/post/neural-networks-the-real-basics/</link>
+      <pubDate>Thu, 05 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/neural-networks-the-real-basics/</guid>
+      <description>From logistic regression to a neural net Fitting a logistic regression in R Basic Neural network Forward propogation Back propogation Training the network Our neural network  Bibliography   From logistic regression to a neural net With all the terminology and perhaps unfamiliar looking plots designed to resemble the inner workings of a brain, neural networks may seem confusing. So let’s bypass all the jargon and such for a few minutes.</description>
+    </item>
+    
+    <item>
+      <title>Toeing the Line: Altuve and Trout</title>
+      <link>/post/toeing-the-line-altuve-and-trout/</link>
+      <pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/toeing-the-line-altuve-and-trout/</guid>
+      <description>Analysis Load and combine data Summarise and prepare data Getting running speed from timestamped coordinates Define variables Graphical overview of coordinates and running speeds Scenario 1: times to first when attempting a double Scenario 2: batters trying to beat a throw to first  Conclusions and Next Steps   In these analyzed data, described below, Trout demonstrated slightly higher expected footspeed and slightly shorter expected times to first base than did Altuve; although their performance is close and we expect a near toss up, given the data used, as to who comes out ahead on any given play.</description>
+    </item>
+    
+    <item>
+      <title>Languages Behind Statistical Learning, and Useful Tools</title>
+      <link>/post/2018-01-08-languages-behind-statistical-learning/</link>
+      <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2018-01-08-languages-behind-statistical-learning/</guid>
+      <description>R Markdown—a tool for reproducible reporting From mathematical notation to R Linear Algebra Calculus Probability Distributions Regression  Optimization Gradient descent Simplex method  Algorithms  Data and model visualization Organizing Data Closing   “Can A.I. Be Taught to Explain Itself?” That’s the question recently posed in The New York Times Magazine. A search uncovered helpful references — An Introduction to Statistical Learning with Applications in R and The Elements of Statistical Learning, for example — but none with A.</description>
+    </item>
+    
+    <item>
+      <title>Trading Stanton: a modeling sketch</title>
+      <link>/post/trading-stanton-a-modeling-sketch/</link>
+      <pubDate>Fri, 24 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/trading-stanton-a-modeling-sketch/</guid>
+      <description>Forecast of Giancarlo Stanton’s Expected Surplus Value Summary Estimate player past performance as Wins Over Replacement Forecasting WAR with a hierarchical model in Stan Dollars Per WAR on the Free-Agent Market Unadjusted surplus value Appendix: Stan Model for Forcasting WAR    Forecast of Giancarlo Stanton’s Expected Surplus Value Summary In most analyses, I would normally lead with the conclusion—here, surplus value. But, as the perceived goals of analysis are evaluating, well, the analysis, I’ll start with my methods.</description>
+    </item>
+    
+  </channel>
+</rss>

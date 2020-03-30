@@ -1,0 +1,949 @@
+---
+title: 'Modeling Umpire Calls'
+author: Scott Spencer
+date: '2018-04-25'
+slug: modeling-umpire-calls
+categories: []
+tags:
+  - Baseball
+  - Umpires
+  - Probability
+  - Pitchers
+  - Stan
+  - Strike Zone
+description: 'A model for umpire calls should account for measurement error and variability in those calls. We consider and extend previous work, and find that on average umpires do not fully consider strike zone height when calling pitches.'
+draft: no
+disable_comments: yes
+output:
+  blogdown::html_page:
+    toc: true
+    dev: "svg"
+bibliography: ["pitching_command.bib"] 
+biblio-style: "apalike"
+link-citations: true
+linkcolor: black
+urlcolor: MidnightBlue
+---
+
+<script src="/./rmarkdown-libs/kePrint/kePrint.js"></script>
+
+<div id="TOC">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#batting-and-pitching-data-from-major-league-baseball-advance-media">Batting and pitching data from Major League Baseball Advance Media</a></li>
+<li><a href="#modeling-called-strike-probabilities">Modeling called strike probabilities</a><ul>
+<li><a href="#previous-work">Previous work</a></li>
+<li><a href="#general-model-description">General model description</a></li>
+<li><a href="#called-strike-probabilities-modeled-in-stan">Called strike probabilities modeled in Stan</a></li>
+<li><a href="#model-diagnostics">Model diagnostics</a></li>
+<li><a href="#called-strike-probability-predictions-from-the-modeled-posterior">Called strike probability predictions from the modeled posterior</a></li>
+</ul></li>
+<li><a href="#bibliography">Bibliography</a></li>
+</ul>
+</div>
+
+<hr />
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>The goal of baseball pitchers — when contributing to team defense — is to put out batters. Two ways are (mostly) within the pitchers’ control. They may earn a <em>called strike</em> or a <em>swinging strike</em>. The “definition of a good pitcher”, explains Sandy Koufax, is a “guy that throws what he intends to throw.” <span class="citation">(Morrison, Pavlidis, and Long <a href="#ref-Morrison:2018vd">2018</a>)</span> said that quantifying pitchers’ abilities to “throw the ball where he intends to”, called pitching command, is “one of the most challenging aspects of pitching to quantify.” As data of where the pitcher “intends to” throw are not publicly available, we agree. Various approaches have been tried. Baseball Info Solutions has measured catcher mitt starting locations for each pitch <span class="citation">(Dewan <a href="#ref-Dewan:2011uj">2011</a>)</span>, to which ball catch locations are compared. But pitchers are not necessarily aiming at the mitt: consider catcher mitt location, for example, when a ball curves through the strike zone before diving into the dirt.</p>
+<p>Trying another approach, <span class="citation">(Morrison, Pavlidis, and Long <a href="#ref-Morrison:2018vd">2018</a>)</span> “identified target points in each corner of the zone using the likelihood of a pitch to be called a strike, and quantify the pitcher’s ability to hit that spot consistently.” The authors divided “the strike zone into quadrants that highlight a pitcher’s ability to miss the most dangerous part of the zone. These quadrants are mapped against Called Strike Probability . . . contours to identify the ideal target in each section of the zone.”</p>
+<p>This approach seems partly an improvement to the extent it considers probabilities of called strikes (called strike probabilities were not directly estimated, discussed later). But a static, target point in four quadrants inside the strike zone, defined without context of each at bat, are even less an intended target than the mitt. Pitching intentions are described by Don Drysdale,</p>
+<blockquote>
+<p>When the ball is over the middle of the plate, the batter is hitting it with the sweet part of the bat. When it’s inside, he’s hitting it with the part of the bat from the handle to the trademark. When it’s outside, he’s hitting it with the end of the bat. You’ve got to keep the ball away from the sweet part of the bat. To do that, the pitcher has to move the hitter off the plate.</p>
+</blockquote>
+<p>Instead of trying to measure pitcher command to the mitt or a few static points, we can assume the pitcher intends to maximize the probability of ideal outcomes: called or swinging strikes. That means pitching with movements to locations — continuous regions — that maximize probabilities of ideal outcomes. We aim to model ideal outcomes,</p>
+<span class="math display" id="eq:ideal1">\[\begin{equation}
+p(\textrm{ideal outcome})=p(\textrm{called strike}) \cdot (1 - p(\textrm{swing})) + p(\textrm{whiff}\mid \textrm{swing}) \cdot p(\textrm{swing})
+\tag{1}
+\end{equation}\]</span>
+<p>where these probabilities are modelled generatively. With such a model, we can explore questions such as whether consistency in pitching for ideal outcomes varies for starting pitchers as pitch counts pile up.</p>
+</div>
+<div id="batting-and-pitching-data-from-major-league-baseball-advance-media" class="section level1">
+<h1>Batting and pitching data from Major League Baseball Advance Media</h1>
+<p>For modeling, we start with MLBAM’s publicly available information of all games from the 2017 regular season. An early, concise description of these data are available in <span class="citation">(Fast <a href="#ref-Fast:2007uo">2007</a>)</span>.</p>
+<p>These data are transformed and cleaned in several ways. Pitch location measurements are converted to inches. The vertical locations are centered to the middle of each batter’s strike zone, which is defined in the rules of baseball,</p>
+<blockquote>
+<p>The STRIKE ZONE is that area over home plate the upper limit of which is a horizontal line at the midpoint between the top of the shoulders and the top of the uniform pants, and the lower level is a line at the hollow beneath the kneecap. The Strike Zone shall be determined from the batter’s stance as the batter is prepared to swing at a pitched ball.</p>
+</blockquote>
+<p><span class="citation">(MLB <a href="#ref-MLB:2017ua">2017</a>)</span>. The top and bottom of the zone depend on player anatomies and are judged each pitch. Take note of both the inherent uncertainty and pitch-by-pitch variation: the “Strike Zone shall be determined <em>from the batter’s stance as the batter is prepared to swing at a pitched ball</em>.” Some variation exists in the strike zone, even for a given batter as we do not expect his stance to remain constant.</p>
+<p>Along with batter stance variation, the per-pitch strike zone measurements have error <span class="citation">(Lemire <a href="#ref-Lemire:2017tt">2017</a>)</span> and include values too extreme to be possible, as shown in Table <a href="#tab:sz1">1</a>.</p>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:sz1">Table 1: </span>Summary of strike zone measurements
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+variable
+</th>
+<th style="text-align:left;">
+missing
+</th>
+<th style="text-align:left;">
+complete
+</th>
+<th style="text-align:left;">
+mean
+</th>
+<th style="text-align:left;">
+sd
+</th>
+<th style="text-align:left;">
+p0
+</th>
+<th style="text-align:left;">
+p25
+</th>
+<th style="text-align:left;">
+p50
+</th>
+<th style="text-align:left;">
+p75
+</th>
+<th style="text-align:left;">
+p100
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+sz_bot
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+436988
+</td>
+<td style="text-align:left;">
+18.6
+</td>
+<td style="text-align:left;">
+1.72
+</td>
+<td style="text-align:left;">
+-44.36
+</td>
+<td style="text-align:left;">
+17.61
+</td>
+<td style="text-align:left;">
+18.76
+</td>
+<td style="text-align:left;">
+19.68
+</td>
+<td style="text-align:left;">
+76.89
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+sz_top
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+436988
+</td>
+<td style="text-align:left;">
+40.88
+</td>
+<td style="text-align:left;">
+2.43
+</td>
+<td style="text-align:left;">
+-7.89
+</td>
+<td style="text-align:left;">
+39.42
+</td>
+<td style="text-align:left;">
+40.93
+</td>
+<td style="text-align:left;">
+42.44
+</td>
+<td style="text-align:left;">
+109.89
+</td>
+</tr>
+</tbody>
+</table>
+<p>We supplement these data using prior information. Controlled, anatomical measures of male soldiers have been published by the United States Military <span class="citation">(Benson and Parham <a href="#ref-Benson:2017uy">2017</a>)</span>. Presumably anatomical measurements of male soldiers approximate the stature of pro ball players. These data, shown in Figure <a href="#fig:ansurii">1</a>, include overall, knee (mid-patella), and navel height <span class="citation">(Gordon et al. <a href="#ref-Gordon:2014to">2014</a>)</span>, which should be close to the defined zone as seen by umpires.</p>
+<div class="figure" style="text-align: center"><span id="fig:ansurii"></span>
+<img src="/./post/2018-04-25-modeling-umpire-calls_files/figure-html/ansurii-1.svg" alt="Anthropological survey of male anatomies" width="384" />
+<p class="caption">
+Figure 1: Anthropological survey of male anatomies
+</p>
+</div>
+<p>MLBAM zone measurements more than three standard deviations outside the anatomical data corresponding to each batter’s height are recoded as missing and replaced by the mean of measurements from the same batter heights in the study. Post-cleaned medians and standard deviations of within-batter, per-pitch measurements of the bottom and top of their strike zones are shown in Table <a href="#tab:measerrsz">2</a>.</p>
+<table>
+<caption>
+<span id="tab:measerrsz">Table 2: </span>Within-batter measurements of the strike zone
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+variable
+</th>
+<th style="text-align:left;">
+missing
+</th>
+<th style="text-align:left;">
+complete
+</th>
+<th style="text-align:left;">
+mean
+</th>
+<th style="text-align:left;">
+sd
+</th>
+<th style="text-align:left;">
+p0
+</th>
+<th style="text-align:left;">
+p25
+</th>
+<th style="text-align:left;">
+p50
+</th>
+<th style="text-align:left;">
+p75
+</th>
+<th style="text-align:left;">
+p100
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Median Bottom Strike Zone
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+893
+</td>
+<td style="text-align:left;">
+19.72
+</td>
+<td style="text-align:left;">
+0.93
+</td>
+<td style="text-align:left;">
+17.28
+</td>
+<td style="text-align:left;">
+19.07
+</td>
+<td style="text-align:left;">
+19.7
+</td>
+<td style="text-align:left;">
+20.4
+</td>
+<td style="text-align:left;">
+22.62
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Median Top Strike Zone
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+893
+</td>
+<td style="text-align:left;">
+43
+</td>
+<td style="text-align:left;">
+1.72
+</td>
+<td style="text-align:left;">
+37.32
+</td>
+<td style="text-align:left;">
+41.83
+</td>
+<td style="text-align:left;">
+42.84
+</td>
+<td style="text-align:left;">
+44.1
+</td>
+<td style="text-align:left;">
+47.88
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Standard Deviation Bottom Strike Zone
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+871
+</td>
+<td style="text-align:left;">
+0.65
+</td>
+<td style="text-align:left;">
+0.28
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0.58
+</td>
+<td style="text-align:left;">
+0.7
+</td>
+<td style="text-align:left;">
+0.79
+</td>
+<td style="text-align:left;">
+2.18
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Standard Deviation Top Strike Zone
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+871
+</td>
+<td style="text-align:left;">
+0.92
+</td>
+<td style="text-align:left;">
+0.41
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0.8
+</td>
+<td style="text-align:left;">
+1.02
+</td>
+<td style="text-align:left;">
+1.16
+</td>
+<td style="text-align:left;">
+2.51
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Within batter observations
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+893
+</td>
+<td style="text-align:left;">
+208.28
+</td>
+<td style="text-align:left;">
+234.89
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+17
+</td>
+<td style="text-align:left;">
+89
+</td>
+<td style="text-align:left;">
+368
+</td>
+<td style="text-align:left;">
+1021
+</td>
+</tr>
+</tbody>
+</table>
+<p>Post-cleaning measurements of the strike zone and pitch locations on called strikes for players José Altuve and Aaron Judge, for perspective, are shown in Figure <a href="#fig:measerr1">2</a> alongside a sketch for context of their relative heights.</p>
+<div class="figure" style="text-align: center"><span id="fig:measerr1"></span>
+<img src="/./post/2018-04-25-modeling-umpire-calls_files/figure-html/measerr1-1.svg" alt="Post-cleaning measurements of the strike zone with called strike locations measured in inches (umpire's view)" width="768" />
+<p class="caption">
+Figure 2: Post-cleaning measurements of the strike zone with called strike locations measured in inches (umpire’s view)
+</p>
+</div>
+<p>While called strikes are spread fairly throughout Altuve’s (varied) zone(s), relatively few called strikes are near the upper region of Judge’s zone(s) and significant numbers are below. For our model, post-cleaned median values per batter are used to approximate each batter’s strike zone, ignoring within-batter measurement error and variation. (Examples of more sophisticated approaches to measurement error are described in <span class="citation">(Stan Development Team <a href="#ref-StanDevelopmentTeam:2016uz">2017</a>)</span>, <span class="citation">(Muff et al. <a href="#ref-Muff:2015uz">2015</a>)</span>, and <span class="citation">(McElreath <a href="#ref-McElreath:2015us">2015</a>)</span>.) These data are filtered to keep only umpire calls on balls and strikes. The working model is used to estimate per-pitch probabilities of called strikes.</p>
+<p>Modeling called strike probabilities is part of our larger goals, reconsidering measures of pitching command and exploring trends and variation as games progress. As such, any games for which no data were available from the beginning of the game were removed. We also identify whether (1) each pitch was the last pitch of the game (<em>i.e.</em>, the data are censored), (2) the next batter stands opposite the pitcher’s throwing arm, and accumulations of (3) runs allowed, (4) homeruns, (5) runners on base, and (5) outs after each pitch. These data are used later in the analysis.</p>
+</div>
+<div id="modeling-called-strike-probabilities" class="section level1">
+<h1>Modeling called strike probabilities</h1>
+<p>Called strikes by definition depend on pitched ball locations at home plate relative to that batter’s strike zone. Our data for modeling probabilities of called strikes are listed in Tables <a href="#tab:chars">3</a> to <a href="#tab:numerics">5</a>.</p>
+<table>
+<caption>
+<span id="tab:chars">Table 3: </span>Character Variables
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+variable
+</th>
+<th style="text-align:left;">
+missing
+</th>
+<th style="text-align:left;">
+complete
+</th>
+<th style="text-align:left;">
+n
+</th>
+<th style="text-align:left;">
+min
+</th>
+<th style="text-align:left;">
+max
+</th>
+<th style="text-align:left;">
+empty
+</th>
+<th style="text-align:left;">
+n_unique
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+des
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185995
+</td>
+<td style="text-align:left;">
+185995
+</td>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+13
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gameday_link
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185995
+</td>
+<td style="text-align:left;">
+185995
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+2428
+</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>
+<span id="tab:factors">Table 4: </span>Factor Variables
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+variable
+</th>
+<th style="text-align:left;">
+missing
+</th>
+<th style="text-align:left;">
+complete
+</th>
+<th style="text-align:left;">
+n_unique
+</th>
+<th style="text-align:left;">
+top_counts
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+batter
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185995
+</td>
+<td style="text-align:left;">
+893
+</td>
+<td style="text-align:left;">
+572: 1021, 605: 923, 455: 915, 458: 913
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+stand
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185995
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+R: 108199, L: 77796, NA: 0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+umpire
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185995
+</td>
+<td style="text-align:left;">
+92
+</td>
+<td style="text-align:left;">
+521: 2899, 482: 2611, 427: 2529, 483: 2520
+</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>
+<span id="tab:numerics">Table 5: </span>Numeric Variables
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+variable
+</th>
+<th style="text-align:left;">
+missing
+</th>
+<th style="text-align:left;">
+complete
+</th>
+<th style="text-align:left;">
+mean
+</th>
+<th style="text-align:left;">
+sd
+</th>
+<th style="text-align:left;">
+p0
+</th>
+<th style="text-align:left;">
+p25
+</th>
+<th style="text-align:left;">
+p50
+</th>
+<th style="text-align:left;">
+p75
+</th>
+<th style="text-align:left;">
+p100
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+b_height
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185995
+</td>
+<td style="text-align:left;">
+73.13
+</td>
+<td style="text-align:left;">
+2.2
+</td>
+<td style="text-align:left;">
+66
+</td>
+<td style="text-align:left;">
+72
+</td>
+<td style="text-align:left;">
+73
+</td>
+<td style="text-align:left;">
+75
+</td>
+<td style="text-align:left;">
+81
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+px
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185995
+</td>
+<td style="text-align:left;">
+0.5
+</td>
+<td style="text-align:left;">
+10.64
+</td>
+<td style="text-align:left;">
+-20.5
+</td>
+<td style="text-align:left;">
+-8.37
+</td>
+<td style="text-align:left;">
+0.9
+</td>
+<td style="text-align:left;">
+9.4
+</td>
+<td style="text-align:left;">
+20.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pz_centered
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185995
+</td>
+<td style="text-align:left;">
+-3.51
+</td>
+<td style="text-align:left;">
+9.89
+</td>
+<td style="text-align:left;">
+-24.76
+</td>
+<td style="text-align:left;">
+-11.36
+</td>
+<td style="text-align:left;">
+-4.25
+</td>
+<td style="text-align:left;">
+3.78
+</td>
+<td style="text-align:left;">
+22.42
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+sz_bot
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185995
+</td>
+<td style="text-align:left;">
+19.69
+</td>
+<td style="text-align:left;">
+1.07
+</td>
+<td style="text-align:left;">
+16.19
+</td>
+<td style="text-align:left;">
+18.9
+</td>
+<td style="text-align:left;">
+19.61
+</td>
+<td style="text-align:left;">
+20.45
+</td>
+<td style="text-align:left;">
+26.2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+sz_top
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185995
+</td>
+<td style="text-align:left;">
+42.8
+</td>
+<td style="text-align:left;">
+1.81
+</td>
+<td style="text-align:left;">
+36.3
+</td>
+<td style="text-align:left;">
+41.57
+</td>
+<td style="text-align:left;">
+42.84
+</td>
+<td style="text-align:left;">
+44.1
+</td>
+<td style="text-align:left;">
+52.64
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+zone_ht
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185995
+</td>
+<td style="text-align:left;">
+23.14
+</td>
+<td style="text-align:left;">
+1.08
+</td>
+<td style="text-align:left;">
+20.04
+</td>
+<td style="text-align:left;">
+22.41
+</td>
+<td style="text-align:left;">
+23.01
+</td>
+<td style="text-align:left;">
+23.73
+</td>
+<td style="text-align:left;">
+26.93
+</td>
+</tr>
+</tbody>
+</table>
+<div id="previous-work" class="section level2">
+<h2>Previous work</h2>
+<p>Our modeling differs significantly from earlier work. <span class="citation">(Brooks, Pavlidis, and Judge <a href="#ref-Brooks:2015um">2015</a>)</span>’s called strike probability model aims to assign “called strikes above average” to particular catchers (to measure their framing abilities) using a mixed-effects model. Their model does not directly estimate called strike probabilities from pitch location and other relevant variables. Instead, it includes as a parameter a “composite probability of a strike being called” obtained from Pitch Info Solutions. Pitch Info Solutions’s <em>proprietary</em> algorithm is said to include “a particular type of pitch in a particular location during a particular count at a particular ball park”. It is unclear whether the proprietary probabilities that <span class="citation">(Brooks, Pavlidis, and Judge <a href="#ref-Brooks:2015um">2015</a>)</span> combine with player and umpire identity parameters are matched pitch-to-pitch. Their model is later used to examine pitching performance in <span class="citation">(Pavlidis, Judge, and Long <a href="#ref-Pavlidis:2017tw">2017</a>)</span> and <span class="citation">(Morrison, Pavlidis, and Long <a href="#ref-Morrison:2018vd">2018</a>)</span> but the underlying proprietary, composite called strike probabilities remain a predictor separate from their models.</p>
+<p>Like <span class="citation">(Brooks, Pavlidis, and Judge <a href="#ref-Brooks:2015um">2015</a>)</span>, <span class="citation">(Deshpande and Wyner <a href="#ref-Deshpande:2017td">2017</a>)</span> explore catchers’ abilities to frame pitches and include, as an input to their model, a parameter for called strike probabilities. The authors helpfully compare the two approaches:</p>
+<blockquote>
+<p>Rather than specifying a explicit parametrization in terms of the horizontal and vertical coordinates, we propose using a smoothed estimate of the historical log-odds of a called strike as an implicit parametrization of pitch location. This is very similar to the approach taken in <span class="citation">(Brooks, Pavlidis, and Judge <a href="#ref-Brooks:2015um">2015</a>)</span>, who included the estimated called strike probability as a covariate in their probit model.</p>
+</blockquote>
+<p><span class="citation">(Deshpande and Wyner <a href="#ref-Deshpande:2017td">2017</a>)</span> differ, however, in that they estimate their own called strike probabilities using four separate models, one for each combination of pitcher and batter handedness. In each, horizontal and vertical locations of the pitch are variables that interact within an undisclosed smoothing function in a generalized additive model. Curiously, these pitch location data are “historical”, and lack congruency with the data used as random effects parameters in their ultimate model.</p>
+</div>
+<div id="general-model-description" class="section level2">
+<h2>General model description</h2>
+<p>The generative approach described here, in contrast with earlier work, explicitly models the underlying components defined in the rules of baseball, including batter anatomies and pitch locations. Per the rules, batter anatomies define the upper and lower bounds of each strike zone. <span class="citation">(Deshpande and Wyner <a href="#ref-Deshpande:2017td">2017</a>)</span> average the measurements from PITCHf/x on the top and bottom boundaries of the strike zone to show heatmaps of pitch locations. But this information was not used in their modeling of called strike probabilities. We do, as explained above. Further, we calculate the length of each batter’s zone as a parameter interacting with pitch location. Anticipating that batter handedness may affect umpire calls, we stratify the nonlinear, smoothing predictors for ball location by handedness.</p>
+<p>Congruent with pitch location and zone length, our model also includes those making the calls — umpires! As mentioned, the strike zone requires a subjective judgment: was the ball above or below “the midpoint between the top of the shoulders and the top of the uniform pants”, for example, “as the batter is prepared to swing”? Considering the speed and movement of the ball and the timing needed to make this judgment, it is understandable that umpires apply the rules imperfectly <span class="citation">(Lemire <a href="#ref-Lemire:2017tt">2017</a>)</span>. Some are better than others and technology has helped them become more consistently accurate <span class="citation">(Davis and Lopez <a href="#ref-Davis:2015ut">2015</a>)</span>. The particular home plate umpire and his calls, then, are part of our generative model. Earlier work suggests umpire calls are influenced by context, namely the ball-strike count <span class="citation">(MacMahon and Starkes <a href="#ref-MacMahon:2008ek">2008</a>)</span>, so we include count too.</p>
+<p>To the extent that umpires’ perceptions of balls and strikes succumb to framing effects by catchers, see <span class="citation">(Deshpande and Wyner <a href="#ref-Deshpande:2017td">2017</a>)</span> and <span class="citation">(Judge <a href="#ref-Judge:2018wg">2018</a>)</span>, including catcher identities could improve this model. We also omit pitch type as the pitcher’s grip on the ball is hidden and modeling pitch types accurately are difficult, a task to be handled outside the scope here (MLBAM’s pitch classifications rely on a proprietary algorithm, not direct observation, and its accuracy can be improved. Some approaches have been explored in <span class="citation">(Albert et al. <a href="#ref-Albert:2017wr">2017</a>)</span>).</p>
+<p>Our model incorporates a spline function to estimate changes in the probability of a called strike with changes in pitched-ball location and batter strike zone length. Mathematically, our model can be written as,</p>
+<span class="math display" id="eq:model1">\[\begin{equation}
+p(y_i = 1) = \textrm{logit}^{-1}(\alpha + \alpha_{j[i]} + \cdots + \mathcal{S})
+\tag{2}
+\end{equation}\]</span>
+<p>where <span class="math inline">\(p(y_i = 1)\)</span> is the probability that the umpire’s call <span class="math inline">\(y\)</span> for pitch <span class="math inline">\(i\)</span> is a strike. Probabilities are mapped from a logistic transformation<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> of the predictors. We combine information on umpire decisions by pooling all calls together and jointly grouping those calls by umpire,</p>
+<span class="math display" id="eq:model2">\[\begin{equation}
+\alpha_j \sim \textrm{N}(0, \sigma^2_j) \textrm{ for j = 1, ..., umpires}
+\tag{3}
+\end{equation}\]</span>
+<p>The information from each umpire’s calls depend upon the variance in their calls for observed pitches compared with the variance of calls for pitches pooled across the population of umpires. Variance for binary outcomes (called strike or not) are,</p>
+<span class="math display" id="eq:model3">\[\begin{equation}
+\sigma_y = \sqrt{p (1 - p)}
+\tag{4}
+\end{equation}\]</span>
+<p>Thus, the amount of information for umpire <span class="math inline">\(j\)</span> in the model is approximately,</p>
+<span class="math display" id="eq:model4">\[\begin{equation}
+    \alpha_{j} = \dfrac{\dfrac{n_j}{\sigma_y^2} \cdot \bar{y}_j + \dfrac{1}{\sigma_{\alpha}^2} \cdot y_{\mathrm{all}}}{\dfrac{n_j}{\sigma_y^2} + \dfrac{1}{\sigma_{\alpha}^2}}
+    \tag{5}
+\end{equation}\]</span>
+<p>We parameterize pitch location and batter-specific zone length as,</p>
+<span class="math display" id="eq:model5">\[\begin{equation}
+\mathcal{S}(\cdot) = \beta_1 + \beta_2x + \sum_{h=3}^{H+2}{\beta_hb_h(\cdot)}
+\tag{6}
+\end{equation}\]</span>
+<p>where the basis function <span class="math inline">\(b_h(\cdot)\)</span> for the smoothing spline <span class="math inline">\(\mathcal{S}(\cdot)\)</span> includes the horizontal and vertical location of each pitched ball at the vertical plane intersecting the front of home plate, along with the batter’s strike zone length. The particular spline chosen applies the same smoothing across these variables, which should be appropriate as they are isotropic and all measured in the same units (inches). The data used in this model are shared with the additional models for batter choice to swing and ability to make contact. As the probabilities of called strikes are presumably independent of batters’ decisions or abilities, however, we model umpire calls separately.</p>
+</div>
+<div id="called-strike-probabilities-modeled-in-stan" class="section level2">
+<h2>Called strike probabilities modeled in Stan</h2>
+<p>All models are coded using the Stan modeling language <span class="citation">(Stan Development Team <a href="#ref-StanDevelopmentTeam:2016uz">2017</a>)</span>, while data preparation and post-modeling analyses are coded in R. Some of the data are withheld from modeling for use in post-modeling checks. A random 30 percent of observations are withheld for testing.</p>
+<p>We specified <span class="math inline">\(\textrm{normal}(0,1)\)</span> across coefficients to provide some regularization, and <span class="math inline">\(\textrm{exponential}(1)\)</span> across variance terms. When specifying the number of knots to create the smoothing splines, too few result in a probability model that doesn’t capture the underlying process while too many may result in overfitting. Somewhere around 60 seemed sufficient, give or take, after a bit of experimentation.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
+<p>The model specification includes,</p>
+<span class="math display" id="eq:umpcalls1">\[\begin{equation}
+p(\textrm{call = strike}) \sim \textrm{ball-strike count} + \mathcal{S}(\textrm{x}, \textrm{z}_{\textrm{centered}}, \textrm{zone height}, \textrm{by = stand}, k = 60) + (1 \mid \textrm{umpires})
+\tag{7}
+\end{equation}\]</span>
+</div>
+<div id="model-diagnostics" class="section level2">
+<h2>Model diagnostics</h2>
+<p>Our analysis follows the recommended Bayesian workflow <span class="citation">(Gabry et al., <a href="#ref-Gabry:2017tb">n.d.</a>)</span>. We next check the model for problems. All <span class="math inline">\(\hat{r}\)</span> values are near 1.0, and <span class="math inline">\(\widehat{\textrm{neff}}\)</span> sample sizes are substantial. Approximating leave-one-out cross-validation, reveals that some of the observations used for modeling have somewhat elevated <span class="citation">(Vehtari, Gelman, and Gabry, <a href="#ref-Vehtari:wy">n.d.</a>)</span> Pareto-K values, colored blue in Figure <a href="#fig:loo060">3</a>, which means those observations could have disproportionate influence on model parameters.</p>
+<div class="figure" style="text-align: center"><span id="fig:loo060"></span>
+<img src="/./post/2018-04-25-modeling-umpire-calls_files/figure-html/loo060-1.png" alt="Diagnostics using PSIS-LOO approximation" width="2400" />
+<p class="caption">
+Figure 3: Diagnostics using PSIS-LOO approximation
+</p>
+</div>
+<p>These observations are well within the empirically accepted threshold and are several inches outside the average strike zone. We check the fit by binning residuals <span class="citation">(Gelman et al. <a href="#ref-Gelman:2000tc">2000</a>, sec. 6.4)</span> on the held-out data. Figure <a href="#fig:binres1">4</a> shows observations binned in one tenth of a percent increments compared with one and two standard deviations of the binomial distribution.</p>
+<div class="figure" style="text-align: center"><span id="fig:binres1"></span>
+<img src="/./post/2018-04-25-modeling-umpire-calls_files/figure-html/binres1-1.svg" alt="Residuals binned by called strike probabilities of held-out data" width="384" />
+<p class="caption">
+Figure 4: Residuals binned by called strike probabilities of held-out data
+</p>
+</div>
+<p>Approximately 68.3 percent of the binned simulations fall within one standard deviation (the interior dashed lines), about what we expect, revealing no problems with under or over fitting. It is also a good sign that the binned residuals reveal no obvious patterns.</p>
+</div>
+<div id="called-strike-probability-predictions-from-the-modeled-posterior" class="section level2">
+<h2>Called strike probability predictions from the modeled posterior</h2>
+<p>Our model’s estimates of called strike probabilities for right-handed batters are shown in Figure <a href="#fig:plateprobs1">5</a> overlaying a strike zone for the average player, and compared with probabilities for players seeing eye-to-eye with José Altuve and those taller, like Aaron Judge.</p>
+<div class="figure" style="text-align: center"><span id="fig:plateprobs1"></span>
+<img src="/./post/2018-04-25-modeling-umpire-calls_files/figure-html/plateprobs1-1.svg" alt="Posterior called strike probabilities by pitch location, measured in inches (umpire's view)" width="768" />
+<p class="caption">
+Figure 5: Posterior called strike probabilities by pitch location, measured in inches (umpire’s view)
+</p>
+</div>
+<p>The model seems plausible when comparing predictions with actual called strikes against Altuve and Judge (shown above, Figure <a href="#fig:measerr1">2</a>). Umpires view each pitch with line-of-sight between the catcher and batter. From this perspective, we expect that umpires would have some difficulty with depth perception of pitches located low and outside. And this can be seen from the lack of symmetry in the model estimates. Also of note, the model suggests that on average umpires do not fully consider batter height when judging the zone. This model is folded into our larger model, described in a future post.</p>
+</div>
+</div>
+<div id="bibliography" class="section level1 unnumbered">
+<h1>Bibliography</h1>
+<div id="refs" class="references">
+<div id="ref-Albert:2017wr">
+<p>Albert, Jim, Mark E Glickman, Tim B Swartz, and Ruud H Koning. 2017. <em>Handbook of Statistical Methods and Analyses in Sports</em>. CRC Press.</p>
+</div>
+<div id="ref-Benson:2017uy">
+<p>Benson, Jane, and Joseph Parham. 2017. “For good measure – Natick releases raw data from Army-wide anthropometric survey.” <a href="https://www.army.mil/article/188601/for_good_measure_natick_releases_raw_data_from_army_wide_anthropometric_survey" class="uri">https://www.army.mil/article/188601/for_good_measure_natick_releases_raw_data_from_army_wide_anthropometric_survey</a>.</p>
+</div>
+<div id="ref-Brooks:2015um">
+<p>Brooks, Dan, Harry Pavlidis, and Jonathan Judge. 2015. “Moving Beyond WOWY: A Mixed Approach to Measuring Catcher Framing - Baseball Prospectus.” <a href="https://www.baseballprospectus.com/news/article/25514/moving-beyond-wowy-a-mixed-approach-to-measuring-catcher-framing/" class="uri">https://www.baseballprospectus.com/news/article/25514/moving-beyond-wowy-a-mixed-approach-to-measuring-catcher-framing/</a>.</p>
+</div>
+<div id="ref-Davis:2015ut">
+<p>Davis, Noah, and Michael Lopez. 2015. “Umpires Are Less Blind Than They Used to Be.” <a href="https://fivethirtyeight.com/features/umpires-are-less-blind-than-they-used-to-be/" class="uri">https://fivethirtyeight.com/features/umpires-are-less-blind-than-they-used-to-be/</a>.</p>
+</div>
+<div id="ref-Deshpande:2017td">
+<p>Deshpande, Sameer, and Abraham Wyner. 2017. “SAFE2: A Hierarchical Model of Pitch Framing.” <em>arXiv.org</em>, April, 1–35.</p>
+</div>
+<div id="ref-Dewan:2011uj">
+<p>Dewan, John. 2011. “Evaluating Pitcher Accuracy with Catcher Charting.” <a href="https://www.billjamesonline.com/stats290/?print=y" class="uri">https://www.billjamesonline.com/stats290/?print=y</a>.</p>
+</div>
+<div id="ref-Fast:2007uo">
+<p>Fast, Mike. 2007. “Glossary of the Gameday pitch fields.” <a href="https://fastballs.wordpress.com/2007/08/02/glossary-of-the-gameday-pitch-fields/" class="uri">https://fastballs.wordpress.com/2007/08/02/glossary-of-the-gameday-pitch-fields/</a>.</p>
+</div>
+<div id="ref-Gabry:2017tb">
+<p>Gabry, Jonah, Daniel Simpson, Aki Vehtari, Michael Betancourt, and Andrew Gelman. n.d. “Visualization in Bayesian workflow.” <em>arXiv.org</em>, 1–13.</p>
+</div>
+<div id="ref-Gelman:2000tc">
+<p>Gelman, Andrew, Yuri Goegebeur, Francis Tuerlinckx, and Iven Van Mechelen. 2000. “Diagnostic Checks for Discrete Data Regression Models Using Posterior Predictive Simulations.” <em>Applied Statistics</em> 49 (2):247–68.</p>
+</div>
+<div id="ref-Gordon:2014to">
+<p>Gordon, Claire C, Cynthia L Blackwell, Bruce Bradtmiller, Joseph L Parham, Patricia Barrientos, Stephen P Paquette, Brian D Corner, et al. 2014. “2012 Anthropometric Survey of U.S. Army Personnel.” NATICK/TR-15/007.</p>
+</div>
+<div id="ref-Judge:2018wg">
+<p>Judge, Jonathan. 2018. “Bayesian Bagging to Generate Uncertainty Intervals: A Catcher Framing Story.” <a href="https://www.baseballprospectus.com/news/article/38289/bayesian-bagging-generate-uncertainty-intervals-catcher-framing-story/" class="uri">https://www.baseballprospectus.com/news/article/38289/bayesian-bagging-generate-uncertainty-intervals-catcher-framing-story/</a>.</p>
+</div>
+<div id="ref-Lemire:2017tt">
+<p>Lemire, Joe. 2017. “QuesTec’s Legacy, 20 Years Later: A Standard, Thinner, Lower Strike Zone.” <a href="https://www.sporttechie.com/questec-legacy-20-years-strike-zone/" class="uri">https://www.sporttechie.com/questec-legacy-20-years-strike-zone/</a>.</p>
+</div>
+<div id="ref-MacMahon:2008ek">
+<p>MacMahon, Clare, and Janet L Starkes. 2008. “Contextual influences on baseball ball-strike decisions in umpires, players, and controls.” <em>Journal of Sports Sciences</em> 26 (7):751–60.</p>
+</div>
+<div id="ref-McElreath:2015us">
+<p>McElreath, Richard. 2015. <em>Statistical Rethinking</em>. CRC Press.</p>
+</div>
+<div id="ref-MLB:2017ua">
+<p>MLB. 2017. “Official Baseball Rules 2017 Edition,” March, 1–284.</p>
+</div>
+<div id="ref-Morrison:2018vd">
+<p>Morrison, Kate, Harry Pavlidis, and Jeff Long. 2018. “Pitching Scores: Power, Command, and Stamina.” <a href="https://www.baseballprospectus.com/news/article/37379/pitching-scores-power-command-stamina/" class="uri">https://www.baseballprospectus.com/news/article/37379/pitching-scores-power-command-stamina/</a>.</p>
+</div>
+<div id="ref-Muff:2015uz">
+<p>Muff, Stefanie, Andrea Riebler, Leonhard Held, Hävard Rue, and Philippe Saner. 2015. “Bayesian analysis of measurement error models using integrated nested Laplace approximations.” <em>Royal Statistical Society, Series C Applied Statistics</em> 64 (2):231–52.</p>
+</div>
+<div id="ref-Pavlidis:2017tw">
+<p>Pavlidis, Harry, Jonathan Judge, and Jeff Long. 2017. “Prospectus Feature: Command and Control.” <em>Baseballprospectus.com</em>, January.</p>
+</div>
+<div id="ref-StanDevelopmentTeam:2016uz">
+<p>Stan Development Team. 2017. <em>Stan Modeling Language</em>. 2.17.0 ed.</p>
+</div>
+<div id="ref-Vehtari:wy">
+<p>Vehtari, Aki, Andrew Gelman, and Jonah Gabry. n.d. “Practical Bayesian model evaluation using leave-one-out cross-validation and WAIC.” <em>Statistics and Computing</em> 27:1413–32.</p>
+</div>
+<div id="ref-Wood:2005wz">
+<p>Wood, Simon. 2017. <em>Generalized Additive Models: an introduction with R</em>. Second. CRC Press.</p>
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Switching to a probit transformation as suggested by <span class="citation">(Brooks, Pavlidis, and Judge <a href="#ref-Brooks:2015um">2015</a>)</span> did not improve our model.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>“Exact choice of k is not generally critical” <span class="citation">(Wood <a href="#ref-Wood:2005wz">2017</a>)</span>.<a href="#fnref2" class="footnote-back">↩</a></p></li>
+</ol>
+</div>

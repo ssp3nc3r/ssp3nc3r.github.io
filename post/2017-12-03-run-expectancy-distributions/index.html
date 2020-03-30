@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Scott Spencer">
+<meta name="description" content="Team wins—a chain of player events Data and sources for estimating run expectancies Calculate runs scored after every game state of a half inning Estimating run expectancy Preserving and understanding uncertainty of our estimates In half innings, more runs occur less frequently Building a bayesian run expectancy model Model summary The median run expectancy matrix    Team wins—a chain of player events The performance of a baseball player includes numerous on-field (and off-field) activities, roughly divided into skills of offensive (e." />
+<meta name="keywords" content=", MLB, Baseball, Run Expectancy, Bayes, Stan, rstanarm" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="/post/2017-12-03-run-expectancy-distributions/" />
+
+
+    <title>
+        
+            Run Expectancy Distributions of MLB Game States :: p( ssp3nc3r | Columbian )  — Hello Friend NG Theme
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.min.84ed5579024525d4b50458514d1a43e40dd5272df45c7cd6da85b225af457154.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+<meta itemprop="name" content="Run Expectancy Distributions of MLB Game States">
+<meta itemprop="description" content="A bayesian approach to estimating distributions of the number of runs we expect baseball players to produce in each of the 24 combinations of base runners and outs is presented.">
+<meta itemprop="datePublished" content="2017-12-03T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2017-12-03T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="2592">
+<meta itemprop="image" content="/"/>
+
+
+
+<meta itemprop="keywords" content="MLB,Baseball,Run Expectancy,Bayes,Stan,rstanarm," /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="/"/>
+
+<meta name="twitter:title" content="Run Expectancy Distributions of MLB Game States"/>
+<meta name="twitter:description" content="A bayesian approach to estimating distributions of the number of runs we expect baseball players to produce in each of the 24 combinations of base runners and outs is presented."/>
+
+
+
+    <meta property="article:section" content="R" />
+
+
+
+    <meta property="article:published_time" content="2017-12-03 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/about/">About</a></li><li><a href="/post/">Posts</a></li><li><a href="/publications/">Publications</a></li><li><a href="/teaching/">Teaching</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="/post/2017-12-03-run-expectancy-distributions/">Run Expectancy Distributions of MLB Game States</a></h2>
+
+            
+
+            <div class="post-content">
+                
+
+<div id="TOC">
+<ul>
+<li><a href="#team-winsa-chain-of-player-events">Team wins—a chain of player events</a></li>
+<li><a href="#data-and-sources-for-estimating-run-expectancies">Data and sources for estimating run expectancies</a></li>
+<li><a href="#calculate-runs-scored-after-every-game-state-of-a-half-inning">Calculate runs scored after every game state of a half inning</a></li>
+<li><a href="#estimating-run-expectancy">Estimating run expectancy</a><ul>
+<li><a href="#preserving-and-understanding-uncertainty-of-our-estimates">Preserving and understanding uncertainty of our estimates</a></li>
+<li><a href="#in-half-innings-more-runs-occur-less-frequently">In half innings, more runs occur less frequently</a></li>
+<li><a href="#building-a-bayesian-run-expectancy-model">Building a bayesian run expectancy model</a></li>
+<li><a href="#model-summary">Model summary</a></li>
+<li><a href="#the-median-run-expectancy-matrix">The median run expectancy matrix</a></li>
+</ul></li>
+</ul>
+</div>
+
+<div id="team-winsa-chain-of-player-events" class="section level1">
+<h1>Team wins—a chain of player events</h1>
+<p>The performance of a baseball player includes numerous on-field (and off-field) activities, roughly divided into skills of offensive (<em>e.g.</em>, batting, baserunning) and defensive (<em>e.g.</em>, pitching, fielding). The value of each skill depends upon its contribution to team wins, and wins are the difference in team score (runs). Breaking this down further, runs depend on advancing each half inning of baseball from one “state” to another. By state, we mean the base locations of any runners and the number of outs.</p>
+<p>We can determine the range of runs expected to result from each state and then link the outcomes of each player’s possible contributions to changes in <em>run expectancy</em>. In this article, we estimate the <em>distribution</em> of run expectancy for each game state.</p>
+</div>
+<div id="data-and-sources-for-estimating-run-expectancies" class="section level1">
+<h1>Data and sources for estimating run expectancies</h1>
+<p>To determine run expectancy for differing “game states” in baseball, we need observations of each <em>at bat</em> event over a given time frame. Run expectancy is typically reported over a regular season, so we will focus here on the 2017 MLB season. Along with game states, we need to know the batting team’s score before each at bat in each half inning and the score at the half inning’s end.</p>
+<p>At bat information is publicly available from multiple sources. The at bat data from Major League Baseball Advanced Media (MLBAM), which can be conveniently “scraped” using the <code>R</code> package <code>PitchRx</code> provides one source. Another source, a little more tedius to obtain, but easier to work with once gathered is available as <em>event</em> files from <a href="http://www.retrosheet.org/game.htm">retrosheet.org</a>, and the website provides instructions for gathering that data. We begin here with data in hand, loaded in the <code>R</code> object named <code>rs</code>, which we subset below to keep only needed variables.</p>
+<pre class="r"><code>rs &lt;- 
+  subset(rs, 
+         select = c(GAME_ID, EVENT_ID, INN_CT, BAT_HOME_ID, OUTS_CT, 
+                    EVENT_OUTS_CT, BASE1_RUN_ID, BASE2_RUN_ID, BASE3_RUN_ID, 
+                    AWAY_SCORE_CT, HOME_SCORE_CT, EVENT_CD, BAT_EVENT_FL))</code></pre>
+<p>These variables are structured as follows,</p>
+<pre class="r"><code># This is simply a convenience function to display the 
+# structure of an R object as a data frame.
+str2df &lt;- function(x, n=5) {
+  data.frame(Variable = names(x),
+             Classe = sapply(x, typeof),
+             Values = sapply(x, function(x) paste0(head(x, n = n),  collapse = &quot;, &quot;)),
+             row.names = NULL)
+}
+
+# load libraries
+require(dplyr)
+require(knitr)
+require(stargazer)
+
+str2df(rs, 4) </code></pre>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Classe</th>
+<th align="left">Values</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">GAME_ID</td>
+<td align="left">character</td>
+<td align="left">ANA201704070, ANA201704070, ANA201704070, ANA201704070</td>
+</tr>
+<tr class="even">
+<td align="left">EVENT_ID</td>
+<td align="left">integer</td>
+<td align="left">1, 2, 3, 4</td>
+</tr>
+<tr class="odd">
+<td align="left">INN_CT</td>
+<td align="left">integer</td>
+<td align="left">1, 1, 1, 1</td>
+</tr>
+<tr class="even">
+<td align="left">BAT_HOME_ID</td>
+<td align="left">integer</td>
+<td align="left">0, 0, 0, 0</td>
+</tr>
+<tr class="odd">
+<td align="left">OUTS_CT</td>
+<td align="left">integer</td>
+<td align="left">0, 0, 1, 2</td>
+</tr>
+<tr class="even">
+<td align="left">EVENT_OUTS_CT</td>
+<td align="left">integer</td>
+<td align="left">0, 1, 1, 0</td>
+</tr>
+<tr class="odd">
+<td align="left">BASE1_RUN_ID</td>
+<td align="left">character</td>
+<td align="left">, seguj002, seguj002, seguj002</td>
+</tr>
+<tr class="even">
+<td align="left">BASE2_RUN_ID</td>
+<td align="left">character</td>
+<td align="left">, , ,</td>
+</tr>
+<tr class="odd">
+<td align="left">BASE3_RUN_ID</td>
+<td align="left">character</td>
+<td align="left">, , ,</td>
+</tr>
+<tr class="even">
+<td align="left">AWAY_SCORE_CT</td>
+<td align="left">integer</td>
+<td align="left">0, 0, 0, 0</td>
+</tr>
+<tr class="odd">
+<td align="left">HOME_SCORE_CT</td>
+<td align="left">integer</td>
+<td align="left">0, 0, 0, 0</td>
+</tr>
+<tr class="even">
+<td align="left">EVENT_CD</td>
+<td align="left">integer</td>
+<td align="left">14, 3, 2, 4</td>
+</tr>
+<tr class="odd">
+<td align="left">BAT_EVENT_FL</td>
+<td align="left">logical</td>
+<td align="left">TRUE, TRUE, TRUE, FALSE</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>where <code>GAME_ID</code> is a unique game Id, <code>EVENT_ID</code> is a unique observation (usually at bat) within each game, <code>BAT_EVENT_FL</code> indicates a batting event, <code>INN_CT</code> is the inning number, a <code>BAT_HOME_ID</code> of <code>0</code> indicates top of the inning and <code>1</code>, bottom of the inning, <code>OUTS_CT</code> is the number of outs preceding the observed event (at bat), <code>EVENT_OUTS_CT</code> is the number of outs after the observed at bat, <code>BASE{1,2,3}_RUN_ID</code> identifies any baserunners preceeding the event, <code>{AWAY, HOME}_SCORE_CT</code> are the away and home team scores preceeding the event.</p>
+</div>
+<div id="calculate-runs-scored-after-every-game-state-of-a-half-inning" class="section level1">
+<h1>Calculate runs scored after every game state of a half inning</h1>
+<p>Before modeling run expectancy with this data, we “transform” some variables and create new variables. We group these data by half inning, sort observations therein by event, remove incomplete half-innings (most typically occurring in bottom of the ninth or greater inning when the home team breaks the tied score), and calculate the difference between the batting team’s score preceeding the event and their score at half-inning’s end. After using <code>OUTS_CT</code> as a number to remove incomplete half innings, we transform it into a category or factor for modeling. In code,</p>
+<pre class="r"><code>rs &lt;- 
+  group_by(rs, GAME_ID, INN_CT, BAT_HOME_ID) %&gt;%
+  arrange(GAME_ID, INN_CT, BAT_HOME_ID, EVENT_ID) %&gt;%
+  filter( (last(OUTS_CT) + last(EVENT_OUTS_CT))==3 ) %&gt;%
+  mutate(RUNS_AFTER_EVENT = 
+           ifelse(BAT_HOME_ID == 0, 
+                  last(AWAY_SCORE_CT) - AWAY_SCORE_CT, 
+                  last(HOME_SCORE_CT) - HOME_SCORE_CT))</code></pre>
+<p>Variables for the base runners (shown in the first two <code>transform()</code> below) are combined into a single variable with 8 “levels”: “0-0-0” represents bases empty, “1-0-0” represents a runner on first, “0-2-0” a runner on second, and so on. Observations in the data primarily relate to the batting event, and we filter out others. Then, we drop variables we no longer need (using <code>subset()</code>),</p>
+<pre class="r"><code># create variable of base runner states
+rs &lt;- transform(rs, 
+                ON_1B = as.integer(!BASE1_RUN_ID == &quot;&quot;),
+                ON_2B = as.integer(!BASE2_RUN_ID == &quot;&quot;)*2,
+                ON_3B = as.integer(!BASE3_RUN_ID == &quot;&quot;)*3)
+rs &lt;- transform(rs, RUNNERS = paste0(ON_1B, &quot;-&quot;, ON_2B, &quot;-&quot;, ON_3B))
+runners_on_base &lt;- 
+  c(&quot;0-0-0&quot;, &quot;1-0-0&quot;, &quot;0-2-0&quot;, &quot;0-0-3&quot;, &quot;1-2-0&quot;, &quot;1-0-3&quot;, &quot;0-2-3&quot;, &quot;1-2-3&quot;)
+rs &lt;- transform(rs, 
+                 RUNNERS = factor(RUNNERS, 
+                                 levels=runners_on_base,
+                                 labels=runners_on_base))
+# tranform outs into factor
+rs &lt;- transform(rs, OUTS_CT = factor(OUTS_CT, 
+                                  levels=c(&quot;0&quot;, &quot;1&quot;, &quot;2&quot;)))
+
+# drop unneeded variables
+rs &lt;- subset(rs, 
+             subset = BAT_EVENT_FL == TRUE, 
+             select = c(-ON_1B, -ON_2B, -ON_3B, -BAT_EVENT_FL,
+                        -BASE1_RUN_ID, -BASE2_RUN_ID, -BASE3_RUN_ID))</code></pre>
+</div>
+<div id="estimating-run-expectancy" class="section level1">
+<h1>Estimating run expectancy</h1>
+<div id="preserving-and-understanding-uncertainty-of-our-estimates" class="section level2">
+<h2>Preserving and understanding uncertainty of our estimates</h2>
+<p>Run expectancies are usually reported as “point estimates,” which have been calculated as simple averages or as a “maximum likelihood estimate” of the data. Thus, we may see reported, say, an expectancy of <code>0.5</code> runs in the beginning of each half inning with no one is one base and no outs. But each half inning is different. There is, obviously, no uncertainty in simply counting what has happened. That’s our data. But we’d like to understand how much the outcomes vary and are expected to vary. Thus, here, we depart from the typical approach to estimating run expectancies of game states and use the bayesian modeling software Stan, which models and preserves this uncertainty in our estimates and predictions. The bonus is that this approach makes understanding the uncertainty straight forward.</p>
+</div>
+<div id="in-half-innings-more-runs-occur-less-frequently" class="section level2">
+<h2>In half innings, more runs occur less frequently</h2>
+<p>Simply from observing baseball games, we glean that, for a given half inning, the batting team scores incrementally, and each subsequent score is generally less likely to occur. The most common half-inning is one without the batting team scoring. A single score is less common, and scoring, say, ten or more is very rare. From basic probability, we can represent counting the frequency of scoring zero or more in a half inning using the <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda366j.htm">poisson</a> distribution or, improving on this intuition, we observe that, as mentioned, many observations will have a zero score (in stats jargon, the data is overdispersed). Thus, instead of poisson, we model the data using a “negative binomial”, which is similar to poisson but considers these many zero observations, too.</p>
+<p>Our intuition generally agrees with the data,</p>
+<pre class="r"><code>require(ggplot2)
+require(ggthemes)
+rs %&gt;%
+  group_by(GAME_ID, INN_CT, BAT_HOME_ID) %&gt;% 
+  arrange(EVENT_ID) %&gt;% 
+  mutate(RUNS = ifelse(BAT_HOME_ID==1,
+                          last(HOME_SCORE_CT) - first(HOME_SCORE_CT),
+                          last(AWAY_SCORE_CT) - first(AWAY_SCORE_CT))) %&gt;%
+  summarise(RUNS = max(RUNS)) %&gt;%
+  arrange(RUNS) %&gt;%
+  ggplot(mapping = aes(x=RUNS)) + stat_count() + 
+  scale_x_continuous(breaks = c(0:13)) +
+  labs(x = &quot;Runs scored in half-inning&quot;, y = &quot;Frequency&quot;) + 
+  theme_tufte(base_family = &quot;sans&quot;)</code></pre>
+<p><img src="/images/2017-12-03-run-expectancy-distributions/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /></p>
+</div>
+<div id="building-a-bayesian-run-expectancy-model" class="section level2">
+<h2>Building a bayesian run expectancy model</h2>
+<p>The model below uses the <code>R</code> package <code>rstanarm</code>’s interface to Stan’s fully-bayesian inferencing capabilities. We model <code>RUNS_AFTER_EVENT</code> as a function of (<code>~</code>) all combinations of <code>RUNNERS</code> and <code>OUTS_CT</code>, using <code>neg_binomial_2</code> as we just discussed, and give our model the cleaned data <code>rs</code>. Absent including <code>-1</code> in the formula, the model would use the first game state as a reference instead of separately reporting it with the other game states. It is not always appropriate to exclude this intercept, and we can <em>google</em> to learn more. The remaining options, <code>QR = TRUE</code> and <code>chains = 1, iter = 500, cores = 4, seed = TRUE</code>, have been described in depth here <a href="http://mc-stan.org/rstanarm/reference/stan_glm.html">mc-stan.org/rstanarm/reference/stan_glm.html</a>.</p>
+<pre class="r"><code>require(rstanarm)
+fit &lt;- stan_glm(RUNS_AFTER_EVENT ~ -1 + RUNNERS : OUTS_CT, 
+                family = neg_binomial_2, 
+                data = rs, 
+                QR = TRUE,
+                chains = 1, iter = 500, cores = 4, seed = TRUE)</code></pre>
+<pre><code>## 
+## SAMPLING FOR MODEL &#39;count&#39; NOW (CHAIN 1).
+## 
+## Gradient evaluation took 0.073799 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 737.99 seconds.
+## Adjust your expectations accordingly!
+## 
+## 
+## Iteration:   1 / 500 [  0%]  (Warmup)
+## Iteration:  50 / 500 [ 10%]  (Warmup)
+## Iteration: 100 / 500 [ 20%]  (Warmup)
+## Iteration: 150 / 500 [ 30%]  (Warmup)
+## Iteration: 200 / 500 [ 40%]  (Warmup)
+## Iteration: 250 / 500 [ 50%]  (Warmup)
+## Iteration: 251 / 500 [ 50%]  (Sampling)
+## Iteration: 300 / 500 [ 60%]  (Sampling)
+## Iteration: 350 / 500 [ 70%]  (Sampling)
+## Iteration: 400 / 500 [ 80%]  (Sampling)
+## Iteration: 450 / 500 [ 90%]  (Sampling)
+## Iteration: 500 / 500 [100%]  (Sampling)
+## 
+##  Elapsed Time: 324.265 seconds (Warm-up)
+##                290.604 seconds (Sampling)
+##                614.869 seconds (Total)</code></pre>
+</div>
+<div id="model-summary" class="section level2">
+<h2>Model summary</h2>
+<p>We summarise the model,</p>
+<pre class="r"><code>summary(fit)</code></pre>
+<pre><code>## 
+## Model Info:
+## 
+##  function:  stan_glm
+##  family:    neg_binomial_2 [log]
+##  formula:   RUNS_AFTER_EVENT ~ -1 + RUNNERS:OUTS_CT
+##  algorithm: sampling
+##  priors:    see help(&#39;prior_summary&#39;)
+##  sample:    250 (posterior sample size)
+##  num obs:   184463
+## 
+## Estimates:
+##                         mean      sd        2.5%      25%       50%    
+## RUNNERS0-0-0:OUTS_CT0      -0.7       0.0      -0.7      -0.7      -0.7
+## RUNNERS1-0-0:OUTS_CT0      -0.1       0.0      -0.1      -0.1      -0.1
+## RUNNERS0-2-0:OUTS_CT0       0.2       0.0       0.1       0.1       0.2
+## RUNNERS0-0-3:OUTS_CT0       0.3       0.1       0.2       0.3       0.3
+## RUNNERS1-2-0:OUTS_CT0       0.4       0.0       0.3       0.4       0.4
+## RUNNERS1-0-3:OUTS_CT0       0.6       0.0       0.5       0.6       0.6
+## RUNNERS0-2-3:OUTS_CT0       0.7       0.1       0.6       0.7       0.7
+## RUNNERS1-2-3:OUTS_CT0       0.8       0.1       0.7       0.7       0.8
+## RUNNERS0-0-0:OUTS_CT1      -1.3       0.0      -1.3      -1.3      -1.3
+## RUNNERS1-0-0:OUTS_CT1      -0.7       0.0      -0.7      -0.7      -0.7
+## RUNNERS0-2-0:OUTS_CT1      -0.4       0.0      -0.4      -0.4      -0.4
+## RUNNERS0-0-3:OUTS_CT1       0.0       0.0      -0.1      -0.1       0.0
+## RUNNERS1-2-0:OUTS_CT1      -0.1       0.0      -0.1      -0.1      -0.1
+## RUNNERS1-0-3:OUTS_CT1       0.2       0.0       0.1       0.1       0.2
+## RUNNERS0-2-3:OUTS_CT1       0.4       0.0       0.3       0.4       0.4
+## RUNNERS1-2-3:OUTS_CT1       0.5       0.0       0.4       0.4       0.5
+## RUNNERS0-0-0:OUTS_CT2      -2.2       0.0      -2.3      -2.3      -2.2
+## RUNNERS1-0-0:OUTS_CT2      -1.5       0.0      -1.6      -1.5      -1.5
+## RUNNERS0-2-0:OUTS_CT2      -1.1       0.0      -1.2      -1.2      -1.1
+## RUNNERS0-0-3:OUTS_CT2      -1.0       0.0      -1.1      -1.1      -1.0
+## RUNNERS1-2-0:OUTS_CT2      -0.8       0.0      -0.9      -0.9      -0.8
+## RUNNERS1-0-3:OUTS_CT2      -0.8       0.0      -0.8      -0.8      -0.8
+## RUNNERS0-2-3:OUTS_CT2      -0.6       0.1      -0.7      -0.7      -0.6
+## RUNNERS1-2-3:OUTS_CT2      -0.3       0.0      -0.4      -0.3      -0.3
+## reciprocal_dispersion       0.5       0.0       0.5       0.5       0.5
+## mean_PPD                    0.5       0.0       0.5       0.5       0.5
+## log-posterior         -158999.2       3.9 -159007.9 -159001.6 -158998.8
+##                         75%       97.5%  
+## RUNNERS0-0-0:OUTS_CT0      -0.7      -0.7
+## RUNNERS1-0-0:OUTS_CT0      -0.1      -0.1
+## RUNNERS0-2-0:OUTS_CT0       0.2       0.2
+## RUNNERS0-0-3:OUTS_CT0       0.4       0.5
+## RUNNERS1-2-0:OUTS_CT0       0.4       0.4
+## RUNNERS1-0-3:OUTS_CT0       0.6       0.7
+## RUNNERS0-2-3:OUTS_CT0       0.8       0.8
+## RUNNERS1-2-3:OUTS_CT0       0.8       0.9
+## RUNNERS0-0-0:OUTS_CT1      -1.3      -1.3
+## RUNNERS1-0-0:OUTS_CT1      -0.7      -0.6
+## RUNNERS0-2-0:OUTS_CT1      -0.3      -0.3
+## RUNNERS0-0-3:OUTS_CT1       0.0       0.1
+## RUNNERS1-2-0:OUTS_CT1      -0.1       0.0
+## RUNNERS1-0-3:OUTS_CT1       0.2       0.3
+## RUNNERS0-2-3:OUTS_CT1       0.4       0.5
+## RUNNERS1-2-3:OUTS_CT1       0.5       0.5
+## RUNNERS0-0-0:OUTS_CT2      -2.2      -2.2
+## RUNNERS1-0-0:OUTS_CT2      -1.5      -1.5
+## RUNNERS0-2-0:OUTS_CT2      -1.1      -1.1
+## RUNNERS0-0-3:OUTS_CT2      -1.0      -1.0
+## RUNNERS1-2-0:OUTS_CT2      -0.8      -0.8
+## RUNNERS1-0-3:OUTS_CT2      -0.7      -0.7
+## RUNNERS0-2-3:OUTS_CT2      -0.6      -0.5
+## RUNNERS1-2-3:OUTS_CT2      -0.2      -0.2
+## reciprocal_dispersion       0.5       0.5
+## mean_PPD                    0.5       0.5
+## log-posterior         -158996.6 -158993.0
+## 
+## Diagnostics:
+##                       mcse Rhat n_eff
+## RUNNERS0-0-0:OUTS_CT0 0.0  1.0  250  
+## RUNNERS1-0-0:OUTS_CT0 0.0  1.0  250  
+## RUNNERS0-2-0:OUTS_CT0 0.0  1.0  250  
+## RUNNERS0-0-3:OUTS_CT0 0.0  1.0  250  
+## RUNNERS1-2-0:OUTS_CT0 0.0  1.0  250  
+## RUNNERS1-0-3:OUTS_CT0 0.0  1.0  250  
+## RUNNERS0-2-3:OUTS_CT0 0.0  1.0  250  
+## RUNNERS1-2-3:OUTS_CT0 0.0  1.0  250  
+## RUNNERS0-0-0:OUTS_CT1 0.0  1.0  250  
+## RUNNERS1-0-0:OUTS_CT1 0.0  1.0  250  
+## RUNNERS0-2-0:OUTS_CT1 0.0  1.0  250  
+## RUNNERS0-0-3:OUTS_CT1 0.0  1.0  250  
+## RUNNERS1-2-0:OUTS_CT1 0.0  1.0  250  
+## RUNNERS1-0-3:OUTS_CT1 0.0  1.0  250  
+## RUNNERS0-2-3:OUTS_CT1 0.0  1.0  250  
+## RUNNERS1-2-3:OUTS_CT1 0.0  1.0  250  
+## RUNNERS0-0-0:OUTS_CT2 0.0  1.0  250  
+## RUNNERS1-0-0:OUTS_CT2 0.0  1.0  250  
+## RUNNERS0-2-0:OUTS_CT2 0.0  1.0  250  
+## RUNNERS0-0-3:OUTS_CT2 0.0  1.0  250  
+## RUNNERS1-2-0:OUTS_CT2 0.0  1.0  250  
+## RUNNERS1-0-3:OUTS_CT2 0.0  1.0  250  
+## RUNNERS0-2-3:OUTS_CT2 0.0  1.0  250  
+## RUNNERS1-2-3:OUTS_CT2 0.0  1.0  250  
+## reciprocal_dispersion 0.0  1.1   32  
+## mean_PPD              0.0  1.0  250  
+## log-posterior         0.4  1.0   80  
+## 
+## For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).</code></pre>
+<p>Reviewing the model summary, <code>n_eff</code> and <code>Rhats</code> both look good. The various quantiles of coefficients are reported as the <code>log</code> of run expectancies because the model used <code>neg_binomial_2</code> family, which defaults to a <code>link</code> function transforming these median estimates of our game states to <code>log</code> units. We can more easily interpret them by applying an <code>exp()</code>, as shown below along with organizing their median values into a matrix.</p>
+</div>
+<div id="the-median-run-expectancy-matrix" class="section level2">
+<h2>The median run expectancy matrix</h2>
+<p>The <em>median</em> run expectancy for each of the 24 game states are as follows,</p>
+<pre class="r"><code># Extract and name coefficients from model
+m &lt;- exp(coef(fit))
+m &lt;- matrix(m, nrow = 8, ncol = 3, byrow = F)
+rownames(m) &lt;- levels(rs$RUNNERS)
+colnames(m) &lt;- levels(rs$OUTS_CT)
+
+# Reorder rows according to bases
+runners_on_base &lt;- 
+  c(&quot;0-0-0&quot;, &quot;1-0-0&quot;, &quot;0-2-0&quot;, &quot;0-0-3&quot;, &quot;1-2-0&quot;, &quot;1-0-3&quot;, &quot;0-2-3&quot;, &quot;1-2-3&quot;)
+m &lt;- m[match(runners_on_base, rownames(m)),]
+
+# Show Matrix as Table
+m</code></pre>
+<pre><code>##               0         1         2
+## 0-0-0 0.5110524 0.2682680 0.1068107
+## 1-0-0 0.8927785 0.5117634 0.2193748
+## 0-2-0 1.1664494 0.6953203 0.3179510
+## 0-0-3 1.3992135 0.9726433 0.3545467
+## 1-2-0 1.4842034 0.9216748 0.4308111
+## 1-0-3 1.7917773 1.1931853 0.4676016
+## 0-2-3 2.0476125 1.4653425 0.5341225
+## 1-2-3 2.2020040 1.5968817 0.7635635</code></pre>
+<p>More interestingly, we can also compare the distributions of expected runs for each game state,</p>
+<pre class="r"><code># Extract posterior draws of the predictors, transform and reshape for plotting
+pp &lt;- as.data.frame(fit)
+pp &lt;- reshape2::melt(pp, 
+                     variable.name = &quot;Game.State&quot;, 
+                     value.name=&quot;Expected.Runs&quot;)
+pp &lt;- transform(pp, Game.State = as.character(Game.State))
+pp &lt;- subset(pp, subset = Game.State != &quot;reciprocal_dispersion&quot;)
+
+# Separate Base States from Outs
+pp &lt;- transform(pp, Outs = substr(Game.State, start = 21, stop = 21))
+pp &lt;- transform(pp, Runners = substr(Game.State, start = 8, stop = 12))
+
+# Reorganize order of Base States and Outs for a cleaner plot
+pp &lt;- transform(pp, Outs = factor(Outs, 
+                                  levels=c(&quot;0&quot;, &quot;1&quot;, &quot;2&quot;), 
+                                  labels=c(&quot;0 Outs&quot;, &quot;1 Out&quot;, &quot;2 Outs&quot;)))
+pp &lt;- transform(pp, 
+      Runners = factor(Runners, 
+      levels=runners_on_base,
+      labels=runners_on_base))
+
+# Drop Unneeded Variables
+pp$Game.State &lt;- NULL
+
+# Transform posterior estimates
+pp &lt;- transform(pp, Expected.Runs = exp(Expected.Runs))
+
+# create the plot
+ggplot(pp) +
+  geom_density(aes(x = Expected.Runs), fill = &quot;#C4D8E2&quot;) +
+  facet_grid(Runners ~ Outs, scales = &quot;free_y&quot;, switch = &quot;y&quot;) +
+  theme_gray() +
+  theme(axis.text.x = element_text(size = 6),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        strip.text.x = element_text(size = 9, face = &quot;bold&quot;),
+        strip.text.y = element_text(size = 9, face = &quot;bold&quot;, angle = 180),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.spacing.x = unit(1, &quot;lines&quot;)) +
+  labs(x = &quot;Expected Runs&quot;, y = &quot;Baserunners&quot;)</code></pre>
+<p><img src="/images/2017-12-03-run-expectancy-distributions/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /></p>
+<p>The distributions above reflect the model’s uncertainty in the <em>predictors</em>, but importantly, when predicting or forecasting, we need to consider both this uncertainty <em>and</em> the natural variation in events. The mean posterior estimates of observed at bats in the 2017 season are shown below.</p>
+<pre class="r"><code># combine preditions with original data
+yrep &lt;- posterior_predict(fit)
+rs &lt;- cbind(rs, yrep = colMeans(yrep))
+
+# reorder levels for RUNNERS and OUTS_CT
+# Reorganize order of Base States and Outs for a cleaner plot
+rs &lt;- transform(rs, Outs = factor(as.character(OUTS_CT),
+                                  levels=c(&quot;0&quot;, &quot;1&quot;, &quot;2&quot;),
+                                  labels=c(&quot;0 Outs&quot;, &quot;1 Out&quot;, &quot;2 Outs&quot;)))
+rs &lt;- transform(rs,
+      Runners = factor(as.character(RUNNERS),
+      levels=runners_on_base,
+      labels=runners_on_base))
+
+# plot posterior estimates from original data
+ggplot(rs) +
+  geom_density(aes(x = yrep), fill = &quot;#C4D8E2&quot;) +
+  facet_grid(Runners ~ Outs, scales = &quot;free_y&quot;, switch = &quot;y&quot;) +
+  theme_gray() +
+  theme(axis.text.x = element_text(size = 6),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        strip.text.x = element_text(size = 9, face = &quot;bold&quot;),
+        strip.text.y = element_text(size = 9, face = &quot;bold&quot;, angle = 180),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.spacing.x = unit(1, &quot;lines&quot;)) +
+  labs(x = &quot;Expected Runs&quot;, y = &quot;Baserunners&quot;)</code></pre>
+<p><img src="/images/2017-12-03-run-expectancy-distributions/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/mlb">MLB</a></span><span class="tag"><a href="/tags/baseball">Baseball</a></span><span class="tag"><a href="/tags/run-expectancy">Run Expectancy</a></span><span class="tag"><a href="/tags/bayes">Bayes</a></span><span class="tag"><a href="/tags/stan">Stan</a></span><span class="tag"><a href="/tags/rstanarm">rstanarm</a></span>
+  				</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+                <span><a href="/">ssp3nc3r</a></span>
+            
+            <span></span>
+            <span> <a href="/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+        </div>
+    </div>
+    <script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.2d5469329143160ae2456a69c3c76dc2d0a3b212b46afe291a51bd68650ed6f8697e001dab54f1c272c77ce08092a8c55e5bb4314e0ee334aab4b927ec896638.js" integrity="sha512-LVRpMpFDFgriRWppw8dtwtCjshK0av4pGlG9aGUO1vhpfgAdq1TxwnLHfOCAkqjFXlu0MU4O4zSqtLkn7IlmOA=="></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+
+
+
+    </body>
+</html>

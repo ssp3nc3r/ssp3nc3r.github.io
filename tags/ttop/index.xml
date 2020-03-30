@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>TTOP on p( ssp3nc3r | Columbian )</title>
+    <link>/tags/ttop/</link>
+    <description>Recent content in TTOP on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 09 May 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/ttop/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Visual exploration of starting pitcher duration</title>
+      <link>/post/visual-exploration-of-starting-pitcher-duration/</link>
+      <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/visual-exploration-of-starting-pitcher-duration/</guid>
+      <description>Introduction Exploring influence of times-through-the-order on manager decisions Describing survival with a life table Modeling survival with conditional logistic regression  Exploring game states (context) on pitcher survival Runs accumulated Baserunners accumulated Outs in the half-inning Platooned matchups Pitch count  Further work Appendix Variables as cleaned for these analyses References   Introduction This analysis explores major league baseball decisions of when starting pitchers are removed from the game.</description>
+    </item>
+    
+  </channel>
+</rss>

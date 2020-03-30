@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Scott Spencer">
+<meta name="description" content="Exemplary, award-winning information graphic Approximating the reference in R An exercise in design using R Data for Lupi’s display Main display of points and lines Per-category histograms or bar charts Per-era stacked bar charts Sankey diagram  Next steps References   Exemplary, award-winning information graphic Giorgia Lupi is a master at designing information for visual narrative — telling stories through visualization. Her portfolio includes a series of exploratory data visualizations published for the largest circulating Italian newspaper, La Lettura." />
+<meta name="keywords" content=", R, Data visualization, Design, Information Graphics" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="/post/approximating-the-components-of-lupi-s-nobel-no-degrees/" />
+
+
+    <title>
+        
+            Approximating the components of Lupi&#39;s Nobel no degrees :: p( ssp3nc3r | Columbian )  — Hello Friend NG Theme
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.min.84ed5579024525d4b50458514d1a43e40dd5272df45c7cd6da85b225af457154.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+<meta itemprop="name" content="Approximating the components of Lupi&#39;s Nobel no degrees">
+<meta itemprop="description" content="Giorgia Lupi is a master at designing information for visual narrative --- telling stories through visualization. We study her design and approximate components with code in R.">
+<meta itemprop="datePublished" content="2019-03-15T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-03-15T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="2592">
+<meta itemprop="image" content="/"/>
+
+
+
+<meta itemprop="keywords" content="R,Data visualization,Design,Information Graphics," /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="/"/>
+
+<meta name="twitter:title" content="Approximating the components of Lupi&#39;s Nobel no degrees"/>
+<meta name="twitter:description" content="Giorgia Lupi is a master at designing information for visual narrative --- telling stories through visualization. We study her design and approximate components with code in R."/>
+
+
+
+
+
+    <meta property="article:published_time" content="2019-03-15 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/about/">About</a></li><li><a href="/post/">Posts</a></li><li><a href="/publications/">Publications</a></li><li><a href="/teaching/">Teaching</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="/post/approximating-the-components-of-lupi-s-nobel-no-degrees/">Approximating the components of Lupi&rsquo;s Nobel no degrees</a></h2>
+
+            
+
+            <div class="post-content">
+                
+
+<div id="TOC">
+<ul>
+<li><a href="#exemplary-award-winning-information-graphic">Exemplary, award-winning information graphic</a></li>
+<li><a href="#approximating-the-reference-in-r">Approximating the reference in <code>R</code></a></li>
+<li><a href="#an-exercise-in-design-using-r">An exercise in design using <code>R</code></a><ul>
+<li><a href="#data-for-lupis-display">Data for Lupi’s display</a></li>
+<li><a href="#main-display-of-points-and-lines">Main display of points and lines</a></li>
+<li><a href="#per-category-histograms-or-bar-charts">Per-category histograms or bar charts</a></li>
+<li><a href="#per-era-stacked-bar-charts">Per-era stacked bar charts</a></li>
+<li><a href="#sankey-diagram">Sankey diagram</a></li>
+</ul></li>
+<li><a href="#next-steps">Next steps</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
+
+<hr />
+<div id="exemplary-award-winning-information-graphic" class="section level1">
+<h1>Exemplary, award-winning information graphic</h1>
+<p>Giorgia Lupi is a master at designing information for visual narrative — telling stories through visualization. Her <a href="http://giorgialupi.com">portfolio</a> includes a series of exploratory data visualizations published for the largest circulating Italian newspaper, <em>La Lettura</em>. She thinks hard about her audience, does not underestimate them. Her work gently guides those less familiar with information graphics, while organizing data complexity for a deep reader experience.</p>
+<p>Let’s consider one of her works, <em>Nobels no degrees</em>,</p>
+<p><img src="nobels-no-degrees.png" /></p>
+<p>Lupi has used this as one of her reference works, <a href="http://giorgialupi.com/lalettura">explaining how she arrived at a final design</a> <span class="citation">(Lupi <a href="#ref-Lupi:2016vk">2016</a>)</span>. From her designer’s eye. Conception should be the most difficult part of designing an information display such as this. I do not add to her wonderful help in this regard. Instead, I consider two concepts important to design efforts — the concepts of layering and components — as an exercise identifying and coding approximations of the major components of her example.</p>
+</div>
+<div id="approximating-the-reference-in-r" class="section level1">
+<h1>Approximating the reference in <code>R</code></h1>
+<p>Although I am not aware of the tools Lupi used for creating this information graphic; perhaps it was coded in <code>D3.js</code>. Perhaps Adobe Illustrator carried some of the responsibility. But today <a href="https://towardsdatascience.com/3rd-wave-data-visualization-824c5dc84967">the particular tools are less important as each are converging into common functionality</a> <span class="citation">(Meeks <a href="#ref-Meeks:2018ur">2018</a><a href="#ref-Meeks:2018ur">b</a>)</span>.</p>
+<p>A prominent instructor for D3, Elijah Meeks, recently <a href="https://towardsdatascience.com/you-can-design-a-good-chart-with-r-5d00ed7dd18e">responded</a> to Edward Tufte, who suggested that R “coders and users just can’t do words on graphics and typography” and that “publication-quality work requires: R + Adobe Illustrator + reasoning about words on graphics + respect for audience” <span class="citation">(Meeks <a href="#ref-Meeks:2018ub">2018</a><a href="#ref-Meeks:2018ub">a</a>)</span>. Meeks responded that we “can design a good chart with R”, but questioned whether “R users invest in design”. He considered a survey that suggests R-centric users for graphics are less likely to focus on design. As design is important in communication, we consider the design of Lupi’s example in the context of <code>R</code>.</p>
+</div>
+<div id="an-exercise-in-design-using-r" class="section level1">
+<h1>An exercise in design using <code>R</code></h1>
+<p>Let’s think about the components of Lupi’s <em>Nobels no degrees</em>. We will ignore for now the counter clockwise rotation of its central display. A careful review of the central display suggests four main data display components: a main display containing points and lines; below that, a series of stacked bar charts; to the right of the main display, histograms (or bar charts that add to 100 percent); and to the right of the histograms, a Sankey diagram. These are the most complex data components. And they are linked together into a cohesive whole through purposeful choice of color and positioning such that visual encodings are shared. So let’s approximate each of these components using <code>R</code>.</p>
+<div id="data-for-lupis-display" class="section level2">
+<h2>Data for Lupi’s display</h2>
+<p>As Lupi’s information graphic studies Nobel winners and their backgrounds, the underlying data is, fortunately, available publicly by the prize-awarding organization and elsewhere. We find most of the data Lupi uses <a href="https://www.kaggle.com/nobelfoundation/nobel-laureates/version/1">published by the Nobel committee</a>. Other, supplementary information, such as <a href="https://en.wikipedia.org/wiki/List_of_Nobel_laureates_by_university_affiliation#Other_universities_(51st–)">each winner’s level of formal education</a>, is also available accessible from sources like Wikipedia. We will use these for our approximation.</p>
+<pre class="r"><code>d &lt;- read.csv(&quot;winners.csv&quot;, stringsAsFactors = F, encoding = &quot;UTF-8&quot;)</code></pre>
+<p>Now the data was not created and stored for our purposes, so we will need to clean and transform — basic housekeeping.</p>
+<pre class="r"><code># create array identifying each Nobel prize type
+cats &lt;- c(&quot;Chemistry&quot;, &quot;Economics&quot;, &quot;Literature&quot;, 
+          &quot;Medicine&quot;, &quot;Peace&quot;, &quot;Physics&quot;)
+
+# load library
+library(dplyr)
+
+# clean the data types and calculate winner ages from birth and year of prize
+d &lt;- d %&gt;% 
+  mutate(Category = factor(Category, 
+                           levels = cats, 
+                           ordered = T)) %&gt;% 
+  mutate(Sex = factor(Sex)) %&gt;% 
+  mutate(Birth.Year = as.integer(substring(Birth.Date, 1, 4))) %&gt;% 
+  mutate(Age = Year - Birth.Year)
+
+# aggregaate overall average age of winners
+davg &lt;- d %&gt;% 
+  group_by(Category) %&gt;% 
+  summarise(avg_age = mean(Age, na.rm = T)) %&gt;% 
+  ungroup()</code></pre>
+<p>Since Lupi uses color to link these component displays together, I’ve copied the hexadecimal values of the main six colors from her original:</p>
+<pre class="r"><code>cols &lt;- c(&quot;#cc5b47&quot;, &quot;#488595&quot;, &quot;#96c17c&quot;, 
+          &quot;#decd7c&quot;, &quot;#924855&quot;, &quot;#e79275&quot;)</code></pre>
+<p>Let’s visually inspect the colors of each hex value:</p>
+<pre class="r"><code>library(ggplot2); library(ggthemes)
+ggplot() + 
+  geom_point(aes(x = 1:6, y = 0), 
+             shape = 21, size = 5, fill = cols, color = cols) + 
+  theme_void()</code></pre>
+<p><img src="/./post/2019-03-15-approximating-the-components-of-lupi-s-nobel-no-degrees_files/figure-html/colorswatch-1.svg" width="480" /></p>
+</div>
+<div id="main-display-of-points-and-lines" class="section level2">
+<h2>Main display of points and lines</h2>
+<p>We begin by approximating the main, central data display. Lupi explains that the display identifies the year of the prize on the x axis, the winners’ ages on the y axis. She represents each prize by a circle or point spatially along the x-y coordinates, and represents change in age year-over-year as a line connecting the years. Also notice that there is one chart or panel per prize category. We can easily separate charts by panel or facet. And each color represents a category. Lupi also distinguishes sex for each prize, representing females by circling the prize in the color pink. Finally, we notice that she includes the average age of all winners with a dashed, black line. And she encodes the average age of each category with a solid horizontal line colored for that category. So let’s code these ideas using the ggplot2 package in R:</p>
+<pre class="r"><code>p1 &lt;- ggplot(d, aes(color = Category)) + 
+  theme_minimal(base_family = &quot;sans&quot;, base_size = 8) +
+  geom_hline(yintercept = mean(d$Age, na.rm = T), 
+             lwd = .2, color = &quot;black&quot;, linetype = &quot;dashed&quot;) +
+  geom_hline(data=davg, mapping = aes(yintercept=(avg_age),color = Category)) +
+  geom_line(aes(Year, Age, color = Category), lwd = .2) +
+  geom_point(aes(Year, Age, color = Category), size = 1.5, alpha = .5) +
+  geom_point(data = filter(d, Sex == &quot;Female&quot;), 
+             aes(Year, Age), 
+             color = &quot;#da87bd&quot;, shape = 21, size = 4) +
+  facet_wrap(Category ~ ., nrow=6, strip.position=&quot;left&quot;) +
+  scale_color_manual(values = cols) +
+  scale_x_continuous(breaks = c(1901, 1931, 1961, 1991, 2016),
+                     minor_breaks = seq(1911, 2016, by = 10),
+                     position = &quot;top&quot;) +
+  theme(legend.position = &quot;&quot;) +
+  labs(y = &quot;&quot;, x = &quot;&quot;)</code></pre>
+<p>Here’s our first display, stored in the object <code>p1</code>:</p>
+<p><img src="/./post/2019-03-15-approximating-the-components-of-lupi-s-nobel-no-degrees_files/figure-html/unnamed-chunk-5-1.svg" width="672" /></p>
+<p>While the display can be made to look a bit closer to Lupi’s original component, it approximates Lupi’s concept well enough for this exercise.</p>
+</div>
+<div id="per-category-histograms-or-bar-charts" class="section level2">
+<h2>Per-category histograms or bar charts</h2>
+<p>Next, let’s approximate the bar charts or histograms to the right of the above main data display. The bars represent the relative percentage of each level of formal education each winner in that category obtained. This information is available on wikipedia, but for now, I just estimated the values based on Lupi’s original chart. Here are the placeholder data:</p>
+<pre class="r"><code>dedu &lt;- read.table(text = &quot;
+Category Doctor Master Bachelor None
+Chemistry 98 1 1 0
+Economics 95 1 4 0
+Literature 20 20 25 35
+Medicine 95 4 1 0
+Peace 32 25 20 23
+Physics 99.1 .3 .3 .3
+           &quot;, header = T)</code></pre>
+<p>We used <code>read.table</code> just for convenience of manual entry of the data into wide format. Now let’s reshape the data into long format, and code two variables, <code>Category</code> and <code>Education</code>, as ordered factors so that the ordering can be used on the data display:</p>
+<pre class="r"><code># changes the data from wide form, above, to long format
+# where each degree is identified in the variable Education
+dedu &lt;- reshape2::melt(dedu, 
+                       variable.name = &quot;Education&quot;, 
+                       value.name = &quot;Percent&quot;)
+
+# transform charater types to ordered factors
+dedu &lt;- dedu %&gt;% 
+  mutate(Category = factor(Category, 
+                           levels = cats, 
+                           ordered = T),
+         Education = factor(Education, 
+                            levels = c(&quot;None&quot;, &quot;Bachelor&quot;, 
+                                       &quot;Master&quot;, &quot;Doctor&quot;),
+                            ordered = T))</code></pre>
+<p>Next, we plot the information:</p>
+<pre class="r"><code>p2 &lt;- 
+  ggplot(dedu) + 
+  facet_wrap(~Category, ncol = 1) +
+  geom_bar(aes(Education, Percent, fill = Category), stat = &quot;identity&quot;) + 
+  coord_flip() +
+  scale_fill_manual(values = cols) +
+  theme_minimal(base_family = &quot;sans&quot;, base_size = 8) +
+  theme(legend.position = &quot;&quot;, 
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.title = element_blank())</code></pre>
+<p>Here’s our series or facets of stacked bars:</p>
+<p><img src="/./post/2019-03-15-approximating-the-components-of-lupi-s-nobel-no-degrees_files/figure-html/unnamed-chunk-9-1.svg" width="672" /></p>
+<p>As before, we can get closer to the original, but this approximation gets the idea about how to shape and code the data close enough for now.</p>
+</div>
+<div id="per-era-stacked-bar-charts" class="section level2">
+<h2>Per-era stacked bar charts</h2>
+<p>Next, let’s approximate the series or facets of stacked bar charts. A careful review shows that the bars represent the number of prizes awarded for winners born in specific cities, grouped by era. The color within each bar, as before, corresponds to the prize category. Before plotting, we need to aggregate the data by era and filter the data to the specific cities:</p>
+<pre class="r"><code>cities &lt;- c(&quot;Chicago, IL&quot;, &quot;Washington, DC&quot;, &quot;New York, NY&quot;, 
+            &quot;Boston, MA&quot;, &quot;London&quot;, &quot;Paris&quot;, &quot;Munich&quot;, 
+            &quot;Berlin&quot;, &quot;Vienna&quot;, &quot;Budapest&quot;, &quot;Moscow&quot;)
+
+# aggregate totals by era, birth city, and category of prize
+d3 &lt;- d %&gt;% 
+  filter(Birth.City %in% cities) %&gt;%
+  mutate(Birth.City = factor(Birth.City, 
+                             levels = cities[11:1], ordered = T)) %&gt;%
+  mutate(era = case_when(Year &lt; 1931 ~ 1901,
+                         Year &lt; 1961 ~ 1931,
+                         Year &lt; 1991 ~ 1961,
+                         TRUE ~ 1991)) %&gt;%
+  group_by(era, Birth.City, Category) %&gt;%
+  summarise(n = n()) %&gt;% 
+  ungroup()
+
+# aggregate totals by era and birth city
+d4 &lt;- d3 %&gt;%
+  group_by(era, Birth.City) %&gt;%
+  summarise(Total = sum(n)) %&gt;%
+  ungroup()</code></pre>
+<p>Let’s code a display for the aggregate data:</p>
+<pre class="r"><code>p3 &lt;- ggplot(d3) + 
+  facet_wrap(era~., nrow = 1) +
+  geom_bar(aes(Birth.City, n, fill = Category), 
+           stat = &#39;identity&#39;, width = 0.2) + 
+  geom_text(data = d4,
+            mapping = aes(Birth.City, Total + 2, label = Total),
+            size = 2.5) +
+  coord_flip() +
+  scale_fill_manual(values = cols) +
+  theme_minimal(base_family = &quot;sans&quot;) +
+  theme(legend.position = &quot;&quot;, 
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.title = element_blank())</code></pre>
+<p>As before, this approximation should be close enough for teaching purposes:</p>
+<p><img src="/./post/2019-03-15-approximating-the-components-of-lupi-s-nobel-no-degrees_files/figure-html/unnamed-chunk-12-1.svg" width="672" /></p>
+</div>
+<div id="sankey-diagram" class="section level2">
+<h2>Sankey diagram</h2>
+<p>The last major data display component is perhaps less familiar. It’s called a <strong>Sankey diagram</strong>, made famous by Edward Tufte’s analysis and English translation of perhaps “the best graphic ever produced”, Minard’s Napoleon’s Invasion of Russia <span class="citation">(Tufte <a href="#ref-Tufte:2001vw">2001</a>, 40–41, 176–77)</span>. A Sankey diagram is a specific type of flow diagram where the width of the arrows represent the relative, quantitative proportion of each category. We can also find information on this type of visual display by reviewing literature of one of Sankey’s specific implementations, an <strong>alluvial</strong><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> diagram.</p>
+<p>To make the Sankey diagram, we start by preparing the data. We identify the specific universities (the original variable is <code>Organization.Name</code>), and filter the data to those universities. Here are the universities:</p>
+<pre class="r"><code>universities &lt;- c(&quot;Harvard&quot;, &quot;MIT&quot;, &quot;Stanford&quot;, &quot;Caltech&quot;, 
+                  &quot;Columbia&quot;, &quot;Cambridge&quot;, &quot;Berkeley&quot;)</code></pre>
+<p>Now, the data cleaning is a bit ugly, mostly because the names of the companies and universities are global and, as such, some include characters outside the normal <code>UTF-8</code> standard:</p>
+<pre class="r"><code>d5 &lt;- d %&gt;%
+  mutate(Organization.Name = 
+           ifelse(grepl(&quot;Berkeley&quot;, Organization.City, perl = T),
+                             &quot;Berkeley&quot;, Organization.Name)) %&gt;%
+  mutate(University = NA) %&gt;%
+  mutate(University = 
+           ifelse(grepl(&quot;Harvard&quot;, Organization.Name, perl = T, useBytes = T),
+                        &quot;Harvard&quot;, University)) %&gt;%
+  mutate(University = 
+           ifelse(grepl(&quot;MIT&quot;, Organization.Name, perl = T, useBytes = T),
+                        &quot;MIT&quot;, University)) %&gt;%
+  mutate(University = 
+           ifelse(grepl(&quot;Stanford&quot;, Organization.Name, perl = T, useBytes = T),
+                        &quot;Stanford&quot;, University)) %&gt;%
+  mutate(University = 
+           ifelse(grepl(&quot;Caltech&quot;, Organization.Name, perl = T, useBytes = T),
+                        &quot;Caltech&quot;, University)) %&gt;%
+  mutate(University = 
+           ifelse(grepl(&quot;Columbia&quot;, Organization.Name, perl = T, useBytes = T),
+                        &quot;Columbia&quot;, University)) %&gt;%
+  mutate(University = 
+           ifelse(grepl(&quot;Cambridge&quot;, Organization.Name, perl = T, useBytes = T),
+                        &quot;Cambridge&quot;, University)) %&gt;%
+  mutate(University = 
+           ifelse(grepl(&quot;Berkeley&quot;, Organization.Name, perl = T, useBytes = T),
+                             &quot;Berkeley&quot;, University))</code></pre>
+<p>The data is an aggregate of prizes for each university per category, so we code that calculation next:</p>
+<pre class="r"><code>d5 &lt;- d5 %&gt;% 
+  filter(University %in% universities) %&gt;%
+  group_by(Category, University, .drop = F) %&gt;% 
+  summarise(n = n())</code></pre>
+<p>Several R packages are available to create a Sankey diagram. We will introduce <code>ggforce</code> because it has other uses too. This ggplot-friendly package includes the ability to code Sankey diagrams as a specific form of another diagram we will not discuss, the parallel-coordinate plot. But we will need to transform the data just slightly so that it converts our tidy format to something more natural for a Sankey representation (and the interested reader can review its help files for more details). Note also, in Lupi’s original that no prizes were awarded to winners at the universities of interest for the category of literature. The code below drops unused categories by default, so we hacked a little to add keep the category (see above, <code>.drop = F</code>) and include dummy data as a placeholder:</p>
+<pre class="r"><code># setup data for plot
+library(ggforce)
+
+# use helper function to change tidy data into new format
+data &lt;- gather_set_data(d5, 1:2)
+
+# Note a slight hack: to add litrature back in (there are zero 
+# literature prize winners at schools of interest
+data &lt;- data %&gt;% 
+  mutate(University = ifelse(Category == &quot;Literature&quot;, &quot;Harvard&quot;, University)) %&gt;%
+  mutate(y = ifelse(Category == &quot;Literature&quot; &amp; x == &quot;University&quot;, &quot;Harvard&quot;, y)) %&gt;%
+  mutate(y = ifelse(Category == &quot;Literature&quot; &amp; x == &quot;Category&quot;, &quot;Literature&quot;, y))</code></pre>
+<p>Here’s one way to code the visual display:</p>
+<pre class="r"><code>p4 &lt;- ggplot(data, aes(x, id=id, split = y, value = n)) +
+  geom_parallel_sets(aes(fill = Category), 
+                     alpha = 0.6, axis.width = 0.05, sep = .1) +
+  geom_parallel_sets_axes(axis.width = 0.01, fill = &quot;gray80&quot;, sep = .1) + 
+  geom_parallel_sets_labels(size = 2, angle = 0, 
+                            position = position_nudge(x = c(rep(-.1, 6), rep(.1, 7)) ),
+                            sep = .1) +
+  scale_fill_manual(values = cols) +
+  theme_void() +
+  theme(legend.position = &quot;&quot;)</code></pre>
+<p>which results in,</p>
+<p><img src="/./post/2019-03-15-approximating-the-components-of-lupi-s-nobel-no-degrees_files/figure-html/unnamed-chunk-18-1.svg" width="672" /></p>
+</div>
+</div>
+<div id="next-steps" class="section level1">
+<h1>Next steps</h1>
+<p>With these above four data display approximations, the hard coding is perhaps finished. The next steps are to organize the four displays together as in Lupi’s original. <code>R</code>’s underlying <strong>grid</strong> system, accessible through various packages and described thoroughly in <span class="citation">(Murrell <a href="#ref-Murrell:2018vv">2018</a>)</span>, enables precise placement place of each component relative to the others. And that approach is probably best when ensuring the result is reproducible by others. But it is a little more involved than simply saving these components as vector graphic files and organizing them with software specifically designed for vector graphics and page layout (e.g., Adobe Illustrator or In Design, or the freely available software Inkscape, or even software for presentations).</p>
+<p>Consider how Lupi interweaves the components.</p>
+<p>Lupi’s genius lay in the original ideas for encoding the information in a way that enables the audience to have a seamless experience. She does that in part by use of color, and by placing the components where not just colors, but other encodings — axes too, for example — are shared across components.</p>
+<p>More specifically, the facets of the stacked bars share date information with the x axis of the main graphic; the histograms are faceted categorically, and aligned with, each of the faceted main display; and the Sankey diagram aligns its left categories with both the histograms and main body. Finally, in her annotations, she applies the same categorical color encodings to words that refer back to the data displays.</p>
+<p>Lupi’s annotations are as easy to include as they are important. And that places what should be the hard part — conceiving the original idea — where it belongs.</p>
+<p>I hope that this exercise in approximating the main data displays of Lupi’s award-winning information graphic — <em>Nobels no degrees</em> — has been helpful in thinking about the construction and design of seemingly more complicated information displays. By thinking about the complex presentation in its separable components and layers, we find that the whole can be more straight forward, less intimidating, to build.</p>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<div id="refs" class="references">
+<div id="ref-Lupi:2016vk">
+<p>Lupi, Giorgia. 2016. “Visual Data - La Lettura.” <a href="http://giorgialupi.com/lalettura">http://giorgialupi.com/lalettura</a>.</p>
+</div>
+<div id="ref-Meeks:2018ub">
+<p>Meeks, Elijah. 2018a. “You Can Design a Good Chart with R: But do R users invest in design?” <a href="https://towardsdatascience.com/you-can-design-a-good-chart-with-r-5d00ed7dd18e">https://towardsdatascience.com/you-can-design-a-good-chart-with-r-5d00ed7dd18e</a>.</p>
+</div>
+<div id="ref-Meeks:2018ur">
+<p>———. 2018b. “3rd Wave Data Visualization: understanding the convergence of tools, audiences and modes.” <a href="https://towardsdatascience.com/3rd-wave-data-visualization-824c5dc84967">https://towardsdatascience.com/3rd-wave-data-visualization-824c5dc84967</a>.</p>
+</div>
+<div id="ref-Murrell:2018vv">
+<p>Murrell, Paul. 2018. <em>R Graphics</em>. Third. CRC Press.</p>
+</div>
+<div id="ref-Tufte:2001vw">
+<p>Tufte, Edward R. 2001. <em>The Visual Display of Quantitative Information</em>. Second. Graphics Press.</p>
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Derived from alluvium, which means “a deposit of earth, sand, and other transported matter left by water flowing over land not permanently submerged, esp. in a river valley or a delta.” “alluvium, n.” OED Online, Oxford University Press, March 2019, <a href="www.oed.com/view/Entry/5532">www.oed.com/view/Entry/5532</a>. Accessed 15 March 2019.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/r">R</a></span><span class="tag"><a href="/tags/data-visualization">Data visualization</a></span><span class="tag"><a href="/tags/design">Design</a></span><span class="tag"><a href="/tags/information-graphics">Information Graphics</a></span>
+  				</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+                <span><a href="/">ssp3nc3r</a></span>
+            
+            <span></span>
+            <span> <a href="/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+        </div>
+    </div>
+    <script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.2d5469329143160ae2456a69c3c76dc2d0a3b212b46afe291a51bd68650ed6f8697e001dab54f1c272c77ce08092a8c55e5bb4314e0ee334aab4b927ec896638.js" integrity="sha512-LVRpMpFDFgriRWppw8dtwtCjshK0av4pGlG9aGUO1vhpfgAdq1TxwnLHfOCAkqjFXlu0MU4O4zSqtLkn7IlmOA=="></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+
+
+
+    </body>
+</html>

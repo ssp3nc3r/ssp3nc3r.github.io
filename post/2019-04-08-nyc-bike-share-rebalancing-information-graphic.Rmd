@@ -1,0 +1,40 @@
+---
+title: NYC bike share rebalancing information graphic
+author: Scott Spencer
+date: '2019-04-08'
+slug: nyc-bike-share-rebalancing-information-graphic
+categories: []
+tags:
+  - R
+  - Information Graphics
+  - Data Visualization
+description: "We continue exploring the NYC bike share program. This time we create an information graphic visualizing bike and docking station availability by time of day and rate of new rides per minute."
+draft: no
+disable_comments: yes
+output:
+  blogdown::html_page:
+    toc: true
+    fig_width: 6
+    dev: "svg"
+link-citations: true
+linkcolor: black
+urlcolor: MidnightBlue
+---
+
+-----
+
+
+```{r setup, include=FALSE}
+library(tint)
+# invalidate cache when the package version changes
+knitr::opts_chunk$set(tidy = FALSE, 
+                      cache.extra = packageVersion('tint'),
+                      message = F, warning = F, error = F)
+options(htmltools.dir.version = FALSE)
+```
+
+We continue exploring the NYC bike share program. This time we create an information graphic visualizing bike and docking station availability by time of day and rate of new rides per minute.
+
+```{r bikeshareavail, echo=FALSE, out.width=800, out.height=1100, fig.cap=""}
+knitr::include_graphics("nycbikeshareavailability.pdf")
+```

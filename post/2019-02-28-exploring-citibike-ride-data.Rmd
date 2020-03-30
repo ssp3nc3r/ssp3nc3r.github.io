@@ -1,0 +1,94 @@
+---
+title: Exploring CitiBike ride data
+author: Scott Spencer
+date: '2019-02-28'
+slug: exploring-citibike-ride-data
+categories:
+  - R
+  - Adobe Illustrator
+  - Cycling
+tags:
+  - Cycling
+  - Adobe Illustrator
+  - R
+  - Data visualization
+  - EDA
+description: "NYC Open Data have interesting data including CitiBike ride information. Let's begin wtih a basic exploratory visual display."
+draft: no
+disable_comments: yes
+output:
+  blogdown::html_page:
+    toc: true
+    dev: "svg"
+bibliography: ["projscope.bib"]
+biblio-style: "apalike"
+link-citations: true
+linkcolor: black
+urlcolor: MidnightBlue
+---
+
+```{r setup, include=FALSE}
+require(knitr); require(kableExtra); require(dplyr)
+opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE, cache = F, eval=T)
+skimr::skim_with(numeric = list(hist = NULL, n = NULL), 
+                 integer = list(hist = NULL, n = NULL), 
+                 factor = list(n = NULL, ordered = NULL))
+```
+
+------  
+
+# Background
+
+In 2013, the NYC Department of Transportation sought to start a bike share to reduce emissions, road wear, congestion, and improve public health.
+
+After selecting  an operator and sponsor, the Citi Bike bike share  was established with a bike fleet distributed over a network of docking stations throughout the city. The bike share allows customers to unlock a bike at one station and return it at any other empty dock. 
+
+# The Challenge
+
+As Citi Bike expands to meet demand, more users add stress to the network. Worse, they struggle to keep all stations balanced — having bikes and empty docks — even after using advance data analysis, moving bikes using trucks, and by giving riders incentives ("bike angels") for redistributing bikes.
+
+> At Citi Bike ... we’ve tried to be innovative in how we meet this challenge. — *Dani Simons, CitiBike Spokeswoman*.
+
+# How can we identify causes, relationships
+
+In beginning to study the issue of rebalancing, we should ask questions that identify events and user behaviors: What events may be correlated with or cause empty or full bike docking stations? What potential user behaviors or preferences may lead to these events? From what analogous things could we draw comparisons to provide context?
+
+Then, we ask questions about measurements of those events and behaviors: How may these events and behaviors have been measured and recorded? What data are available? Where? What form? May these data be sufficient to find insights through analysis, useful for decisions and goals?
+
+# One approach for this analysis
+
+One approach may be to explore the availability of bikes and docking spots as depending on users' patterns and behaviors, events and locations at particular times, other forms of transportation, and on weather.
+
+# Identified data of measurements
+
+The following data are readily available to begin an analysis. 
+
+## CitiBike ride data
+
+Data are recorded for each bike unlocked and docked, along with remaining dock capacities at the locations, dates, and times of each event: [https://www.citibikenyc.com/system-data](https://www.citibikenyc.com/system-data).
+
+## Alternative transportation data
+
+Taxi pickup and drop-off locations and times: [http://www.nyc.gov/html/tlc/html/about/trip_record_data.shtml](http://www.nyc.gov/html/tlc/html/about/trip_record_data.shtml).
+
+Subway lines entrance locations: [https://data.cityofnewyork.us/Transportation/Subway-Stations/arq3-7z49](https://data.cityofnewyork.us/Transportation/Subway-Stations/arq3-7z49). 
+
+## Weather information
+
+Historical weather: [https://darksky.net/dev](https://darksky.net/dev).
+
+## Traffic information
+
+Traffic data and more: [http://www.nyc.gov/html/dot/html/about/datafeeds.shtml#realtime](http://www.nyc.gov/html/dot/html/about/datafeeds.shtml#realtime). 
+
+# Beginning data exploration — daily bike usage
+
+Let's begin by looking at January 2019 data, and at how bike usage tends to vary by time of day. It's perhaps obvious that usage is highest for commuters heading to and from work.
+
+```{r workflow, echo=FALSE, fig.cap="January 2019 average daily CitiBike rides per minute in NYC."}
+knitr::include_graphics("avg_daily_rides.pdf")
+```
+
+What is remarkable is the observed magnitude of change from average (**black circle**) ride rates that exist throughout the day, which reflects this rebalancing problem. Minutes in only **<span style="color:#91bfdb">light blue</span>** show when 50 percent of the ride rates exist. Minutes that include **<span style="color:#4575b4">dark blue</span>** show when the highest (outside **black circle**) or lowest (inside **black circle**) rate of rides happen. Finally, the remaining minutes with medium blue show when the rest of the rates of rides occur.
+
+We'll continue exploring the data in a later post.

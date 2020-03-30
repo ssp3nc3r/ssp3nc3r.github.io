@@ -1,0 +1,549 @@
+---
+title: 'Visual exploration of starting pitcher duration'
+author: Scott Spencer
+date: '2018-05-09'
+slug: visual-exploration-of-starting-pitcher-duration
+categories: []
+tags:
+  - Baseball
+  - Data Visualization
+  - Pitchers
+  - Survival
+  - TTOP
+description: 'Managers do not generally pull starting pitchers to avoid the debated "times through the order penalty," as shown using a simple survival model. A sketch of other factors are briefly explored.'
+draft: no
+disable_comments: yes
+output:
+  blogdown::html_page:
+    toc: true
+    dev: "svg"
+bibliography: ["starting_pitcher.bib"] 
+biblio-style: "apalike"
+link-citations: true
+linkcolor: black
+urlcolor: MidnightBlue
+---
+
+
+
+```{r setup, include=FALSE}
+require(knitr); require(kableExtra); require(dplyr)
+opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE, cache = F, eval=T)
+skimr::skim_with(numeric = list(hist = NULL, n = NULL), 
+                 integer = list(hist = NULL, n = NULL), 
+                 factor = list(n = NULL, ordered = NULL))
+```
+
+------  
+
+# Introduction
+
+This analysis explores major league baseball decisions of when starting pitchers are removed from the game. Baseball, among other wonderful things, is a collection of discrete events measured in time. Fans and analysts alike debate, for example, how long a starting pitcher should remain in a game. More so do managers. In game seven of the 2017 World Series, we witnessed then Los Angeles Dodgers pitcher Yu Darvish removed from the game in less than two innings. On rare occasions, however, starting pitchers complete an entire game. This occurred 59 times during the 2017 MLB regular season. Between these extremes, of course, we find most pitchers.
+
+There is ongoing debate among baseball writers of a so-called times-through-the-order penalty (TTOP): *i.e.*, that familiarity gained from repeated atbats against a particular pitcher give batters an advantage in the matchup. [@Lichtman:2013ws], [@Carleton:2016uw], [@Lichtman:2016wh]. Are managers acting on such ideas? If so, we may find evidence of this when modeling.
+
+Discrete *time-to-event* and *censored*-event models have been applied to a variety of fields [@Tutz:2016uo] but studied less thoroughly in baseball. These models provide an appropriate starting point in describing starting pitcher duration. We aim to contribute to the applied statistical research by describing Bayesian models of starting pitcher duration as measured by the number of batters faced in each game, accounting for the now uncommon but remarkable feat of completing a game (called *right-censored* because we cannot know how many more batters they would have faced). We build up the models, beginning with the event of removal regressed on only the number of at-bats partially-pooling by pitcher. After comparing the model to a *life table*, we add factors believed to contribute to removal, including pitching performance measured in runs allowed and home runs accumulated, whether the next batter has a so-called platoon advantage, and so forth. We'll code the models using R and Stan.
+
+Data for this research is available publicly from MLB Advanced Media, and accessible from R using the package and function `pitchRx::scrape()`. For this analysis we focus on the 2017 regular season.
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+require(RMySQL)
+conn <- dbConnect(MySQL(),
+                  user = 'root',
+                  password = 'root',
+                  dbname = 'baseball')
+
+query <- paste0("SELECT gameday_link FROM game WHERE (gameday_link ", 
+                "like '%2017%' AND game_type = 'R' AND ",
+                "status IN ('Final', 'Completed Early'))")
+
+games <- dbGetQuery(conn, query)
+games <- paste("'gid_", unlist(games), "'", sep = "", collapse = ", ")
+
+atbat <- dbGetQuery(conn, 
+                    paste("SELECT gameday_link, `key`, inning, inning_side,", 
+                          " pitcher, pitcher_name, p_throws, batter,",
+                          " batter_name, stand, b_height, num, event_num, event,",
+                          " b, s, o, home_team_runs, away_team_runs FROM atbat",
+                          " WHERE gameday_link IN (", games, ")"))
+
+umpires <- dbGetQuery(conn, 
+                    paste("SELECT * FROM umpire",
+                          " WHERE gameday_link IN (", games, ")"))
+
+umpires <- umpires %>% 
+  filter(position == 'home') %>% 
+  select(name, id, gameday_link) %>% 
+  rename(umpire = id, ump_name = name) %>%
+  mutate(umpire = as.factor(umpire))
+
+dbDisconnect(conn)
+require(dplyr)
+atbat <- mutate(atbat,
+                key = as.integer(key),
+                inning = factor(inning),
+                inning_side = factor(inning_side, 
+                                     levels = c('top', 'bottom'), 
+                                     ordered = T),
+                pitcher = factor(pitcher),
+                p_throws = factor(p_throws),
+                batter = factor(batter),
+                stand = factor(stand),
+                num = as.integer(num),
+                event_num = as.integer(event_num),
+                event = factor(event),
+                b = as.integer(b),
+                s = as.integer(s),
+                o = as.integer(o),
+                home_team_runs = as.integer(home_team_runs),
+                away_team_runs = as.integer(away_team_runs),
+                pitching_team = ifelse(inning_side == 'top', 
+                                       substr(gameday_link, 23, 25), 
+                                       substr(gameday_link, 16, 18)))
+
+atbat <- filter(atbat, b <= 4)
+atbat <- unique(atbat)
+```
+
+With the data from MLBAM, we sequentially number the batters faced within a game for each pitcher, add flags identifying whether the pitcher started the game, whether the pitcher remained in the game to face the next batter (survived), and whether he completed the game (censored). Further, we create variables for exploration, including accumulated runs allowed, accumulated home runs, accumulated baserunners, and whether the next batter is platoon-advantaged.
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+# on base events
+onbase <- c('Double', 'Single', 'Walk', 'Home Run', 'Triple', 'Hit By Pitch', 'Intent Walk')
+
+# sequentially number at bats for each pitcher, add indicators for 
+# starting pitcher, survived to next batter, and censored
+
+atbat <- 
+  atbat %>% 
+  arrange(gameday_link, event_num) %>%
+
+  # sequence of batters for each pitcher
+  group_by(gameday_link, pitcher) %>%
+  mutate(num_atbat = 1:n()) %>%
+
+  # group data by game-team
+  group_by(gameday_link, inning_side) %>%
+  
+  # drop any games where data not available for start of game
+  mutate(has_beginning = ifelse(first(inning) == 1, TRUE, FALSE)) %>%
+  filter(has_beginning == TRUE) %>% select(-has_beginning) %>%
+  
+  # identify starting pitchers and whether survive to face next batter
+  mutate(start_pitcher = ifelse(pitcher == first(pitcher), TRUE, FALSE)) %>%
+  mutate(survived = ifelse(lead(start_pitcher), TRUE, FALSE)) %>% 
+  
+  # identify whether last pitch thrown for team (complete game if starting pitcher)
+  mutate(censored = ifelse(row_number() == n(), TRUE, FALSE)) %>% 
+  
+  # add performance/strategy variables we want to explore
+  # runs allowed up to that pitch
+  mutate(runs_allowed = ifelse(inning_side == 'top',
+                               away_team_runs - first(away_team_runs),
+                               home_team_runs - first(home_team_runs)) ) %>%
+  
+  # next batter platoon-advantaged
+  mutate(nb_opposite_hands = ifelse( p_throws != lead(stand), TRUE, FALSE ) ) %>% 
+  mutate(nb_opposite_hands = ifelse( is.na(nb_opposite_hands), 
+                                     FALSE, nb_opposite_hands) ) %>%
+  
+  # accumulative home runs
+  mutate(cumHR = cumsum(event == 'Home Run')) %>%
+  
+  # accumulative baserunners
+  mutate(cumOnbase = cumsum(event %in% onbase)) %>%
+  
+  # outs at end of at bat 
+  mutate(o = as.factor(o)) %>%
+
+  # clean up
+  ungroup() %>%
+  mutate(Period = paste0("[", formatC(num_atbat, width = 2, flag = '0'), 
+                         ",", formatC(num_atbat + 1, width = 2, flag = '0'), ")")) 
+```
+
+The transformed and cleaned data are described in [Appendix A](#App-A).
+
+```{r, echo=FALSE}
+vars <- skimr::skim_to_list(atbat) 
+```
+
+# Exploring influence of times-through-the-order on manager decisions
+
+## Describing survival with a life table
+
+From the above information, we calculate the hazards (rates of not surviving) as 
+$$\lambda(t|\boldsymbol{x}_t) = P(T=t | T \geq t, \boldsymbol{x}_t) \textrm{, where } t = 1, 2, \dots$$
+
+and the chances of survival are,
+
+$$S(t) = P(T>t) = \prod_{s=1}^{t}{(1 - \lambda_{s})}$$
+
+where period $t$ is measured as each batter faced. 
+
+```{r}
+life_table <- 
+  atbat %>%
+  filter(start_pitcher == TRUE) %>%
+  arrange(num_atbat) %>%                      # time periods
+  group_by(Period) %>%
+  summarise(N = n(),                          # count of observed at each time period
+            d = sum(!survived, na.rm = TRUE), # count of events at time period
+            w = sum(censored)) %>%            # count of censored at time period
+  ungroup() %>%
+  mutate(Period = factor(Period, levels = unique(Period), ordered = T)) %>%
+  mutate(lambda = d / (N - w / 2)) %>%                                # hazard function
+  mutate(se_lambda = sqrt(lambda * (1 - lambda) / N)) %>%             # s.e. lambda(t)
+  mutate(S = cumprod(1 - lambda)) %>%                                 # survival function
+  mutate(se_S = S * sqrt(cumsum(lambda / (N * (1 - lambda)))) )       # s.e. S(t)
+```
+
+The results are in Figure \@ref(fig:lifetable), which show the chance of survival in blue and the conditional hazard in gray, both including standard errors on the calculations.
+
+```{r lifetable, echo=FALSE, fig.height=3, fig.width=8, fig.align='center', fig.cap='Probabilities of hazard (gray) and survival (blue)'}
+
+require(ggplot2); require(ggthemes)
+ggplot() + 
+  geom_point(data = life_table, mapping = aes(x = lambda, y = Period), color = '#CCCCCC') +
+  geom_segment(data = life_table, 
+               mapping = aes(x = lambda - se_lambda, xend = lambda + se_lambda, 
+                             y = Period, yend = Period), color = 'black', size = .2) +
+  geom_point(data = life_table, mapping = aes(x = S, y = Period), color = '#9BDDFF') +
+  geom_segment(data = life_table, 
+               mapping = aes(x = S - se_S, xend = S + se_S, 
+                             y = Period, yend = Period), color = 'black', size = .2) +
+  coord_flip() +
+  theme_tufte(base_family = 'sans', base_size = 9) +
+  theme(panel.grid = element_blank(),
+        panel.grid.major.x = element_line(color = 'gray90')) +
+  scale_y_discrete(breaks = c('[01,02)', '[09,10)', '[18,19)', '[27,28)', '[36,37)')) + 
+  labs(x = 'Probabiliity', y = 'Batters faced') 
+
+```
+
+The transition for each time through the lineup is marked for reference. Unsurprisingly, we find a nonlinear relationship between batters faced and the chance of facing the next batter. Probabilities are high that pitchers face batters twice through the line up. The largest single increase in conditional hazard coincides with *finishing* three complete lineups. But well short of pitching through three lineups, the average chance of pitchers remaining is less than 50 percent. We estimate the median number of batters a pitcher faces in a game as,
+
+$$
+\textrm{Estimated median batters faced} = m + \left[ \frac{\hat{s}(t_m) - 0.5}{\hat{s}(t_m) - \hat{s}(t_{m+1})}  \right] ((m+1)-m)
+$$
+
+```{r, echo=FALSE}
+m <- life_table$S - .5 >= 0
+m <- which(!m == lead(m))
+mbf <- m + ( life_table[m,'S'] - 0.5 ) / (life_table[m,'S'] - life_table[m+1,'S'])
+```
+
+During the 2017 regular seasosn, the median number of batters faced was `r round(mbf, 1)`, well short of three times through the lineup but --- interestingly --- we see little evidence here that managers prevent the better batters faced from getting three looks at their starting pitcher. The standard error on these average probabilities are relatively small until surviving pitchers start the fourth time through the lineup. 
+
+Another interesting observation, the probability of being pulled drops as surviving pitchers progress through the fourth lineup, though we become less certain with each new batter faced. Perhaps goals shift, and managers leave the pitcher in to allow them to finish the game. The focus to this point has been on the average pitcher survival rates. Let's turn to modeling.
+
+## Modeling survival with conditional logistic regression
+
+Regular regression is inappropriate here as pitchers are pulled from a game against one specific batter (or not at all if they complete the game) conditional on not being pulled from the game beforehand. Conditional logistic regression models are a better starting choice. And we can begin by just regressing the odds of survival on the number of batters faced. We'll do this using Stan's Bayesian modeling engine, stratifying the data by game and pitcher. 
+
+```{r}
+atbat1 <- 
+  atbat %>% 
+  
+  # create stratum and arrange
+  mutate(stratum = paste0(gameday_link, pitcher)) %>% 
+  mutate(stratum = as.factor(stratum)) %>%
+  arrange(stratum) %>% 
+  
+  # remove censored games
+  group_by(stratum) %>%
+  filter(start_pitcher == TRUE) %>%
+  mutate(completegame = max(censored) ) %>% 
+  filter(completegame == 0) %>% ungroup() %>%
+  
+  # change Period/num_atbat (batter faced) to ordered factor
+  mutate(Period = factor(Period, levels = unique(Period), ordered = T),
+         num_atbat = factor(num_atbat, levels = unique(num_atbat), ordered = T))
+```
+
+The first model ignores censored observations (*i.e.*, complete games) and is coded to estimate parameters with Stan's probabilistic modeling engine.
+
+```{r}
+require(rstanarm)
+fit_clogit1 <- 
+  stan_clogit(!survived ~ -1 + Period,
+              data = atbat1,
+              strata = stratum,
+              prior = normal(0, 0.2),
+              iter = 1000,
+              cores = parallel::detectCores(),
+              control = list(max_treedepth = 9),
+              adapt_delta = .8,
+              chains = 4)
+```
+
+Among possible priors, we kept it simple and chose `normal(0, 0.2)` for the coefficients to provide regularization. Model diagnostics look good. Using pareto smoothed importance sampling for leave-one-out approximation, we find that none of the observed stratum exhibit undue influence over the fit (below 0.5 is generally good), shown in Figure \@ref(fig:loo1).
+
+```{r loo1, echo=FALSE, dev='png', fig.width=4, fig.height=2, fig.align='center', fig.cap='PSIS diagnostic plot'}
+loo_clogit1 <- loo(fit_clogit1, cores = parallel::detectCores() )
+ggplot(data.frame(Stratum = seq_along(loo_clogit1$diagnostics$pareto_k),
+                  Pareto_K = loo_clogit1$diagnostics$pareto_k)) +
+  geom_point(aes(Stratum, Pareto_K), size = .2, color = '#AAAAAA') +
+  theme_tufte(base_family = 'sans', base_size = 9) +
+  labs(x = 'Observed Stratum', y = 'Pareto K') 
+```
+
+Similarly, the $\hat{r}$ values and $\widehat{\textrm{neff}}$ sample sizes show no signs of problem. Transforming the coefficients with an inverse logit, their range of probabilities of pitchers being pulled with each batter faced is shown in Figure \@ref(fig:clogit1).
+
+```{r clogit1, echo=FALSE, dev='png', fig.height=3, fig.width=8, fig.align='center', fig.cap='Fit clogit 1 model, inverse logit of coefficients'}
+require(reshape2)
+df <- as.data.frame(fit_clogit1) %>% melt %>% 
+  mutate(variable = gsub('Period', '', variable), 
+         value = exp(value) / (1 + exp(value)) )
+
+ggplot() + 
+  geom_point(data = filter(df, variable != '[18,19)'), aes(variable, value), 
+             alpha = .01, size = .7, color = '#CCCCCC') +
+  geom_point(data = filter(df, variable == '[18,19)'), aes(variable, value), 
+             alpha = .1, size = .5, alpha = .01, color = '#76c5ef') +
+  theme_tufte(base_family = 'sans', base_size = 9) +
+  theme(panel.grid = element_blank(),
+        panel.grid.major.x = element_line(color = 'gray90')) +
+  scale_x_discrete(breaks = c('[01,02)', '[09,10)', '[18,19)', '[27,28)', '[36,37)')) + 
+  labs(x = 'Batters faced', y = 'Hazard probabilities') 
+```
+
+More nuance in these priors would likely lead to a better fit. Their influence can be seen in the difference between conditional probabilities of the life table with those modeled. The general nonlinear increase in the probability that managers replace the starting pitcher before the next pitch is expected. And the late game decrease in both probability and certainty of being replaced conditional on lasting to late innings is consistent with a shift in goals that allows the pitcher to earn a *complete game*. 
+
+The small bump in probability shown blue in Figure \@ref(fig:clogit1), barely noticable with the life table in Figure \@ref(fig:lifetable), is still only the slightest of evidence that managers ever heed any times-through-the-order penalty (TTOP). Because, if it is familiarity to avoid, better avoid it against the best opposing batters. Other considerations seem more important.
+
+# Exploring game states (context) on pitcher survival
+
+Game state up to each at bat should provide important context. These information may include runs accumulated, baserunners accumulated, identity of the next batter and whether he commands a platoon advantage, pitches accumulated, outs in the half-inning, and changes in pitching effectiveness (*e.g.*, a moving average of balls plus contact). We start by exploring accumulated runs allowed (Darvish, World Series). 
+
+## Runs accumulated
+
+In Figure \@ref(fig:runsallowed1), boxplots of statistics on runs allowed for pitchers *who survived* each at bat overlay a bar chart of the relative number of remaining starting pitchers --- 4801 started the first atbat, just 2 remained by the thirty-sixth.
+
+```{r runsallowed1, echo=FALSE, fig.height=3, fig.width=8, fig.align='center', fig.cap='Accumulated runs allowed by starting pitchers surviving at each at bat'}
+num_starting <- filter(atbat1, Period == '[01,02)') %>% nrow
+ggplot() +
+  geom_bar(data = atbat1, 
+           mapping = aes(x = Period, y = ..count../max(..count..) * 12), 
+           fill = '#ebf8ff', alpha = 0.7) +
+  geom_tufteboxplot(data = filter(atbat1, survived == TRUE), 
+                    mapping = aes(x = Period, y = runs_allowed), 
+                    median.type = 'line', width = 4, color = '#AAAAAA',
+                    whisker.type = 'line', hoffset = 0) +
+  annotate('text', x = 2, y = 11, label = paste(' ', num_starting, 'starts by pitchers', collapse = ''), hjust = 0, size = 3) +
+  annotate('segment', x = 2, y = 11, xend = 1, yend = 12, lwd = 0.3, size = .5, arrow = arrow(length = unit(0.2, "cm"))) +
+  theme_tufte(base_family = 'sans', base_size = 9) +
+  theme(panel.grid = element_blank(),
+        panel.grid.major.x = element_line(color = 'gray90'),
+        axis.text.y.right = element_text(color = '#84bddb')) +
+  scale_x_discrete(breaks = c('[01,02)', '[09,10)', '[18,19)', '[27,28)', '[36,37)')) + 
+  scale_y_continuous(breaks = seq(0, 12, by = 2),
+                     sec.axis = sec_axis(~. / max(.) * 5000)) +
+  labs(x = 'Batters faced', y = 'Accumulated runs allowed') 
+```
+
+In comparison, Figure \@ref(fig:runsallowednotsurvived1) shows boxplots of statistics on runs allowed for pitchers *who were taken out* at each at bat. 
+
+```{r runsallowednotsurvived1, echo=FALSE, fig.height=3, fig.width=8, fig.align='center', fig.cap='Accumulated runs allowed by starting pitchers taken out at each at bat'}
+ggplot() +
+  geom_bar(data = atbat1, 
+           mapping = aes(x = Period, y = ..count../ max(..count..) * 12), 
+           fill = '#ebf8ff', alpha = 0.7) +
+  geom_tufteboxplot(data = filter(atbat1, survived == FALSE), 
+                    mapping = aes(x = Period, y = runs_allowed),
+                    median.type = 'line', width = 4, color = '#AAAAAA',
+                    whisker.type = 'line', hoffset = 0) +
+  annotate('text', x = 2, y = 11, label = paste(' ', num_starting, 'starts by pitchers', collapse = ''), hjust = 0, size = 3) +
+  annotate('segment', x = 2, y = 11, xend = 1, yend = 12, lwd = 0.3, size = .5, arrow = arrow(length = unit(0.2, "cm"))) +
+  theme_tufte(base_family = 'sans', base_size = 9) +
+  theme(panel.grid = element_blank(),
+        panel.grid.major.x = element_line(color = 'gray90'),
+        axis.text.y.right = element_text(color = '#84bddb')) +
+  scale_x_discrete(breaks = c('[01,02)', '[09,10)', '[18,19)', '[27,28)', '[36,37)')) + 
+  scale_y_continuous(breaks = seq(0, 12, by = 2),
+                     sec.axis = sec_axis(~. / max(.) * 5000)) +
+  labs(x = 'Batters faced', y = 'Accumulated runs allowed') 
+```
+
+Runs allowed by those surviving seem to differ from those taken out. Early in the game --- *e.g.*, the first five batters faced --- few pitchers are taken out. As such it is difficult to compare. As the game progresses, the mean and interquartile range of pitchers taken out at each at bat in these data are generally higher than those of pitchers surviving during the first and second times through the batting order. Pitchers removed in late at bats have shared survival with those few who still remain until that point, and appear less distinguishable by runs allowed.
+
+## Baserunners accumulated
+
+As with accumulated runs allowed, we explore baserunners accumulated by starting pitchers. We count a baserunner for the events: `Double`, `Single`, `Walk`, `Home Run`, `Triple`, `Hit By Pitch`, and `Intent Walk`. In Figure \@ref(fig:baserunners1), boxplots of statistics on baserunners accumulated for pitchers *who survived* each at bat overlay the bar chart of remaining starting pitchers.
+
+```{r baserunners1, echo=FALSE, fig.height=3, fig.width=8, fig.align='center', fig.cap='Baserunners accumulated by starting pitchers surviving at each at bat'}
+ggplot() +
+  geom_bar(data = atbat1, 
+           mapping = aes(x = Period, y = ..count../max(..count..) * 16), 
+           fill = '#ebf8ff', alpha = 0.7) +
+  geom_tufteboxplot(data = filter(atbat1, survived == TRUE), 
+                    mapping = aes(x = Period, y = cumOnbase), 
+                    median.type = 'line', width = 4, color = '#AAAAAA',
+                    whisker.type = 'line', hoffset = 0) +
+  annotate('text', x = 2, y = 15, label = paste(' ', num_starting, 'starts by pitchers', collapse = ''), hjust = 0, size = 3) +
+  annotate('segment', x = 2, y = 15, xend = 1, yend = 16, lwd = 0.3, size = .5, arrow = arrow(length = unit(0.2, "cm"))) +
+  theme_tufte(base_family = 'sans', base_size = 9) +
+  theme(panel.grid = element_blank(),
+        panel.grid.major.x = element_line(color = 'gray90'),
+        axis.text.y.right = element_text(color = '#84bddb')) +
+  scale_x_discrete(breaks = c('[01,02)', '[09,10)', '[18,19)', '[27,28)', '[36,37)')) + 
+  scale_y_continuous(breaks = seq(0, 16, by = 2),
+                     sec.axis = sec_axis(~. / max(.) * 5000)) +
+  labs(x = 'Batters faced', y = 'Baserunners accumulated') 
+```
+
+In comparison, Figure \@ref(fig:baserunnersnotsurvived1) shows boxplots of statistics on baserunners accumulated for pitchers *who were taken out* at each at bat. 
+
+```{r baserunnersnotsurvived1, echo=FALSE, fig.height=3, fig.width=8, fig.align='center', fig.cap='Baserunners accumulated by starting pitchers when taken out'}
+ggplot() +
+  geom_bar(data = atbat1, 
+           mapping = aes(x = Period, y = ..count../max(..count..) * 16), 
+           fill = '#ebf8ff', alpha = 0.7) +
+  geom_tufteboxplot(data = filter(atbat1, survived == FALSE), 
+                    mapping = aes(x = Period, y = cumOnbase), 
+                    median.type = 'line', width = 4, color = '#AAAAAA',
+                    whisker.type = 'line', hoffset = 0) +
+  annotate('text', x = 2, y = 15, label = paste(' ', num_starting, 'starts by pitchers', collapse = ''), hjust = 0, size = 3) +
+  annotate('segment', x = 2, y = 15, xend = 1, yend = 16, lwd = 0.3, size = .5, arrow = arrow(length = unit(0.2, "cm"))) +
+  theme_tufte(base_family = 'sans', base_size = 9) +
+  theme(panel.grid = element_blank(),
+        panel.grid.major.x = element_line(color = 'gray90'),
+        axis.text.y.right = element_text(color = '#84bddb')) +
+  scale_x_discrete(breaks = c('[01,02)', '[09,10)', '[18,19)', '[27,28)', '[36,37)')) + 
+  scale_y_continuous(breaks = seq(0, 16, by = 2),
+                     sec.axis = sec_axis(~. / max(.) * 5000)) +
+  labs(x = 'Batters faced', y = 'Baserunners accumulated')
+```
+
+Allowing batters on base is intuitively hazardous for starting pitchers.
+
+## Outs in the half-inning
+
+We anticipate that pitching changes occur --- if possible --- between innings. The relative frequencies of pitchers removed on a given number of outs are shown in Figure \@ref(fig:count1).
+
+```{r count1, echo=FALSE, fig.height=3, fig.width=8, fig.align='center', fig.cap='Outs when pitcher taken out'}
+atbat1 %>% filter(survived == FALSE) %>%
+  group_by(Period) %>% mutate(events = n()) %>% 
+  group_by(Period, o) %>% summarise(Count = n() / first(events)) %>%
+  
+  ggplot() + geom_text(aes(x = Period, y = Count, label = o, color = o), size = 3) +
+  scale_color_manual(values = c('gray75', 'gray75', 'gray75', 'black')) +
+  theme_tufte(base_family = 'sans', base_size = 9) +
+  theme(legend.position = '',
+        panel.grid = element_blank(),
+        panel.grid.major.x = element_line(color = 'gray90')) +
+  scale_x_discrete(breaks = c('[01,02)', '[09,10)', '[18,19)', '[27,28)', '[36,37)')) + 
+  labs(x = 'Batters faced', y = 'Relative frequencies of removal per out') 
+```
+
+While generally consistent with our intuition, these data exhibit more nuance. Pitching changes between innings (after three outs) occur with increasing frequencies as pitchers approach the third time through the batting order, and thereafter decrease only somewhat. This makes sense as earlier in the game, unexpected performance issues may demand swift intervention.
+
+## Platooned matchups
+
+It seems that for reasons similar to the surprising fact that facing lead (better) batters for a third time did not result in higher probability of removal, we anticipate the prospect of facing an opposite-handed batter (platoon advantage) as tipping the scales toward removal. In Figure \@ref(fig:platoon1), the frequencies of starting pitchers taken out before platoon matchups (shown in black) are compared with starting pitchers facing the matchups (shown in gray). Again, these data overlay the bar chart of remaining starting pitchers.
+
+```{r platoon1, echo=FALSE, fig.height=3, fig.width=8, fig.align='center', fig.cap='Percentage of pitchers removed before next-batter platoon'}
+atbat1 %>% 
+  group_by(Period, survived) %>% 
+  summarise(platoon_pct = mean(nb_opposite_hands) ) %>% 
+
+  ggplot() + 
+    geom_bar(data = atbat1, 
+           mapping = aes(x = Period, y = ..count../ max(..count..) ), 
+           fill = '#ebf8ff', alpha = 0.7) +
+  geom_point(aes(x = Period, y = platoon_pct, color = survived ), size = 0.5) +
+  scale_color_manual(values = c('black', 'gray80')) +
+  annotate('text', x = 2, y = .9, label = paste(' ', num_starting, 'starts by pitchers', collapse = ''), hjust = 0, size = 3) +
+  annotate('segment', x = 2, y = .9, xend = 1, yend = 1, lwd = 0.3, size = .5, arrow = arrow(length = unit(0.2, "cm"))) +
+  theme_tufte(base_family = 'sans', base_size = 9) +
+  theme(legend.position = '',
+        panel.grid = element_blank(),
+        panel.grid.major.x = element_line(color = 'gray90'),
+        axis.text.y.right = element_text(color = '#84bddb')) +
+  scale_x_discrete(breaks = c('[01,02)', '[09,10)', '[18,19)', '[27,28)', '[36,37)')) + 
+    scale_y_continuous(breaks = seq(0, 1, by = .2),
+                     sec.axis = sec_axis(~. / max(.) * 5000)) +
+  labs(x = 'Batters faced', y = 'Percent of next-batter platoons') 
+```
+
+When reviewing these statistics, we should consider the underlying sparcity of data representing pitching changes near the beginning and end of games. Of note, these data show a slight declining trend in frequency of platoon matchups within the second and third batting orders, suggesting that some strategy focuses on top-of-the-order changes. To the point at hand, though, if managers are influenced by platooned matchups in removing starting pitchers, its influence is mostly inseparable from interactions with other variables. 
+
+## Pitch count
+
+The number of pitches thrown before the pitcher is removed tend to have a mean and median near 100, as going deeper into counts is thought to increase injury risk [@Bradbury:2012wc]. Our data so far has been at bat outcomes. In adding data on pitches within each at bat, we'll also include pitch location at the plate and outcome (*e.g.*, ball, strike, foul) for later use in this analysis.
+
+```{r, echo=FALSE}
+conn <- dbConnect(MySQL(),
+                  user = 'root',
+                  password = 'root',
+                  dbname = 'baseball')
+
+pitch_vars <- paste0('gameday_link, inning, inning_side, num, sv_id, count, ',
+                     'px, pz, x0, y0, z0, vx0, vy0, vz0, ax, ay, az, des, sz_top, sz_bot', 
+                     collapse = '')
+pitch <- dbGetQuery(conn, 
+                    paste("SELECT gameday_link", pitch_vars, " FROM pitch",
+                          " WHERE gameday_link IN (", games, ")"))
+pitch <- mutate(pitch, 
+                inning = factor(inning, 
+                                levels = unique(pitch$inning), 
+                                ordered = T),
+                inning_side = factor(inning_side, 
+                                     levels = c('top', 'bottom'), 
+                                     ordered = T),
+                sz_top = sz_top * 12,
+                sz_bot = sz_bot * 12) %>%
+  mutate(sz_top_avg = mean(sz_top),
+         sz_bot_avg = mean(sz_bot)) %>%
+  mutate(px = px * 12,      
+         pz = pz * 12 - mean(sz_top_avg + sz_bot_avg) )
+
+# clean up and combine with atbat
+pitch <- pitch %>% filter( !is.na(sv_id), !(des == 'Automatic Ball') )
+pitch <- inner_join(atbat1, pitch, by = c('gameday_link', 'inning', 'inning_side', 'num'))
+# dbDisconnect(conn)
+```
+
+In these data, the distribution of pitch counts before removal is shown in Figure \@ref(fig:pitchcount1).
+
+```{r pitchcount1, echo=FALSE, fig.width=4, fig.height=2, fig.align='center', fig.cap='Distribution of total pitch counts when starter removed'}
+pitch %>%
+  group_by( gameday_link, inning_side ) %>%
+  arrange( key, sv_id ) %>% 
+  summarise(count = n()) %>%
+  ggplot() + geom_histogram(aes(x = count), color = '#FFFFFF', fill = '#DDDDDD', binwidth = 5) +
+  theme_tufte(base_family = 'sans', base_size = 9) + 
+  labs(x = 'Pitches thrown', y = 'Number of pitchers removed') +
+  scale_x_continuous(breaks = seq(0, 130, by = 10))
+```
+
+Our admittedly incomplete sketch of within-game survival rates of starting pitchers suggests that managers do not typically pull pitchers to avoid the debatable existence of a times through the order penalty due to batter familiarity. Instaed, these basic visual sketches suggest that the given contextual performance matters. 
+
+# Further work
+
+In further work, we model pitching performance as a function of our own flavor of pitching command and review trends in such performance as games progress.
+
+# (APPENDIX) Appendix {-}
+
+# Variables as cleaned for these analyses {#App-A}
+
+Definitions of the variables created by MLBAM are available at [@Fast:2007uo].
+
+```{r chars, echo=FALSE}
+kable( vars$character, caption = 'Character Variables', booktabs = T ) 
+```
+
+```{r factors, echo=FALSE}
+kable( vars$factor, caption = 'Factor Variables', booktabs = T ) 
+```
+
+```{r logicals, echo=FALSE}
+kable( vars$logical, caption = 'Logical Variables', booktabs = T ) 
+```
+
+```{r integers, echo=FALSE}
+kable( vars$integer, caption = 'Integer Variables', booktabs = T ) 
+```
+
+# References {-}
+

@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Scott Spencer">
+<meta name="description" content="Introduction Exploring influence of times-through-the-order on manager decisions Describing survival with a life table Modeling survival with conditional logistic regression  Exploring game states (context) on pitcher survival Runs accumulated Baserunners accumulated Outs in the half-inning Platooned matchups Pitch count  Further work Appendix Variables as cleaned for these analyses References   Introduction This analysis explores major league baseball decisions of when starting pitchers are removed from the game." />
+<meta name="keywords" content=", Baseball, Data Visualization, Pitchers, Survival, TTOP" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="/post/visual-exploration-of-starting-pitcher-duration/" />
+
+
+    <title>
+        
+            Visual exploration of starting pitcher duration :: p( ssp3nc3r | Columbian )  — Hello Friend NG Theme
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.min.84ed5579024525d4b50458514d1a43e40dd5272df45c7cd6da85b225af457154.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+<meta itemprop="name" content="Visual exploration of starting pitcher duration">
+<meta itemprop="description" content="Managers do not generally pull starting pitchers to avoid the debated &#34;times through the order penalty,&#34; as shown using a simple survival model. A sketch of other factors are briefly explored.">
+<meta itemprop="datePublished" content="2018-05-09T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2018-05-09T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="2404">
+<meta itemprop="image" content="/"/>
+
+
+
+<meta itemprop="keywords" content="Baseball,Data Visualization,Pitchers,Survival,TTOP," /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="/"/>
+
+<meta name="twitter:title" content="Visual exploration of starting pitcher duration"/>
+<meta name="twitter:description" content="Managers do not generally pull starting pitchers to avoid the debated &#34;times through the order penalty,&#34; as shown using a simple survival model. A sketch of other factors are briefly explored."/>
+
+
+
+
+
+    <meta property="article:published_time" content="2018-05-09 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/about/">About</a></li><li><a href="/post/">Posts</a></li><li><a href="/publications/">Publications</a></li><li><a href="/teaching/">Teaching</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="/post/visual-exploration-of-starting-pitcher-duration/">Visual exploration of starting pitcher duration</a></h2>
+
+            
+
+            <div class="post-content">
+                
+
+<div id="TOC">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#exploring-influence-of-times-through-the-order-on-manager-decisions">Exploring influence of times-through-the-order on manager decisions</a><ul>
+<li><a href="#describing-survival-with-a-life-table">Describing survival with a life table</a></li>
+<li><a href="#modeling-survival-with-conditional-logistic-regression">Modeling survival with conditional logistic regression</a></li>
+</ul></li>
+<li><a href="#exploring-game-states-context-on-pitcher-survival">Exploring game states (context) on pitcher survival</a><ul>
+<li><a href="#runs-accumulated">Runs accumulated</a></li>
+<li><a href="#baserunners-accumulated">Baserunners accumulated</a></li>
+<li><a href="#outs-in-the-half-inning">Outs in the half-inning</a></li>
+<li><a href="#platooned-matchups">Platooned matchups</a></li>
+<li><a href="#pitch-count">Pitch count</a></li>
+</ul></li>
+<li><a href="#further-work">Further work</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li><a href="#App-A">Variables as cleaned for these analyses</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
+
+<hr />
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>This analysis explores major league baseball decisions of when starting pitchers are removed from the game. Baseball, among other wonderful things, is a collection of discrete events measured in time. Fans and analysts alike debate, for example, how long a starting pitcher should remain in a game. More so do managers. In game seven of the 2017 World Series, we witnessed then Los Angeles Dodgers pitcher Yu Darvish removed from the game in less than two innings. On rare occasions, however, starting pitchers complete an entire game. This occurred 59 times during the 2017 MLB regular season. Between these extremes, of course, we find most pitchers.</p>
+<p>There is ongoing debate among baseball writers of a so-called times-through-the-order penalty (TTOP): <em>i.e.</em>, that familiarity gained from repeated atbats against a particular pitcher give batters an advantage in the matchup. <span class="citation">(Lichtman <a href="#ref-Lichtman:2013ws">2013</a>)</span>, <span class="citation">(Carleton <a href="#ref-Carleton:2016uw">2016</a>)</span>, <span class="citation">(Lichtman <a href="#ref-Lichtman:2016wh">2016</a>)</span>. Are managers acting on such ideas? If so, we may find evidence of this when modeling.</p>
+<p>Discrete <em>time-to-event</em> and <em>censored</em>-event models have been applied to a variety of fields <span class="citation">(Tutz and Schmid <a href="#ref-Tutz:2016uo">2016</a>)</span> but studied less thoroughly in baseball. These models provide an appropriate starting point in describing starting pitcher duration. We aim to contribute to the applied statistical research by describing Bayesian models of starting pitcher duration as measured by the number of batters faced in each game, accounting for the now uncommon but remarkable feat of completing a game (called <em>right-censored</em> because we cannot know how many more batters they would have faced). We build up the models, beginning with the event of removal regressed on only the number of at-bats partially-pooling by pitcher. After comparing the model to a <em>life table</em>, we add factors believed to contribute to removal, including pitching performance measured in runs allowed and home runs accumulated, whether the next batter has a so-called platoon advantage, and so forth. We’ll code the models using R and Stan.</p>
+<p>Data for this research is available publicly from MLB Advanced Media, and accessible from R using the package and function <code>pitchRx::scrape()</code>. For this analysis we focus on the 2017 regular season.</p>
+<p>With the data from MLBAM, we sequentially number the batters faced within a game for each pitcher, add flags identifying whether the pitcher started the game, whether the pitcher remained in the game to face the next batter (survived), and whether he completed the game (censored). Further, we create variables for exploration, including accumulated runs allowed, accumulated home runs, accumulated baserunners, and whether the next batter is platoon-advantaged.</p>
+<p>The transformed and cleaned data are described in <a href="#App-A">Appendix A</a>.</p>
+</div>
+<div id="exploring-influence-of-times-through-the-order-on-manager-decisions" class="section level1">
+<h1>Exploring influence of times-through-the-order on manager decisions</h1>
+<div id="describing-survival-with-a-life-table" class="section level2">
+<h2>Describing survival with a life table</h2>
+<p>From the above information, we calculate the hazards (rates of not surviving) as <span class="math display">\[\lambda(t|\boldsymbol{x}_t) = P(T=t | T \geq t, \boldsymbol{x}_t) \textrm{, where } t = 1, 2, \dots\]</span></p>
+<p>and the chances of survival are,</p>
+<p><span class="math display">\[S(t) = P(T&gt;t) = \prod_{s=1}^{t}{(1 - \lambda_{s})}\]</span></p>
+<p>where period <span class="math inline">\(t\)</span> is measured as each batter faced.</p>
+<p>The results are in Figure <a href="#fig:lifetable">1</a>, which show the chance of survival in blue and the conditional hazard in gray, both including standard errors on the calculations.</p>
+<div class="figure" style="text-align: center"><span id="fig:lifetable"></span>
+<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/lifetable-1.svg" alt="Probabilities of hazard (gray) and survival (blue)" width="768" />
+<p class="caption">
+Figure 1: Probabilities of hazard (gray) and survival (blue)
+</p>
+</div>
+<p>The transition for each time through the lineup is marked for reference. Unsurprisingly, we find a nonlinear relationship between batters faced and the chance of facing the next batter. Probabilities are high that pitchers face batters twice through the line up. The largest single increase in conditional hazard coincides with <em>finishing</em> three complete lineups. But well short of pitching through three lineups, the average chance of pitchers remaining is less than 50 percent. We estimate the median number of batters a pitcher faces in a game as,</p>
+<p><span class="math display">\[
+\textrm{Estimated median batters faced} = m + \left[ \frac{\hat{s}(t_m) - 0.5}{\hat{s}(t_m) - \hat{s}(t_{m+1})}  \right] ((m+1)-m)
+\]</span></p>
+<p>During the 2017 regular seasosn, the median number of batters faced was 23.7, well short of three times through the lineup but — interestingly — we see little evidence here that managers prevent the better batters faced from getting three looks at their starting pitcher. The standard error on these average probabilities are relatively small until surviving pitchers start the fourth time through the lineup.</p>
+<p>Another interesting observation, the probability of being pulled drops as surviving pitchers progress through the fourth lineup, though we become less certain with each new batter faced. Perhaps goals shift, and managers leave the pitcher in to allow them to finish the game. The focus to this point has been on the average pitcher survival rates. Let’s turn to modeling.</p>
+</div>
+<div id="modeling-survival-with-conditional-logistic-regression" class="section level2">
+<h2>Modeling survival with conditional logistic regression</h2>
+<p>Regular regression is inappropriate here as pitchers are pulled from a game against one specific batter (or not at all if they complete the game) conditional on not being pulled from the game beforehand. Conditional logistic regression models are a better starting choice. And we can begin by just regressing the odds of survival on the number of batters faced. We’ll do this using Stan’s Bayesian modeling engine, stratifying the data by game and pitcher.</p>
+<p>The first model ignores censored observations (<em>i.e.</em>, complete games) and is coded to estimate parameters with Stan’s probabilistic modeling engine.</p>
+<p>Among possible priors, we kept it simple and chose <code>normal(0, 0.2)</code> for the coefficients to provide regularization. Model diagnostics look good. Using pareto smoothed importance sampling for leave-one-out approximation, we find that none of the observed stratum exhibit undue influence over the fit (below 0.5 is generally good), shown in Figure <a href="#fig:loo1">2</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:loo1"></span>
+<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/loo1-1.png" alt="PSIS diagnostic plot" width="384" />
+<p class="caption">
+Figure 2: PSIS diagnostic plot
+</p>
+</div>
+<p>Similarly, the <span class="math inline">\(\hat{r}\)</span> values and <span class="math inline">\(\widehat{\textrm{neff}}\)</span> sample sizes show no signs of problem. Transforming the coefficients with an inverse logit, their range of probabilities of pitchers being pulled with each batter faced is shown in Figure <a href="#fig:clogit1">3</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:clogit1"></span>
+<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/clogit1-1.png" alt="Fit clogit 1 model, inverse logit of coefficients" width="768" />
+<p class="caption">
+Figure 3: Fit clogit 1 model, inverse logit of coefficients
+</p>
+</div>
+<p>More nuance in these priors would likely lead to a better fit. Their influence can be seen in the difference between conditional probabilities of the life table with those modeled. The general nonlinear increase in the probability that managers replace the starting pitcher before the next pitch is expected. And the late game decrease in both probability and certainty of being replaced conditional on lasting to late innings is consistent with a shift in goals that allows the pitcher to earn a <em>complete game</em>.</p>
+<p>The small bump in probability shown blue in Figure <a href="#fig:clogit1">3</a>, barely noticable with the life table in Figure <a href="#fig:lifetable">1</a>, is still only the slightest of evidence that managers ever heed any times-through-the-order penalty (TTOP). Because, if it is familiarity to avoid, better avoid it against the best opposing batters. Other considerations seem more important.</p>
+</div>
+</div>
+<div id="exploring-game-states-context-on-pitcher-survival" class="section level1">
+<h1>Exploring game states (context) on pitcher survival</h1>
+<p>Game state up to each at bat should provide important context. These information may include runs accumulated, baserunners accumulated, identity of the next batter and whether he commands a platoon advantage, pitches accumulated, outs in the half-inning, and changes in pitching effectiveness (<em>e.g.</em>, a moving average of balls plus contact). We start by exploring accumulated runs allowed (Darvish, World Series).</p>
+<div id="runs-accumulated" class="section level2">
+<h2>Runs accumulated</h2>
+<p>In Figure <a href="#fig:runsallowed1">4</a>, boxplots of statistics on runs allowed for pitchers <em>who survived</em> each at bat overlay a bar chart of the relative number of remaining starting pitchers — 4801 started the first atbat, just 2 remained by the thirty-sixth.</p>
+<div class="figure" style="text-align: center"><span id="fig:runsallowed1"></span>
+<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/runsallowed1-1.svg" alt="Accumulated runs allowed by starting pitchers surviving at each at bat" width="768" />
+<p class="caption">
+Figure 4: Accumulated runs allowed by starting pitchers surviving at each at bat
+</p>
+</div>
+<p>In comparison, Figure <a href="#fig:runsallowednotsurvived1">5</a> shows boxplots of statistics on runs allowed for pitchers <em>who were taken out</em> at each at bat.</p>
+<div class="figure" style="text-align: center"><span id="fig:runsallowednotsurvived1"></span>
+<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/runsallowednotsurvived1-1.svg" alt="Accumulated runs allowed by starting pitchers taken out at each at bat" width="768" />
+<p class="caption">
+Figure 5: Accumulated runs allowed by starting pitchers taken out at each at bat
+</p>
+</div>
+<p>Runs allowed by those surviving seem to differ from those taken out. Early in the game — <em>e.g.</em>, the first five batters faced — few pitchers are taken out. As such it is difficult to compare. As the game progresses, the mean and interquartile range of pitchers taken out at each at bat in these data are generally higher than those of pitchers surviving during the first and second times through the batting order. Pitchers removed in late at bats have shared survival with those few who still remain until that point, and appear less distinguishable by runs allowed.</p>
+</div>
+<div id="baserunners-accumulated" class="section level2">
+<h2>Baserunners accumulated</h2>
+<p>As with accumulated runs allowed, we explore baserunners accumulated by starting pitchers. We count a baserunner for the events: <code>Double</code>, <code>Single</code>, <code>Walk</code>, <code>Home Run</code>, <code>Triple</code>, <code>Hit By Pitch</code>, and <code>Intent Walk</code>. In Figure <a href="#fig:baserunners1">6</a>, boxplots of statistics on baserunners accumulated for pitchers <em>who survived</em> each at bat overlay the bar chart of remaining starting pitchers.</p>
+<div class="figure" style="text-align: center"><span id="fig:baserunners1"></span>
+<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/baserunners1-1.svg" alt="Baserunners accumulated by starting pitchers surviving at each at bat" width="768" />
+<p class="caption">
+Figure 6: Baserunners accumulated by starting pitchers surviving at each at bat
+</p>
+</div>
+<p>In comparison, Figure <a href="#fig:baserunnersnotsurvived1">7</a> shows boxplots of statistics on baserunners accumulated for pitchers <em>who were taken out</em> at each at bat.</p>
+<div class="figure" style="text-align: center"><span id="fig:baserunnersnotsurvived1"></span>
+<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/baserunnersnotsurvived1-1.svg" alt="Baserunners accumulated by starting pitchers when taken out" width="768" />
+<p class="caption">
+Figure 7: Baserunners accumulated by starting pitchers when taken out
+</p>
+</div>
+<p>Allowing batters on base is intuitively hazardous for starting pitchers.</p>
+</div>
+<div id="outs-in-the-half-inning" class="section level2">
+<h2>Outs in the half-inning</h2>
+<p>We anticipate that pitching changes occur — if possible — between innings. The relative frequencies of pitchers removed on a given number of outs are shown in Figure <a href="#fig:count1">8</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:count1"></span>
+<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/count1-1.svg" alt="Outs when pitcher taken out" width="768" />
+<p class="caption">
+Figure 8: Outs when pitcher taken out
+</p>
+</div>
+<p>While generally consistent with our intuition, these data exhibit more nuance. Pitching changes between innings (after three outs) occur with increasing frequencies as pitchers approach the third time through the batting order, and thereafter decrease only somewhat. This makes sense as earlier in the game, unexpected performance issues may demand swift intervention.</p>
+</div>
+<div id="platooned-matchups" class="section level2">
+<h2>Platooned matchups</h2>
+<p>It seems that for reasons similar to the surprising fact that facing lead (better) batters for a third time did not result in higher probability of removal, we anticipate the prospect of facing an opposite-handed batter (platoon advantage) as tipping the scales toward removal. In Figure <a href="#fig:platoon1">9</a>, the frequencies of starting pitchers taken out before platoon matchups (shown in black) are compared with starting pitchers facing the matchups (shown in gray). Again, these data overlay the bar chart of remaining starting pitchers.</p>
+<div class="figure" style="text-align: center"><span id="fig:platoon1"></span>
+<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/platoon1-1.svg" alt="Percentage of pitchers removed before next-batter platoon" width="768" />
+<p class="caption">
+Figure 9: Percentage of pitchers removed before next-batter platoon
+</p>
+</div>
+<p>When reviewing these statistics, we should consider the underlying sparcity of data representing pitching changes near the beginning and end of games. Of note, these data show a slight declining trend in frequency of platoon matchups within the second and third batting orders, suggesting that some strategy focuses on top-of-the-order changes. To the point at hand, though, if managers are influenced by platooned matchups in removing starting pitchers, its influence is mostly inseparable from interactions with other variables.</p>
+</div>
+<div id="pitch-count" class="section level2">
+<h2>Pitch count</h2>
+<p>The number of pitches thrown before the pitcher is removed tend to have a mean and median near 100, as going deeper into counts is thought to increase injury risk <span class="citation">(Bradbury and Forman <a href="#ref-Bradbury:2012wc">2012</a>)</span>. Our data so far has been at bat outcomes. In adding data on pitches within each at bat, we’ll also include pitch location at the plate and outcome (<em>e.g.</em>, ball, strike, foul) for later use in this analysis.</p>
+<p>In these data, the distribution of pitch counts before removal is shown in Figure <a href="#fig:pitchcount1">10</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:pitchcount1"></span>
+<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/pitchcount1-1.svg" alt="Distribution of total pitch counts when starter removed" width="384" />
+<p class="caption">
+Figure 10: Distribution of total pitch counts when starter removed
+</p>
+</div>
+<p>Our admittedly incomplete sketch of within-game survival rates of starting pitchers suggests that managers do not typically pull pitchers to avoid the debatable existence of a times through the order penalty due to batter familiarity. Instaed, these basic visual sketches suggest that the given contextual performance matters.</p>
+</div>
+</div>
+<div id="further-work" class="section level1">
+<h1>Further work</h1>
+<p>In further work, we model pitching performance as a function of our own flavor of pitching command and review trends in such performance as games progress.</p>
+</div>
+<div id="appendix-appendix" class="section level1 unnumbered">
+<h1>Appendix</h1>
+</div>
+<div id="App-A" class="section level1">
+<h1>Variables as cleaned for these analyses</h1>
+<p>Definitions of the variables created by MLBAM are available at <span class="citation">(Fast <a href="#ref-Fast:2007uo">2007</a>)</span>.</p>
+<table>
+<caption>
+<span id="tab:chars">Table 1: </span>Character Variables
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+variable
+</th>
+<th style="text-align:left;">
+missing
+</th>
+<th style="text-align:left;">
+complete
+</th>
+<th style="text-align:left;">
+n
+</th>
+<th style="text-align:left;">
+min
+</th>
+<th style="text-align:left;">
+max
+</th>
+<th style="text-align:left;">
+empty
+</th>
+<th style="text-align:left;">
+n_unique
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+b_height
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+16
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+batter_name
+</td>
+<td style="text-align:left;">
+3955
+</td>
+<td style="text-align:left;">
+181736
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+933
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gameday_link
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+2430
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+o
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Period
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+36
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pitcher_name
+</td>
+<td style="text-align:left;">
+3699
+</td>
+<td style="text-align:left;">
+181992
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+736
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pitching_team
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+30
+</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>
+<span id="tab:factors">Table 2: </span>Factor Variables
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+variable
+</th>
+<th style="text-align:left;">
+missing
+</th>
+<th style="text-align:left;">
+complete
+</th>
+<th style="text-align:left;">
+n_unique
+</th>
+<th style="text-align:left;">
+top_counts
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+batter
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+957
+</td>
+<td style="text-align:left;">
+453: 725, 596: 723, 542: 720, 605: 713
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+event
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:left;">
+Str: 39946, Gro: 33161, Sin: 26915, Fly: 19829
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inning
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+19
+</td>
+<td style="text-align:left;">
+4: 21060, 1: 21019, 6: 21007, 5: 20959
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inning_side
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+top: 94591, bot: 91100, NA: 0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p_throws
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+R: 137853, L: 47838, NA: 0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pitcher
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+755
+</td>
+<td style="text-align:left;">
+519: 886, 429: 867, 453: 860, 593: 859
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+stand
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+R: 109531, L: 76160, NA: 0
+</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>
+<span id="tab:logicals">Table 3: </span>Logical Variables
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+variable
+</th>
+<th style="text-align:left;">
+missing
+</th>
+<th style="text-align:left;">
+complete
+</th>
+<th style="text-align:left;">
+n
+</th>
+<th style="text-align:left;">
+mean
+</th>
+<th style="text-align:left;">
+count
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+censored
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+0.026
+</td>
+<td style="text-align:left;">
+FAL: 180831, TRU: 4860, NA: 0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+nb_opposite_hands
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+0.52
+</td>
+<td style="text-align:left;">
+TRU: 96745, FAL: 88946, NA: 0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+start_pitcher
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+0.62
+</td>
+<td style="text-align:left;">
+TRU: 115139, FAL: 70552, NA: 0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+survived
+</td>
+<td style="text-align:left;">
+4860
+</td>
+<td style="text-align:left;">
+180831
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+0.61
+</td>
+<td style="text-align:left;">
+TRU: 110279, FAL: 70552, NA: 4860
+</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>
+<span id="tab:integers">Table 4: </span>Integer Variables
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+variable
+</th>
+<th style="text-align:left;">
+missing
+</th>
+<th style="text-align:left;">
+complete
+</th>
+<th style="text-align:left;">
+mean
+</th>
+<th style="text-align:left;">
+sd
+</th>
+<th style="text-align:left;">
+p0
+</th>
+<th style="text-align:left;">
+p25
+</th>
+<th style="text-align:left;">
+p50
+</th>
+<th style="text-align:left;">
+p75
+</th>
+<th style="text-align:left;">
+p100
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+away_team_runs
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+2.5
+</td>
+<td style="text-align:left;">
+2.69
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+22
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+b
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+1.42
+</td>
+<td style="text-align:left;">
+1.25
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+cumHR
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+0.7
+</td>
+<td style="text-align:left;">
+0.94
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+cumOnbase
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+6.71
+</td>
+<td style="text-align:left;">
+4.76
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:left;">
+31
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+event_num
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+318.15
+</td>
+<td style="text-align:left;">
+192.22
+</td>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+156
+</td>
+<td style="text-align:left;">
+308
+</td>
+<td style="text-align:left;">
+469
+</td>
+<td style="text-align:left;">
+1233
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+home_team_runs
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+2.38
+</td>
+<td style="text-align:left;">
+2.7
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+23
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+key
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+238.39
+</td>
+<td style="text-align:left;">
+144.36
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+116
+</td>
+<td style="text-align:left;">
+231
+</td>
+<td style="text-align:left;">
+351
+</td>
+<td style="text-align:left;">
+922
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+num
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+39.18
+</td>
+<td style="text-align:left;">
+22.96
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+39
+</td>
+<td style="text-align:left;">
+58
+</td>
+<td style="text-align:left;">
+146
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+num_atbat
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+9.22
+</td>
+<td style="text-align:left;">
+7.49
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:left;">
+36
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+runs_allowed
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+2.45
+</td>
+<td style="text-align:left;">
+2.67
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+23
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+s
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+185691
+</td>
+<td style="text-align:left;">
+1.52
+</td>
+<td style="text-align:left;">
+1.06
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+3
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<div id="refs" class="references">
+<div id="ref-Bradbury:2012wc">
+<p>Bradbury, John C, and Sean L Forman. 2012. “The Impact of Pitch Counts and Days of Rest on Performance Among Major-League Baseball Pitchers.” <em>Journal of Strength and Conditioning Research</em> 26 (5): 1181–7.</p>
+</div>
+<div id="ref-Carleton:2016uw">
+<p>Carleton, Russell A. 2016. “Is There a Times Through The Order Penalty?” <a href="https://www.baseballprospectus.com/news/article/28506/baseball-therapy-is-there-a-times-through-the-order-penalty/" class="uri">https://www.baseballprospectus.com/news/article/28506/baseball-therapy-is-there-a-times-through-the-order-penalty/</a>.</p>
+</div>
+<div id="ref-Fast:2007uo">
+<p>Fast, Mike. 2007. “Glossary of the Gameday pitch fields.” <a href="https://fastballs.wordpress.com/2007/08/02/glossary-of-the-gameday-pitch-fields/" class="uri">https://fastballs.wordpress.com/2007/08/02/glossary-of-the-gameday-pitch-fields/</a>.</p>
+</div>
+<div id="ref-Lichtman:2013ws">
+<p>Lichtman, Mitchel. 2013. “Everything You Always Wanted to Know About the Times Through the Order Penalty.” <a href="https://www.baseballprospectus.com/news/article/22156/baseball-proguestus-everything-you-always-wanted-to-know-about-the-times-through-the-order-penalty/" class="uri">https://www.baseballprospectus.com/news/article/22156/baseball-proguestus-everything-you-always-wanted-to-know-about-the-times-through-the-order-penalty/</a>.</p>
+</div>
+<div id="ref-Lichtman:2016wh">
+<p>———. 2016. “Does familiarity breed contempt or is fatigue not the best pillow? | MGL on Baseball.” <a href="https://mglbaseball.com/2016/02/29/does-familiarity-breed-contempt-or-is-fatigue-not-the-best-pillow/" class="uri">https://mglbaseball.com/2016/02/29/does-familiarity-breed-contempt-or-is-fatigue-not-the-best-pillow/</a>.</p>
+</div>
+<div id="ref-Tutz:2016uo">
+<p>Tutz, Gerhard, and Matthias Schmid. 2016. <em>Modeling Discrete Time-to-Event Data</em>. Springer.</p>
+</div>
+</div>
+</div>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/baseball">Baseball</a></span><span class="tag"><a href="/tags/data-visualization">Data Visualization</a></span><span class="tag"><a href="/tags/pitchers">Pitchers</a></span><span class="tag"><a href="/tags/survival">Survival</a></span><span class="tag"><a href="/tags/ttop">TTOP</a></span>
+  				</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+                <span><a href="/">ssp3nc3r</a></span>
+            
+            <span></span>
+            <span> <a href="/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+        </div>
+    </div>
+    <script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.2d5469329143160ae2456a69c3c76dc2d0a3b212b46afe291a51bd68650ed6f8697e001dab54f1c272c77ce08092a8c55e5bb4314e0ee334aab4b927ec896638.js" integrity="sha512-LVRpMpFDFgriRWppw8dtwtCjshK0av4pGlG9aGUO1vhpfgAdq1TxwnLHfOCAkqjFXlu0MU4O4zSqtLkn7IlmOA=="></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+
+
+
+    </body>
+</html>

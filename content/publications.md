@@ -33,7 +33,7 @@ Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawar
 
 Spencer, Scott. [_Demonstration of Layers in Graphics_](Spencer-2020-Demonstration-of-layers-in-graphics.pdf). Columbia University., March 6, 2020.
 
-Spencer, Scott. _Contours in Batter Comparisons: A Trick Up the Sleeve_, August 2017. https://www.baseballprospectus.com/news/article/32453/contours-in-batter-comparisons-a-trick-up-the-sleeve/.
+Spencer, Scott. [_Contours in Batter Comparisons: A Trick Up the Sleeve_](https://www.baseballprospectus.com/news/article/32453/contours-in-batter-comparisons-a-trick-up-the-sleeve/), August 2017. Baseball Prospectus.
 
 ## Presentations and lectures
 

@@ -1,5 +1,5 @@
 ---
-title: "HSLuv: an R Package to Convert Hsluv Colorspace to RGB and Hex"
+title: "HSLuv: an R Package to convert HSLuv colorspace to RGB and hex"
 date: '2020-03-30T16:49:54-04:00'
 draft: yes
 comments: no

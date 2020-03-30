@@ -11,7 +11,7 @@
     
     
     <item>
-      <title>ggSankeyGrad: an R Package to Create a Ggplot Based Sankey Graphic That Encodes Flows With a Color Gradient</title>
+      <title>ggSankeyGrad: an R package to create a ggplot-based sankey graphic that encodes flows with color gradients</title>
       <link>/post/2020-03-30-r-package-to-create-a-ggplot-based-sankey-graphic-that-encodes-flows-with-a-color-gradient/</link>
       <pubDate>Mon, 30 Mar 2020 17:05:13 -0400</pubDate>
       
@@ -20,7 +20,7 @@
     </item>
     
     <item>
-      <title>HSLuv: an R Package to Convert Hsluv Colorspace to RGB and Hex</title>
+      <title>HSLuv: an R Package to convert HSLuv colorspace to RGB and hex</title>
       <link>/post/2020-03-30-hsluv-an-r-package-to-convert-hsluv-colorspace-to-rgb-and-hex/</link>
       <pubDate>Mon, 30 Mar 2020 16:49:54 -0400</pubDate>
       

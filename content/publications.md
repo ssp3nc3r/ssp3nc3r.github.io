@@ -31,9 +31,9 @@ Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawar
 
 ## Conferences and Other
 
-Spencer, Scott. [_Demonstration of Layers in Graphics_](Spencer-2020-Demonstration-of-layers-in-graphics.pdf). Columbia University., March 6, 2020.
+Spencer, Scott. [_Demonstration of Layers in Graphics_](Spencer-2020-Demonstration-of-layers-in-graphics.pdf). 2020 March 6. Columbia University.
 
-Gabry, Jonah. Ben Goodrich and Scott Spencer. [_Stan Is Not an Acronym: Bayesian Solutions to Sabermetric Shortcomings_](SaberSeminar2018.html) 2018 August 5. SaberSeminar.
+Gabry, Jonah. Ben Goodrich and Scott Spencer. [_Stan Is Not an Acronym: Bayesian Solutions to Sabermetric Shortcomings_](SaberSeminar2018.html). 2018 August 5. SaberSeminar.
 
 Spencer, Scott. [_Contours in Batter Comparisons: A Trick Up the Sleeve_](https://www.baseballprospectus.com/news/article/32453/contours-in-batter-comparisons-a-trick-up-the-sleeve/). 2017 August. Baseball Prospectus.
 
@@ -43,7 +43,7 @@ Spencer, Scott. [_Information graphics_](Spencer-2020-Columbia-Storytelling-lect
 
 Spencer, Scott. [_Effective visuals --- encoding data graphically: grammar, layers, color_](Spencer-2020-Columbia-Storytelling-lecture08.pdf). Storytelling with data. In Applied Analytics, Columbia University.
 
-Spencer, Scott. [_The storytelling process, and designing data graphics_](Spencer-2020-Columbia-Storytelling-lecture07.pdf). Storytelling with data. In Applied Analytics, Columbia University.
+Spencer, Scott. [_The storytelling process, and designing data graphics_](Spencer-2020-Columbia-Storytelling-lecture07.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2020 March 30.
 
 Spencer, Scott. [_The storytelling process, with images and data graphics_](Spencer-2020-Columbia-Storytelling-lecture06.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2020 March 2.
 

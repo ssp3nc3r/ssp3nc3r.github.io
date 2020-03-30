@@ -21,7 +21,7 @@ Spencer, Scott. _Estimating impact of flooding expectations on real property pur
 
 ## R packages
 
-Spencer, Scott. [_HSLuv: Converts HSLuv to RGB and Hex. 2020_](https://github.com/ssp3nc3r/hsluv-rcpp). R package version 0.0.1.
+Spencer, Scott. [_HSLuv: Converts HSLuv to RGB and Hex._](https://github.com/ssp3nc3r/hsluv-rcpp). 2020. R package version 0.0.1.
 
 Spencer, Scott. [_ggSankeyGrad: A ggplot-based Sankey Graphic with Gradient Flows_](https://github.com/ssp3nc3r/ggSankeyGrad). R package version 0.0.1.
 

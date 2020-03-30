@@ -21,9 +21,9 @@ Spencer, Scott. _Estimating impact of flooding expectations on real property pur
 
 ## R packages
 
-Spencer, Scott. [_HSLuv: Converts HSLuv to RGB and Hex_](https://github.com/ssp3nc3r/hsluv-rcpp). 2020. R package version 0.0.1.
+Spencer, Scott. [_HSLuv: Converts HSLuv to RGB and Hex_](https://github.com/ssp3nc3r/hsluv-rcpp). Last updated 2020 March 30. R package version 0.0.1.
 
-Spencer, Scott. [_ggSankeyGrad: A ggplot-based Sankey Graphic with Gradient Flows_](https://github.com/ssp3nc3r/ggSankeyGrad). R package version 0.0.1.
+Spencer, Scott. [_ggSankeyGrad: A ggplot-based Sankey Graphic with Gradient Flows_](https://github.com/ssp3nc3r/ggSankeyGrad). Last updated 2020 March 30. R package version 0.0.1.
 
 ## Visualizations
 
@@ -33,9 +33,9 @@ Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawar
 
 Spencer, Scott. [_Demonstration of Layers in Graphics_](Spencer-2020-Demonstration-of-layers-in-graphics.pdf). Columbia University., March 6, 2020.
 
-Spencer, Scott. [_Contours in Batter Comparisons: A Trick Up the Sleeve_](https://www.baseballprospectus.com/news/article/32453/contours-in-batter-comparisons-a-trick-up-the-sleeve/), August 2017. Baseball Prospectus.
+Gabry, Jonah. Ben Goodrich and Scott Spencer. [_Stan Is Not an Acronym: Bayesian Solutions to Sabermetric Shortcomings_](SaberSeminar2018.html) 2018 August 5. SaberSeminar.
 
-Gabry, Jonah. Ben Goodrich and Scott Spencer. [_Stan Is Not an Acronym: Bayesian Solutions to Sabermetric Shortcomings_](SaberSeminar2018.html) 2018 August. SaberSeminar.
+Spencer, Scott. [_Contours in Batter Comparisons: A Trick Up the Sleeve_](https://www.baseballprospectus.com/news/article/32453/contours-in-batter-comparisons-a-trick-up-the-sleeve/). 2017 August. Baseball Prospectus.
 
 ## Presentations and lectures
 

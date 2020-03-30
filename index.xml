@@ -181,16 +181,24 @@ He focuses modeling work on data for good, and on professional sports. Recent ef
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/publications/</guid>
-      <description></description>
+      <description>Working papers Spencer, Scott. p( persuasion | data, analysis, storytelling ).
+R packages Spencer, Scott. HSLuv: Converts HSLuv to RGB and Hex. 2020. R package version 0.0.1.
+Spencer, Scott. ggSankeyGrad: A ggplot-based Sankey Graphic with Gradient Flows. R package version 0.0.1.
+Visualizations Spencer, Scott. Ride Against the Flow. 2019. Computer graphics. https://www.informationisbeautifulawards.com/showcase/4367-ride-against-the-flow.
+Other Spencer, Scott. Contours in Batter Comparisons: A Trick Up the Sleeve, August 2017. https://www.baseballprospectus.com/news/article/32453/contours-in-batter-comparisons-a-trick-up-the-sleeve/.</description>
     </item>
     
     <item>
-      <title>Publications</title>
+      <title>Teaching</title>
       <link>/teaching/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/teaching/</guid>
-      <description></description>
+      <description>2020 Spring Columbia University. Applied Analytics. Storytelling with Data.
+2019 Fall Columbia University. Applied Analytics. Storytelling with Data.
+2019 Summer Columbia University. Applied Analytics. Storytelling with Data.
+2019 Spring Columbia University. Applied Analytics. Storytelling with Data.
+2018 Fall Columbia University. Applied Analytics. Machine Learning.</description>
     </item>
     
   </channel>

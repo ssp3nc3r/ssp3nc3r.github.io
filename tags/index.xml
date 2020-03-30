@@ -5,7 +5,7 @@
     <link>/tags/</link>
     <description>Recent content in Tags on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 08 Apr 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 30 Mar 2020 17:05:13 -0400</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -13,9 +13,81 @@
     <item>
       <title>Data Visualization</title>
       <link>/tags/data-visualization/</link>
-      <pubDate>Mon, 08 Apr 2019 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 30 Mar 2020 17:05:13 -0400</pubDate>
       
       <guid>/tags/data-visualization/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Flow Diagram</title>
+      <link>/tags/flow-diagram/</link>
+      <pubDate>Mon, 30 Mar 2020 17:05:13 -0400</pubDate>
+      
+      <guid>/tags/flow-diagram/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Packages</title>
+      <link>/tags/packages/</link>
+      <pubDate>Mon, 30 Mar 2020 17:05:13 -0400</pubDate>
+      
+      <guid>/tags/packages/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>R</title>
+      <link>/tags/r/</link>
+      <pubDate>Mon, 30 Mar 2020 17:05:13 -0400</pubDate>
+      
+      <guid>/tags/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Sankey</title>
+      <link>/tags/sankey/</link>
+      <pubDate>Mon, 30 Mar 2020 17:05:13 -0400</pubDate>
+      
+      <guid>/tags/sankey/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Colorspace</title>
+      <link>/tags/colorspace/</link>
+      <pubDate>Mon, 30 Mar 2020 16:49:54 -0400</pubDate>
+      
+      <guid>/tags/colorspace/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>HSLuv</title>
+      <link>/tags/hsluv/</link>
+      <pubDate>Mon, 30 Mar 2020 16:49:54 -0400</pubDate>
+      
+      <guid>/tags/hsluv/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Perception</title>
+      <link>/tags/perception/</link>
+      <pubDate>Mon, 30 Mar 2020 16:49:54 -0400</pubDate>
+      
+      <guid>/tags/perception/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>RGB</title>
+      <link>/tags/rgb/</link>
+      <pubDate>Mon, 30 Mar 2020 16:49:54 -0400</pubDate>
+      
+      <guid>/tags/rgb/</guid>
       <description></description>
     </item>
     
@@ -25,15 +97,6 @@
       <pubDate>Mon, 08 Apr 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/information-graphics/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>R</title>
-      <link>/tags/r/</link>
-      <pubDate>Mon, 08 Apr 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/r/</guid>
       <description></description>
     </item>
     

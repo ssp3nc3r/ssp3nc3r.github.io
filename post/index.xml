@@ -5,13 +5,22 @@
     <link>/post/</link>
     <description>Recent content in Posts on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 30 Mar 2020 16:49:54 -0400</lastBuildDate>
+    <lastBuildDate>Mon, 30 Mar 2020 17:05:13 -0400</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Hsluv: an R Package to Convert Hsluv Colorspace to Rgb and Hex</title>
+      <title>ggSankeyGrad: an R Package to Create a Ggplot Based Sankey Graphic That Encodes Flows With a Color Gradient</title>
+      <link>/post/2020-03-30-r-package-to-create-a-ggplot-based-sankey-graphic-that-encodes-flows-with-a-color-gradient/</link>
+      <pubDate>Mon, 30 Mar 2020 17:05:13 -0400</pubDate>
+      
+      <guid>/post/2020-03-30-r-package-to-create-a-ggplot-based-sankey-graphic-that-encodes-flows-with-a-color-gradient/</guid>
+      <description>ssSankeyGrad returns a ggplot object encoding the flow between beginning and ending categorical data, i.e., a sankey diagram, wherein each flow is encoded as a color gradient. Those color gradients transition between a user-specified color for each category. The parameters are constructed such that c1, c2, col1, col2, and values are all vectors of the same length and corresponding positions represent one flow between categories. The categories c1, c2 are vectors of type character string, col1, col2 are vectors of type character string and include either named colors or hexidecimal representations of color, and values are of an integer or numeric type that encode the amount of “flow” between each category.</description>
+    </item>
+    
+    <item>
+      <title>HSLuv: an R Package to Convert Hsluv Colorspace to RGB and Hex</title>
       <link>/post/2020-03-30-hsluv-an-r-package-to-convert-hsluv-colorspace-to-rgb-and-hex/</link>
       <pubDate>Mon, 30 Mar 2020 16:49:54 -0400</pubDate>
       

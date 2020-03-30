@@ -1,9 +1,17 @@
 ---
-title: "Hsluv: an R Package to Convert Hsluv Colorspace to Rgb and Hex"
+title: "HSLuv: an R Package to Convert Hsluv Colorspace to RGB and Hex"
 date: '2020-03-30T16:49:54-04:00'
 draft: yes
 comments: no
 images: null
+tags:
+  - R
+  - Packages
+  - Data Visualization
+  - Colorspace
+  - HSLuv
+  - RGB
+  - Perception
 ---
 
 HSLuv is a human-friendly way to describe hue, saturation, and luminance --- three attributes of color. The R package includes functions to convert HSLuv colorspace to computer RGB, either as separate red, green, and blue values or as a hex code.

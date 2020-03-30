@@ -3,18 +3,68 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/post/2020-03-30-hsluv-an-r-package-to-convert-hsluv-colorspace-to-rgb-and-hex/</loc>
-    <lastmod>2020-03-30T16:49:54-04:00</lastmod>
+    <loc>/tags/data-visualization/</loc>
+    <lastmod>2020-03-30T17:05:13-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/flow-diagram/</loc>
+    <lastmod>2020-03-30T17:05:13-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/2020-03-30-r-package-to-create-a-ggplot-based-sankey-graphic-that-encodes-flows-with-a-color-gradient/</loc>
+    <lastmod>2020-03-30T17:05:13-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/packages/</loc>
+    <lastmod>2020-03-30T17:05:13-04:00</lastmod>
   </url>
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2020-03-30T16:49:54-04:00</lastmod>
+    <lastmod>2020-03-30T17:05:13-04:00</lastmod>
   </url>
   
   <url>
-    <loc>/tags/data-visualization/</loc>
-    <lastmod>2020-03-30T14:35:11-04:00</lastmod>
+    <loc>/tags/r/</loc>
+    <lastmod>2020-03-30T17:05:13-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/sankey/</loc>
+    <lastmod>2020-03-30T17:05:13-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-03-30T17:05:13-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/colorspace/</loc>
+    <lastmod>2020-03-30T17:00:19-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/hsluv/</loc>
+    <lastmod>2020-03-30T17:00:19-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/2020-03-30-hsluv-an-r-package-to-convert-hsluv-colorspace-to-rgb-and-hex/</loc>
+    <lastmod>2020-03-30T17:00:19-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/perception/</loc>
+    <lastmod>2020-03-30T17:00:19-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/rgb/</loc>
+    <lastmod>2020-03-30T17:00:19-04:00</lastmod>
   </url>
   
   <url>
@@ -24,16 +74,6 @@
   
   <url>
     <loc>/post/nyc-bike-share-rebalancing-information-graphic/</loc>
-    <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/r/</loc>
-    <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
   </url>
   

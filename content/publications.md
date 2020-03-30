@@ -29,11 +29,13 @@ Spencer, Scott. [_ggSankeyGrad: A ggplot-based Sankey Graphic with Gradient Flow
 
 Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawards.com/showcase/4367-ride-against-the-flow). 2019. Computer graphics. Kantar Information is Beautiful Awards.
 
-## Other
+## Conferences and Other
 
 Spencer, Scott. [_Demonstration of Layers in Graphics_](Spencer-2020-Demonstration-of-layers-in-graphics.pdf). Columbia University., March 6, 2020.
 
 Spencer, Scott. [_Contours in Batter Comparisons: A Trick Up the Sleeve_](https://www.baseballprospectus.com/news/article/32453/contours-in-batter-comparisons-a-trick-up-the-sleeve/), August 2017. Baseball Prospectus.
+
+Gabry, Jonah. Ben Goodrich and Scott Spencer. [_Stan Is Not an Acronym: Bayesian Solutions to Sabermetric Shortcomings_](SaberSeminar2018.html) 2018 August. SaberSeminar.
 
 ## Presentations and lectures
 

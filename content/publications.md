@@ -11,7 +11,7 @@ title: Publications
 
 ## Working papers
 
-Spencer, Scott. [_p( persuasion | data, analysis, storytelling )_](Spencer-2020-persuasion-data-analysis-storytelling.pdf). last updated 2020 March 07.
+Spencer, Scott. [_p( persuasion | data, analysis, storytelling )_](Spencer-2020-persuasion-data-analysis-storytelling.pdf). Last updated 2020 March 07.
 
 Spencer, Scott. _A physics and geometry-based, stochastic model for calls, swings, and contact_. Last updated 2019 December 29.
 
@@ -21,7 +21,7 @@ Spencer, Scott. _Estimating impact of flooding expectations on real property pur
 
 ## R packages
 
-Spencer, Scott. [_HSLuv: Converts HSLuv to RGB and Hex._](https://github.com/ssp3nc3r/hsluv-rcpp). 2020. R package version 0.0.1.
+Spencer, Scott. [_HSLuv: Converts HSLuv to RGB and Hex_](https://github.com/ssp3nc3r/hsluv-rcpp). 2020. R package version 0.0.1.
 
 Spencer, Scott. [_ggSankeyGrad: A ggplot-based Sankey Graphic with Gradient Flows_](https://github.com/ssp3nc3r/ggSankeyGrad). R package version 0.0.1.
 

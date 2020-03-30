@@ -3,15 +3,15 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/categories/</loc>
+    <loc>/docs/categories/</loc>
   </url>
   
   <url>
-    <loc>/</loc>
+    <loc>/docs/</loc>
   </url>
   
   <url>
-    <loc>/tags/</loc>
+    <loc>/docs/tags/</loc>
   </url>
   
 </urlset>

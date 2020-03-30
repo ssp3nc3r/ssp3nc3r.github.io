@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/post/2020-03-30-hsluv-an-r-package-to-convert-hsluv-colorspace-to-rgb-and-hex/</loc>
+    <lastmod>2020-03-30T16:49:54-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2020-03-30T16:49:54-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/tags/data-visualization/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
   </url>
@@ -14,11 +24,6 @@
   
   <url>
     <loc>/post/nyc-bike-share-rebalancing-information-graphic/</loc>
-    <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
   </url>
   
@@ -334,12 +339,12 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2020-03-30T16:30:12-04:00</lastmod>
+    <lastmod>2020-03-30T16:35:35-04:00</lastmod>
   </url>
   
   <url>
     <loc>/publications/</loc>
-    <lastmod>2020-03-30T16:30:12-04:00</lastmod>
+    <lastmod>2020-03-30T16:35:35-04:00</lastmod>
   </url>
   
   <url>

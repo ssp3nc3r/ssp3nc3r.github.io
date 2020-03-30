@@ -35,7 +35,7 @@ Spencer, Scott. [_Demonstration of Layers in Graphics_](Spencer-2020-Demonstrati
 
 Spencer, Scott. _Contours in Batter Comparisons: A Trick Up the Sleeve_, August 2017. https://www.baseballprospectus.com/news/article/32453/contours-in-batter-comparisons-a-trick-up-the-sleeve/.
 
-# Presentations and lectures
+## Presentations and lectures
 
 Spencer, Scott. [_Information graphics_](Spencer-2020-Columbia-Storytelling-lecture08.pdf). Storytelling with data. In Applied Analytics, Columbia University.
 

@@ -1,5 +1,5 @@
 theme = "hugo-theme-hello-friend-ng"
 baseURL = "http://ssp3nc3r.github.io/"
-publishDir = "../ssp3nc3r.github.io/docs"
+publishDir = "../ssp3nc3r.github.io/"
 languageCode = "en-us"
 title = "p( ssp3nc3r | Columbian )"

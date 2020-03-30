@@ -27,4 +27,8 @@ Columbia University. Applied Analytics. _Storytelling with Data_.
 
 ## 2018 Fall
 
+Columbia University. Applied Analytics. _Storytelling with Data_.
+
+## 2018 Spring
+
 Columbia University. Applied Analytics. _Machine Learning_.

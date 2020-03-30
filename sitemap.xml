@@ -4,67 +4,97 @@
   
   <url>
     <loc>/tags/data-visualization/</loc>
-    <lastmod>2020-03-30T17:17:00-04:00</lastmod>
+    <lastmod>2020-03-30T17:46:50-04:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/flow-diagram/</loc>
-    <lastmod>2020-03-30T17:17:00-04:00</lastmod>
+    <lastmod>2020-03-30T17:46:50-04:00</lastmod>
   </url>
   
   <url>
     <loc>/post/2020-03-30-r-package-to-create-a-ggplot-based-sankey-graphic-that-encodes-flows-with-a-color-gradient/</loc>
-    <lastmod>2020-03-30T17:17:00-04:00</lastmod>
+    <lastmod>2020-03-30T17:46:50-04:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/packages/</loc>
-    <lastmod>2020-03-30T17:17:00-04:00</lastmod>
+    <lastmod>2020-03-30T17:46:50-04:00</lastmod>
   </url>
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2020-03-30T17:17:00-04:00</lastmod>
+    <lastmod>2020-03-30T17:46:50-04:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/r/</loc>
-    <lastmod>2020-03-30T17:17:00-04:00</lastmod>
+    <lastmod>2020-03-30T17:46:50-04:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/sankey/</loc>
-    <lastmod>2020-03-30T17:17:00-04:00</lastmod>
+    <lastmod>2020-03-30T17:46:50-04:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/</loc>
-    <lastmod>2020-03-30T17:17:00-04:00</lastmod>
+    <lastmod>2020-03-30T17:46:50-04:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/colorspace/</loc>
-    <lastmod>2020-03-30T17:17:00-04:00</lastmod>
+    <lastmod>2020-03-30T17:46:50-04:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/hsluv/</loc>
-    <lastmod>2020-03-30T17:17:00-04:00</lastmod>
+    <lastmod>2020-03-30T17:46:50-04:00</lastmod>
   </url>
   
   <url>
     <loc>/post/2020-03-30-hsluv-an-r-package-to-convert-hsluv-colorspace-to-rgb-and-hex/</loc>
-    <lastmod>2020-03-30T17:17:00-04:00</lastmod>
+    <lastmod>2020-03-30T17:46:50-04:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/perception/</loc>
-    <lastmod>2020-03-30T17:17:00-04:00</lastmod>
+    <lastmod>2020-03-30T17:46:50-04:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/rgb/</loc>
-    <lastmod>2020-03-30T17:17:00-04:00</lastmod>
+    <lastmod>2020-03-30T17:46:50-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/attendance/</loc>
+    <lastmod>2020-01-03T18:01:28-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/baseball/</loc>
+    <lastmod>2020-03-30T14:35:11-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/betting/</loc>
+    <lastmod>2020-01-03T18:01:28-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/2020-01-03-exploratory-modeling-on-how-win-uncertainty-affects-game-attendance/</loc>
+    <lastmod>2020-01-03T18:01:28-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/stan/</loc>
+    <lastmod>2020-03-30T14:35:11-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/uncertainty/</loc>
+    <lastmod>2020-01-03T18:01:28-04:00</lastmod>
   </url>
   
   <url>
@@ -143,11 +173,6 @@
   </url>
   
   <url>
-    <loc>/tags/baseball/</loc>
-    <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/post/baseball-abstract-01/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
   </url>
@@ -179,11 +204,6 @@
   
   <url>
     <loc>/tags/run-expectancy/</loc>
-    <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/stan/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
   </url>
   

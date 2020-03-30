@@ -92,6 +92,51 @@
     </item>
     
     <item>
+      <title>Attendance</title>
+      <link>/tags/attendance/</link>
+      <pubDate>Fri, 03 Jan 2020 18:01:28 -0400</pubDate>
+      
+      <guid>/tags/attendance/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Baseball</title>
+      <link>/tags/baseball/</link>
+      <pubDate>Fri, 03 Jan 2020 18:01:28 -0400</pubDate>
+      
+      <guid>/tags/baseball/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Betting</title>
+      <link>/tags/betting/</link>
+      <pubDate>Fri, 03 Jan 2020 18:01:28 -0400</pubDate>
+      
+      <guid>/tags/betting/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Stan</title>
+      <link>/tags/stan/</link>
+      <pubDate>Fri, 03 Jan 2020 18:01:28 -0400</pubDate>
+      
+      <guid>/tags/stan/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Uncertainty</title>
+      <link>/tags/uncertainty/</link>
+      <pubDate>Fri, 03 Jan 2020 18:01:28 -0400</pubDate>
+      
+      <guid>/tags/uncertainty/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Information Graphics</title>
       <link>/tags/information-graphics/</link>
       <pubDate>Mon, 08 Apr 2019 00:00:00 +0000</pubDate>
@@ -155,15 +200,6 @@
     </item>
     
     <item>
-      <title>Baseball</title>
-      <link>/tags/baseball/</link>
-      <pubDate>Fri, 21 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/baseball/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Batters</title>
       <link>/tags/batters/</link>
       <pubDate>Sat, 08 Dec 2018 00:00:00 +0000</pubDate>
@@ -205,15 +241,6 @@
       <pubDate>Sat, 08 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/run-expectancy/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Stan</title>
-      <link>/tags/stan/</link>
-      <pubDate>Sat, 08 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/stan/</guid>
       <description></description>
     </item>
     

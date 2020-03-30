@@ -5,10 +5,20 @@
     <link>/tags/stan/</link>
     <description>Recent content in Stan on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 08 Dec 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 03 Jan 2020 18:01:28 -0400</lastBuildDate>
     
 	<atom:link href="/tags/stan/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Exploratory Modeling on How Win Uncertainty Affects Game Attendance</title>
+      <link>/post/2020-01-03-exploratory-modeling-on-how-win-uncertainty-affects-game-attendance/</link>
+      <pubDate>Fri, 03 Jan 2020 18:01:28 -0400</pubDate>
+      
+      <guid>/post/2020-01-03-exploratory-modeling-on-how-win-uncertainty-affects-game-attendance/</guid>
+      <description>We dread an empty ticket booth. The Dodgers’ average game attendance, for example, can be below capacity — they have seats to fill, despite having winning seasons.
+To draw more fans, consider the words of famed economist Simon Rotternberg, who said “uncertainty of outcome is necessary for consumers to pay admission to ball games.” While winning is important, it’s the not knowing that creates excitement. Have the Dodgers maximized winning with uncertainty of outcome?</description>
+    </item>
     
     <item>
       <title>Estimating the marginal value of baseball events</title>

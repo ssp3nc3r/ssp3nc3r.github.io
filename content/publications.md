@@ -27,7 +27,7 @@ Spencer, Scott. [_ggSankeyGrad: A ggplot-based Sankey Graphic with Gradient Flow
 
 ## Visualizations
 
-Spencer, Scott. _Ride Against the Flow_. 2019. Computer graphics. https://www.informationisbeautifulawards.com/showcase/4367-ride-against-the-flow.
+Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawards.com/showcase/4367-ride-against-the-flow). 2019. Computer graphics. Kantar Information is Beautiful Awards.
 
 ## Other
 

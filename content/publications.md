@@ -39,23 +39,39 @@ Spencer, Scott. [_Contours in Batter Comparisons: A Trick Up the Sleeve_](https:
 
 ## Presentations and lectures
 
-Spencer, Scott. [_Information graphics_](Spencer-2020-Columbia-Storytelling-lecture08.pdf). Storytelling with data. In Applied Analytics, Columbia University.
+**2020 spring course, _Storytelling with data_. Columbia University.**
 
-Spencer, Scott. [_Effective visuals --- encoding data graphically: grammar, layers, color_](Spencer-2020-Columbia-Storytelling-lecture08.pdf). Storytelling with data. In Applied Analytics, Columbia University.
-
-Spencer, Scott. [_The storytelling process, and designing data graphics_](Spencer-2020-Columbia-Storytelling-lecture07.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2020 March 30.
-
-Spencer, Scott. [_The storytelling process, with images and data graphics_](Spencer-2020-Columbia-Storytelling-lecture06.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2020 March 2.
-
-Spencer, Scott. [_Audience analysis_](Spencer-2020-Columbia-Storytelling-lecture05.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2020 February 24.
-
-Spencer, Scott. [_Principles of persuasion and brief proposals_](Spencer-2020-Columbia-Storytelling-lecture04.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2020 February 17.
-
-Spencer, Scott. [_Persuasive business writing: purpose, audience, and craft_](Spencer-2020-Columbia-Storytelling-lecture03.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2020 February 10.
+Spencer, Scott. [_Is communication important for applied analytics?_](Spencer-2020-Columbia-Storytelling-lecture01.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2020 January 27.
 
 Spencer, Scott. [_Communication for applied analytics: challenges and scope_](Spencer-2020-Columbia-Storytelling-lecture02.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2020 February 3. 
 
-Spencer, Scott. [_Is communication important for applied analytics?_](Spencer-2020-Columbia-Storytelling-lecture01.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2020 January 27.
+Spencer, Scott. [_Persuasive business writing: purpose, audience, and craft_](Spencer-2020-Columbia-Storytelling-lecture03.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2020 February 10.
+
+Spencer, Scott. [_Principles of persuasion and brief proposals_](Spencer-2020-Columbia-Storytelling-lecture04.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2020 February 17.
+
+Spencer, Scott. [_Audience analysis_](Spencer-2020-Columbia-Storytelling-lecture05.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2020 February 24.
+
+Spencer, Scott. [_The storytelling process, with images and data graphics_](Spencer-2020-Columbia-Storytelling-lecture06.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2020 March 2.
+
+Spencer, Scott. [_The storytelling process, and designing data graphics_](Spencer-2020-Columbia-Storytelling-lecture07.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2020 March 30.
+
+Spencer, Scott. [_Effective visuals --- encoding data graphically: grammar, layers, color_](Spencer-2020-Columbia-Storytelling-lecture08.pdf). Storytelling with data. In Applied Analytics, Columbia University.
+
+Spencer, Scott. [_Information graphics_](Spencer-2020-Columbia-Storytelling-lecture09.pdf). Storytelling with data. In Applied Analytics, Columbia University.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -27,15 +27,9 @@ Spencer, Scott. [_ggSankeyGrad: A ggplot-based Sankey Graphic with Gradient Flow
 
 ## Visualizations
 
-Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawards.com/showcase/4367-ride-against-the-flow). 2019. Computer graphics. Kantar Information is Beautiful Awards.
-
-## Conferences and Other
-
 Spencer, Scott. [_Demonstration of Layers in Graphics_](Spencer-2020-Demonstration-of-layers-in-graphics.pdf). 2020 March 6. Columbia University.
 
-Gabry, Jonah. Ben Goodrich and Scott Spencer. [_Stan Is Not an Acronym: Bayesian Solutions to Sabermetric Shortcomings_](SaberSeminar2018.html). 2018 August 5. SaberSeminar.
-
-Spencer, Scott. [_Contours in Batter Comparisons: A Trick Up the Sleeve_](https://www.baseballprospectus.com/news/article/32453/contours-in-batter-comparisons-a-trick-up-the-sleeve/). 2017 August. Baseball Prospectus.
+Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawards.com/showcase/4367-ride-against-the-flow). 2019. Computer graphics. Kantar Information is Beautiful Awards.
 
 ## Presentations and lectures
 
@@ -59,24 +53,9 @@ Spencer, Scott. [_Contours in Batter Comparisons: A Trick Up the Sleeve_](https:
 
 : Spencer, Scott. [_Information graphics_](Spencer-2020-Columbia-Storytelling-lecture09.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2020 April 13.
 
+## Conferences and Other
 
+Gabry, Jonah. Ben Goodrich and Scott Spencer. [_Stan Is Not an Acronym: Bayesian Solutions to Sabermetric Shortcomings_](SaberSeminar2018.html). 2018 August 5. SaberSeminar.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Spencer, Scott. [_Contours in Batter Comparisons: A Trick Up the Sleeve_](https://www.baseballprospectus.com/news/article/32453/contours-in-batter-comparisons-a-trick-up-the-sleeve/). 2017 August. Baseball Prospectus.
 

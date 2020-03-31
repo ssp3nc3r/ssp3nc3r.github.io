@@ -21,7 +21,7 @@ tags:
 <p>for game <span class="math inline">\(i\)</span>, where</p>
 <p><span class="math display">\[\theta_i \sim \alpha_{1[i]} \cdot \textrm{day}_i + \alpha_{2[i]} \cdot \textrm{time}_i + \beta_{1[i]} \cdot \frac{\sum{\textrm{wins}_i}}{\sum{\textrm{games}_i}} + \beta_{2[i]} \cdot p(\textrm{win}_i) + \beta_{3[i]} \cdot p(\textrm{win}_i)^2\]</span>
 Once we get our posterior estimates, we can set the partial derivative of estimates of win uncertainty (<span class="math inline">\(\beta_2\)</span> and <span class="math inline">\(\beta_3\)</span>) to find a maximum:</p>
-<p><span class="math display">\[\textrm{Maximum} = \frac{-beta_2}{2 \cdot \beta_3 }\]</span>
+<p><span class="math display">\[\textrm{Maximum} = \frac{-\beta_2}{2 \cdot \beta_3 }\]</span>
 We’ll run the analysis in <code>Stan</code>.</p>
 <p>For our analysis, let’s use betting market odds as a proxy for fans’ estimation their teams chances of winning. The betting company Pinnacle has made these data available for the 2016 season in their R package <code>pinnacle.data::MLB2016</code>. As with Pinnacle’s generosity, <a href="https://www.retrosheet.org/gamelogs/index.html">Retrosheets has made data available for per-game attendance along with game outcomes</a>.</p>
 <p>In code, our basic model is as follows:</p>

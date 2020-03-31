@@ -30,7 +30,7 @@ for game $i$, where
 $$\theta_i \sim \alpha_{1[i]} \cdot \textrm{day}_i + \alpha_{2[i]} \cdot \textrm{time}_i + \beta_{1[i]} \cdot \frac{\sum{\textrm{wins}_i}}{\sum{\textrm{games}_i}} + \beta_{2[i]} \cdot p(\textrm{win}_i) + \beta_{3[i]} \cdot p(\textrm{win}_i)^2$$
 Once we get our posterior estimates, we can set the partial derivative of estimates of win uncertainty ($\beta_2$ and $\beta_3$) to find a maximum:
 
-$$\textrm{Maximum} = \frac{-beta_2}{2 \cdot \beta_3 }$$
+$$\textrm{Maximum} = \frac{-\beta_2}{2 \cdot \beta_3 }$$
 We'll run the analysis in `Stan`.
 
 For our analysis, let's use betting market odds as a proxy for fans' estimation their teams chances of winning. The betting company Pinnacle has made these data available for the 2016 season in their R package `pinnacle.data::MLB2016`. As with Pinnacle's generosity, [Retrosheets has made data available for per-game attendance along with game outcomes](https://www.retrosheet.org/gamelogs/index.html).

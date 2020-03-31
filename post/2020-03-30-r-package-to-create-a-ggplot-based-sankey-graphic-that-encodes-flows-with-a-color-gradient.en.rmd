@@ -35,7 +35,7 @@ ggSankeyGrad(c1, c2, col1, col2, values, label = TRUE)
 
 Let's consider a second example. This data is inspired by Giorgia Lupi's award-winning infographic, [Nobels, No Degrees](https://www.informationisbeautifulawards.com/showcase/204-nobels-no-degrees). We prepare the data in the same format as before, which encodes the categories of Nobel winners and from which of several schools they are associated, if any.
 
-```{r}
+```{r, message=FALSE, warning=FALSE, error=FALSE}
 d5 <- read.csv(text = '
 "Category","University","n","col1","col2"
 "Chemistry","Berkeley",5,"#cc5b47","#003262"

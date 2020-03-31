@@ -43,7 +43,7 @@
 <meta itemprop="description" content="ssSankeyGrad returns a ggplot object encoding the flow between beginning and ending categorical data, i.e., a sankey diagram, wherein each flow is encoded as a color gradient. Those color gradients transition between a user-specified color for each category. The parameters are constructed such that c1, c2, col1, col2, and values are all vectors of the same length and corresponding positions represent one flow between categories. The categories c1, c2 are vectors of type character string, col1, col2 are vectors of type character string and include either named colors or hexidecimal representations of color, and values are of an integer or numeric type that encode the amount of “flow” between each category.">
 <meta itemprop="datePublished" content="2020-03-30T17:05:13-04:00" />
 <meta itemprop="dateModified" content="2020-03-30T17:46:50-04:00" />
-<meta itemprop="wordCount" content="323">
+<meta itemprop="wordCount" content="281">
 <meta itemprop="image" content="/"/>
 
 
@@ -192,15 +192,6 @@ with(d5, ggSankeyGrad(c1 = Category,
                         col2 = col2,
                         values = n,
                         label = TRUE))</code></pre>
-<pre><code>## Warning: Factor `c2` contains implicit NA, consider using
-## `forcats::fct_explicit_na`
-
-## Warning: Factor `c2` contains implicit NA, consider using
-## `forcats::fct_explicit_na`
-
-## Warning: Factor `c2` contains implicit NA, consider using
-## `forcats::fct_explicit_na`</code></pre>
-<pre><code>## Warning: Removed 1 rows containing missing values (geom_text).</code></pre>
 <p><img src="/post/2020-03-30-r-package-to-create-a-ggplot-based-sankey-graphic-that-encodes-flows-with-a-color-gradient.en_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 
             </div>

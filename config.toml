@@ -56,7 +56,7 @@ disableHugoGeneratorInject = false
   keywords = ""
   images = [""]
 
-  homeSubtitle = "Statistical, generative modeling. bayesian inference. writing. data visualization. sports."
+  homeSubtitle = "statistical, generative modeling. bayesian inference. writing. data visualization. sports."
 
   # Prefix of link to the git commit detail page. GitInfo must be enabled.
   # gitUrl = ""

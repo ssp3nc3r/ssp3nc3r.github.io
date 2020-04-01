@@ -59,3 +59,5 @@ Gabry, Jonah. Ben Goodrich and Scott Spencer. [_Stan Is Not an Acronym: Bayesian
 
 Spencer, Scott. [_Contours in Batter Comparisons: A Trick Up the Sleeve_](https://www.baseballprospectus.com/news/article/32453/contours-in-batter-comparisons-a-trick-up-the-sleeve/). 2017 August. Baseball Prospectus.
 
+Spencer, Scott. Primary analyst and editor of _The Real Madrid Way. How Values Created the Most Successful Sports Team on the Plant_, written by Steven Mandis. Benbella Books, Inc., 2016.
+

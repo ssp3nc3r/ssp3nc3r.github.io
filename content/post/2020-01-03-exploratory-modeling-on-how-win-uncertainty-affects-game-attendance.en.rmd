@@ -21,7 +21,7 @@ We dread an empty ticket booth. The Dodgers' average game attendance, for exampl
 
 To draw more fans, consider the words of famed economist Simon Rotternberg, who said “uncertainty of outcome is necessary for consumers to pay admission to ball games." While winning is important, it’s the not knowing that creates excitement. Have the Dodgers maximized winning with uncertainty of outcome? Let's see.
 
-To start exploring the question, we model attendance as a function of the uncertainty of outcome, attempting to account for other factors like day of the week, time of day, and their cumulative fraction of wins. It seems reasonable to believe that some uncertainty helps attract people to the game. It also seems reasonable to believe that the function is non-linear: _a change in probability of a win from 0 percent to 1 percent may well attract more fans than if from 49 percent to 50 percent._ Thus, let's try modeling the marginal effect of wins as quadratic. Our overall model, then, looks like:
+To start exploring the question, we model attendance as a function of the uncertainty of outcome, attempting to account for other factors like day of the week, time of day, and their cumulative fraction of wins. It seems reasonable to believe that some uncertainty helps attract people to the game. It also seems reasonable to believe that the function is non-linear: _a change in probability of a win from 0 percent to 1 percent may well attract fewer fans than if from 49 percent to 50 percent._ Thus, let's try modeling the marginal effect of wins as quadratic. Our overall model, then, looks like:
 
 $$\textrm{Normal}(\theta, \sigma)$$ 
 

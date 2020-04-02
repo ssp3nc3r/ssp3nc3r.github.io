@@ -51,7 +51,7 @@ Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawar
 
 : Spencer, Scott. [_Effective visuals --- encoding data graphically: grammar, layers, color_](Spencer-2020-Columbia-Storytelling-lecture08.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2020 April 6.
 
-: Spencer, Scott. [_Information graphics_](Spencer-2020-Columbia-Storytelling-lecture09.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2020 April 13.
+: Spencer, Scott. [_Uncertainty; information graphics_](Spencer-2020-Columbia-Storytelling-lecture09.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2020 April 13.
 
 ## Conferences and Other
 

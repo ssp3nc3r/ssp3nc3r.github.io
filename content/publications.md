@@ -39,7 +39,7 @@ Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawar
 
 : Spencer, Scott. [_Communication for applied analytics: challenges and scope_](Spencer-2020-Columbia-Storytelling-lecture02.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2020 February 3. 
 
-: Spencer, Scott. [_Persuasive business writing: purpose, audience, and craft_](Spencer-2020-Columbia-Storytelling-lecture03.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2020 February 10.
+: Spencer, Scott. [_Business writing: purpose, audience, and craft_](Spencer-2020-Columbia-Storytelling-lecture03.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2020 February 10.
 
 : Spencer, Scott. [_Principles of persuasion and brief proposals_](Spencer-2020-Columbia-Storytelling-lecture04.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2020 February 17.
 

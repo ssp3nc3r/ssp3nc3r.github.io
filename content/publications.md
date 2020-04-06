@@ -27,6 +27,8 @@ Spencer, Scott. [_ggSankeyGrad: A ggplot-based Sankey Graphic with Gradient Flow
 
 ## Visualizations
 
+Spencer, Scott. [_Creating and placing custom glyphs_](Spencer-2020-creating-and-placing-custom-glyphs.pdf). 2020 April 6. Columbia University.
+
 Spencer, Scott. [_Demonstration of Layers in Graphics_](Spencer-2020-Demonstration-of-layers-in-graphics.pdf). 2020 March 6. Columbia University.
 
 Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawards.com/showcase/4367-ride-against-the-flow). 2019. Computer graphics. Kantar Information is Beautiful Awards.

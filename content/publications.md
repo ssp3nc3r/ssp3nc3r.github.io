@@ -55,7 +55,9 @@ Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawar
 
 : Spencer, Scott. [_Uncertainty; information graphics_](Spencer-2020-Columbia-Storytelling-lecture09.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2020 April 13.
 
-## Conferences and Other
+## Other pedagogy, conferences, and articles
+
+Spencer, Scott. [Recoded in Stan all examples from McElreath's _Statistical Rethinking_](https://github.com/ssp3nc3r/rethinking), Code last Updated 2019 April.
 
 Gabry, Jonah. Ben Goodrich and Scott Spencer. [_Stan Is Not an Acronym: Bayesian Solutions to Sabermetric Shortcomings_](SaberSeminar2018.html). 2018 August 5. SaberSeminar.
 

@@ -26,8 +26,8 @@ tags:
                     ysh = path[ c(F,T) ],
                     id  = 1)</code></pre>
 <p>Of note, I give an id to this glyph, which is the same for each point within. Finally, I made the glyph coordinates, as mentioned, in Inkscape, where the origin of its coordinate system, (<code>0</code>,<code>0</code>) starts in the upper, left corner and the y-values increase going down. We will center our glyph and flip it by subtracting each coordinate by the <code>mean</code> of each coordinate. We will also scale the values so the maximum dimension is <code>1</code> unit:</p>
-<pre class="r"><code>glyph$xsh &lt;- with(glyph, (mean(xsh) - xsh) / max(xsh, ysh) )
-glyph$ysh &lt;- with(glyph, (mean(ysh) - ysh) / max(ysh, ysh) )</code></pre>
+<pre class="r"><code>glyph$xsh &lt;- with(glyph, (mean(xsh) - xsh) / dist( range(xsh, ysh) ) )
+glyph$ysh &lt;- with(glyph, (mean(ysh) - ysh) / dist( range(xsh, ysh) ) )</code></pre>
 <p>Using <code>ggplot</code>, our glyph looks like:</p>
 <pre class="r"><code>library(ggplot2)
 

@@ -42,8 +42,8 @@ glyph <- data.frame(xsh = path[ c(T,F) ],
 Of note, I give an id to this glyph, which is the same for each point within. Finally, I made the glyph coordinates, as mentioned, in Inkscape, where the origin of its coordinate system, (`0`,`0`) starts in the upper, left corner and the y-values increase going down. We will center our glyph and flip it by subtracting each coordinate by the `mean` of each coordinate. We will also scale the values so the maximum dimension is `1` unit:
 
 ```{r}
-glyph$xsh <- with(glyph, (mean(xsh) - xsh) / max(xsh, ysh) )
-glyph$ysh <- with(glyph, (mean(ysh) - ysh) / max(ysh, ysh) )
+glyph$xsh <- with(glyph, (mean(xsh) - xsh) / dist( range(xsh, ysh) ) )
+glyph$ysh <- with(glyph, (mean(ysh) - ysh) / dist( range(xsh, ysh) ) )
 ```
 
 Using `ggplot`, our glyph looks like:

@@ -42,8 +42,8 @@
 <meta itemprop="name" content="Create and encode custom glyphs from an SVG path">
 <meta itemprop="description" content="In R’s grammar of graphics package (ggplot2), we can encode data in custom-made glyph shapes from vector graphics and encode its size, fill color, or both. SVG graphics display lines, colors fills using paths. Let’s make an SVG graphic containing a single path of a complex shape, assign the graphic in R to data, and change its attributes. For this exercise, I’ve created an SVG path of the silhouette of a baseball player (using Inkscape)1.">
 <meta itemprop="datePublished" content="2020-04-08T14:23:00-04:00" />
-<meta itemprop="dateModified" content="2020-04-08T14:58:29-04:00" />
-<meta itemprop="wordCount" content="773">
+<meta itemprop="dateModified" content="2020-04-08T15:49:07-04:00" />
+<meta itemprop="wordCount" content="777">
 <meta itemprop="image" content="/"/>
 
 
@@ -147,8 +147,8 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
                     ysh = path[ c(F,T) ],
                     id  = 1)</code></pre>
 <p>Of note, I give an id to this glyph, which is the same for each point within. Finally, I made the glyph coordinates, as mentioned, in Inkscape, where the origin of its coordinate system, (<code>0</code>,<code>0</code>) starts in the upper, left corner and the y-values increase going down. We will center our glyph and flip it by subtracting each coordinate by the <code>mean</code> of each coordinate. We will also scale the values so the maximum dimension is <code>1</code> unit:</p>
-<pre class="r"><code>glyph$xsh &lt;- with(glyph, (mean(xsh) - xsh) / max(xsh, ysh) )
-glyph$ysh &lt;- with(glyph, (mean(ysh) - ysh) / max(ysh, ysh) )</code></pre>
+<pre class="r"><code>glyph$xsh &lt;- with(glyph, (mean(xsh) - xsh) / dist( range(xsh, ysh) ) )
+glyph$ysh &lt;- with(glyph, (mean(ysh) - ysh) / dist( range(xsh, ysh) ) )</code></pre>
 <p>Using <code>ggplot</code>, our glyph looks like:</p>
 <pre class="r"><code>library(ggplot2)
 
@@ -201,7 +201,7 @@ d &lt;- merge(d, glyph)</code></pre>
   				<p>
   					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/r">R</a></span><span class="tag"><a href="/tags/ggplot2">ggplot2</a></span><span class="tag"><a href="/tags/data-visualization">data visualization</a></span><span class="tag"><a href="/tags/glyphs">glyphs</a></span><span class="tag"><a href="/tags/svg">svg</a></span><span class="tag"><a href="/tags/grammar-of-graphics">grammar of graphics</a></span>
   				</p>
-			    <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-git-commit"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17.01" y1="12" x2="22.96" y2="12"></line></svg><a href="aa72f701c128c890a7231fe3eea7e86df945889a" target="_blank" rel="noopener">aa72f70</a> @ 2020-04-08</p>
+			    <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-git-commit"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17.01" y1="12" x2="22.96" y2="12"></line></svg><a href="6a4e49d7cc83bfcae0e736b1524860b6461a0d2d" target="_blank" rel="noopener">6a4e49d</a> @ 2020-04-08</p>
   		</div>
     </main>
 

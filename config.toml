@@ -36,7 +36,7 @@ disableHugoGeneratorInject = false
   posts = "/post/:year/:month/:title/"
 
 [author]
-  name = ""
+  name = "Scott Spencer"
 
 [blackfriday]
   hrefTargetBlank = true
@@ -52,8 +52,8 @@ disableHugoGeneratorInject = false
   dateformNumTime = "2006-01-02 15:04 -0700"
 
   # Metadata mostly used in document's head
-  description = "Nice theme for homepages and blogs"
-  keywords = ""
+  description = "Scott Spencer's blog and publications on statistical, generative modeling, bayesian inference, writing, data visualization, and sports."
+  keywords = "Scott Spencer, statistical, generative modeling, bayesian inference, writing, data visualization, sports, columbia university"
   images = [""]
 
   homeSubtitle = "statistical, generative modeling. bayesian inference. writing. data visualization. sports."

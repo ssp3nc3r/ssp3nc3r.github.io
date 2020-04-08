@@ -16,7 +16,7 @@
       <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
       
       <guid>/post/2020-04-08-create-and-encode-custom-glyphs-from-an-svg-path/</guid>
-      <description>In R’s grammar of graphics package (ggplot2), we can encode data in custom-made glyph shapes from vector graphics and encode its size, fill color, or both. SVG graphics display lines, colors fills using paths. Let’s make an SVG graphic containing a single path of a complex shape, assign the graphic in R to data, and change its attributes. For this exercise, I’ve created an SVG path of the silhouette of a baseball player (using Inkscape).</description>
+      <description>In R’s grammar of graphics package (ggplot2), we can encode data in custom-made glyph shapes from vector graphics and encode its size, fill color, or both. SVG graphics display lines, colors fills using paths. Let’s make an SVG graphic containing a single path of a complex shape, assign the graphic in R to data, and change its attributes. For this exercise, I’ve created an SVG path of the silhouette of a baseball player (using Inkscape)1.</description>
     </item>
     
     <item>

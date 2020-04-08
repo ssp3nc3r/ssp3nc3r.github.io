@@ -5,7 +5,7 @@
     <link>/tags/</link>
     <description>Recent content in Tags on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 30 Mar 2020 17:05:13 -0400</lastBuildDate>
+    <lastBuildDate>Wed, 08 Apr 2020 14:23:00 -0400</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -13,9 +13,54 @@
     <item>
       <title>Data Visualization</title>
       <link>/tags/data-visualization/</link>
-      <pubDate>Mon, 30 Mar 2020 17:05:13 -0400</pubDate>
+      <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
       
       <guid>/tags/data-visualization/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ggplot2</title>
+      <link>/tags/ggplot2/</link>
+      <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
+      
+      <guid>/tags/ggplot2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>glyphs</title>
+      <link>/tags/glyphs/</link>
+      <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
+      
+      <guid>/tags/glyphs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>grammar of graphics</title>
+      <link>/tags/grammar-of-graphics/</link>
+      <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
+      
+      <guid>/tags/grammar-of-graphics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>R</title>
+      <link>/tags/r/</link>
+      <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
+      
+      <guid>/tags/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>svg</title>
+      <link>/tags/svg/</link>
+      <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
+      
+      <guid>/tags/svg/</guid>
       <description></description>
     </item>
     
@@ -34,15 +79,6 @@
       <pubDate>Mon, 30 Mar 2020 17:05:13 -0400</pubDate>
       
       <guid>/tags/packages/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>R</title>
-      <link>/tags/r/</link>
-      <pubDate>Mon, 30 Mar 2020 17:05:13 -0400</pubDate>
-      
-      <guid>/tags/r/</guid>
       <description></description>
     </item>
     

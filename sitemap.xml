@@ -3,8 +3,48 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/post/2020-04-08-create-and-encode-custom-glyphs-from-an-svg-path/</loc>
+    <lastmod>2020-04-08T14:23:00-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/tags/data-visualization/</loc>
-    <lastmod>2020-03-31T15:38:17-04:00</lastmod>
+    <lastmod>2020-04-08T14:23:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/ggplot2/</loc>
+    <lastmod>2020-04-08T14:23:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/glyphs/</loc>
+    <lastmod>2020-04-08T14:23:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/grammar-of-graphics/</loc>
+    <lastmod>2020-04-08T14:23:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2020-04-08T14:23:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/r/</loc>
+    <lastmod>2020-04-08T14:23:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/svg/</loc>
+    <lastmod>2020-04-08T14:23:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-04-08T14:23:00-04:00</lastmod>
   </url>
   
   <url>
@@ -23,23 +63,8 @@
   </url>
   
   <url>
-    <loc>/post/</loc>
-    <lastmod>2020-03-31T22:20:27-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/r/</loc>
-    <lastmod>2020-03-31T22:20:27-04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tags/sankey/</loc>
     <lastmod>2020-03-31T15:38:17-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
-    <lastmod>2020-03-31T22:20:27-04:00</lastmod>
   </url>
   
   <url>
@@ -394,12 +419,12 @@
   
   <url>
     <loc>/about/</loc>
-    <lastmod>2020-03-31T15:57:40-04:00</lastmod>
+    <lastmod>2020-04-08T09:43:30-04:00</lastmod>
   </url>
   
   <url>
     <loc>/</loc>
-    <lastmod>2020-04-07T10:21:38-04:00</lastmod>
+    <lastmod>2020-04-08T09:43:30-04:00</lastmod>
   </url>
   
   <url>

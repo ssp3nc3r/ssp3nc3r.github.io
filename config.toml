@@ -36,7 +36,7 @@ disableHugoGeneratorInject = false
   posts = "/post/:year/:month/:title/"
 
 [author]
-  name = "Scott Spencer"
+  name = ""
 
 [blackfriday]
   hrefTargetBlank = true

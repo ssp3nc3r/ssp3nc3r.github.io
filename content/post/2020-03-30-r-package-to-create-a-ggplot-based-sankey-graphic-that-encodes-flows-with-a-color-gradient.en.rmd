@@ -13,7 +13,7 @@ tags:
 
 `ssSankeyGrad` returns a ggplot object encoding the flow between beginning and ending categorical data, _i.e._, a sankey diagram, wherein each flow is encoded as a color gradient. Those color gradients transition between a user-specified color for each category. The parameters are constructed such that `c1`, `c2`, `col1`, `col2`, and `values` are all vectors of the same length and corresponding positions represent one flow between categories. The categories `c1`, `c2` are vectors of type character string, `col1`, `col2` are vectors of type character string and include either named colors or hexidecimal representations of color, and `values` are of an integer or numeric type that encode the amount of "flow" between each category.
 
-To install the function from Github, simply run the following line of code:
+To install the function from Github, simply run the following line of code: 
 
 ```
 devtools::install_github("ssp3nc3r/ggSankeyGrad", ref = "master")

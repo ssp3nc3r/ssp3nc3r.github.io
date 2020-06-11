@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on p( ssp3nc3r | Columbian )</title>
@@ -16,6 +16,15 @@
       <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
       
       <guid>/tags/data-visualization/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>R</title>
+      <link>/tags/r/</link>
+      <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
+      
+      <guid>/tags/r/</guid>
       <description></description>
     </item>
     
@@ -43,15 +52,6 @@
       <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
       
       <guid>/tags/grammar-of-graphics/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>R</title>
-      <link>/tags/r/</link>
-      <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
-      
-      <guid>/tags/r/</guid>
       <description></description>
     </item>
     

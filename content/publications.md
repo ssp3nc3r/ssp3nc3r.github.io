@@ -11,6 +11,8 @@ title: Publications
 
 ## Working papers
 
+Spencer, Scott. _Estimating utility of called pitches_. Last updated 2020 June 11.
+
 Spencer, Scott. [_p( persuasion | data, analysis, storytelling )_](Spencer-2020-persuasion-data-analysis-storytelling.pdf). Last updated 2020 March 07.
 
 Spencer, Scott. _A physics and geometry-based, stochastic model for calls, swings, and contact_. Last updated 2019 December 29.

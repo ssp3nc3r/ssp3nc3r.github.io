@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>p( ssp3nc3r | Columbian )</title>
     <link>/</link>
     <description>Recent content on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 08 Apr 2020 14:23:00 -0400</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
@@ -218,11 +219,11 @@ My applied work focuses on modeling data for good and on professional sports. Re
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/publications/</guid>
-      <description>Working papers Spencer, Scott. p( persuasion | data, analysis, storytelling ). Last updated 2020 March 07.
+      <description>Working papers Spencer, Scott. Estimating utility of called pitches. Last updated 2020 June 11.
+Spencer, Scott. p( persuasion | data, analysis, storytelling ). Last updated 2020 March 07.
 Spencer, Scott. A physics and geometry-based, stochastic model for calls, swings, and contact. Last updated 2019 December 29.
 Spencer, Scott. Locality of Baseball Data.
-Spencer, Scott. Estimating impact of flooding expectations on real property purchase price. Last updated 2019 July 28.
-R packages Spencer, Scott. HSLuv: Converts HSLuv to RGB and Hex. Last updated 2020 March 30.</description>
+Spencer, Scott. Estimating impact of flooding expectations on real property purchase price. Last updated 2019 July 28.</description>
     </item>
     
     <item>

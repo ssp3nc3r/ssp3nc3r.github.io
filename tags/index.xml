@@ -1,14 +1,77 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on p( ssp3nc3r | Columbian )</title>
     <link>/tags/</link>
     <description>Recent content in Tags on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 08 Apr 2020 14:23:00 -0400</lastBuildDate>
+    <lastBuildDate>Fri, 08 May 2020 14:34:25 -0400</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ATL</title>
+      <link>/tags/atl/</link>
+      <pubDate>Fri, 08 May 2020 14:34:25 -0400</pubDate>
+      
+      <guid>/tags/atl/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CTL</title>
+      <link>/tags/ctl/</link>
+      <pubDate>Fri, 08 May 2020 14:34:25 -0400</pubDate>
+      
+      <guid>/tags/ctl/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Cycling</title>
+      <link>/tags/cycling/</link>
+      <pubDate>Fri, 08 May 2020 14:34:25 -0400</pubDate>
+      
+      <guid>/tags/cycling/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>R</title>
+      <link>/tags/r/</link>
+      <pubDate>Fri, 08 May 2020 14:34:25 -0400</pubDate>
+      
+      <guid>/tags/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>training load</title>
+      <link>/tags/training-load/</link>
+      <pubDate>Fri, 08 May 2020 14:34:25 -0400</pubDate>
+      
+      <guid>/tags/training-load/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>TSB</title>
+      <link>/tags/tsb/</link>
+      <pubDate>Fri, 08 May 2020 14:34:25 -0400</pubDate>
+      
+      <guid>/tags/tsb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>TSS</title>
+      <link>/tags/tss/</link>
+      <pubDate>Fri, 08 May 2020 14:34:25 -0400</pubDate>
+      
+      <guid>/tags/tss/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Data Visualization</title>
@@ -16,15 +79,6 @@
       <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
       
       <guid>/tags/data-visualization/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>R</title>
-      <link>/tags/r/</link>
-      <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
-      
-      <guid>/tags/r/</guid>
       <description></description>
     </item>
     
@@ -196,15 +250,6 @@
       <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/adobe-illustrator/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Cycling</title>
-      <link>/tags/cycling/</link>
-      <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/cycling/</guid>
       <description></description>
     </item>
     

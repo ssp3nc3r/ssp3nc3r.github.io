@@ -1,6 +1,56 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>/tags/atl/</loc>
+    <lastmod>2020-05-08T14:34:25-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/2020-05-08-calculating-training-load-in-cycling/</loc>
+    <lastmod>2020-05-08T14:34:25-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/ctl/</loc>
+    <lastmod>2020-05-08T14:34:25-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/cycling/</loc>
+    <lastmod>2020-05-08T14:34:25-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2020-05-08T14:34:25-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/r/</loc>
+    <lastmod>2020-05-08T14:34:25-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-05-08T14:34:25-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/training-load/</loc>
+    <lastmod>2020-05-08T14:34:25-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/tsb/</loc>
+    <lastmod>2020-05-08T14:34:25-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/tss/</loc>
+    <lastmod>2020-05-08T14:34:25-04:00</lastmod>
+  </url>
   
   <url>
     <loc>/post/2020-04-08-create-and-encode-custom-glyphs-from-an-svg-path/</loc>
@@ -10,73 +60,31 @@
   <url>
     <loc>/tags/data-visualization/</loc>
     <lastmod>2020-04-08T16:36:17-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/post/</loc>
-    <lastmod>2020-04-08T16:36:17-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/r/</loc>
-    <lastmod>2020-04-08T16:36:17-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
-    <lastmod>2020-04-08T16:36:17-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/ggplot2/</loc>
     <lastmod>2020-04-08T16:36:17-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/glyphs/</loc>
     <lastmod>2020-04-08T16:36:17-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/grammar-of-graphics/</loc>
     <lastmod>2020-04-08T16:36:17-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/</loc>
-    <lastmod>2020-05-04T16:48:59-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/svg/</loc>
     <lastmod>2020-04-08T16:36:17-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/flow-diagram/</loc>
     <lastmod>2020-03-31T15:38:17-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/packages/</loc>
-    <lastmod>2020-03-31T15:38:17-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/sankey/</loc>
-    <lastmod>2020-03-31T15:38:17-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -85,15 +93,23 @@
   </url>
   
   <url>
+    <loc>/tags/packages/</loc>
+    <lastmod>2020-03-31T15:38:17-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/sankey/</loc>
+    <lastmod>2020-03-31T15:38:17-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/tags/colorspace/</loc>
     <lastmod>2020-03-30T17:46:50-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/hsluv/</loc>
     <lastmod>2020-03-30T17:46:50-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -104,31 +120,26 @@
   <url>
     <loc>/tags/perception/</loc>
     <lastmod>2020-03-30T17:46:50-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/rgb/</loc>
     <lastmod>2020-03-30T17:46:50-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/attendance/</loc>
     <lastmod>2020-03-31T22:20:27-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/baseball/</loc>
     <lastmod>2020-03-31T22:20:27-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/betting/</loc>
     <lastmod>2020-03-31T22:20:27-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -139,19 +150,16 @@
   <url>
     <loc>/tags/stan/</loc>
     <lastmod>2020-03-31T22:20:27-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/uncertainty/</loc>
     <lastmod>2020-03-31T22:20:27-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/information-graphics/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -167,43 +175,31 @@
   <url>
     <loc>/tags/design/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/adobe-illustrator/</loc>
-    <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/adobe-illustrator/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/adobe-illustrator/</loc>
+    <lastmod>2020-03-30T14:35:11-04:00</lastmod>
   </url>
   
   <url>
     <loc>/categories/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/cycling/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/cycling/</loc>
-    <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/eda/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -214,13 +210,11 @@
   <url>
     <loc>/categories/r/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/project-scoping/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -231,7 +225,6 @@
   <url>
     <loc>/tags/abstract-art/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -242,7 +235,6 @@
   <url>
     <loc>/tags/batters/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -253,31 +245,26 @@
   <url>
     <loc>/tags/events/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/expectations/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/offense/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/run-expectancy/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/bayes/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -288,13 +275,11 @@
   <url>
     <loc>/tags/choice/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/contact/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -305,25 +290,21 @@
   <url>
     <loc>/tags/swing/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/whiff/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/sabermetrics/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/stan/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -334,31 +315,26 @@
   <url>
     <loc>/tags/stealing-bases/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/war/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/pitchers/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/survival/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/ttop/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -374,31 +350,26 @@
   <url>
     <loc>/tags/probability/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/strike-zone/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/umpires/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/machine-learning/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/neural-networks/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -409,13 +380,16 @@
   <url>
     <loc>/tags/footspeed/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/mlb/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/rstanarm/</loc>
+    <lastmod>2020-03-30T14:35:11-04:00</lastmod>
   </url>
   
   <url>
@@ -424,21 +398,13 @@
   </url>
   
   <url>
-    <loc>/tags/rstanarm/</loc>
-    <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/tags/algorithms/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/calculus/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -449,25 +415,21 @@
   <url>
     <loc>/tags/linear-algebra/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/optimization/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/r-markdown/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/statistical-learning/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -491,8 +453,13 @@
   </url>
   
   <url>
+    <loc>/</loc>
+    <lastmod>2020-06-11T12:53:54-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/publications/</loc>
-    <lastmod>2020-05-04T16:48:59-04:00</lastmod>
+    <lastmod>2020-06-11T12:53:54-04:00</lastmod>
   </url>
   
   <url>

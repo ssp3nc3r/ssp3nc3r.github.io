@@ -1,14 +1,22 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>p( ssp3nc3r | Columbian )</title>
     <link>/</link>
     <description>Recent content on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 08 Apr 2020 14:23:00 -0400</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Calculating training load in cycling</title>
+      <link>/post/2020-05-08-calculating-training-load-in-cycling/</link>
+      <pubDate>Fri, 08 May 2020 14:34:25 -0400</pubDate>
+      
+      <guid>/post/2020-05-08-calculating-training-load-in-cycling/</guid>
+      <description>In cycling, (Allen 2019) has been an influential instruction for training and racing with a power meter. The authors discuss training load in the context of a few functions: one they call a training stress score, the other two acute and chronic training load, respectively. Training stress score is an estimate of the amount of work going into a single workout while acute and chronic training loads are estimates of the short and medium term accumulated loads from training.</description>
+    </item>
     
     <item>
       <title>Create and encode custom glyphs from an SVG path</title>
@@ -223,7 +231,8 @@ My applied work focuses on modeling data for good and on professional sports. Re
 Spencer, Scott. p( persuasion | data, analysis, storytelling ). Last updated 2020 March 07.
 Spencer, Scott. A physics and geometry-based, stochastic model for calls, swings, and contact. Last updated 2019 December 29.
 Spencer, Scott. Locality of Baseball Data.
-Spencer, Scott. Estimating impact of flooding expectations on real property purchase price. Last updated 2019 July 28.</description>
+Spencer, Scott. Estimating impact of flooding expectations on real property purchase price. Last updated 2019 July 28.
+R packages Spencer, Scott.</description>
     </item>
     
     <item>

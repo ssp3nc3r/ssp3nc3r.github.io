@@ -43,7 +43,7 @@
 <meta itemprop="description" content="A bayesian approach to estimating distributions of the number of runs we expect baseball players to produce in each of the 24 combinations of base runners and outs is presented.">
 <meta itemprop="datePublished" content="2017-12-03T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2020-03-30T14:35:11-04:00" />
-<meta itemprop="wordCount" content="2592">
+<meta itemprop="wordCount" content="2446">
 <meta itemprop="image" content="/"/>
 
 
@@ -331,30 +331,6 @@ fit &lt;- stan_glm(RUNS_AFTER_EVENT ~ -1 + RUNNERS : OUTS_CT,
                 data = rs, 
                 QR = TRUE,
                 chains = 1, iter = 500, cores = 4, seed = TRUE)</code></pre>
-<pre><code>## 
-## SAMPLING FOR MODEL &#39;count&#39; NOW (CHAIN 1).
-## 
-## Gradient evaluation took 0.073799 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 737.99 seconds.
-## Adjust your expectations accordingly!
-## 
-## 
-## Iteration:   1 / 500 [  0%]  (Warmup)
-## Iteration:  50 / 500 [ 10%]  (Warmup)
-## Iteration: 100 / 500 [ 20%]  (Warmup)
-## Iteration: 150 / 500 [ 30%]  (Warmup)
-## Iteration: 200 / 500 [ 40%]  (Warmup)
-## Iteration: 250 / 500 [ 50%]  (Warmup)
-## Iteration: 251 / 500 [ 50%]  (Sampling)
-## Iteration: 300 / 500 [ 60%]  (Sampling)
-## Iteration: 350 / 500 [ 70%]  (Sampling)
-## Iteration: 400 / 500 [ 80%]  (Sampling)
-## Iteration: 450 / 500 [ 90%]  (Sampling)
-## Iteration: 500 / 500 [100%]  (Sampling)
-## 
-##  Elapsed Time: 324.265 seconds (Warm-up)
-##                290.604 seconds (Sampling)
-##                614.869 seconds (Total)</code></pre>
 </div>
 <div id="model-summary" class="section level2">
 <h2>Model summary</h2>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content=" ">
+<meta name="description" content="What do we know about how baseball umpires call balls and strikes? A lot, actually. As those familiar with the game know, balls and strikes are determined by umpires applying the written rules of the game, which means they visually compare the location of a pitched ball to both home plate and batter anatomy.
+We’ll get to those rules below.
+But published models of umpire calls ignore the rules and how umpires apply them." />
+<meta name="keywords" content="Scott Spencer, statistical, generative modeling, bayesian inference, writing, data visualization, sports, columbia university, baseball, umpire calls, strike zone, splines, non-parametric function, generative modeling, sigmoid function, bivariate logistic, uncertainty" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="/post/2020-06-28-ex-splined-beyond-splines-for-modeling-umpire-calls/" />
+
+
+    <title>
+        
+            Ex-splined: beyond splines for modeling umpire calls :: p( ssp3nc3r | Columbian ) 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.min.84ed5579024525d4b50458514d1a43e40dd5272df45c7cd6da85b225af457154.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+<meta itemprop="name" content="Ex-splined: beyond splines for modeling umpire calls">
+<meta itemprop="description" content="What do we know about how baseball umpires call balls and strikes? A lot, actually. As those familiar with the game know, balls and strikes are determined by umpires applying the written rules of the game, which means they visually compare the location of a pitched ball to both home plate and batter anatomy.
+We’ll get to those rules below.
+But published models of umpire calls ignore the rules and how umpires apply them.">
+<meta itemprop="datePublished" content="2020-06-28T22:26:59-04:00" />
+<meta itemprop="dateModified" content="2020-06-28T22:26:59-04:00" />
+<meta itemprop="wordCount" content="806">
+<meta itemprop="image" content="/"/>
+
+
+
+<meta itemprop="keywords" content="baseball,umpire calls,strike zone,splines,non-parametric function,generative modeling,sigmoid function,bivariate logistic,uncertainty," /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="/"/>
+
+<meta name="twitter:title" content="Ex-splined: beyond splines for modeling umpire calls"/>
+<meta name="twitter:description" content="What do we know about how baseball umpires call balls and strikes? A lot, actually. As those familiar with the game know, balls and strikes are determined by umpires applying the written rules of the game, which means they visually compare the location of a pitched ball to both home plate and batter anatomy.
+We’ll get to those rules below.
+But published models of umpire calls ignore the rules and how umpires apply them."/>
+
+
+
+
+
+    <meta property="article:published_time" content="2020-06-28 22:26:59 -0400 EDT" />
+
+
+
+
+
+
+
+
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#67a2c9;
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/about/">About</a></li><li><a href="/post/">Posts</a></li><li><a href="/publications/">Publications</a></li><li><a href="/teaching/">Teaching</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="/post/2020-06-28-ex-splined-beyond-splines-for-modeling-umpire-calls/">Ex-splined: beyond splines for modeling umpire calls</a></h2>
+
+            
+
+            <div class="post-content">
+                
+
+
+<p>What do we know about how baseball umpires call balls and strikes? A lot, actually. As those familiar with the game know, balls and strikes are determined by umpires applying the written rules of the game, which means they visually compare the location of a pitched ball to both home plate and batter anatomy.</p>
+<p>We’ll get to those rules below.</p>
+<p>But published models of umpire calls ignore the rules and how umpires apply them. Instead, those models rely on fitting observational data to non-parametric functions like splines. The approach induces bias; the results do not reflect actual umpire calls. And decisions made from those models will not be optimal. Better approaches — grounded in the applied rules of the game, physics, geometry, and probability — exist.</p>
+<p>First, we review applicable baseball rules and umpire training. Then, we explore some observational data of umpire calls from the 2019 season. Third, we consider approaches in the literature for modeling calls and demonstrate their bias. Fifth, we lay out a way to model calls using the rules.</p>
+<div id="umpires-are-trained-to-apply-the-rules-of-baseball" class="section level2">
+<h2>Umpires are trained to apply the rules of baseball</h2>
+<div id="the-rules" class="section level3">
+<h3>The rules</h3>
+<p>Beginning with the rules, then, umpires call a pitch a strike when it “is not struck at, if any part of the ball passes through any part of the strike zone.” And:</p>
+<blockquote>
+<p>The STRIKE ZONE is that area over home plate the upper limit of which is a horizontal line at the midpoint between the top of the shoulders and the top of the uniform pants, and the lower level is a line at the hollow beneath the kneecap. The Strike Zone shall be determined from the batter’s stance as the batter is prepared to swing at a pitched ball.</p>
+</blockquote>
+<div class="figure" style="text-align: center"><span id="fig:strikezone"></span>
+<img src="strike_zone.png" alt="The hollow beneath kneecap, waist, and shoulders, shown in this MLB rules diagram, have been measured on similar adult males, soldiers." width="60%" />
+<p class="caption">
+Figure 1: The hollow beneath kneecap, waist, and shoulders, shown in this MLB rules diagram, have been measured on similar adult males, soldiers.
+</p>
+</div>
+<p><span class="citation">[@MLB:2017ua]</span>. Since home plate is a “17-inch square…” and a baseball has a 1.47-inch radius, the total rulebook width of the strike zone is about 19.9 inches. (<em>Ibid.</em>, Rule 2.02).</p>
+</div>
+<div id="umpire-training" class="section level3">
+<h3>Umpire training</h3>
+<p>Umpires necessarily judge the location of a pitch in relation to the strike zone from a less-than-ideal perspective. As the catcher blocks any view from directly behind the plate inline with the center of the strike zone, umpires are trained to judge baseball location viewed from the inside, top edge of the batter’s strike zone, described as the <em>slot</em> <span class="citation">[@weberTheySeeEm2014]</span>. From that view, pitches up or inside are relatively certain to be a ball. But the physics of that perspective lead to increased uncertainty in baseball location as its placement moves toward the low, outside corner. This positioning also creates asymmetry in strike probability by baseball location, depending on batter handedness.</p>
+</div>
+</div>
+<div id="observational-data-measure-outcomes-of-umpire-decisions" class="section level2">
+<h2>Observational data measure outcomes of umpire decisions</h2>
+<p>Let’s review the publicly-available 2019 pitch data from MLBAM.</p>
+</div>
+<div id="published-models-ignore-the-rules-and-decisionmaking-within-the-geometry-of-the-game" class="section level2">
+<h2>Published models ignore the rules and decisionmaking within the geometry of the game</h2>
+<p>Earlier work has primarily relied upon generalized additive models and splines, as summarised in <span class="citation">[@spencerModelingUmpireCalls2018]</span>.</p>
+<div id="review-of-published-models" class="section level3">
+<h3>Review of published models</h3>
+<p>Those earlier models have included <span class="citation">[@Deshpande:2017uc]</span>, <span class="citation">[@Judge:2018wg]</span>, and <span class="citation">[@Blum:2017uf]</span>. More specifically, Deshpande and co-authors described a mixed effects model with an undisclosed generalized additive model as a smoothing function on pitched baseball location at the front edge of home plate. Their model, then, added effects for count, umpire, and catcher. As they explain, it’s a “hierarchical model to estimate each umpire’s probability of calling a strike, adjusting for pitch participants, pitch location, and contextual information like the count.” Blum and Judge include point estimates of probabilities based on pitch location from another model as <em>data</em> for theirs. Unlike those models, Spencer explicitly modeled pitch location in a joint model for modeling umpire calls with batters’ choices to swing, but still relied upon multivariate splines as a proxy for the underlying process <span class="citation">[@spencerJointlyModelingChoice2018]</span>.</p>
+</div>
+<div id="how-splines-work" class="section level3">
+<h3>How splines work</h3>
+<p>So what’s a spline? The physical idea of a spline is as a tool for creating curves. …</p>
+<p>[image of spline]</p>
+</div>
+<div id="bias-when-applied-to-observed-umpire-calls" class="section level3">
+<h3>Bias when applied to observed umpire calls</h3>
+<p>Splines and related functions (gaussian processes) are advantageous when the forms of relationships or processes are not known. But as we’ve discussed, here we do have information as of yet unused suggesting the functional forms of the matchup. As such, gaussian process functions are comparatively too flexible, leading to <em>overfitting</em>, because they ignore readily available information. A spline function, for example, would allow the probability of a called strike to increase the farther the baseball location was from the center of the strike zone.</p>
+<p>To see biase in practice, let’s re-consider the pitch locations called by, say, umpire ___. But here we will completely remove the variation and uncertainty in his calls. Instead, we re-code all pitches within the rule book strike zone as strikes, and those outside as balls.</p>
+</div>
+</div>
+<div id="better-models-can-include-game-rules-and-how-umpires-are-trained-to-apply-them" class="section level2">
+<h2>Better models can include game rules and how umpires are trained to apply them</h2>
+</div>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/baseball">baseball</a></span><span class="tag"><a href="/tags/umpire-calls">umpire calls</a></span><span class="tag"><a href="/tags/strike-zone">strike zone</a></span><span class="tag"><a href="/tags/splines">splines</a></span><span class="tag"><a href="/tags/non-parametric-function">non-parametric function</a></span><span class="tag"><a href="/tags/generative-modeling">generative modeling</a></span><span class="tag"><a href="/tags/sigmoid-function">sigmoid function</a></span><span class="tag"><a href="/tags/bivariate-logistic">bivariate logistic</a></span><span class="tag"><a href="/tags/uncertainty">uncertainty</a></span>
+  				</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+        </div>
+    </div>
+    <script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.2d5469329143160ae2456a69c3c76dc2d0a3b212b46afe291a51bd68650ed6f8697e001dab54f1c272c77ce08092a8c55e5bb4314e0ee334aab4b927ec896638.js" integrity="sha512-LVRpMpFDFgriRWppw8dtwtCjshK0av4pGlG9aGUO1vhpfgAdq1TxwnLHfOCAkqjFXlu0MU4O4zSqtLkn7IlmOA=="></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-123500360-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+
+    </body>
+</html>

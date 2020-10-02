@@ -9,6 +9,10 @@ date: "2020"
 title: Teaching
 ---
 
+## 2020 Fall
+
+Columbia University. Applied Analytics. _Research Design_.
+
 ## 2020 Spring
 
 Columbia University. Applied Analytics. _Storytelling with Data_.

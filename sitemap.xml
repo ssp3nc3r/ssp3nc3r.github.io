@@ -3,6 +3,66 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/tags/baseball/</loc>
+    <lastmod>2020-08-03T21:11:34-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/bivariate-logistic/</loc>
+    <lastmod>2020-06-28T22:26:59-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/2020-06-28-ex-splined-beyond-splines-for-modeling-umpire-calls/</loc>
+    <lastmod>2020-06-28T22:26:59-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/generative-modeling/</loc>
+    <lastmod>2020-06-28T22:26:59-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/non-parametric-function/</loc>
+    <lastmod>2020-06-28T22:26:59-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2020-08-03T21:11:34-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/sigmoid-function/</loc>
+    <lastmod>2020-06-28T22:26:59-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/splines/</loc>
+    <lastmod>2020-06-28T22:26:59-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/strike-zone/</loc>
+    <lastmod>2020-06-28T22:26:59-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-08-03T21:11:34-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/umpire-calls/</loc>
+    <lastmod>2020-06-28T22:26:59-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/uncertainty/</loc>
+    <lastmod>2020-06-28T22:26:59-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/tags/atl/</loc>
     <lastmod>2020-07-12T17:34:10-04:00</lastmod>
   </url>
@@ -23,18 +83,8 @@
   </url>
   
   <url>
-    <loc>/post/</loc>
-    <lastmod>2020-07-12T17:34:10-04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tags/r/</loc>
-    <lastmod>2020-07-12T17:34:10-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
-    <lastmod>2020-07-12T17:34:10-04:00</lastmod>
+    <lastmod>2020-08-03T21:11:34-04:00</lastmod>
   </url>
   
   <url>
@@ -133,11 +183,6 @@
   </url>
   
   <url>
-    <loc>/tags/baseball/</loc>
-    <lastmod>2020-03-31T22:20:27-04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tags/betting/</loc>
     <lastmod>2020-03-31T22:20:27-04:00</lastmod>
   </url>
@@ -149,12 +194,7 @@
   
   <url>
     <loc>/tags/stan/</loc>
-    <lastmod>2020-03-31T22:20:27-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/uncertainty/</loc>
-    <lastmod>2020-03-31T22:20:27-04:00</lastmod>
+    <lastmod>2020-08-03T21:11:34-04:00</lastmod>
   </url>
   
   <url>
@@ -189,7 +229,7 @@
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2020-03-30T14:35:11-04:00</lastmod>
+    <lastmod>2020-08-03T21:11:34-04:00</lastmod>
   </url>
   
   <url>
@@ -209,7 +249,7 @@
   
   <url>
     <loc>/categories/r/</loc>
-    <lastmod>2020-03-30T14:35:11-04:00</lastmod>
+    <lastmod>2020-08-03T21:11:34-04:00</lastmod>
   </url>
   
   <url>
@@ -259,12 +299,12 @@
   
   <url>
     <loc>/tags/run-expectancy/</loc>
-    <lastmod>2020-03-30T14:35:11-04:00</lastmod>
+    <lastmod>2020-08-03T21:11:34-04:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/bayes/</loc>
-    <lastmod>2020-03-30T14:35:11-04:00</lastmod>
+    <lastmod>2020-08-03T21:11:34-04:00</lastmod>
   </url>
   
   <url>
@@ -353,11 +393,6 @@
   </url>
   
   <url>
-    <loc>/tags/strike-zone/</loc>
-    <lastmod>2020-03-30T14:35:11-04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tags/umpires/</loc>
     <lastmod>2020-03-30T14:35:11-04:00</lastmod>
   </url>
@@ -384,12 +419,12 @@
   
   <url>
     <loc>/tags/mlb/</loc>
-    <lastmod>2020-03-30T14:35:11-04:00</lastmod>
+    <lastmod>2020-08-03T21:11:34-04:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/rstanarm/</loc>
-    <lastmod>2020-03-30T14:35:11-04:00</lastmod>
+    <lastmod>2020-08-03T21:11:34-04:00</lastmod>
   </url>
   
   <url>
@@ -434,7 +469,7 @@
   
   <url>
     <loc>/post/2017-12-03-run-expectancy-distributions/</loc>
-    <lastmod>2020-03-30T14:35:11-04:00</lastmod>
+    <lastmod>2020-08-03T21:11:34-04:00</lastmod>
   </url>
   
   <url>

@@ -10,6 +10,17 @@
     
     
     <item>
+      <title>Ex-splined: beyond splines for modeling umpire calls</title>
+      <link>/post/2020-06-28-ex-splined-beyond-splines-for-modeling-umpire-calls/</link>
+      <pubDate>Sun, 28 Jun 2020 22:26:59 -0400</pubDate>
+      
+      <guid>/post/2020-06-28-ex-splined-beyond-splines-for-modeling-umpire-calls/</guid>
+      <description>What do we know about how baseball umpires call balls and strikes? A lot, actually. As those familiar with the game know, balls and strikes are determined by umpires applying the written rules of the game, which means they visually compare the location of a pitched ball to both home plate and batter anatomy.
+We’ll get to those rules below.
+But published models of umpire calls ignore the rules and how umpires apply them.</description>
+    </item>
+    
+    <item>
       <title>Calculating training load in cycling</title>
       <link>/post/2020-05-08-calculating-training-load-in-cycling/</link>
       <pubDate>Fri, 08 May 2020 14:34:25 -0400</pubDate>
@@ -241,7 +252,8 @@ R packages Spencer, Scott.</description>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/teaching/</guid>
-      <description>2020 Spring Columbia University. Applied Analytics. Storytelling with Data.
+      <description>2020 Fall Columbia University. Applied Analytics. Research Design.
+2020 Spring Columbia University. Applied Analytics. Storytelling with Data.
 2019 Fall Columbia University. Applied Analytics. Storytelling with Data.
 2019 Summer Columbia University. Applied Analytics. Storytelling with Data.
 2019 Spring Columbia University. Applied Analytics. Storytelling with Data.

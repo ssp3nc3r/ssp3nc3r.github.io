@@ -5,10 +5,91 @@
     <link>/tags/</link>
     <description>Recent content in Tags on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 08 May 2020 14:34:25 -0400</lastBuildDate>
+    <lastBuildDate>Sun, 28 Jun 2020 22:26:59 -0400</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Baseball</title>
+      <link>/tags/baseball/</link>
+      <pubDate>Sun, 28 Jun 2020 22:26:59 -0400</pubDate>
+      
+      <guid>/tags/baseball/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>bivariate logistic</title>
+      <link>/tags/bivariate-logistic/</link>
+      <pubDate>Sun, 28 Jun 2020 22:26:59 -0400</pubDate>
+      
+      <guid>/tags/bivariate-logistic/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>generative modeling</title>
+      <link>/tags/generative-modeling/</link>
+      <pubDate>Sun, 28 Jun 2020 22:26:59 -0400</pubDate>
+      
+      <guid>/tags/generative-modeling/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>non-parametric function</title>
+      <link>/tags/non-parametric-function/</link>
+      <pubDate>Sun, 28 Jun 2020 22:26:59 -0400</pubDate>
+      
+      <guid>/tags/non-parametric-function/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sigmoid function</title>
+      <link>/tags/sigmoid-function/</link>
+      <pubDate>Sun, 28 Jun 2020 22:26:59 -0400</pubDate>
+      
+      <guid>/tags/sigmoid-function/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>splines</title>
+      <link>/tags/splines/</link>
+      <pubDate>Sun, 28 Jun 2020 22:26:59 -0400</pubDate>
+      
+      <guid>/tags/splines/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Strike Zone</title>
+      <link>/tags/strike-zone/</link>
+      <pubDate>Sun, 28 Jun 2020 22:26:59 -0400</pubDate>
+      
+      <guid>/tags/strike-zone/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>umpire calls</title>
+      <link>/tags/umpire-calls/</link>
+      <pubDate>Sun, 28 Jun 2020 22:26:59 -0400</pubDate>
+      
+      <guid>/tags/umpire-calls/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Uncertainty</title>
+      <link>/tags/uncertainty/</link>
+      <pubDate>Sun, 28 Jun 2020 22:26:59 -0400</pubDate>
+      
+      <guid>/tags/uncertainty/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>ATL</title>
@@ -191,15 +272,6 @@
     </item>
     
     <item>
-      <title>Baseball</title>
-      <link>/tags/baseball/</link>
-      <pubDate>Fri, 03 Jan 2020 18:01:28 -0400</pubDate>
-      
-      <guid>/tags/baseball/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Betting</title>
       <link>/tags/betting/</link>
       <pubDate>Fri, 03 Jan 2020 18:01:28 -0400</pubDate>
@@ -214,15 +286,6 @@
       <pubDate>Fri, 03 Jan 2020 18:01:28 -0400</pubDate>
       
       <guid>/tags/stan/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Uncertainty</title>
-      <link>/tags/uncertainty/</link>
-      <pubDate>Fri, 03 Jan 2020 18:01:28 -0400</pubDate>
-      
-      <guid>/tags/uncertainty/</guid>
       <description></description>
     </item>
     
@@ -430,15 +493,6 @@
       <pubDate>Wed, 25 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/probability/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Strike Zone</title>
-      <link>/tags/strike-zone/</link>
-      <pubDate>Wed, 25 Apr 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/strike-zone/</guid>
       <description></description>
     </item>
     

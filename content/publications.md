@@ -37,6 +37,18 @@ Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawar
 
 ## Presentations and lectures
 
+2020 September 10 - December. Fall course, _Research Design_. Columbia University.
+
+: Spencer, Scott. [_Introduction to research design, probability review_](Spencer-2020-Columbia-Research-Design-lecture01.pdf). Research Design. In Applied Analytics, Columbia University.  2020 September 10.
+
+: Spencer, Scott. [_Review published study, questions and research, hypotheses_](Spencer-2020-Columbia-Research-Design-lecture02.pdf). Research Design. In Applied Analytics, Columbia University.  2020 September 17.
+
+: Spencer, Scott. [_Elements of causal inference, experiments_](Spencer-2020-Columbia-Research-Design-lecture03.pdf). Research Design. In Applied Analytics, Columbia University.  2020 September 24.
+
+: Spencer, Scott. [_A bit more probability review, sampling, statistical tests_](Spencer-2020-Columbia-Research-Design-lecture04.pdf). Research Design. In Applied Analytics, Columbia University.  2020 October 1.
+
+...
+
 2020 January 21 - May 15. Spring course, _Storytelling with data_. Columbia University.
 
 : Spencer, Scott. [_Is communication important for applied analytics_](Spencer-2020-Columbia-Storytelling-lecture01.pdf)? Storytelling with data. In Applied Analytics, Columbia University.  2020 January 27.

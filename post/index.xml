@@ -5,10 +5,21 @@
     <link>/post/</link>
     <description>Recent content in Posts on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 08 May 2020 14:34:25 -0400</lastBuildDate>
+    <lastBuildDate>Sun, 28 Jun 2020 22:26:59 -0400</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Ex-splined: beyond splines for modeling umpire calls</title>
+      <link>/post/2020-06-28-ex-splined-beyond-splines-for-modeling-umpire-calls/</link>
+      <pubDate>Sun, 28 Jun 2020 22:26:59 -0400</pubDate>
+      
+      <guid>/post/2020-06-28-ex-splined-beyond-splines-for-modeling-umpire-calls/</guid>
+      <description>What do we know about how baseball umpires call balls and strikes? A lot, actually. As those familiar with the game know, balls and strikes are determined by umpires applying the written rules of the game, which means they visually compare the location of a pitched ball to both home plate and batter anatomy.
+We’ll get to those rules below.
+But published models of umpire calls ignore the rules and how umpires apply them.</description>
+    </item>
     
     <item>
       <title>Calculating training load in cycling</title>

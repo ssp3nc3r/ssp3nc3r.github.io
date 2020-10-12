@@ -47,6 +47,8 @@ Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawar
 
 : Spencer, Scott. [_A bit more probability review, sampling, statistical tests_](Spencer-2020-Columbia-Research-Design-lecture04.pdf). Research Design. In Applied Analytics, Columbia University.  2020 October 1.
 
+: Spencer, Scott. [_statistical tests continued; inference and interpretation_](Spencer-2020-Columbia-Research-Design-lecture05.pdf). Research Design. In Applied Analytics, Columbia University.  2020 October 8.
+
 ...
 
 2020 January 21 - May 15. Spring course, _Storytelling with data_. Columbia University.

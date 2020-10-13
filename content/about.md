@@ -11,7 +11,7 @@ title: About
 
 Hello, I'm Scott. I lecture in the applied analytics graduate program at Columbia University, my alma mater. I work with core developers of `Stan`, a probabilistic programming language, building Bayesian, generative models of complex processes involving both human behavior and physical phenomena.
 
-My applied work focuses on modeling data for good and on professional sports. Recent efforts are on the spatial and temporal impact of sea-level rise on the perceived value of coastal properties, and on major league baseball player and team performance. My work in modeling and communication arise from a doctor of jurisprudence, master of science in sports management focused on data science analytics, and bachelor of science in chemical engineering focused on numerical methods and statistical process control.
+My applied work focuses on modeling data for good and on professional sports. Recent efforts are on the spatial and temporal impact of sea-level rise on the perceived value of coastal land, and on major league baseball player and team performance. My work in modeling and communication arise from a doctor of jurisprudence, master of science in sports management focused on data science analytics, and bachelor of science in chemical engineering focused on numerical methods and statistical process control.
 
 My analyses have extended to other domains as well. Previously, I analyzed data and communicated statistical insights, persuading various stakeholders of my technology clients (including Vevo, Freewheel, Johnson & Johnson, Dow Agrosciences, Qualcomm, Fitbod, and Amazon) on the impact of my analyses for decisions related to patent litigation and licensing.
 

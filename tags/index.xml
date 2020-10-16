@@ -2,605 +2,394 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on p( ssp3nc3r | Columbian )</title>
-    <link>/tags/</link>
+    <link>https://ssp3nc3r.github.io/tags/</link>
     <description>Recent content in Tags on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 28 Jun 2020 22:26:59 -0400</lastBuildDate>
-    
-	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Baseball</title>
-      <link>/tags/baseball/</link>
-      <pubDate>Sun, 28 Jun 2020 22:26:59 -0400</pubDate>
-      
-      <guid>/tags/baseball/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>bivariate logistic</title>
-      <link>/tags/bivariate-logistic/</link>
-      <pubDate>Sun, 28 Jun 2020 22:26:59 -0400</pubDate>
-      
-      <guid>/tags/bivariate-logistic/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>generative modeling</title>
-      <link>/tags/generative-modeling/</link>
-      <pubDate>Sun, 28 Jun 2020 22:26:59 -0400</pubDate>
-      
-      <guid>/tags/generative-modeling/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>non-parametric function</title>
-      <link>/tags/non-parametric-function/</link>
-      <pubDate>Sun, 28 Jun 2020 22:26:59 -0400</pubDate>
-      
-      <guid>/tags/non-parametric-function/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>sigmoid function</title>
-      <link>/tags/sigmoid-function/</link>
-      <pubDate>Sun, 28 Jun 2020 22:26:59 -0400</pubDate>
-      
-      <guid>/tags/sigmoid-function/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>splines</title>
-      <link>/tags/splines/</link>
-      <pubDate>Sun, 28 Jun 2020 22:26:59 -0400</pubDate>
-      
-      <guid>/tags/splines/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Strike Zone</title>
-      <link>/tags/strike-zone/</link>
-      <pubDate>Sun, 28 Jun 2020 22:26:59 -0400</pubDate>
-      
-      <guid>/tags/strike-zone/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>umpire calls</title>
-      <link>/tags/umpire-calls/</link>
-      <pubDate>Sun, 28 Jun 2020 22:26:59 -0400</pubDate>
-      
-      <guid>/tags/umpire-calls/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Uncertainty</title>
-      <link>/tags/uncertainty/</link>
-      <pubDate>Sun, 28 Jun 2020 22:26:59 -0400</pubDate>
-      
-      <guid>/tags/uncertainty/</guid>
-      <description></description>
-    </item>
-    
+    <lastBuildDate>Fri, 08 May 2020 14:34:25 -0400</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>ATL</title>
-      <link>/tags/atl/</link>
+      <link>https://ssp3nc3r.github.io/tags/atl/</link>
       <pubDate>Fri, 08 May 2020 14:34:25 -0400</pubDate>
       
-      <guid>/tags/atl/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/atl/</guid>
       <description></description>
     </item>
     
     <item>
       <title>CTL</title>
-      <link>/tags/ctl/</link>
+      <link>https://ssp3nc3r.github.io/tags/ctl/</link>
       <pubDate>Fri, 08 May 2020 14:34:25 -0400</pubDate>
       
-      <guid>/tags/ctl/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/ctl/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Cycling</title>
-      <link>/tags/cycling/</link>
+      <link>https://ssp3nc3r.github.io/tags/cycling/</link>
       <pubDate>Fri, 08 May 2020 14:34:25 -0400</pubDate>
       
-      <guid>/tags/cycling/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/cycling/</guid>
       <description></description>
     </item>
     
     <item>
       <title>R</title>
-      <link>/tags/r/</link>
+      <link>https://ssp3nc3r.github.io/tags/r/</link>
       <pubDate>Fri, 08 May 2020 14:34:25 -0400</pubDate>
       
-      <guid>/tags/r/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/r/</guid>
       <description></description>
     </item>
     
     <item>
       <title>training load</title>
-      <link>/tags/training-load/</link>
+      <link>https://ssp3nc3r.github.io/tags/training-load/</link>
       <pubDate>Fri, 08 May 2020 14:34:25 -0400</pubDate>
       
-      <guid>/tags/training-load/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/training-load/</guid>
       <description></description>
     </item>
     
     <item>
       <title>TSB</title>
-      <link>/tags/tsb/</link>
+      <link>https://ssp3nc3r.github.io/tags/tsb/</link>
       <pubDate>Fri, 08 May 2020 14:34:25 -0400</pubDate>
       
-      <guid>/tags/tsb/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/tsb/</guid>
       <description></description>
     </item>
     
     <item>
       <title>TSS</title>
-      <link>/tags/tss/</link>
+      <link>https://ssp3nc3r.github.io/tags/tss/</link>
       <pubDate>Fri, 08 May 2020 14:34:25 -0400</pubDate>
       
-      <guid>/tags/tss/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/tss/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Data Visualization</title>
-      <link>/tags/data-visualization/</link>
-      <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
+      <link>https://ssp3nc3r.github.io/tags/data-visualization/</link>
+      <pubDate>Mon, 08 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/data-visualization/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>ggplot2</title>
-      <link>/tags/ggplot2/</link>
-      <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
-      
-      <guid>/tags/ggplot2/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>glyphs</title>
-      <link>/tags/glyphs/</link>
-      <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
-      
-      <guid>/tags/glyphs/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>grammar of graphics</title>
-      <link>/tags/grammar-of-graphics/</link>
-      <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
-      
-      <guid>/tags/grammar-of-graphics/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>svg</title>
-      <link>/tags/svg/</link>
-      <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
-      
-      <guid>/tags/svg/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Flow Diagram</title>
-      <link>/tags/flow-diagram/</link>
-      <pubDate>Mon, 30 Mar 2020 17:05:13 -0400</pubDate>
-      
-      <guid>/tags/flow-diagram/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Packages</title>
-      <link>/tags/packages/</link>
-      <pubDate>Mon, 30 Mar 2020 17:05:13 -0400</pubDate>
-      
-      <guid>/tags/packages/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Sankey</title>
-      <link>/tags/sankey/</link>
-      <pubDate>Mon, 30 Mar 2020 17:05:13 -0400</pubDate>
-      
-      <guid>/tags/sankey/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Colorspace</title>
-      <link>/tags/colorspace/</link>
-      <pubDate>Mon, 30 Mar 2020 16:49:54 -0400</pubDate>
-      
-      <guid>/tags/colorspace/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>HSLuv</title>
-      <link>/tags/hsluv/</link>
-      <pubDate>Mon, 30 Mar 2020 16:49:54 -0400</pubDate>
-      
-      <guid>/tags/hsluv/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Perception</title>
-      <link>/tags/perception/</link>
-      <pubDate>Mon, 30 Mar 2020 16:49:54 -0400</pubDate>
-      
-      <guid>/tags/perception/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>RGB</title>
-      <link>/tags/rgb/</link>
-      <pubDate>Mon, 30 Mar 2020 16:49:54 -0400</pubDate>
-      
-      <guid>/tags/rgb/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Attendance</title>
-      <link>/tags/attendance/</link>
-      <pubDate>Fri, 03 Jan 2020 18:01:28 -0400</pubDate>
-      
-      <guid>/tags/attendance/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Betting</title>
-      <link>/tags/betting/</link>
-      <pubDate>Fri, 03 Jan 2020 18:01:28 -0400</pubDate>
-      
-      <guid>/tags/betting/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Stan</title>
-      <link>/tags/stan/</link>
-      <pubDate>Fri, 03 Jan 2020 18:01:28 -0400</pubDate>
-      
-      <guid>/tags/stan/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/data-visualization/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Information Graphics</title>
-      <link>/tags/information-graphics/</link>
+      <link>https://ssp3nc3r.github.io/tags/information-graphics/</link>
       <pubDate>Mon, 08 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/information-graphics/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/information-graphics/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Design</title>
-      <link>/tags/design/</link>
+      <link>https://ssp3nc3r.github.io/tags/design/</link>
       <pubDate>Fri, 15 Mar 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/design/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/design/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Adobe Illustrator</title>
-      <link>/tags/adobe-illustrator/</link>
+      <link>https://ssp3nc3r.github.io/tags/adobe-illustrator/</link>
       <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/adobe-illustrator/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/adobe-illustrator/</guid>
       <description></description>
     </item>
     
     <item>
       <title>EDA</title>
-      <link>/tags/eda/</link>
+      <link>https://ssp3nc3r.github.io/tags/eda/</link>
       <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/eda/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/eda/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Project Scoping</title>
-      <link>/tags/project-scoping/</link>
+      <link>https://ssp3nc3r.github.io/tags/project-scoping/</link>
       <pubDate>Thu, 03 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/project-scoping/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/project-scoping/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Abstract Art</title>
-      <link>/tags/abstract-art/</link>
+      <link>https://ssp3nc3r.github.io/tags/abstract-art/</link>
       <pubDate>Fri, 21 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/abstract-art/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/abstract-art/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Baseball</title>
+      <link>https://ssp3nc3r.github.io/tags/baseball/</link>
+      <pubDate>Fri, 21 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://ssp3nc3r.github.io/tags/baseball/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Batters</title>
-      <link>/tags/batters/</link>
+      <link>https://ssp3nc3r.github.io/tags/batters/</link>
       <pubDate>Sat, 08 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/batters/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/batters/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Events</title>
-      <link>/tags/events/</link>
+      <link>https://ssp3nc3r.github.io/tags/events/</link>
       <pubDate>Sat, 08 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/events/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/events/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Expectations</title>
-      <link>/tags/expectations/</link>
+      <link>https://ssp3nc3r.github.io/tags/expectations/</link>
       <pubDate>Sat, 08 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/expectations/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/expectations/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Offense</title>
-      <link>/tags/offense/</link>
+      <link>https://ssp3nc3r.github.io/tags/offense/</link>
       <pubDate>Sat, 08 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/offense/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/offense/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Run Expectancy</title>
-      <link>/tags/run-expectancy/</link>
+      <link>https://ssp3nc3r.github.io/tags/run-expectancy/</link>
       <pubDate>Sat, 08 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/run-expectancy/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/run-expectancy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Stan</title>
+      <link>https://ssp3nc3r.github.io/tags/stan/</link>
+      <pubDate>Sat, 08 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://ssp3nc3r.github.io/tags/stan/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Bayes</title>
-      <link>/tags/bayes/</link>
+      <link>https://ssp3nc3r.github.io/tags/bayes/</link>
       <pubDate>Tue, 09 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/bayes/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/bayes/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Choice</title>
-      <link>/tags/choice/</link>
+      <link>https://ssp3nc3r.github.io/tags/choice/</link>
       <pubDate>Sat, 01 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/choice/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/choice/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Contact</title>
-      <link>/tags/contact/</link>
+      <link>https://ssp3nc3r.github.io/tags/contact/</link>
       <pubDate>Sat, 01 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/contact/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/contact/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Swing</title>
-      <link>/tags/swing/</link>
+      <link>https://ssp3nc3r.github.io/tags/swing/</link>
       <pubDate>Sat, 01 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/swing/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/swing/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Whiff</title>
-      <link>/tags/whiff/</link>
+      <link>https://ssp3nc3r.github.io/tags/whiff/</link>
       <pubDate>Sat, 01 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/whiff/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Sabermetrics</title>
-      <link>/tags/sabermetrics/</link>
-      <pubDate>Sun, 05 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/sabermetrics/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Stealing bases</title>
-      <link>/tags/stealing-bases/</link>
-      <pubDate>Sun, 05 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/stealing-bases/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>WAR</title>
-      <link>/tags/war/</link>
-      <pubDate>Sun, 05 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/war/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/whiff/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Pitchers</title>
-      <link>/tags/pitchers/</link>
+      <link>https://ssp3nc3r.github.io/tags/pitchers/</link>
       <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/pitchers/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/pitchers/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Survival</title>
-      <link>/tags/survival/</link>
+      <link>https://ssp3nc3r.github.io/tags/survival/</link>
       <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/survival/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/survival/</guid>
       <description></description>
     </item>
     
     <item>
       <title>TTOP</title>
-      <link>/tags/ttop/</link>
+      <link>https://ssp3nc3r.github.io/tags/ttop/</link>
       <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/ttop/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/ttop/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Probability</title>
-      <link>/tags/probability/</link>
+      <link>https://ssp3nc3r.github.io/tags/probability/</link>
       <pubDate>Wed, 25 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/probability/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/probability/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Strike Zone</title>
+      <link>https://ssp3nc3r.github.io/tags/strike-zone/</link>
+      <pubDate>Wed, 25 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://ssp3nc3r.github.io/tags/strike-zone/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Umpires</title>
-      <link>/tags/umpires/</link>
+      <link>https://ssp3nc3r.github.io/tags/umpires/</link>
       <pubDate>Wed, 25 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/umpires/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/umpires/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Machine Learning</title>
-      <link>/tags/machine-learning/</link>
+      <link>https://ssp3nc3r.github.io/tags/machine-learning/</link>
       <pubDate>Thu, 05 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/machine-learning/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/machine-learning/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Neural Networks</title>
-      <link>/tags/neural-networks/</link>
+      <link>https://ssp3nc3r.github.io/tags/neural-networks/</link>
       <pubDate>Thu, 05 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/neural-networks/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/neural-networks/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Footspeed</title>
-      <link>/tags/footspeed/</link>
+      <link>https://ssp3nc3r.github.io/tags/footspeed/</link>
       <pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/footspeed/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/footspeed/</guid>
       <description></description>
     </item>
     
     <item>
       <title>MLB</title>
-      <link>/tags/mlb/</link>
+      <link>https://ssp3nc3r.github.io/tags/mlb/</link>
       <pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/mlb/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/mlb/</guid>
       <description></description>
     </item>
     
     <item>
       <title>rstanarm</title>
-      <link>/tags/rstanarm/</link>
+      <link>https://ssp3nc3r.github.io/tags/rstanarm/</link>
       <pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/rstanarm/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/rstanarm/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Algorithms</title>
-      <link>/tags/algorithms/</link>
+      <link>https://ssp3nc3r.github.io/tags/algorithms/</link>
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/algorithms/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/algorithms/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Calculus</title>
-      <link>/tags/calculus/</link>
+      <link>https://ssp3nc3r.github.io/tags/calculus/</link>
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/calculus/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/calculus/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Linear Algebra</title>
-      <link>/tags/linear-algebra/</link>
+      <link>https://ssp3nc3r.github.io/tags/linear-algebra/</link>
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/linear-algebra/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/linear-algebra/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Optimization</title>
-      <link>/tags/optimization/</link>
+      <link>https://ssp3nc3r.github.io/tags/optimization/</link>
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/optimization/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/optimization/</guid>
       <description></description>
     </item>
     
     <item>
       <title>R Markdown</title>
-      <link>/tags/r-markdown/</link>
+      <link>https://ssp3nc3r.github.io/tags/r-markdown/</link>
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/r-markdown/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/r-markdown/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Statistical Learning</title>
-      <link>/tags/statistical-learning/</link>
+      <link>https://ssp3nc3r.github.io/tags/statistical-learning/</link>
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/statistical-learning/</guid>
+      <guid>https://ssp3nc3r.github.io/tags/statistical-learning/</guid>
       <description></description>
     </item>
     

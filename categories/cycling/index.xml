@@ -2,20 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Cycling on p( ssp3nc3r | Columbian )</title>
-    <link>/categories/cycling/</link>
+    <link>https://ssp3nc3r.github.io/categories/cycling/</link>
     <description>Recent content in Cycling on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 28 Feb 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/categories/cycling/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 28 Feb 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/categories/cycling/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Exploring CitiBike ride data</title>
-      <link>/post/exploring-citibike-ride-data/</link>
+      <link>https://ssp3nc3r.github.io/post/exploring-citibike-ride-data/</link>
       <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/exploring-citibike-ride-data/</guid>
+      <guid>https://ssp3nc3r.github.io/post/exploring-citibike-ride-data/</guid>
       <description>Background The Challenge How can we identify causes, relationships One approach for this analysis Identified data of measurements CitiBike ride data Alternative transportation data Weather information Traffic information  Beginning data exploration — daily bike usage   Background In 2013, the NYC Department of Transportation sought to start a bike share to reduce emissions, road wear, congestion, and improve public health.
 After selecting an operator and sponsor, the Citi Bike bike share was established with a bike fleet distributed over a network of docking stations throughout the city.</description>
     </item>

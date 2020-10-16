@@ -2,39 +2,35 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>R on p( ssp3nc3r | Columbian )</title>
-    <link>/categories/r/</link>
+    <link>https://ssp3nc3r.github.io/categories/r/</link>
     <description>Recent content in R on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 28 Feb 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 28 Feb 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/categories/r/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Exploring CitiBike ride data</title>
-      <link>/post/exploring-citibike-ride-data/</link>
+      <link>https://ssp3nc3r.github.io/post/exploring-citibike-ride-data/</link>
       <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/exploring-citibike-ride-data/</guid>
+      <guid>https://ssp3nc3r.github.io/post/exploring-citibike-ride-data/</guid>
       <description>Background The Challenge How can we identify causes, relationships One approach for this analysis Identified data of measurements CitiBike ride data Alternative transportation data Weather information Traffic information  Beginning data exploration — daily bike usage   Background In 2013, the NYC Department of Transportation sought to start a bike share to reduce emissions, road wear, congestion, and improve public health.
 After selecting an operator and sponsor, the Citi Bike bike share was established with a bike fleet distributed over a network of docking stations throughout the city.</description>
     </item>
     
     <item>
       <title>Run Expectancy Distributions of MLB Game States</title>
-      <link>/post/2017-12-03-run-expectancy-distributions/</link>
+      <link>https://ssp3nc3r.github.io/post/2017-12-03-run-expectancy-distributions/</link>
       <pubDate>Sun, 03 Dec 2017 00:00:00 +0000</pubDate>
       
-      <guid>/post/2017-12-03-run-expectancy-distributions/</guid>
+      <guid>https://ssp3nc3r.github.io/post/2017-12-03-run-expectancy-distributions/</guid>
       <description>Team wins—a chain of player events Data and sources for estimating run expectancies Calculate runs scored after every game state of a half inning Estimating run expectancy Preserving and understanding uncertainty of our estimates In half innings, more runs occur less frequently Building a bayesian run expectancy model Model summary The median run expectancy matrix    Team wins—a chain of player events The performance of a baseball player includes numerous on-field (and off-field) activities, roughly divided into skills of offensive (e.</description>
     </item>
     
     <item>
       <title>Trading Stanton: a modeling sketch</title>
-      <link>/post/trading-stanton-a-modeling-sketch/</link>
+      <link>https://ssp3nc3r.github.io/post/trading-stanton-a-modeling-sketch/</link>
       <pubDate>Fri, 24 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>/post/trading-stanton-a-modeling-sketch/</guid>
+      <guid>https://ssp3nc3r.github.io/post/trading-stanton-a-modeling-sketch/</guid>
       <description>Forecast of Giancarlo Stanton’s Expected Surplus Value Summary Estimate player past performance as Wins Over Replacement Forecasting WAR with a hierarchical model in Stan Dollars Per WAR on the Free-Agent Market Unadjusted surplus value Appendix: Stan Model for Forcasting WAR    Forecast of Giancarlo Stanton’s Expected Surplus Value Summary In most analyses, I would normally lead with the conclusion—here, surplus value. But, as the perceived goals of analysis are evaluating, well, the analysis, I’ll start with my methods.</description>
     </item>
     

@@ -9,7 +9,7 @@
 <meta name="keywords" content="Scott Spencer, statistical, generative modeling, bayesian inference, writing, data visualization, sports, columbia university, Baseball, Data Visualization, Pitchers, Survival, TTOP" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="#252627" />
-<link rel="canonical" href="/post/visual-exploration-of-starting-pitcher-duration/" />
+<link rel="canonical" href="https://ssp3nc3r.github.io/post/visual-exploration-of-starting-pitcher-duration/" />
 
 
     <title>
@@ -25,31 +25,32 @@
 
 
 
-<link rel="stylesheet" href="/main.min.84ed5579024525d4b50458514d1a43e40dd5272df45c7cd6da85b225af457154.css">
+<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.84ed5579024525d4b50458514d1a43e40dd5272df45c7cd6da85b225af457154.css">
 
 
 
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
-    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://ssp3nc3r.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://ssp3nc3r.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://ssp3nc3r.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://ssp3nc3r.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://ssp3nc3r.github.io/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="https://ssp3nc3r.github.io/favicon.ico">
     <meta name="msapplication-TileColor" content="#252627">
     <meta name="theme-color" content="#252627">
 
 <meta itemprop="name" content="Visual exploration of starting pitcher duration">
 <meta itemprop="description" content="Managers do not generally pull starting pitchers to avoid the debated &#34;times through the order penalty,&#34; as shown using a simple survival model. A sketch of other factors are briefly explored.">
-<meta itemprop="datePublished" content="2018-05-09T00:00:00&#43;00:00" />
+<meta itemprop="datePublished" content="2018-05-09T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-03-30T14:35:11-04:00" />
 <meta itemprop="wordCount" content="2404">
-<meta itemprop="image" content="/"/>
+<meta itemprop="image" content="https://ssp3nc3r.github.io"/>
 
 
 
-<meta itemprop="keywords" content="Baseball,Data Visualization,Pitchers,Survival,TTOP," /><meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="/"/>
+<meta itemprop="keywords" content="Baseball,Data Visualization,Pitchers,Survival,TTOP," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://ssp3nc3r.github.io"/>
 
 <meta name="twitter:title" content="Visual exploration of starting pitcher duration"/>
 <meta name="twitter:description" content="Managers do not generally pull starting pitchers to avoid the debated &#34;times through the order penalty,&#34; as shown using a simple survival model. A sketch of other factors are briefly explored."/>
@@ -76,7 +77,7 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
         <div class="container">
             <header class="header">
     <span class="header__inner">
-        <a href="/" style="text-decoration: none;">
+        <a href="https://ssp3nc3r.github.io/" style="text-decoration: none;">
     <div class="logo">
         
             <span class="logo__mark">></span>
@@ -94,7 +95,7 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
         <span class="header__right">
             
                 <nav class="menu">
-    <ul class="menu__inner"><li><a href="/about/">About</a></li><li><a href="/post/">Posts</a></li><li><a href="/publications/">Publications</a></li><li><a href="/teaching/">Teaching</a></li>
+    <ul class="menu__inner"><li><a href="https://ssp3nc3r.github.io/about/">About</a></li><li><a href="https://ssp3nc3r.github.io/post/">Posts</a></li><li><a href="https://ssp3nc3r.github.io/publications/">Publications</a></li><li><a href="https://ssp3nc3r.github.io/teaching/">Teaching</a></li>
     </ul>
 </nav>
 
@@ -128,7 +129,7 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
         </div>
 
         <article>
-            <h2 class="post-title"><a href="/post/visual-exploration-of-starting-pitcher-duration/">Visual exploration of starting pitcher duration</a></h2>
+            <h2 class="post-title"><a href="https://ssp3nc3r.github.io/post/visual-exploration-of-starting-pitcher-duration/">Visual exploration of starting pitcher duration</a></h2>
 
             
 
@@ -176,7 +177,7 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
 <p>where period <span class="math inline">\(t\)</span> is measured as each batter faced.</p>
 <p>The results are in Figure <a href="#fig:lifetable">1</a>, which show the chance of survival in blue and the conditional hazard in gray, both including standard errors on the calculations.</p>
 <div class="figure" style="text-align: center"><span id="fig:lifetable"></span>
-<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/lifetable-1.svg" alt="Probabilities of hazard (gray) and survival (blue)" width="768" />
+<img src="https://ssp3nc3r.github.io/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/lifetable-1.svg" alt="Probabilities of hazard (gray) and survival (blue)" width="768" />
 <p class="caption">
 Figure 1: Probabilities of hazard (gray) and survival (blue)
 </p>
@@ -194,14 +195,14 @@ Figure 1: Probabilities of hazard (gray) and survival (blue)
 <p>The first model ignores censored observations (<em>i.e.</em>, complete games) and is coded to estimate parameters with Stan’s probabilistic modeling engine.</p>
 <p>Among possible priors, we kept it simple and chose <code>normal(0, 0.2)</code> for the coefficients to provide regularization. Model diagnostics look good. Using pareto smoothed importance sampling for leave-one-out approximation, we find that none of the observed stratum exhibit undue influence over the fit (below 0.5 is generally good), shown in Figure <a href="#fig:loo1">2</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:loo1"></span>
-<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/loo1-1.png" alt="PSIS diagnostic plot" width="384" />
+<img src="https://ssp3nc3r.github.io/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/loo1-1.png" alt="PSIS diagnostic plot" width="384" />
 <p class="caption">
 Figure 2: PSIS diagnostic plot
 </p>
 </div>
 <p>Similarly, the <span class="math inline">\(\hat{r}\)</span> values and <span class="math inline">\(\widehat{\textrm{neff}}\)</span> sample sizes show no signs of problem. Transforming the coefficients with an inverse logit, their range of probabilities of pitchers being pulled with each batter faced is shown in Figure <a href="#fig:clogit1">3</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:clogit1"></span>
-<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/clogit1-1.png" alt="Fit clogit 1 model, inverse logit of coefficients" width="768" />
+<img src="https://ssp3nc3r.github.io/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/clogit1-1.png" alt="Fit clogit 1 model, inverse logit of coefficients" width="768" />
 <p class="caption">
 Figure 3: Fit clogit 1 model, inverse logit of coefficients
 </p>
@@ -217,14 +218,14 @@ Figure 3: Fit clogit 1 model, inverse logit of coefficients
 <h2>Runs accumulated</h2>
 <p>In Figure <a href="#fig:runsallowed1">4</a>, boxplots of statistics on runs allowed for pitchers <em>who survived</em> each at bat overlay a bar chart of the relative number of remaining starting pitchers — 4801 started the first atbat, just 2 remained by the thirty-sixth.</p>
 <div class="figure" style="text-align: center"><span id="fig:runsallowed1"></span>
-<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/runsallowed1-1.svg" alt="Accumulated runs allowed by starting pitchers surviving at each at bat" width="768" />
+<img src="https://ssp3nc3r.github.io/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/runsallowed1-1.svg" alt="Accumulated runs allowed by starting pitchers surviving at each at bat" width="768" />
 <p class="caption">
 Figure 4: Accumulated runs allowed by starting pitchers surviving at each at bat
 </p>
 </div>
 <p>In comparison, Figure <a href="#fig:runsallowednotsurvived1">5</a> shows boxplots of statistics on runs allowed for pitchers <em>who were taken out</em> at each at bat.</p>
 <div class="figure" style="text-align: center"><span id="fig:runsallowednotsurvived1"></span>
-<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/runsallowednotsurvived1-1.svg" alt="Accumulated runs allowed by starting pitchers taken out at each at bat" width="768" />
+<img src="https://ssp3nc3r.github.io/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/runsallowednotsurvived1-1.svg" alt="Accumulated runs allowed by starting pitchers taken out at each at bat" width="768" />
 <p class="caption">
 Figure 5: Accumulated runs allowed by starting pitchers taken out at each at bat
 </p>
@@ -235,14 +236,14 @@ Figure 5: Accumulated runs allowed by starting pitchers taken out at each at bat
 <h2>Baserunners accumulated</h2>
 <p>As with accumulated runs allowed, we explore baserunners accumulated by starting pitchers. We count a baserunner for the events: <code>Double</code>, <code>Single</code>, <code>Walk</code>, <code>Home Run</code>, <code>Triple</code>, <code>Hit By Pitch</code>, and <code>Intent Walk</code>. In Figure <a href="#fig:baserunners1">6</a>, boxplots of statistics on baserunners accumulated for pitchers <em>who survived</em> each at bat overlay the bar chart of remaining starting pitchers.</p>
 <div class="figure" style="text-align: center"><span id="fig:baserunners1"></span>
-<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/baserunners1-1.svg" alt="Baserunners accumulated by starting pitchers surviving at each at bat" width="768" />
+<img src="https://ssp3nc3r.github.io/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/baserunners1-1.svg" alt="Baserunners accumulated by starting pitchers surviving at each at bat" width="768" />
 <p class="caption">
 Figure 6: Baserunners accumulated by starting pitchers surviving at each at bat
 </p>
 </div>
 <p>In comparison, Figure <a href="#fig:baserunnersnotsurvived1">7</a> shows boxplots of statistics on baserunners accumulated for pitchers <em>who were taken out</em> at each at bat.</p>
 <div class="figure" style="text-align: center"><span id="fig:baserunnersnotsurvived1"></span>
-<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/baserunnersnotsurvived1-1.svg" alt="Baserunners accumulated by starting pitchers when taken out" width="768" />
+<img src="https://ssp3nc3r.github.io/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/baserunnersnotsurvived1-1.svg" alt="Baserunners accumulated by starting pitchers when taken out" width="768" />
 <p class="caption">
 Figure 7: Baserunners accumulated by starting pitchers when taken out
 </p>
@@ -253,7 +254,7 @@ Figure 7: Baserunners accumulated by starting pitchers when taken out
 <h2>Outs in the half-inning</h2>
 <p>We anticipate that pitching changes occur — if possible — between innings. The relative frequencies of pitchers removed on a given number of outs are shown in Figure <a href="#fig:count1">8</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:count1"></span>
-<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/count1-1.svg" alt="Outs when pitcher taken out" width="768" />
+<img src="https://ssp3nc3r.github.io/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/count1-1.svg" alt="Outs when pitcher taken out" width="768" />
 <p class="caption">
 Figure 8: Outs when pitcher taken out
 </p>
@@ -264,7 +265,7 @@ Figure 8: Outs when pitcher taken out
 <h2>Platooned matchups</h2>
 <p>It seems that for reasons similar to the surprising fact that facing lead (better) batters for a third time did not result in higher probability of removal, we anticipate the prospect of facing an opposite-handed batter (platoon advantage) as tipping the scales toward removal. In Figure <a href="#fig:platoon1">9</a>, the frequencies of starting pitchers taken out before platoon matchups (shown in black) are compared with starting pitchers facing the matchups (shown in gray). Again, these data overlay the bar chart of remaining starting pitchers.</p>
 <div class="figure" style="text-align: center"><span id="fig:platoon1"></span>
-<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/platoon1-1.svg" alt="Percentage of pitchers removed before next-batter platoon" width="768" />
+<img src="https://ssp3nc3r.github.io/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/platoon1-1.svg" alt="Percentage of pitchers removed before next-batter platoon" width="768" />
 <p class="caption">
 Figure 9: Percentage of pitchers removed before next-batter platoon
 </p>
@@ -276,7 +277,7 @@ Figure 9: Percentage of pitchers removed before next-batter platoon
 <p>The number of pitches thrown before the pitcher is removed tend to have a mean and median near 100, as going deeper into counts is thought to increase injury risk <span class="citation">(Bradbury and Forman <a href="#ref-Bradbury:2012wc">2012</a>)</span>. Our data so far has been at bat outcomes. In adding data on pitches within each at bat, we’ll also include pitch location at the plate and outcome (<em>e.g.</em>, ball, strike, foul) for later use in this analysis.</p>
 <p>In these data, the distribution of pitch counts before removal is shown in Figure <a href="#fig:pitchcount1">10</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:pitchcount1"></span>
-<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/pitchcount1-1.svg" alt="Distribution of total pitch counts when starter removed" width="384" />
+<img src="https://ssp3nc3r.github.io/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/pitchcount1-1.svg" alt="Distribution of total pitch counts when starter removed" width="384" />
 <p class="caption">
 Figure 10: Distribution of total pitch counts when starter removed
 </p>
@@ -1190,7 +1191,7 @@ s
 
         <div class="post-info">
   				<p>
-  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/baseball">Baseball</a></span><span class="tag"><a href="/tags/data-visualization">Data Visualization</a></span><span class="tag"><a href="/tags/pitchers">Pitchers</a></span><span class="tag"><a href="/tags/survival">Survival</a></span><span class="tag"><a href="/tags/ttop">TTOP</a></span>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ssp3nc3r.github.io/tags/baseball">Baseball</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/data-visualization">Data Visualization</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/pitchers">Pitchers</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/survival">Survival</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/ttop">TTOP</a></span>
   				</p>
 			    <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-git-commit"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17.01" y1="12" x2="22.96" y2="12"></line></svg><a href="20cc03f3c90f4d729f080982574808d850d6fe0d" target="_blank" rel="noopener">20cc03f</a> @ 2020-03-30</p>
   		</div>
@@ -1224,7 +1225,7 @@ src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
 
 
 
-<script type="text/javascript" src="/bundle.min.2d5469329143160ae2456a69c3c76dc2d0a3b212b46afe291a51bd68650ed6f8697e001dab54f1c272c77ce08092a8c55e5bb4314e0ee334aab4b927ec896638.js" integrity="sha512-LVRpMpFDFgriRWppw8dtwtCjshK0av4pGlG9aGUO1vhpfgAdq1TxwnLHfOCAkqjFXlu0MU4O4zSqtLkn7IlmOA=="></script>
+<script type="text/javascript" src="https://ssp3nc3r.github.io/bundle.min.2d5469329143160ae2456a69c3c76dc2d0a3b212b46afe291a51bd68650ed6f8697e001dab54f1c272c77ce08092a8c55e5bb4314e0ee334aab4b927ec896638.js" integrity="sha512-LVRpMpFDFgriRWppw8dtwtCjshK0av4pGlG9aGUO1vhpfgAdq1TxwnLHfOCAkqjFXlu0MU4O4zSqtLkn7IlmOA=="></script>
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })

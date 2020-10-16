@@ -1,0 +1,75 @@
+---
+title: "ggSankeyGrad: an R package to create a ggplot-based sankey graphic that encodes flows with color gradients"
+date: 2020-03-30T17:05:13-04:00
+draft: true
+comments: false
+tags:
+  - R
+  - Packages
+  - Data Visualization
+  - Flow Diagram
+  - Sankey
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<p><code>ssSankeyGrad</code> returns a ggplot object encoding the flow between beginning and ending categorical data, <em>i.e.</em>, a sankey diagram, wherein each flow is encoded as a color gradient. Those color gradients transition between a user-specified color for each category. The parameters are constructed such that <code>c1</code>, <code>c2</code>, <code>col1</code>, <code>col2</code>, and <code>values</code> are all vectors of the same length and corresponding positions represent one flow between categories. The categories <code>c1</code>, <code>c2</code> are vectors of type character string, <code>col1</code>, <code>col2</code> are vectors of type character string and include either named colors or hexidecimal representations of color, and <code>values</code> are of an integer or numeric type that encode the amount of “flow” between each category.</p>
+<p>To install the function from Github, simply run the following line of code:</p>
+<pre><code>devtools::install_github(&quot;ssp3nc3r/ggSankeyGrad&quot;, ref = &quot;master&quot;)</code></pre>
+<p>In a first example, we setup some dummy data,</p>
+<pre class="r"><code>library(ggSankeyGrad)
+
+c1     &lt;- c(&quot;A&quot;, &quot;A&quot;, &quot;B&quot;, &quot;B&quot;)
+c2     &lt;- c(&quot;C&quot;, &quot;D&quot;, &quot;C&quot;, &quot;D&quot;)
+values &lt;- c(2L, 5L, 8L, 3L)
+col1   &lt;- c(&quot;red&quot;, &quot;red&quot;, &quot;green&quot;, &quot;green&quot;)
+col2   &lt;- c(&quot;blue&quot;, &quot;orange&quot;, &quot;blue&quot;, &quot;orange&quot;)
+
+ggSankeyGrad(c1, c2, col1, col2, values, label = TRUE)</code></pre>
+<p><img src="post/2020-03-30-r-package-to-create-a-ggplot-based-sankey-graphic-that-encodes-flows-with-a-color-gradient.en_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>Let’s consider a second example. This data is inspired by Giorgia Lupi’s award-winning infographic, <a href="https://www.informationisbeautifulawards.com/showcase/204-nobels-no-degrees">Nobels, No Degrees</a>. We prepare the data in the same format as before, which encodes the categories of Nobel winners and from which of several schools they are associated, if any.</p>
+<pre class="r"><code>d5 &lt;- read.csv(text = &#39;
+&quot;Category&quot;,&quot;University&quot;,&quot;n&quot;,&quot;col1&quot;,&quot;col2&quot;
+&quot;Chemistry&quot;,&quot;Berkeley&quot;,5,&quot;#cc5b47&quot;,&quot;#003262&quot;
+&quot;Chemistry&quot;,&quot;Caltech&quot;,4,&quot;#cc5b47&quot;,&quot;#FF6C0C&quot;
+&quot;Chemistry&quot;,&quot;Cambridge&quot;,3,&quot;#cc5b47&quot;,&quot;#A3C1AD&quot;
+&quot;Chemistry&quot;,&quot;Columbia&quot;,3,&quot;#cc5b47&quot;,&quot;#B9D9EB&quot;
+&quot;Chemistry&quot;,&quot;Harvard&quot;,7,&quot;#cc5b47&quot;,&quot;#A51C30&quot;
+&quot;Chemistry&quot;,&quot;MIT&quot;,2,&quot;#cc5b47&quot;,&quot;#8A8B8C&quot;
+&quot;Chemistry&quot;,&quot;Stanford&quot;,7,&quot;#cc5b47&quot;,&quot;#B1040E&quot;
+&quot;Economics&quot;,&quot;Berkeley&quot;,5,&quot;#488595&quot;,&quot;#003262&quot;
+&quot;Economics&quot;,&quot;Cambridge&quot;,3,&quot;#488595&quot;,&quot;#A3C1AD&quot;
+&quot;Economics&quot;,&quot;Columbia&quot;,4,&quot;#488595&quot;,&quot;#B9D9EB&quot;
+&quot;Economics&quot;,&quot;Harvard&quot;,7,&quot;#488595&quot;,&quot;#A51C30&quot;
+&quot;Economics&quot;,&quot;MIT&quot;,5,&quot;#488595&quot;,&quot;#8A8B8C&quot;
+&quot;Economics&quot;,&quot;Stanford&quot;,2,&quot;#488595&quot;,&quot;#B1040E&quot;
+&quot;Literature&quot;,NA,0,&quot;#96c17c&quot;,NA
+&quot;Medicine&quot;,&quot;Berkeley&quot;,2,&quot;#decd7c&quot;,&quot;#003262&quot;
+&quot;Medicine&quot;,&quot;Caltech&quot;,5,&quot;#decd7c&quot;,&quot;#FF6C0C&quot;
+&quot;Medicine&quot;,&quot;Cambridge&quot;,4,&quot;#decd7c&quot;,&quot;#A3C1AD&quot;
+&quot;Medicine&quot;,&quot;Columbia&quot;,4,&quot;#decd7c&quot;,&quot;#B9D9EB&quot;
+&quot;Medicine&quot;,&quot;Harvard&quot;,12,&quot;#decd7c&quot;,&quot;#A51C30&quot;
+&quot;Medicine&quot;,&quot;MIT&quot;,5,&quot;#decd7c&quot;,&quot;#8A8B8C&quot;
+&quot;Medicine&quot;,&quot;Stanford&quot;,3,&quot;#decd7c&quot;,&quot;#B1040E&quot;
+&quot;Peace&quot;,&quot;Caltech&quot;,1,&quot;#924855&quot;,&quot;#FF6C0C&quot;
+&quot;Peace&quot;,&quot;Columbia&quot;,1,&quot;#924855&quot;,&quot;#B9D9EB&quot;
+&quot;Peace&quot;,&quot;Harvard&quot;,1,&quot;#924855&quot;,&quot;#A51C30&quot;
+&quot;Physics&quot;,&quot;Berkeley&quot;,8,&quot;#e79275&quot;,&quot;#003262&quot;
+&quot;Physics&quot;,&quot;Caltech&quot;,7,&quot;#e79275&quot;,&quot;#FF6C0C&quot;
+&quot;Physics&quot;,&quot;Cambridge&quot;,7,&quot;#e79275&quot;,&quot;#A3C1AD&quot;
+&quot;Physics&quot;,&quot;Columbia&quot;,6,&quot;#e79275&quot;,&quot;#B9D9EB&quot;
+&quot;Physics&quot;,&quot;Harvard&quot;,9,&quot;#e79275&quot;,&quot;#A51C30&quot;
+&quot;Physics&quot;,&quot;MIT&quot;,7,&quot;#e79275&quot;,&quot;#8A8B8C&quot;
+&quot;Physics&quot;,&quot;Stanford&quot;,10,&quot;#e79275&quot;,&quot;#B1040E&quot;
+&#39;, stringsAsFactors = FALSE)
+
+with(d5, ggSankeyGrad(c1 = Category,
+                        c2 = University,
+                        col1 = col1,
+                        col2 = col2,
+                        values = n,
+                        label = TRUE))</code></pre>
+<p><img src="post/2020-03-30-r-package-to-create-a-ggplot-based-sankey-graphic-that-encodes-flows-with-a-color-gradient.en_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>

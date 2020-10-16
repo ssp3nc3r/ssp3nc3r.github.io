@@ -2,103 +2,71 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Data Visualization on p( ssp3nc3r | Columbian )</title>
-    <link>/tags/data-visualization/</link>
+    <link>https://ssp3nc3r.github.io/tags/data-visualization/</link>
     <description>Recent content in Data Visualization on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 08 Apr 2020 14:23:00 -0400</lastBuildDate>
-    
-	<atom:link href="/tags/data-visualization/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Create and encode custom glyphs from an SVG path</title>
-      <link>/post/2020-04-08-create-and-encode-custom-glyphs-from-an-svg-path/</link>
-      <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
-      
-      <guid>/post/2020-04-08-create-and-encode-custom-glyphs-from-an-svg-path/</guid>
-      <description>In R’s grammar of graphics package (ggplot2), we can encode data in custom-made glyph shapes from vector graphics and encode its size, fill color, or both. SVG graphics display lines, colors fills using paths. Let’s make an SVG graphic containing a single path of a complex shape, assign the graphic in R to data, and change its attributes. For this exercise, I’ve created an SVG path of the silhouette of a baseball player (using Inkscape)1.</description>
-    </item>
-    
-    <item>
-      <title>ggSankeyGrad: an R package to create a ggplot-based sankey graphic that encodes flows with color gradients</title>
-      <link>/post/2020-03-30-r-package-to-create-a-ggplot-based-sankey-graphic-that-encodes-flows-with-a-color-gradient/</link>
-      <pubDate>Mon, 30 Mar 2020 17:05:13 -0400</pubDate>
-      
-      <guid>/post/2020-03-30-r-package-to-create-a-ggplot-based-sankey-graphic-that-encodes-flows-with-a-color-gradient/</guid>
-      <description>ssSankeyGrad returns a ggplot object encoding the flow between beginning and ending categorical data, i.e., a sankey diagram, wherein each flow is encoded as a color gradient. Those color gradients transition between a user-specified color for each category. The parameters are constructed such that c1, c2, col1, col2, and values are all vectors of the same length and corresponding positions represent one flow between categories. The categories c1, c2 are vectors of type character string, col1, col2 are vectors of type character string and include either named colors or hexidecimal representations of color, and values are of an integer or numeric type that encode the amount of “flow” between each category.</description>
-    </item>
-    
-    <item>
-      <title>HSLuv: an R Package to convert HSLuv colorspace to RGB and hex</title>
-      <link>/post/2020-03-30-hsluv-an-r-package-to-convert-hsluv-colorspace-to-rgb-and-hex/</link>
-      <pubDate>Mon, 30 Mar 2020 16:49:54 -0400</pubDate>
-      
-      <guid>/post/2020-03-30-hsluv-an-r-package-to-convert-hsluv-colorspace-to-rgb-and-hex/</guid>
-      <description>HSLuv is a human-friendly way to describe hue, saturation, and luminance — three attributes of color. The R package includes functions to convert HSLuv colorspace to computer RGB, either as separate red, green, and blue values or as a hex code.
-To install, you will need a working toolchain on your computer for compiling C++ code, and the R package devtools installed. Once those are working, simply run the following code in an R session:</description>
-    </item>
-    
+    <lastBuildDate>Mon, 08 Apr 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/data-visualization/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>NYC bike share rebalancing information graphic</title>
-      <link>/post/nyc-bike-share-rebalancing-information-graphic/</link>
+      <link>https://ssp3nc3r.github.io/post/nyc-bike-share-rebalancing-information-graphic/</link>
       <pubDate>Mon, 08 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/nyc-bike-share-rebalancing-information-graphic/</guid>
+      <guid>https://ssp3nc3r.github.io/post/nyc-bike-share-rebalancing-information-graphic/</guid>
       <description>We continue exploring the NYC bike share program. This time we create an information graphic visualizing bike and docking station availability by time of day and rate of new rides per minute.</description>
     </item>
     
     <item>
       <title>Approximating the components of Lupi&#39;s Nobel no degrees</title>
-      <link>/post/approximating-the-components-of-lupi-s-nobel-no-degrees/</link>
+      <link>https://ssp3nc3r.github.io/post/approximating-the-components-of-lupi-s-nobel-no-degrees/</link>
       <pubDate>Fri, 15 Mar 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/approximating-the-components-of-lupi-s-nobel-no-degrees/</guid>
+      <guid>https://ssp3nc3r.github.io/post/approximating-the-components-of-lupi-s-nobel-no-degrees/</guid>
       <description>Exemplary, award-winning information graphic Approximating the reference in R An exercise in design using R Data for Lupi’s display Main display of points and lines Per-category histograms or bar charts Per-era stacked bar charts Sankey diagram  Next steps References   Exemplary, award-winning information graphic Giorgia Lupi is a master at designing information for visual narrative — telling stories through visualization. Her portfolio includes a series of exploratory data visualizations published for the largest circulating Italian newspaper, La Lettura.</description>
     </item>
     
     <item>
       <title>Exploring CitiBike ride data</title>
-      <link>/post/exploring-citibike-ride-data/</link>
+      <link>https://ssp3nc3r.github.io/post/exploring-citibike-ride-data/</link>
       <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/exploring-citibike-ride-data/</guid>
+      <guid>https://ssp3nc3r.github.io/post/exploring-citibike-ride-data/</guid>
       <description>Background The Challenge How can we identify causes, relationships One approach for this analysis Identified data of measurements CitiBike ride data Alternative transportation data Weather information Traffic information  Beginning data exploration — daily bike usage   Background In 2013, the NYC Department of Transportation sought to start a bike share to reduce emissions, road wear, congestion, and improve public health.
 After selecting an operator and sponsor, the Citi Bike bike share was established with a bike fleet distributed over a network of docking stations throughout the city.</description>
     </item>
     
     <item>
       <title>Baseball Abstract 01</title>
-      <link>/post/baseball-abstract-01/</link>
+      <link>https://ssp3nc3r.github.io/post/baseball-abstract-01/</link>
       <pubDate>Fri, 21 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/baseball-abstract-01/</guid>
+      <guid>https://ssp3nc3r.github.io/post/baseball-abstract-01/</guid>
       <description> </description>
     </item>
     
     <item>
       <title>Visual exploration of starting pitcher duration</title>
-      <link>/post/visual-exploration-of-starting-pitcher-duration/</link>
+      <link>https://ssp3nc3r.github.io/post/visual-exploration-of-starting-pitcher-duration/</link>
       <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/visual-exploration-of-starting-pitcher-duration/</guid>
+      <guid>https://ssp3nc3r.github.io/post/visual-exploration-of-starting-pitcher-duration/</guid>
       <description>Introduction Exploring influence of times-through-the-order on manager decisions Describing survival with a life table Modeling survival with conditional logistic regression  Exploring game states (context) on pitcher survival Runs accumulated Baserunners accumulated Outs in the half-inning Platooned matchups Pitch count  Further work Appendix Variables as cleaned for these analyses References   Introduction This analysis explores major league baseball decisions of when starting pitchers are removed from the game.</description>
     </item>
     
     <item>
       <title>Toeing the Line: Altuve and Trout</title>
-      <link>/post/toeing-the-line-altuve-and-trout/</link>
+      <link>https://ssp3nc3r.github.io/post/toeing-the-line-altuve-and-trout/</link>
       <pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/toeing-the-line-altuve-and-trout/</guid>
+      <guid>https://ssp3nc3r.github.io/post/toeing-the-line-altuve-and-trout/</guid>
       <description>Analysis Load and combine data Summarise and prepare data Getting running speed from timestamped coordinates Define variables Graphical overview of coordinates and running speeds Scenario 1: times to first when attempting a double Scenario 2: batters trying to beat a throw to first  Conclusions and Next Steps   In these analyzed data, described below, Trout demonstrated slightly higher expected footspeed and slightly shorter expected times to first base than did Altuve; although their performance is close and we expect a near toss up, given the data used, as to who comes out ahead on any given play.</description>
     </item>
     
     <item>
       <title>Languages Behind Statistical Learning, and Useful Tools</title>
-      <link>/post/2018-01-08-languages-behind-statistical-learning/</link>
+      <link>https://ssp3nc3r.github.io/post/2018-01-08-languages-behind-statistical-learning/</link>
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/2018-01-08-languages-behind-statistical-learning/</guid>
+      <guid>https://ssp3nc3r.github.io/post/2018-01-08-languages-behind-statistical-learning/</guid>
       <description>R Markdown—a tool for reproducible reporting From mathematical notation to R Linear Algebra Calculus Probability Distributions Regression  Optimization Gradient descent Simplex method  Algorithms  Data and model visualization Organizing Data Closing   “Can A.I. Be Taught to Explain Itself?” That’s the question recently posed in The New York Times Magazine. A search uncovered helpful references — An Introduction to Statistical Learning with Applications in R and The Elements of Statistical Learning, for example — but none with A.</description>
     </item>
     

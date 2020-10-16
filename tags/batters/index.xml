@@ -2,38 +2,34 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Batters on p( ssp3nc3r | Columbian )</title>
-    <link>/tags/batters/</link>
+    <link>https://ssp3nc3r.github.io/tags/batters/</link>
     <description>Recent content in Batters on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 08 Dec 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/batters/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 08 Dec 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/batters/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Estimating the marginal value of baseball events</title>
-      <link>/post/estimating-the-marginal-value-of-baseball-events/</link>
+      <link>https://ssp3nc3r.github.io/post/estimating-the-marginal-value-of-baseball-events/</link>
       <pubDate>Sat, 08 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/estimating-the-marginal-value-of-baseball-events/</guid>
+      <guid>https://ssp3nc3r.github.io/post/estimating-the-marginal-value-of-baseball-events/</guid>
       <description>Teams score — or don’t — event by event. Events change the state of the game. Solo home runs aside, whether a score results from any event depends upon prior events: a batter’s double only “drives in a score” when an earlier batter made it on base. By the collection of events a player generates, or more accurately, by the change in expected runs to which they contribute, we can measure players offensive values.</description>
     </item>
     
     <item>
       <title>Toeing the Line: Altuve and Trout</title>
-      <link>/post/toeing-the-line-altuve-and-trout/</link>
+      <link>https://ssp3nc3r.github.io/post/toeing-the-line-altuve-and-trout/</link>
       <pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/toeing-the-line-altuve-and-trout/</guid>
+      <guid>https://ssp3nc3r.github.io/post/toeing-the-line-altuve-and-trout/</guid>
       <description>Analysis Load and combine data Summarise and prepare data Getting running speed from timestamped coordinates Define variables Graphical overview of coordinates and running speeds Scenario 1: times to first when attempting a double Scenario 2: batters trying to beat a throw to first  Conclusions and Next Steps   In these analyzed data, described below, Trout demonstrated slightly higher expected footspeed and slightly shorter expected times to first base than did Altuve; although their performance is close and we expect a near toss up, given the data used, as to who comes out ahead on any given play.</description>
     </item>
     
     <item>
       <title>Contours of batter comparisons: a trick up the sleeve</title>
-      <link>/post/2017-08-04-contours-of-batter-comparisons/</link>
+      <link>https://ssp3nc3r.github.io/post/2017-08-04-contours-of-batter-comparisons/</link>
       <pubDate>Fri, 04 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>/post/2017-08-04-contours-of-batter-comparisons/</guid>
+      <guid>https://ssp3nc3r.github.io/post/2017-08-04-contours-of-batter-comparisons/</guid>
       <description>Through the eyes of writer Roger Kahn, we’ve witnessed major league pitchers working to fool batters for ages. Regarding one Brooklyn Dodgers pitcher,
  “Dazzy Vance in his prime had a different trick,” [Kahn’s] father said. “For seven years he was the best strikeout pitcher in the league. Vance wore a long undershirt and he took a scissors and cut slits in the right sleeve. It ran clear down to the wrist.</description>
     </item>

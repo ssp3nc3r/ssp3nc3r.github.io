@@ -9,7 +9,7 @@
 <meta name="keywords" content="Scott Spencer, statistical, generative modeling, bayesian inference, writing, data visualization, sports, columbia university, Neural Networks, Machine Learning, R" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="#252627" />
-<link rel="canonical" href="/post/neural-networks-the-real-basics/" />
+<link rel="canonical" href="https://ssp3nc3r.github.io/post/neural-networks-the-real-basics/" />
 
 
     <title>
@@ -25,31 +25,32 @@
 
 
 
-<link rel="stylesheet" href="/main.min.84ed5579024525d4b50458514d1a43e40dd5272df45c7cd6da85b225af457154.css">
+<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.84ed5579024525d4b50458514d1a43e40dd5272df45c7cd6da85b225af457154.css">
 
 
 
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
-    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://ssp3nc3r.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://ssp3nc3r.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://ssp3nc3r.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://ssp3nc3r.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://ssp3nc3r.github.io/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="https://ssp3nc3r.github.io/favicon.ico">
     <meta name="msapplication-TileColor" content="#252627">
     <meta name="theme-color" content="#252627">
 
 <meta itemprop="name" content="Neural networks — the real basics">
 <meta itemprop="description" content="With all the terminology and perhaps unfamiliar looking plots designed to resemble the inner workings of a brain, neural networks may seem confusing. So let&#39;s bypass all the jargon and look at the basics.">
-<meta itemprop="datePublished" content="2018-04-05T00:00:00&#43;00:00" />
+<meta itemprop="datePublished" content="2018-04-05T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-03-30T14:35:11-04:00" />
 <meta itemprop="wordCount" content="1292">
-<meta itemprop="image" content="/"/>
+<meta itemprop="image" content="https://ssp3nc3r.github.io"/>
 
 
 
-<meta itemprop="keywords" content="Neural Networks,Machine Learning,R," /><meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="/"/>
+<meta itemprop="keywords" content="Neural Networks,Machine Learning,R," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://ssp3nc3r.github.io"/>
 
 <meta name="twitter:title" content="Neural networks — the real basics"/>
 <meta name="twitter:description" content="With all the terminology and perhaps unfamiliar looking plots designed to resemble the inner workings of a brain, neural networks may seem confusing. So let&#39;s bypass all the jargon and look at the basics."/>
@@ -76,7 +77,7 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
         <div class="container">
             <header class="header">
     <span class="header__inner">
-        <a href="/" style="text-decoration: none;">
+        <a href="https://ssp3nc3r.github.io/" style="text-decoration: none;">
     <div class="logo">
         
             <span class="logo__mark">></span>
@@ -94,7 +95,7 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
         <span class="header__right">
             
                 <nav class="menu">
-    <ul class="menu__inner"><li><a href="/about/">About</a></li><li><a href="/post/">Posts</a></li><li><a href="/publications/">Publications</a></li><li><a href="/teaching/">Teaching</a></li>
+    <ul class="menu__inner"><li><a href="https://ssp3nc3r.github.io/about/">About</a></li><li><a href="https://ssp3nc3r.github.io/post/">Posts</a></li><li><a href="https://ssp3nc3r.github.io/publications/">Publications</a></li><li><a href="https://ssp3nc3r.github.io/teaching/">Teaching</a></li>
     </ul>
 </nav>
 
@@ -128,7 +129,7 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
         </div>
 
         <article>
-            <h2 class="post-title"><a href="/post/neural-networks-the-real-basics/">Neural networks — the real basics</a></h2>
+            <h2 class="post-title"><a href="https://ssp3nc3r.github.io/post/neural-networks-the-real-basics/">Neural networks — the real basics</a></h2>
 
             
 
@@ -199,7 +200,7 @@ x2     &lt;- c(x2, sqrt(n) * sin(fibonacci_angle * n) + rnorm(n, 0, .5) )
 class &lt;- rep(c(&#39;FALSE&#39;, &#39;TRUE&#39;), each = length(n))
 df    &lt;- data.frame(x1, x2, class)</code></pre>
 <p>These data look like,</p>
-<p><img src="/./post/2018-04-05-neural-networks-the-real-basics_files/figure-html/unnamed-chunk-2-1.svg" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="https://ssp3nc3r.github.io/./post/2018-04-05-neural-networks-the-real-basics_files/figure-html/unnamed-chunk-2-1.svg" width="480" style="display: block; margin: auto;" /></p>
 <p>As a baseline, let’s fit a logistic regression on these data:</p>
 <pre class="r"><code># logistic regression
 log_reg &lt;- glm(class ~ x1 + x2, family = binomial(link = &#39;logit&#39;), data = df)
@@ -217,7 +218,7 @@ pred       &lt;- predict.glm(log_reg, newdata = grid)
 invlogit   &lt;- function(x) exp(x) / (1 + exp(x) )
 grid$class &lt;- invlogit(pred) &gt; 0.5</code></pre>
 <p>Our prediction looks like,</p>
-<p><img src="/./post/2018-04-05-neural-networks-the-real-basics_files/figure-html/unnamed-chunk-4-1.svg" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="https://ssp3nc3r.github.io/./post/2018-04-05-neural-networks-the-real-basics_files/figure-html/unnamed-chunk-4-1.svg" width="480" style="display: block; margin: auto;" /></p>
 <p>As graphically evident, these data aren’t distinguished along a linear boundary.</p>
 </div>
 <div id="basic-neural-network" class="section level1">
@@ -294,7 +295,7 @@ grid$class &lt;- factor((ff_grid$output &gt; .5) * 1,
   geom_point(df, mapping = aes(x1, x2, color = class)) + 
   scale_colour_manual(values=c(&#39;gray42&#39;, &#39;gray88&#39;)) + 
   theme_void() + theme(legend.position = &#39;&#39;)</code></pre>
-<p><img src="/./post/2018-04-05-neural-networks-the-real-basics_files/figure-html/unnamed-chunk-11-1.svg" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="https://ssp3nc3r.github.io/./post/2018-04-05-neural-networks-the-real-basics_files/figure-html/unnamed-chunk-11-1.svg" width="480" style="display: block; margin: auto;" /></p>
 <p>Let’s try again, this time using 30 intermediate transformations:</p>
 <pre class="r"><code>nnet30 &lt;- train(x, y, hidden = 30, iterations = 1e5)
 acc_net30 &lt;- mean((nnet30$output &gt; .5) == y)</code></pre>
@@ -311,7 +312,7 @@ grid$class &lt;- factor((ff_grid$output &gt; .5) * 1,
   geom_point(df, mapping = aes(x1, x2, color = class)) + 
   scale_colour_manual(values=c(&#39;gray42&#39;, &#39;gray88&#39;)) + 
   theme_void() + theme(legend.position = &#39;&#39;)</code></pre>
-<p><img src="/./post/2018-04-05-neural-networks-the-real-basics_files/figure-html/unnamed-chunk-14-1.svg" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="https://ssp3nc3r.github.io/./post/2018-04-05-neural-networks-the-real-basics_files/figure-html/unnamed-chunk-14-1.svg" width="480" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="bibliography" class="section level1 unnumbered">
@@ -330,7 +331,7 @@ grid$class &lt;- factor((ff_grid$output &gt; .5) * 1,
 
         <div class="post-info">
   				<p>
-  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/neural-networks">Neural Networks</a></span><span class="tag"><a href="/tags/machine-learning">Machine Learning</a></span><span class="tag"><a href="/tags/r">R</a></span>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ssp3nc3r.github.io/tags/neural-networks">Neural Networks</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/machine-learning">Machine Learning</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/r">R</a></span>
   				</p>
 			    <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-git-commit"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17.01" y1="12" x2="22.96" y2="12"></line></svg><a href="20cc03f3c90f4d729f080982574808d850d6fe0d" target="_blank" rel="noopener">20cc03f</a> @ 2020-03-30</p>
   		</div>
@@ -364,7 +365,7 @@ src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
 
 
 
-<script type="text/javascript" src="/bundle.min.2d5469329143160ae2456a69c3c76dc2d0a3b212b46afe291a51bd68650ed6f8697e001dab54f1c272c77ce08092a8c55e5bb4314e0ee334aab4b927ec896638.js" integrity="sha512-LVRpMpFDFgriRWppw8dtwtCjshK0av4pGlG9aGUO1vhpfgAdq1TxwnLHfOCAkqjFXlu0MU4O4zSqtLkn7IlmOA=="></script>
+<script type="text/javascript" src="https://ssp3nc3r.github.io/bundle.min.2d5469329143160ae2456a69c3c76dc2d0a3b212b46afe291a51bd68650ed6f8697e001dab54f1c272c77ce08092a8c55e5bb4314e0ee334aab4b927ec896638.js" integrity="sha512-LVRpMpFDFgriRWppw8dtwtCjshK0av4pGlG9aGUO1vhpfgAdq1TxwnLHfOCAkqjFXlu0MU4O4zSqtLkn7IlmOA=="></script>
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })

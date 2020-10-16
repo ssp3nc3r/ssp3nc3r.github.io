@@ -2,29 +2,25 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Probability on p( ssp3nc3r | Columbian )</title>
-    <link>/tags/probability/</link>
+    <link>https://ssp3nc3r.github.io/tags/probability/</link>
     <description>Recent content in Probability on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 25 Apr 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/probability/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 25 Apr 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/probability/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Modeling Umpire Calls</title>
-      <link>/post/modeling-umpire-calls/</link>
+      <link>https://ssp3nc3r.github.io/post/modeling-umpire-calls/</link>
       <pubDate>Wed, 25 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/modeling-umpire-calls/</guid>
+      <guid>https://ssp3nc3r.github.io/post/modeling-umpire-calls/</guid>
       <description>Introduction Batting and pitching data from Major League Baseball Advance Media Modeling called strike probabilities Previous work General model description Called strike probabilities modeled in Stan Model diagnostics Called strike probability predictions from the modeled posterior  Bibliography   Introduction The goal of baseball pitchers — when contributing to team defense — is to put out batters. Two ways are (mostly) within the pitchers’ control. They may earn a called strike or a swinging strike.</description>
     </item>
     
     <item>
       <title>Languages Behind Statistical Learning, and Useful Tools</title>
-      <link>/post/2018-01-08-languages-behind-statistical-learning/</link>
+      <link>https://ssp3nc3r.github.io/post/2018-01-08-languages-behind-statistical-learning/</link>
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/2018-01-08-languages-behind-statistical-learning/</guid>
+      <guid>https://ssp3nc3r.github.io/post/2018-01-08-languages-behind-statistical-learning/</guid>
       <description>R Markdown—a tool for reproducible reporting From mathematical notation to R Linear Algebra Calculus Probability Distributions Regression  Optimization Gradient descent Simplex method  Algorithms  Data and model visualization Organizing Data Closing   “Can A.I. Be Taught to Explain Itself?” That’s the question recently posed in The New York Times Magazine. A search uncovered helpful references — An Introduction to Statistical Learning with Applications in R and The Elements of Statistical Learning, for example — but none with A.</description>
     </item>
     

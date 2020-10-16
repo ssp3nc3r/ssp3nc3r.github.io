@@ -2,29 +2,25 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Information Graphics on p( ssp3nc3r | Columbian )</title>
-    <link>/tags/information-graphics/</link>
+    <link>https://ssp3nc3r.github.io/tags/information-graphics/</link>
     <description>Recent content in Information Graphics on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 08 Apr 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/information-graphics/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 08 Apr 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/information-graphics/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>NYC bike share rebalancing information graphic</title>
-      <link>/post/nyc-bike-share-rebalancing-information-graphic/</link>
+      <link>https://ssp3nc3r.github.io/post/nyc-bike-share-rebalancing-information-graphic/</link>
       <pubDate>Mon, 08 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/nyc-bike-share-rebalancing-information-graphic/</guid>
+      <guid>https://ssp3nc3r.github.io/post/nyc-bike-share-rebalancing-information-graphic/</guid>
       <description>We continue exploring the NYC bike share program. This time we create an information graphic visualizing bike and docking station availability by time of day and rate of new rides per minute.</description>
     </item>
     
     <item>
       <title>Approximating the components of Lupi&#39;s Nobel no degrees</title>
-      <link>/post/approximating-the-components-of-lupi-s-nobel-no-degrees/</link>
+      <link>https://ssp3nc3r.github.io/post/approximating-the-components-of-lupi-s-nobel-no-degrees/</link>
       <pubDate>Fri, 15 Mar 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/approximating-the-components-of-lupi-s-nobel-no-degrees/</guid>
+      <guid>https://ssp3nc3r.github.io/post/approximating-the-components-of-lupi-s-nobel-no-degrees/</guid>
       <description>Exemplary, award-winning information graphic Approximating the reference in R An exercise in design using R Data for Lupi’s display Main display of points and lines Per-category histograms or bar charts Per-era stacked bar charts Sankey diagram  Next steps References   Exemplary, award-winning information graphic Giorgia Lupi is a master at designing information for visual narrative — telling stories through visualization. Her portfolio includes a series of exploratory data visualizations published for the largest circulating Italian newspaper, La Lettura.</description>
     </item>
     

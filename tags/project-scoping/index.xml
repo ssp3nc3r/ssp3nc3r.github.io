@@ -2,20 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Project Scoping on p( ssp3nc3r | Columbian )</title>
-    <link>/tags/project-scoping/</link>
+    <link>https://ssp3nc3r.github.io/tags/project-scoping/</link>
     <description>Recent content in Project Scoping on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 03 Jan 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/project-scoping/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 03 Jan 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/project-scoping/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Scoping a data analytics project</title>
-      <link>/post/scoping-a-data-analytics-project/</link>
+      <link>https://ssp3nc3r.github.io/post/scoping-a-data-analytics-project/</link>
       <pubDate>Thu, 03 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/scoping-a-data-analytics-project/</guid>
+      <guid>https://ssp3nc3r.github.io/post/scoping-a-data-analytics-project/</guid>
       <description>Scoping an analytics project Defining goals, actions, and problems Identifying accessible data Identifying the analyses and tools Estimating time constraints and finances Writing to clarify and communicate Examples of writeups about projects and workflow  References   Scoping an analytics project Here is the wrong way to think about a data analytics project: begin with some data, apply tools you are familiar, and stop when you find something to talk about.</description>
     </item>
     

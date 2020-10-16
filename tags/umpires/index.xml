@@ -2,20 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Umpires on p( ssp3nc3r | Columbian )</title>
-    <link>/tags/umpires/</link>
+    <link>https://ssp3nc3r.github.io/tags/umpires/</link>
     <description>Recent content in Umpires on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 25 Apr 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/umpires/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 25 Apr 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/umpires/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Modeling Umpire Calls</title>
-      <link>/post/modeling-umpire-calls/</link>
+      <link>https://ssp3nc3r.github.io/post/modeling-umpire-calls/</link>
       <pubDate>Wed, 25 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/modeling-umpire-calls/</guid>
+      <guid>https://ssp3nc3r.github.io/post/modeling-umpire-calls/</guid>
       <description>Introduction Batting and pitching data from Major League Baseball Advance Media Modeling called strike probabilities Previous work General model description Called strike probabilities modeled in Stan Model diagnostics Called strike probability predictions from the modeled posterior  Bibliography   Introduction The goal of baseball pitchers — when contributing to team defense — is to put out batters. Two ways are (mostly) within the pitchers’ control. They may earn a called strike or a swinging strike.</description>
     </item>
     

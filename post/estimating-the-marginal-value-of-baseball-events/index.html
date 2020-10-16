@@ -9,7 +9,7 @@
 <meta name="keywords" content="Scott Spencer, statistical, generative modeling, bayesian inference, writing, data visualization, sports, columbia university, Baseball, Run Expectancy, Expectations, Batters, Offense, Stan, Events" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="#252627" />
-<link rel="canonical" href="/post/estimating-the-marginal-value-of-baseball-events/" />
+<link rel="canonical" href="https://ssp3nc3r.github.io/post/estimating-the-marginal-value-of-baseball-events/" />
 
 
     <title>
@@ -25,31 +25,32 @@
 
 
 
-<link rel="stylesheet" href="/main.min.84ed5579024525d4b50458514d1a43e40dd5272df45c7cd6da85b225af457154.css">
+<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.84ed5579024525d4b50458514d1a43e40dd5272df45c7cd6da85b225af457154.css">
 
 
 
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#252627">
-    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://ssp3nc3r.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://ssp3nc3r.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://ssp3nc3r.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://ssp3nc3r.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://ssp3nc3r.github.io/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="https://ssp3nc3r.github.io/favicon.ico">
     <meta name="msapplication-TileColor" content="#252627">
     <meta name="theme-color" content="#252627">
 
 <meta itemprop="name" content="Estimating the marginal value of baseball events">
 <meta itemprop="description" content="Teams score --- or *don&#39;t* --- event by event. Events change the state of the game, and whether a score results from an event depends upon prior events. By the events a player generates, or more accurately, by the change in expected runs to which they contribute, we can measure players&#39; offensive values.">
-<meta itemprop="datePublished" content="2018-12-08T00:00:00&#43;00:00" />
+<meta itemprop="datePublished" content="2018-12-08T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-03-30T14:35:11-04:00" />
 <meta itemprop="wordCount" content="5846">
-<meta itemprop="image" content="/"/>
+<meta itemprop="image" content="https://ssp3nc3r.github.io"/>
 
 
 
-<meta itemprop="keywords" content="Baseball,Run Expectancy,Expectations,Batters,Offense,Stan,Events," /><meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="/"/>
+<meta itemprop="keywords" content="Baseball,Run Expectancy,Expectations,Batters,Offense,Stan,Events," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://ssp3nc3r.github.io"/>
 
 <meta name="twitter:title" content="Estimating the marginal value of baseball events"/>
 <meta name="twitter:description" content="Teams score --- or *don&#39;t* --- event by event. Events change the state of the game, and whether a score results from an event depends upon prior events. By the events a player generates, or more accurately, by the change in expected runs to which they contribute, we can measure players&#39; offensive values."/>
@@ -76,7 +77,7 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
         <div class="container">
             <header class="header">
     <span class="header__inner">
-        <a href="/" style="text-decoration: none;">
+        <a href="https://ssp3nc3r.github.io/" style="text-decoration: none;">
     <div class="logo">
         
             <span class="logo__mark">></span>
@@ -94,7 +95,7 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
         <span class="header__right">
             
                 <nav class="menu">
-    <ul class="menu__inner"><li><a href="/about/">About</a></li><li><a href="/post/">Posts</a></li><li><a href="/publications/">Publications</a></li><li><a href="/teaching/">Teaching</a></li>
+    <ul class="menu__inner"><li><a href="https://ssp3nc3r.github.io/about/">About</a></li><li><a href="https://ssp3nc3r.github.io/post/">Posts</a></li><li><a href="https://ssp3nc3r.github.io/publications/">Publications</a></li><li><a href="https://ssp3nc3r.github.io/teaching/">Teaching</a></li>
     </ul>
 </nav>
 
@@ -128,13 +129,13 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
         </div>
 
         <article>
-            <h2 class="post-title"><a href="/post/estimating-the-marginal-value-of-baseball-events/">Estimating the marginal value of baseball events</a></h2>
+            <h2 class="post-title"><a href="https://ssp3nc3r.github.io/post/estimating-the-marginal-value-of-baseball-events/">Estimating the marginal value of baseball events</a></h2>
 
             
 
             <div class="post-content">
                 
-<script src="/./rmarkdown-libs/kePrint/kePrint.js"></script>
+<script src="https://ssp3nc3r.github.io/./rmarkdown-libs/kePrint/kePrint.js"></script>
 
 
 <p>Teams score — or <em>don’t</em> — event by event. Events change the state of the game. Solo home runs aside, whether a score results from any event depends upon prior events: <em>a batter’s double only “drives in a score” when an earlier batter made it on base.</em> By the collection of events a player generates, or more accurately, by the change in expected runs to which they contribute, we can measure players offensive values.</p>
@@ -274,7 +275,7 @@ ggplot(event_runs) +
         axis.text.y = element_blank(),
         axis.title = element_blank())</code></pre>
 <div class="figure"><span id="fig:unnamed-chunk-6"></span>
-<img src="/./post/2018-12-08-estimating-the-marginal-value-of-baseball-events_files/figure-html/unnamed-chunk-6-1.svg" alt="Distribution of marginal difference in expected runs by event." width="672" />
+<img src="https://ssp3nc3r.github.io/./post/2018-12-08-estimating-the-marginal-value-of-baseball-events_files/figure-html/unnamed-chunk-6-1.svg" alt="Distribution of marginal difference in expected runs by event." width="672" />
 <p class="caption">
 Figure 1: Distribution of marginal difference in expected runs by event.
 </p>
@@ -16447,7 +16448,7 @@ Foltynewicz
 
         <div class="post-info">
   				<p>
-  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/baseball">Baseball</a></span><span class="tag"><a href="/tags/run-expectancy">Run Expectancy</a></span><span class="tag"><a href="/tags/expectations">Expectations</a></span><span class="tag"><a href="/tags/batters">Batters</a></span><span class="tag"><a href="/tags/offense">Offense</a></span><span class="tag"><a href="/tags/stan">Stan</a></span><span class="tag"><a href="/tags/events">Events</a></span>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ssp3nc3r.github.io/tags/baseball">Baseball</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/run-expectancy">Run Expectancy</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/expectations">Expectations</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/batters">Batters</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/offense">Offense</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/stan">Stan</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/events">Events</a></span>
   				</p>
 			    <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-git-commit"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17.01" y1="12" x2="22.96" y2="12"></line></svg><a href="20cc03f3c90f4d729f080982574808d850d6fe0d" target="_blank" rel="noopener">20cc03f</a> @ 2020-03-30</p>
   		</div>
@@ -16481,7 +16482,7 @@ src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
 
 
 
-<script type="text/javascript" src="/bundle.min.2d5469329143160ae2456a69c3c76dc2d0a3b212b46afe291a51bd68650ed6f8697e001dab54f1c272c77ce08092a8c55e5bb4314e0ee334aab4b927ec896638.js" integrity="sha512-LVRpMpFDFgriRWppw8dtwtCjshK0av4pGlG9aGUO1vhpfgAdq1TxwnLHfOCAkqjFXlu0MU4O4zSqtLkn7IlmOA=="></script>
+<script type="text/javascript" src="https://ssp3nc3r.github.io/bundle.min.2d5469329143160ae2456a69c3c76dc2d0a3b212b46afe291a51bd68650ed6f8697e001dab54f1c272c77ce08092a8c55e5bb4314e0ee334aab4b927ec896638.js" integrity="sha512-LVRpMpFDFgriRWppw8dtwtCjshK0av4pGlG9aGUO1vhpfgAdq1TxwnLHfOCAkqjFXlu0MU4O4zSqtLkn7IlmOA=="></script>
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })

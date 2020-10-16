@@ -2,20 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>CTL on p( ssp3nc3r | Columbian )</title>
-    <link>/tags/ctl/</link>
+    <link>https://ssp3nc3r.github.io/tags/ctl/</link>
     <description>Recent content in CTL on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 08 May 2020 14:34:25 -0400</lastBuildDate>
-    
-	<atom:link href="/tags/ctl/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 08 May 2020 14:34:25 -0400</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/ctl/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Calculating training load in cycling</title>
-      <link>/post/2020-05-08-calculating-training-load-in-cycling/</link>
+      <link>https://ssp3nc3r.github.io/post/2020-05-08-calculating-training-load-in-cycling/</link>
       <pubDate>Fri, 08 May 2020 14:34:25 -0400</pubDate>
       
-      <guid>/post/2020-05-08-calculating-training-load-in-cycling/</guid>
+      <guid>https://ssp3nc3r.github.io/post/2020-05-08-calculating-training-load-in-cycling/</guid>
       <description>In cycling, (Allen 2019) has been an influential instruction for training and racing with a power meter. The authors discuss training load in the context of a few functions: one they call a training stress score, the other two acute and chronic training load, respectively. Training stress score is an estimate of the amount of work going into a single workout while acute and chronic training loads are estimates of the short and medium term accumulated loads from training.</description>
     </item>
     

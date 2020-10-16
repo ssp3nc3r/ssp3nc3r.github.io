@@ -2,20 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Swing on p( ssp3nc3r | Columbian )</title>
-    <link>/tags/swing/</link>
+    <link>https://ssp3nc3r.github.io/tags/swing/</link>
     <description>Recent content in Swing on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 01 Sep 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/swing/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 01 Sep 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/swing/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Jointly modeling choice to swing with ball contact</title>
-      <link>/post/jointly-modeling-choice-to-swing-with-ball-contact/</link>
+      <link>https://ssp3nc3r.github.io/post/jointly-modeling-choice-to-swing-with-ball-contact/</link>
       <pubDate>Sat, 01 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/jointly-modeling-choice-to-swing-with-ball-contact/</guid>
+      <guid>https://ssp3nc3r.github.io/post/jointly-modeling-choice-to-swing-with-ball-contact/</guid>
       <description>Modeling batters’ choices to swing and abilities to contact the ball Variables informing the probability of swinging (the selection submodel) Variables informing probability of contacting the ball (the outcome submodel) Initial joint model  References   Modeling batters’ choices to swing and abilities to contact the ball Models for decisions to swing and ball contact are more nuanced than a model for called pitches (see Modeling Umpire Calls).</description>
     </item>
     

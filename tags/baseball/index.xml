@@ -2,122 +2,88 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Baseball on p( ssp3nc3r | Columbian )</title>
-    <link>/tags/baseball/</link>
+    <link>https://ssp3nc3r.github.io/tags/baseball/</link>
     <description>Recent content in Baseball on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 28 Jun 2020 22:26:59 -0400</lastBuildDate>
-    
-	<atom:link href="/tags/baseball/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Ex-splined: beyond splines for modeling umpire calls</title>
-      <link>/post/2020-06-28-ex-splined-beyond-splines-for-modeling-umpire-calls/</link>
-      <pubDate>Sun, 28 Jun 2020 22:26:59 -0400</pubDate>
-      
-      <guid>/post/2020-06-28-ex-splined-beyond-splines-for-modeling-umpire-calls/</guid>
-      <description>What do we know about how baseball umpires call balls and strikes? A lot, actually. As those familiar with the game know, balls and strikes are determined by umpires applying the written rules of the game, which means they visually compare the location of a pitched ball to both home plate and batter anatomy.
-We’ll get to those rules below.
-But published models of umpire calls ignore the rules and how umpires apply them.</description>
-    </item>
-    
-    <item>
-      <title>Exploratory modeling on how win uncertainty affects baseball game attendance</title>
-      <link>/post/2020-01-03-exploratory-modeling-on-how-win-uncertainty-affects-game-attendance/</link>
-      <pubDate>Fri, 03 Jan 2020 18:01:28 -0400</pubDate>
-      
-      <guid>/post/2020-01-03-exploratory-modeling-on-how-win-uncertainty-affects-game-attendance/</guid>
-      <description>We dread an empty ticket booth. The Dodgers’ average game attendance, for example, can be below capacity — they have seats to fill, despite having winning seasons.
-To draw more fans, consider the words of famed economist Simon Rotternberg, who said “uncertainty of outcome is necessary for consumers to pay admission to ball games.” While winning is important, it’s the not knowing that creates excitement. Have the Dodgers maximized winning with uncertainty of outcome?</description>
-    </item>
-    
+    <lastBuildDate>Fri, 21 Dec 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/baseball/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Baseball Abstract 01</title>
-      <link>/post/baseball-abstract-01/</link>
+      <link>https://ssp3nc3r.github.io/post/baseball-abstract-01/</link>
       <pubDate>Fri, 21 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/baseball-abstract-01/</guid>
+      <guid>https://ssp3nc3r.github.io/post/baseball-abstract-01/</guid>
       <description> </description>
     </item>
     
     <item>
       <title>Estimating the marginal value of baseball events</title>
-      <link>/post/estimating-the-marginal-value-of-baseball-events/</link>
+      <link>https://ssp3nc3r.github.io/post/estimating-the-marginal-value-of-baseball-events/</link>
       <pubDate>Sat, 08 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/estimating-the-marginal-value-of-baseball-events/</guid>
+      <guid>https://ssp3nc3r.github.io/post/estimating-the-marginal-value-of-baseball-events/</guid>
       <description>Teams score — or don’t — event by event. Events change the state of the game. Solo home runs aside, whether a score results from any event depends upon prior events: a batter’s double only “drives in a score” when an earlier batter made it on base. By the collection of events a player generates, or more accurately, by the change in expected runs to which they contribute, we can measure players offensive values.</description>
     </item>
     
     <item>
       <title>Jointly modeling choice to swing with ball contact</title>
-      <link>/post/jointly-modeling-choice-to-swing-with-ball-contact/</link>
+      <link>https://ssp3nc3r.github.io/post/jointly-modeling-choice-to-swing-with-ball-contact/</link>
       <pubDate>Sat, 01 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/jointly-modeling-choice-to-swing-with-ball-contact/</guid>
+      <guid>https://ssp3nc3r.github.io/post/jointly-modeling-choice-to-swing-with-ball-contact/</guid>
       <description>Modeling batters’ choices to swing and abilities to contact the ball Variables informing the probability of swinging (the selection submodel) Variables informing probability of contacting the ball (the outcome submodel) Initial joint model  References   Modeling batters’ choices to swing and abilities to contact the ball Models for decisions to swing and ball contact are more nuanced than a model for called pitches (see Modeling Umpire Calls).</description>
     </item>
     
     <item>
-      <title>Stan Is Not an Acronym: Bayesian Solutions to Sabermetric Shortcomings</title>
-      <link>/post/stan-is-not-an-acronym-bayesian-solutions-to-sabermetric-shortcomings/</link>
-      <pubDate>Sun, 05 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/stan-is-not-an-acronym-bayesian-solutions-to-sabermetric-shortcomings/</guid>
-      <description>Here is our description of our presentation at Saberseminar 2018: “A common definition of sabermetrics is the application of statistics to baseball. However, despite clear progress over the past few decades, we argue that sabermetrics has largely ignored the most important statistical principle to baseball: generative modeling. In this talk we discuss several conceptual errors with sabermetrics that preclude optimal decision making. Each of these problems can be overcome using a principled Bayesian approach to inference, which we demonstrate using the Stan statistical software.</description>
-    </item>
-    
-    <item>
       <title>Visual exploration of starting pitcher duration</title>
-      <link>/post/visual-exploration-of-starting-pitcher-duration/</link>
+      <link>https://ssp3nc3r.github.io/post/visual-exploration-of-starting-pitcher-duration/</link>
       <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/visual-exploration-of-starting-pitcher-duration/</guid>
+      <guid>https://ssp3nc3r.github.io/post/visual-exploration-of-starting-pitcher-duration/</guid>
       <description>Introduction Exploring influence of times-through-the-order on manager decisions Describing survival with a life table Modeling survival with conditional logistic regression  Exploring game states (context) on pitcher survival Runs accumulated Baserunners accumulated Outs in the half-inning Platooned matchups Pitch count  Further work Appendix Variables as cleaned for these analyses References   Introduction This analysis explores major league baseball decisions of when starting pitchers are removed from the game.</description>
     </item>
     
     <item>
       <title>Modeling Umpire Calls</title>
-      <link>/post/modeling-umpire-calls/</link>
+      <link>https://ssp3nc3r.github.io/post/modeling-umpire-calls/</link>
       <pubDate>Wed, 25 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/modeling-umpire-calls/</guid>
+      <guid>https://ssp3nc3r.github.io/post/modeling-umpire-calls/</guid>
       <description>Introduction Batting and pitching data from Major League Baseball Advance Media Modeling called strike probabilities Previous work General model description Called strike probabilities modeled in Stan Model diagnostics Called strike probability predictions from the modeled posterior  Bibliography   Introduction The goal of baseball pitchers — when contributing to team defense — is to put out batters. Two ways are (mostly) within the pitchers’ control. They may earn a called strike or a swinging strike.</description>
     </item>
     
     <item>
       <title>Toeing the Line: Altuve and Trout</title>
-      <link>/post/toeing-the-line-altuve-and-trout/</link>
+      <link>https://ssp3nc3r.github.io/post/toeing-the-line-altuve-and-trout/</link>
       <pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/toeing-the-line-altuve-and-trout/</guid>
+      <guid>https://ssp3nc3r.github.io/post/toeing-the-line-altuve-and-trout/</guid>
       <description>Analysis Load and combine data Summarise and prepare data Getting running speed from timestamped coordinates Define variables Graphical overview of coordinates and running speeds Scenario 1: times to first when attempting a double Scenario 2: batters trying to beat a throw to first  Conclusions and Next Steps   In these analyzed data, described below, Trout demonstrated slightly higher expected footspeed and slightly shorter expected times to first base than did Altuve; although their performance is close and we expect a near toss up, given the data used, as to who comes out ahead on any given play.</description>
     </item>
     
     <item>
       <title>Run Expectancy Distributions of MLB Game States</title>
-      <link>/post/2017-12-03-run-expectancy-distributions/</link>
+      <link>https://ssp3nc3r.github.io/post/2017-12-03-run-expectancy-distributions/</link>
       <pubDate>Sun, 03 Dec 2017 00:00:00 +0000</pubDate>
       
-      <guid>/post/2017-12-03-run-expectancy-distributions/</guid>
+      <guid>https://ssp3nc3r.github.io/post/2017-12-03-run-expectancy-distributions/</guid>
       <description>Team wins—a chain of player events Data and sources for estimating run expectancies Calculate runs scored after every game state of a half inning Estimating run expectancy Preserving and understanding uncertainty of our estimates In half innings, more runs occur less frequently Building a bayesian run expectancy model Model summary The median run expectancy matrix    Team wins—a chain of player events The performance of a baseball player includes numerous on-field (and off-field) activities, roughly divided into skills of offensive (e.</description>
     </item>
     
     <item>
       <title>Trading Stanton: a modeling sketch</title>
-      <link>/post/trading-stanton-a-modeling-sketch/</link>
+      <link>https://ssp3nc3r.github.io/post/trading-stanton-a-modeling-sketch/</link>
       <pubDate>Fri, 24 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>/post/trading-stanton-a-modeling-sketch/</guid>
+      <guid>https://ssp3nc3r.github.io/post/trading-stanton-a-modeling-sketch/</guid>
       <description>Forecast of Giancarlo Stanton’s Expected Surplus Value Summary Estimate player past performance as Wins Over Replacement Forecasting WAR with a hierarchical model in Stan Dollars Per WAR on the Free-Agent Market Unadjusted surplus value Appendix: Stan Model for Forcasting WAR    Forecast of Giancarlo Stanton’s Expected Surplus Value Summary In most analyses, I would normally lead with the conclusion—here, surplus value. But, as the perceived goals of analysis are evaluating, well, the analysis, I’ll start with my methods.</description>
     </item>
     
     <item>
       <title>Contours of batter comparisons: a trick up the sleeve</title>
-      <link>/post/2017-08-04-contours-of-batter-comparisons/</link>
+      <link>https://ssp3nc3r.github.io/post/2017-08-04-contours-of-batter-comparisons/</link>
       <pubDate>Fri, 04 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>/post/2017-08-04-contours-of-batter-comparisons/</guid>
+      <guid>https://ssp3nc3r.github.io/post/2017-08-04-contours-of-batter-comparisons/</guid>
       <description>Through the eyes of writer Roger Kahn, we’ve witnessed major league pitchers working to fool batters for ages. Regarding one Brooklyn Dodgers pitcher,
  “Dazzy Vance in his prime had a different trick,” [Kahn’s] father said. “For seven years he was the best strikeout pitcher in the league. Vance wore a long undershirt and he took a scissors and cut slits in the right sleeve. It ran clear down to the wrist.</description>
     </item>

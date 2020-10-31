@@ -53,7 +53,7 @@ Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawar
 
 : Spencer, Scott. [_Survey design and analyses_](Spencer-2020-Columbia-Research-Design-lecture07.pdf). Research Design. In Applied Analytics, Columbia University.  2020 October 22. 
 
-: Spencer, Scott. [_factorial experiments; analysis of variance; issues with multiple testing_](Spencer-2020-Columbia-Research-Design-lecture08.pdf). Research Design. In Applied Analytics, Columbia University.  2020 October 29. 
+: Spencer, Scott. [_Factorial experiments; analysis of variance; issues with multiple testing_](Spencer-2020-Columbia-Research-Design-lecture08.pdf). Research Design. In Applied Analytics, Columbia University.  2020 October 29. 
 
 ...
 

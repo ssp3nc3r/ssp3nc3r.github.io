@@ -55,6 +55,8 @@ Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawar
 
 : Spencer, Scott. [_Factorial experiments; analysis of variance; issues with multiple testing_](Spencer-2020-Columbia-Research-Design-lecture08.pdf). Research Design. In Applied Analytics, Columbia University.  2020 October 29. 
 
+: Spencer, Scott. [_Statistical power, sample size, simulations_](Spencer-2020-Columbia-Research-Design-lecture09.pdf). Research Design. In Applied Analytics, Columbia University.  2020 November 5. 
+
 ...
 
 2020 January 21 - May 15. Spring course, _Storytelling with data_. Columbia University.

@@ -13,6 +13,9 @@ tags:
   - grammar of graphics
 ---
 
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
 
 
 <p>In <code>R</code>’s grammar of graphics package (<code>ggplot2</code>), we can encode data in custom-made glyph shapes from vector graphics and encode its size, fill color, or both. <code>SVG</code> graphics display lines, colors fills using <em>paths.</em> Let’s make an <code>SVG</code> graphic containing a single path of a complex shape, assign the graphic in <code>R</code> to data, and change its attributes. For this exercise, I’ve created an SVG path of the silhouette of a baseball player (using Inkscape)<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. Here are the resulting coordinates of its <code>SVG</code> path<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>, which I saved as a string into an <code>R</code> object:</p>

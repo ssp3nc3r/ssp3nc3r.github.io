@@ -1,7 +1,7 @@
 ---
 title: "ggSankeyGrad: an R package to create a ggplot-based sankey graphic that encodes flows with color gradients"
 date: 2020-03-30T17:05:13-04:00
-draft: true
+draft: false
 comments: false
 tags:
   - R

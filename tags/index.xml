@@ -72,9 +72,153 @@
     <item>
       <title>Data Visualization</title>
       <link>https://ssp3nc3r.github.io/tags/data-visualization/</link>
-      <pubDate>Mon, 08 Apr 2019 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
       
       <guid>https://ssp3nc3r.github.io/tags/data-visualization/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ggplot2</title>
+      <link>https://ssp3nc3r.github.io/tags/ggplot2/</link>
+      <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
+      
+      <guid>https://ssp3nc3r.github.io/tags/ggplot2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>glyphs</title>
+      <link>https://ssp3nc3r.github.io/tags/glyphs/</link>
+      <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
+      
+      <guid>https://ssp3nc3r.github.io/tags/glyphs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>grammar of graphics</title>
+      <link>https://ssp3nc3r.github.io/tags/grammar-of-graphics/</link>
+      <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
+      
+      <guid>https://ssp3nc3r.github.io/tags/grammar-of-graphics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>svg</title>
+      <link>https://ssp3nc3r.github.io/tags/svg/</link>
+      <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
+      
+      <guid>https://ssp3nc3r.github.io/tags/svg/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Flow Diagram</title>
+      <link>https://ssp3nc3r.github.io/tags/flow-diagram/</link>
+      <pubDate>Mon, 30 Mar 2020 17:05:13 -0400</pubDate>
+      
+      <guid>https://ssp3nc3r.github.io/tags/flow-diagram/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Packages</title>
+      <link>https://ssp3nc3r.github.io/tags/packages/</link>
+      <pubDate>Mon, 30 Mar 2020 17:05:13 -0400</pubDate>
+      
+      <guid>https://ssp3nc3r.github.io/tags/packages/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Sankey</title>
+      <link>https://ssp3nc3r.github.io/tags/sankey/</link>
+      <pubDate>Mon, 30 Mar 2020 17:05:13 -0400</pubDate>
+      
+      <guid>https://ssp3nc3r.github.io/tags/sankey/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Colorspace</title>
+      <link>https://ssp3nc3r.github.io/tags/colorspace/</link>
+      <pubDate>Mon, 30 Mar 2020 16:49:54 -0400</pubDate>
+      
+      <guid>https://ssp3nc3r.github.io/tags/colorspace/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>HSLuv</title>
+      <link>https://ssp3nc3r.github.io/tags/hsluv/</link>
+      <pubDate>Mon, 30 Mar 2020 16:49:54 -0400</pubDate>
+      
+      <guid>https://ssp3nc3r.github.io/tags/hsluv/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Perception</title>
+      <link>https://ssp3nc3r.github.io/tags/perception/</link>
+      <pubDate>Mon, 30 Mar 2020 16:49:54 -0400</pubDate>
+      
+      <guid>https://ssp3nc3r.github.io/tags/perception/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>RGB</title>
+      <link>https://ssp3nc3r.github.io/tags/rgb/</link>
+      <pubDate>Mon, 30 Mar 2020 16:49:54 -0400</pubDate>
+      
+      <guid>https://ssp3nc3r.github.io/tags/rgb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Attendance</title>
+      <link>https://ssp3nc3r.github.io/tags/attendance/</link>
+      <pubDate>Fri, 03 Jan 2020 18:01:28 -0400</pubDate>
+      
+      <guid>https://ssp3nc3r.github.io/tags/attendance/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Baseball</title>
+      <link>https://ssp3nc3r.github.io/tags/baseball/</link>
+      <pubDate>Fri, 03 Jan 2020 18:01:28 -0400</pubDate>
+      
+      <guid>https://ssp3nc3r.github.io/tags/baseball/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Betting</title>
+      <link>https://ssp3nc3r.github.io/tags/betting/</link>
+      <pubDate>Fri, 03 Jan 2020 18:01:28 -0400</pubDate>
+      
+      <guid>https://ssp3nc3r.github.io/tags/betting/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Stan</title>
+      <link>https://ssp3nc3r.github.io/tags/stan/</link>
+      <pubDate>Fri, 03 Jan 2020 18:01:28 -0400</pubDate>
+      
+      <guid>https://ssp3nc3r.github.io/tags/stan/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Uncertainty</title>
+      <link>https://ssp3nc3r.github.io/tags/uncertainty/</link>
+      <pubDate>Fri, 03 Jan 2020 18:01:28 -0400</pubDate>
+      
+      <guid>https://ssp3nc3r.github.io/tags/uncertainty/</guid>
       <description></description>
     </item>
     
@@ -133,15 +277,6 @@
     </item>
     
     <item>
-      <title>Baseball</title>
-      <link>https://ssp3nc3r.github.io/tags/baseball/</link>
-      <pubDate>Fri, 21 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://ssp3nc3r.github.io/tags/baseball/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Batters</title>
       <link>https://ssp3nc3r.github.io/tags/batters/</link>
       <pubDate>Sat, 08 Dec 2018 00:00:00 +0000</pubDate>
@@ -183,15 +318,6 @@
       <pubDate>Sat, 08 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://ssp3nc3r.github.io/tags/run-expectancy/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Stan</title>
-      <link>https://ssp3nc3r.github.io/tags/stan/</link>
-      <pubDate>Sat, 08 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://ssp3nc3r.github.io/tags/stan/</guid>
       <description></description>
     </item>
     

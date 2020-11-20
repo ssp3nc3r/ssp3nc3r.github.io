@@ -2,20 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Colorspace on p( ssp3nc3r | Columbian )</title>
-    <link>/tags/colorspace/</link>
+    <link>https://ssp3nc3r.github.io/tags/colorspace/</link>
     <description>Recent content in Colorspace on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 30 Mar 2020 16:49:54 -0400</lastBuildDate>
-    
-	<atom:link href="/tags/colorspace/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 30 Mar 2020 16:49:54 -0400</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/colorspace/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HSLuv: an R Package to convert HSLuv colorspace to RGB and hex</title>
-      <link>/post/2020-03-30-hsluv-an-r-package-to-convert-hsluv-colorspace-to-rgb-and-hex/</link>
+      <link>https://ssp3nc3r.github.io/post/2020-03-30-hsluv-an-r-package-to-convert-hsluv-colorspace-to-rgb-and-hex/</link>
       <pubDate>Mon, 30 Mar 2020 16:49:54 -0400</pubDate>
       
-      <guid>/post/2020-03-30-hsluv-an-r-package-to-convert-hsluv-colorspace-to-rgb-and-hex/</guid>
+      <guid>https://ssp3nc3r.github.io/post/2020-03-30-hsluv-an-r-package-to-convert-hsluv-colorspace-to-rgb-and-hex/</guid>
       <description>HSLuv is a human-friendly way to describe hue, saturation, and luminance — three attributes of color. The R package includes functions to convert HSLuv colorspace to computer RGB, either as separate red, green, and blue values or as a hex code.
 To install, you will need a working toolchain on your computer for compiling C++ code, and the R package devtools installed. Once those are working, simply run the following code in an R session:</description>
     </item>

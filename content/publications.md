@@ -39,7 +39,13 @@ Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawar
 
 ## Presentations and lectures
 
-2020 September 10 - December. Fall course, _Research Design_. Columbia University.
+2021 January - May. Spring course, _Storytelling with data_. Columbia University.
+
+: Spencer, Scott. [_01 | Analytics Communication — Scopes, Audiences, Challenges_](Spencer-2021-spring-storytelling-lecture01.pdf) Storytelling with data. In Applied Analytics, Columbia University.  2021 January 13.
+
+...
+
+2020 September - December. Fall course, _Research Design_. Columbia University.
 
 : Spencer, Scott. [_Introduction to research design, probability review_](Spencer-2020-Columbia-Research-Design-lecture01.pdf). Research Design. In Applied Analytics, Columbia University.  2020 September 10.
 
@@ -63,9 +69,7 @@ Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawar
 
 : Spencer, Scott. [_Communicating research plans_](Spencer-2020-Columbia-Research-Design-lecture11.pdf). Research Design. In Applied Analytics, Columbia University.  2020 November 19. 
 
-...
-
-2020 January 21 - May 15. Spring course, _Storytelling with data_. Columbia University.
+2020 January - May. Spring course, _Storytelling with data_. Columbia University.
 
 : Spencer, Scott. [_Is communication important for applied analytics_](Spencer-2020-Columbia-Storytelling-lecture01.pdf)? Storytelling with data. In Applied Analytics, Columbia University.  2020 January 27.
 

@@ -41,6 +41,8 @@ Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawar
 
 2021 January - May. Spring course, _Storytelling with data_. Columbia University.
 
+: [Syllabus](Spencer-2021-spring-storytelling-syllabus.html).
+
 : Spencer, Scott. [_01 | Analytics Communication — Scopes, Audiences, Challenges_](Spencer-2021-spring-storytelling-lecture01.pdf) Storytelling with data. In Applied Analytics, Columbia University.  2021 January 13.
 
 : Spencer, Scott. [_02 | data for analytics projects, and elements of writing_](Spencer-2021-spring-storytelling-lecture02.pdf) Storytelling with data. In Applied Analytics, Columbia University.  2021 January 20.

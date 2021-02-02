@@ -49,6 +49,8 @@ Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawar
 
 : Spencer, Scott. [_03 | re-writing; (more) communication concepts; visual organization_](Spencer-2021-spring-storytelling-lecture03.pdf) Storytelling with data. In Applied Analytics, Columbia University.  2021 January 27.
 
+: Spencer, Scott. [_04 | numeracy in narratives — composition and layout_](Spencer-2021-spring-storytelling-lecture04.pdf) Storytelling with data. In Applied Analytics, Columbia University.  2021 February 3.
+
 ...
 
 2020 September - December. Fall course, _Research Design_. Columbia University.

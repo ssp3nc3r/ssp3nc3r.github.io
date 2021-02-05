@@ -11,7 +11,7 @@ title: Publications
 
 ## Working papers
 
-Spencer, Scott. [_Data in Wonderland_](https://ssp3nc3r.github.io/data_in_wonderland). Last updated 2021 January 6.
+Spencer, Scott. [_Data in Wonderland_](https://ssp3nc3r.github.io/data_in_wonderland). Last updated 2021 February 4.
 
 Spencer, Scott. _Estimating utility of called pitches_. Last updated 2020 June 11.
 

@@ -43,15 +43,15 @@ Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawar
 
 : [Syllabus](Spencer-2021-spring-storytelling-syllabus.html).
 
-: Spencer, Scott. [_01 | Analytics Communication — Scopes, Audiences, Challenges_]. (Spencer-2021-spring-storytelling-lecture01.pdf) Storytelling with data. In Applied Analytics, Columbia University.  2021 January 13.
+: Spencer, Scott. [_01 | Analytics Communication — Scopes, Audiences, Challenges_](Spencer-2021-spring-storytelling-lecture01.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 January 13.
 
-: Spencer, Scott. [_02 | Data for analytics projects, and elements of writing_]. (Spencer-2021-spring-storytelling-lecture02.pdf) Storytelling with data. In Applied Analytics, Columbia University.  2021 January 20.
+: Spencer, Scott. [_02 | Data for analytics projects, and elements of writing_](Spencer-2021-spring-storytelling-lecture02.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 January 20.
 
-: Spencer, Scott. [_03 | Re-writing; (more) communication concepts; visual organization_]. (Spencer-2021-spring-storytelling-lecture03.pdf) Storytelling with data. In Applied Analytics, Columbia University.  2021 January 27.
+: Spencer, Scott. [_03 | Re-writing; (more) communication concepts; visual organization_](Spencer-2021-spring-storytelling-lecture03.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 January 27.
 
-: Spencer, Scott. [_04 | Numeracy in narratives — composition and layout_]. (Spencer-2021-spring-storytelling-lecture04.pdf) Storytelling with data. In Applied Analytics, Columbia University.  2021 February 3.
+: Spencer, Scott. [_04 | Numeracy in narratives — composition and layout_](Spencer-2021-spring-storytelling-lecture04.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 February 3.
 
-: Spencer, Scott. [_05 | Visual design, data encodings, perceptual psychology_]. (Spencer-2021-spring-storytelling-lecture05.pdf) Storytelling with data. In Applied Analytics, Columbia University.  2021 February 3.
+: Spencer, Scott. [_05 | Visual design, data encodings, perceptual psychology_](Spencer-2021-spring-storytelling-lecture05.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 February 3.
 
 ...
 

@@ -39,7 +39,7 @@ Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawar
 
 ## Presentations and lectures
 
-2021 January - May. Spring course, _Storytelling with data_. Columbia University.
+2021 January - May. Spring course, _Storytelling with data_. Columbia University. {#2021spring}
 
 : [Syllabus](Spencer-2021-spring-storytelling-syllabus.html).
 

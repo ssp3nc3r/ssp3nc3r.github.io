@@ -53,6 +53,8 @@ Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawar
 
 : Spencer, Scott. [_05 | Visual design, data encodings, perceptual psychology_](Spencer-2021-spring-storytelling-lecture05.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 February 3.
 
+: Spencer, Scott. [_06 | grammar of graphics, Doumont applied to data encoding, color, typologies_](Spencer-2021-spring-storytelling-lecture06.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 February 10.
+
 ...
 
 2020 September - December. Fall course, _Research Design_. Columbia University.

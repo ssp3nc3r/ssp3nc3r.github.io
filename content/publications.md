@@ -51,9 +51,11 @@ Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawar
 
 : Spencer, Scott. [_04 | Numeracy in narratives — composition and layout_](Spencer-2021-spring-storytelling-lecture04.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 February 3.
 
-: Spencer, Scott. [_05 | Visual design, data encodings, perceptual psychology_](Spencer-2021-spring-storytelling-lecture05.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 February 3.
+: Spencer, Scott. [_05 | Visual design, data encodings, perceptual psychology_](Spencer-2021-spring-storytelling-lecture05.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 February 10.
 
-: Spencer, Scott. [_06 | Grammar of graphics, Doumont applied to data encoding, color, typologies_](Spencer-2021-spring-storytelling-lecture06.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 February 10.
+: Spencer, Scott. [_06 | Grammar of graphics, Doumont applied to data encoding, color, typologies_](Spencer-2021-spring-storytelling-lecture06.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 February 17.
+
+: Spencer, Scott. [_07 | From exploration to explanation; audiences and complexity; data graphics in storytelling_](Spencer-2021-spring-storytelling-lecture07.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 February 24.
 
 ...
 

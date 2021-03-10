@@ -57,6 +57,8 @@ Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawar
 
 : Spencer, Scott. [_07 | From exploration to explanation; audiences and complexity; data graphics in storytelling_](Spencer-2021-spring-storytelling-lecture07.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 February 24.
 
+: Spencer, Scott. [_08 | Design mini-review; critiquing data-driven, visual narratives; encoding uncertainty, estimates, forecasts; pacing for attention_](Spencer-2021-spring-storytelling-lecture08.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 March 10.
+
 ...
 
 2020 September - December. Fall course, _Research Design_. Columbia University.

@@ -61,6 +61,8 @@ Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawar
 
 : Spencer, Scott. [_09 | Foundations of interactive data-driven, visual design_](Spencer-2021-spring-storytelling-lecture09.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 March 17.
 
+: Spencer, Scott. [_10 | Technologies and tools of interactive data-driven, visual design_](Spencer-2021-spring-storytelling-lecture10.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 March 24.
+
 ...
 
 2020 September - December. Fall course, _Research Design_. Columbia University.

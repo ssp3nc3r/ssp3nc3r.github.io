@@ -43,25 +43,27 @@ Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawar
 
 : [Syllabus (readings and homework)](Spencer-2021-spring-storytelling-syllabus.html).
 
-: Spencer, Scott. [_01 | Analytics Communication — Scopes, Audiences, Challenges_](Spencer-2021-spring-storytelling-lecture01.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 January 13.
+: Spencer, Scott. [_01 | Analytics Communication — Scopes, Audiences, Challenges_](Spencer-2021-spring-storytelling-lecture01.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2021 January 13.
 
-: Spencer, Scott. [_02 | Data for analytics projects, and elements of writing_](Spencer-2021-spring-storytelling-lecture02.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 January 20.
+: Spencer, Scott. [_02 | Data for analytics projects, and elements of writing_](Spencer-2021-spring-storytelling-lecture02.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2021 January 20.
 
-: Spencer, Scott. [_03 | Re-writing; (more) communication concepts; visual organization_](Spencer-2021-spring-storytelling-lecture03.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 January 27.
+: Spencer, Scott. [_03 | Re-writing; (more) communication concepts; visual organization_](Spencer-2021-spring-storytelling-lecture03.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2021 January 27.
 
-: Spencer, Scott. [_04 | Numeracy in narratives — composition and layout_](Spencer-2021-spring-storytelling-lecture04.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 February 3.
+: Spencer, Scott. [_04 | Numeracy in narratives — composition and layout_](Spencer-2021-spring-storytelling-lecture04.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2021 February 3.
 
-: Spencer, Scott. [_05 | Visual design, data encodings, perceptual psychology_](Spencer-2021-spring-storytelling-lecture05.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 February 10.
+: Spencer, Scott. [_05 | Visual design, data encodings, perceptual psychology_](Spencer-2021-spring-storytelling-lecture05.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2021 February 10.
 
-: Spencer, Scott. [_06 | Grammar of graphics, Doumont applied to data encoding, color, typologies_](Spencer-2021-spring-storytelling-lecture06.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 February 17.
+: Spencer, Scott. [_06 | Grammar of graphics, Doumont applied to data encoding, color, typologies_](Spencer-2021-spring-storytelling-lecture06.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2021 February 17.
 
-: Spencer, Scott. [_07 | From exploration to explanation; audiences and complexity; data graphics in storytelling_](Spencer-2021-spring-storytelling-lecture07.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 February 24.
+: Spencer, Scott. [_07 | From exploration to explanation; audiences and complexity; data graphics in storytelling_](Spencer-2021-spring-storytelling-lecture07.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2021 February 24.
 
-: Spencer, Scott. [_08 | Design mini-review; critiquing data-driven, visual narratives; encoding uncertainty, estimates, forecasts; pacing for attention_](Spencer-2021-spring-storytelling-lecture08.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 March 10.
+: Spencer, Scott. [_08 | Design mini-review; critiquing data-driven, visual narratives; encoding uncertainty, estimates, forecasts; pacing for attention_](Spencer-2021-spring-storytelling-lecture08.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2021 March 10.
 
-: Spencer, Scott. [_09 | Foundations of interactive data-driven, visual design_](Spencer-2021-spring-storytelling-lecture09.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 March 17.
+: Spencer, Scott. [_09 | Foundations of interactive data-driven, visual design_](Spencer-2021-spring-storytelling-lecture09.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2021 March 17.
 
-: Spencer, Scott. [_10 | Technologies and tools of interactive data-driven, visual design_](Spencer-2021-spring-storytelling-lecture10.pdf). Storytelling with data. In Applied Analytics, Columbia University.  2021 March 24.
+: Spencer, Scott. [_10 | Technologies and tools of interactive data-driven, visual design_](Spencer-2021-spring-storytelling-lecture10.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2021 March 24.
+
+: Spencer, Scott. [_11 | Interactive communication with data-driven graphics_](Spencer-2021-spring-storytelling-lecture11.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2021 March 31.
 
 ...
 

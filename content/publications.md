@@ -65,7 +65,7 @@ Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawar
 
 : Spencer, Scott. [_11 | Interactivity, broadened from data-driven graphics to whole communications_](Spencer-2021-spring-storytelling-lecture11.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2021 March 31.
 
-: Spencer, Scott. [_12 | Verbal with the (data) visual; scrollytelling; user-centered, content design_](Spencer-2021-spring-storytelling-lecture12.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2021 April 7.
+: Spencer, Scott. [_12 | Verbal with the (data) visual; an example interactive document; user-centered, content design_](Spencer-2021-spring-storytelling-lecture12.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2021 April 7.
 
 ...
 

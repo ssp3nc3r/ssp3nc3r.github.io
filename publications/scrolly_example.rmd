@@ -1,0 +1,133 @@
+---
+title: "Scrollama Document"
+output: bookdown::html_fragment2
+author: Scott Spencer
+---
+
+```{css, echo=FALSE}
+h1 {
+  border: 1px dashed gray;
+}
+
+p {
+  border: 1px dashed gray;
+}
+
+body {
+  max-width: 90vw;
+  margin: auto;
+}
+
+section {
+  border: 1px dashed #CD9DA8;
+  display: flex;
+  flex-direction: row;
+  margin-top: 1rem;
+  margin-bottom: 5rem;
+}
+
+section > * {
+  flex: 1;
+}
+
+article {
+  border: 1px dashed #76167E;
+  padding: 0 1rem;
+}
+
+article p {
+  border: 1px dashed #F2B13E;
+  color: #F2B13E;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+article p:not(:last-of-type) {
+    min-height: 20vh;
+}
+
+article p:last-of-type {
+    min-height: 50vh;
+}
+
+figure {
+  border: 1px dashed #9BC6E6;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  height: 30rem;
+  top: 5rem;
+  position: sticky;
+}
+
+figure * {
+  border: 1px dashed #729DC1;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+```
+
+
+<h1>Minimal Scrollytelling Example</h1>
+
+<p>This is a paragraph outside the scrollytelling sections. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec interdum tellus felis, at lobortis orci sollicitudin ac. Donec lobortis sapien ac posuere faucibus. Mauris lectus neque, pretium non volutpat eget, vestibulum at magna. In sollicitudin augue nunc, non bibendum augue ornare quis.</p>
+
+<section>
+  
+  <figure>
+```{r, echo=FALSE}
+library(ggplot2)
+p <- ggplot() + theme_bw()
+p + annotate("text", 0, 0, label = "Graphic One")
+```
+  </figure>
+  
+  <article>
+    <p>This is a first article paragraph inside the first scrollytelling section. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec interdum tellus felis, at lobortis orci sollicitudin ac. Donec lobortis sapien ac posuere faucibus. Mauris lectus neque, pretium non volutpat eget, vestibulum at magna. In sollicitudin augue nunc, non bibendum augue ornare quis.</p>
+    
+    <p>This is a second article paragraph inside the first scrollytelling section. Integer accumsan interdum justo eu pretium. Aliquam maximus mi sit amet dapibus efficitur.</p>
+    
+    <p>This is a third article paragraph inside the first scrollytelling section. Sed condimentum lacus sit amet turpis aliquam varius nec a lacus. In facilisis convallis ante sit amet consequat. Aenean a lorem mollis, bibendum nibh nec, maximus orci. Nulla facilisi.</p>
+  </article>
+  
+</section>
+
+<section>
+  
+  <figure>
+```{r, echo=FALSE}
+p + annotate("text", 0, 0, label = "Graphic Two")
+```
+  </figure>
+  
+  <article>
+    <p>This is a first article paragraph inside the second scrollytelling section. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec interdum tellus felis, at lobortis orci sollicitudin ac. Donec lobortis sapien ac posuere faucibus. Mauris lectus neque, pretium non volutpat eget, vestibulum at magna. In sollicitudin augue nunc, non bibendum augue ornare quis.</p>
+    
+    <p>This is a second article paragraph inside the second scrollytelling section. Integer accumsan interdum justo eu pretium. Aliquam maximus mi sit amet dapibus efficitur.</p>
+    
+    <p>This is a third article paragraph inside the second scrollytelling section. Sed condimentum lacus sit amet turpis aliquam varius nec a lacus. In facilisis convallis ante sit amet consequat. Aenean a lorem mollis, bibendum nibh nec, maximus orci. Nulla facilisi.</p>
+  </article>
+  
+</section>
+
+<section>
+  
+  <figure>
+```{r, echo=FALSE}
+p + annotate("text", 0, 0, label = "Graphic Three")
+```
+  </figure>
+  
+  <article>
+    <p>This is a first article paragraph inside the third scrollytelling section. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec interdum tellus felis, at lobortis orci sollicitudin ac. Donec lobortis sapien ac posuere faucibus. Mauris lectus neque, pretium non volutpat eget, vestibulum at magna. In sollicitudin augue nunc, non bibendum augue ornare quis.</p>
+    
+    <p>This is a second article paragraph inside the third scrollytelling section. Integer accumsan interdum justo eu pretium. Aliquam maximus mi sit amet dapibus efficitur.</p>
+
+    <p>This is a second article paragraph inside the third scrollytelling section. Sed condimentum lacus sit amet turpis aliquam varius nec a lacus. In facilisis convallis ante sit amet consequat. Aenean a lorem mollis, bibendum nibh nec, maximus orci. Nulla facilisi.</p>
+  </article>
+  
+</section>
+
+<p>This is another paragraph outside the scrollytelling sections. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec interdum tellus felis, at lobortis orci sollicitudin ac. Donec lobortis sapien ac posuere faucibus. Mauris lectus neque, pretium non volutpat eget, vestibulum at magna. In sollicitudin augue nunc, non bibendum augue ornare quis.</p>
+

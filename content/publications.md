@@ -67,7 +67,7 @@ Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawar
 
 : Spencer, Scott. [_12 | Interactive documents and multimodal communication_](Spencer-2021-spring-storytelling-lecture12.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2021 April 7.
 
-...
+: Spencer, Scott. [_13 | Processes of user-centered content design --- pair-wise prototyping_](Spencer-2021-spring-storytelling-lecture13.pdf). Storytelling with data. In Applied Analytics, Columbia University. 2021 April 14.
 
 2020 September - December. Fall course, _Research Design_. Columbia University.
 

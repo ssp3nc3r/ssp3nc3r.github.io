@@ -13,7 +13,7 @@ tags:
   - Stealing bases
   - WAR
 description: 'Description of our presentation at Saberseminar discussing Bayesian solutions to sabermetric shortcomings.'
-draft: yes
+draft: no
 disable_comments: yes
 ---
 

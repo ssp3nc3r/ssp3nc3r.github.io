@@ -120,7 +120,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
     url        = "about/"
    [[menu.main]]
     identifier = "post"
-    name       = "Posts"
+    name       = "Blog"
     url        = "post/"
   [[menu.main]]
     identifier = "publications"

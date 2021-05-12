@@ -13,7 +13,7 @@ title: Publications
 
 Spencer, Scott. [_Data in Wonderland_](https://ssp3nc3r.github.io/data_in_wonderland). Last updated 2021 April 12.
 
-Spencer, Scott. _Estimating utility of called pitches_. Last updated 2020 June 11.
+Spencer, Scott. [_Estimating utility of called pitches_](https://ssp3nc3r.github.io/publications/pitch-utility.html). 2020 June 11.
 
 Spencer, Scott. [_p( persuasion | data, analysis, storytelling )_](Spencer-2020-persuasion-data-analysis-storytelling.pdf). Last updated 2020 March 07.
 

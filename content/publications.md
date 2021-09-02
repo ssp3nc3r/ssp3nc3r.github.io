@@ -17,6 +17,8 @@ Spencer, Scott. [_Estimating utility of called pitches_](https://ssp3nc3r.github
 
 Spencer, Scott. [_p( persuasion | data, analysis, storytelling )_](Spencer-2020-persuasion-data-analysis-storytelling.pdf). Last updated 2020 March 07.
 
+Spencer, Scott. [_Similarities between R and Python for data analysis_](Spencer-2020-r-python-similarities.html). Last updated 2020 February 3.
+
 Spencer, Scott. _A physics and geometry-based, stochastic model for calls, swings, and contact_. Last updated 2019 December 29.
 
 Spencer, Scott. _Locality of Baseball Data_.

@@ -9,6 +9,12 @@ date: "2020"
 title: Teaching
 ---
 
+## 2021 Fall
+
+[Columbia University. Applied Analytics. _Storytelling with Data_](https://ssp3nc3r.github.io/20213APAN5800K007/).
+
+[Columbia University. Applied Analytics. _Research Design_](https://github.com/ssp3nc3r/20213APAN5300K004).
+
 ## 2021 Spring
 
 Columbia University. Applied Analytics. _Storytelling with Data_.

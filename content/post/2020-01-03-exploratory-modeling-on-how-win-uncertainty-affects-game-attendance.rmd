@@ -1,0 +1,256 @@
+---
+title: "Exploratory modeling on how win uncertainty affects baseball game attendance"
+date: 2020-01-03T18:01:28-04:00
+draft: false
+comments: false
+tags:
+  - R
+  - Stan
+  - Baseball
+  - Uncertainty
+  - Betting
+  - Attendance
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE, error=FALSE)
+```
+
+We dread an empty ticket booth. The Dodgers' average game attendance, for example, can be below capacity — they have seats to fill, despite having winning seasons.
+
+To draw more fans, consider the words of famed economist Simon Rotternberg, who said “uncertainty of outcome is necessary for consumers to pay admission to ball games." While winning is important, it’s the not knowing that creates excitement. Have the Dodgers maximized winning with uncertainty of outcome? Let's see.
+
+To start exploring the question, we model attendance as a function of the uncertainty of outcome, attempting to account for other factors like day of the week, time of day, and their cumulative fraction of wins. It seems reasonable to believe that some uncertainty helps attract people to the game. It also seems reasonable to believe that the function is non-linear: _a change in probability of a win from 0 percent to 1 percent may well attract fewer fans than if from 49 percent to 50 percent._ Thus, let's try modeling the marginal effect of wins as quadratic. Our overall model, then, looks like:
+
+$$\textrm{Normal}(\theta, \sigma)$$ 
+
+for game $i$, where 
+
+$$\theta_i \sim \alpha_{1[i]} \cdot \textrm{day}_i + \alpha_{2[i]} \cdot \textrm{time}_i + \beta_{1[i]} \cdot \frac{\sum{\textrm{wins}_i}}{\sum{\textrm{games}_i}} + \beta_{2[i]} \cdot p(\textrm{win}_i) + \beta_{3[i]} \cdot p(\textrm{win}_i)^2$$
+Once we get our posterior estimates, we can set the partial derivative of estimates of win uncertainty ($\beta_2$ and $\beta_3$) to find a maximum:
+
+$$\textrm{Maximum} = \frac{-\beta_2}{2 \cdot \beta_3 }$$
+We'll run the analysis in `Stan`.
+
+For our analysis, let's use betting market odds as a proxy for fans' estimation their teams chances of winning. The betting company Pinnacle has made these data available for the 2016 season in their R package `pinnacle.data::MLB2016`. As with Pinnacle's generosity, [Retrosheets has made data available for per-game attendance along with game outcomes](https://www.retrosheet.org/gamelogs/index.html).
+
+```{r echo=FALSE}
+library(dplyr)          # organize data
+library(odds.converter) # calculate betting percentages
+library(rstanarm)       # fit model
+library(ggplot2)        # make graphic
+library(ggthemes)       # tufte theme settings on graphic
+library(latex2exp)      # format latex equations on graphic
+```
+
+```{r echo=FALSE}
+betting <- pinnacle.data::MLB2016 %>% # betting data available in package pinnacle.data
+  tidyr::unnest(cols = c(Lines)) %>%  # convert nested list to data.frame
+  group_by(GameID) %>%                # there are multiple betting data per game, so
+  arrange(EventDateTimeUTC) %>%       # arrange in time bets placed
+  slice(n()) %>%                      # and only keep last betting odds in each game
+  ungroup()                           # generally good to ungroup what you've grouped
+```
+
+```{r echo=FALSE}
+GL2016 <- read.csv("data/GL2016.csv", header = FALSE, stringsAsFactors = FALSE)
+gamelog_header <- read.csv("data/gamelog_header.csv")
+names(GL2016) <- names(gamelog_header)
+GL2016 <- GL2016 %>% 
+  mutate(GameID = paste0(HomeTeam, Date, DoubleHeader))
+```
+
+```{r echo=FALSE}
+df <- inner_join(betting, GL2016, 
+                 by = c("GameID" = "GameID"))
+df <- df %>% arrange(GameID)
+```
+
+```{r echo=FALSE}
+dodgers2016 <- df %>% 
+  filter(HomeTeam.y == "LAN") %>% # only consider Dodgers home games
+  select(Date, Attendence, MoneyUS1, MoneyUS2,  # filter only columns plan to use
+         DayOfWeek, DayNight, FinalScoreHome, FinalScoreAway) %>% 
+  mutate(is_win = FinalScoreHome > FinalScoreAway) %>% # calculate flag whether Dodgers won
+  mutate(winpct = cumsum(is_win) / row_number()) %>% # calculate win percent 
+  mutate(winpct = lag(winpct)) %>% # get win percent of to prior game
+  filter(complete.cases(winpct))
+```
+
+```{r echo=FALSE}
+dodgers2016$Pr_win <- 1 - with(dodgers2016, {
+  Pr <- t(apply(cbind(MoneyUS1, MoneyUS2), 1, FUN = odds.us2prob))
+  Pr <- Pr / rowSums(Pr)
+  Pr[,1]
+})
+```
+
+```{r echo=FALSE}
+dodgers2016$Pr_win2 <- dodgers2016$Pr_win * dodgers2016$Pr_win
+```
+
+In code, our basic model is as follows:
+
+```{r}
+fit <- stan_glm(Attendence ~ 1 + DayOfWeek + DayNight + winpct + Pr_win + Pr_win2, 
+                data = dodgers2016,
+                cores = 4, chains = 4)
+```
+
+```{r echo=FALSE}
+post <- data.frame(fit)
+```
+
+```{r echo=FALSE}
+uncertainty <- with(post, (-Pr_win) / (Pr_win2 * 2))
+```
+
+Our resulting estimate for the distribution of the marginal perception of outcome uncertainty that maximizes butts in seats was a median of `r round(quantile(uncertainty, probs = 0.5), 2)` with the distribution:
+
+```{r echo=FALSE}
+scaleFUN <- function(x) sprintf("%.2f", x)
+
+eqn <- paste0("$Normal(\\theta, \\sigma)$" , ", ", 
+              "$\\theta \\sim \\alpha_1 \\cdot day + \\alpha_2 \\cdot time + ",
+              "\\beta_1 \\cdot \\frac{\\sum wins}{\\sum games} + ",
+              "\\beta_2 \\cdot p(win) + \\beta_3 \\cdot p(win)^2$")
+
+
+eqn2 <- paste0("$Maximum = \\frac{-\\beta_2}{2 \\cdot \\beta_3}$")
+
+# plot graphic with annotations for specific audience
+ggplot(x = uncertainty) + 
+
+  # data-ink
+  geom_density(aes(uncertainty), 
+               fill = "#bbbbbb", 
+               color = "#aaaaaa") + 
+
+  # non-data ink
+
+  # change default theme attributes
+  theme_tufte(base_family = "sans") +
+  
+  # cut off impossible values (probability < 0 or > 1), set x tick labels at specific amounts relevant
+  # to understanding, and format them only to two digits
+  scale_x_continuous(limits = c(0, 1), 
+                     breaks = c(0, 
+                                .5, 
+                                quantile(uncertainty, 
+                                         probs = c(.1, .5, .9)), 
+                                1), 
+                     labels = scaleFUN) +
+  
+  # just to remove padding above, below data
+  scale_y_continuous(expand = c(0, 0)) +
+  
+  # various labels and annotations
+  # lighten lower quantile of data
+  annotate("rect", 
+           xmin = 0, 
+           ymin = 0, 
+           xmax = quantile(uncertainty, probs = .1), 
+           ymax = 5, 
+           fill = "#ffffff", 
+           alpha = .5) +
+  
+  # lighten upper quantile of data
+  annotate("rect", 
+           xmin = quantile(uncertainty, probs = .9), 
+           ymin = 0, 
+           xmax = 1, 
+           ymax = 5, 
+           fill = "#ffffff", 
+           alpha = .5) +
+  
+  # Draw vertical white lines on quantiles
+  geom_vline(xintercept = quantile(uncertainty, 
+                                   probs = c(.1, .5, .9)), 
+             color = "#ffffff") +
+  
+  # draw vertical blue line on 50% or coin flip and label it as such
+  geom_vline(xintercept = .5, 
+             color = "#407AAA", 
+             linetype = "dashed") +
+  
+  annotate("text", 
+           x = .496, 
+           y = 4.2, 
+           label = "coin", 
+           size = 5, 
+           color = "#000000", 
+           hjust = 1, 
+           fontface = "bold") +
+  
+  annotate("text", 
+           x = .496, 
+           y = 4, 
+           label = "loss",
+           size = 5, 
+           color = "#407AAA", 
+           hjust = 1, 
+           fontface = "bold") +
+  
+  annotate("text", 
+           x = .504, 
+           y = 4.2, 
+           label = "flip", 
+           size = 5, 
+           color = "#000000", 
+           hjust = 0, 
+           fontface = "bold") +
+  
+  annotate("text", 
+           x = .504, 
+           y = 4, 
+           label = "win", 
+           size = 5, 
+           color = "#407AAA", 
+           hjust = 0, 
+           fontface = "bold") +
+  
+  # annotate median of probability
+  annotate("text", 
+           x = median(uncertainty) + .01, 
+           y = .5, 
+           label = "Probability of\nteam win for\nmaximum attendance", 
+           hjust = 0, 
+           size = 2.5, 
+           fontface = "bold",
+           lineheight = .8) +
+  
+  # # annotate equations
+  # annotate("text", 
+  #          x = 0, y = 1, 
+  #          label = TeX(eqn), 
+  #          size = 2.8, 
+  #          color = "#aaaaaa", 
+  #          hjust = 0) +
+  # 
+  # annotate("text", 
+  #          x = 0, 
+  #          y = 0.5, 
+  #          label=TeX(eqn2), 
+  #          size = 2.8, 
+  #          color = "#aaaaaa", 
+  #          hjust = 0) +
+  
+  # additional overall theme (non-data-ink) changes
+  theme(axis.ticks = element_blank(),
+        axis.text.y = element_blank(),
+        axis.text.x = element_text(size = 12, face = "bold", color = "#666666"),
+        axis.title.y = element_blank(), 
+        plot.title = element_text(size = 14, color = "#888888", face = "bold"),
+        plot.subtitle = element_text(size = 11, color = "#999999", face = "italic"),
+        plot.caption = element_text(size = 8, color = "#888888")) +
+  
+  # labeling for graphic
+  labs(x = "", 
+       title = paste0("More fans generally pay admission to our games when\n",
+                      "the chance of winning was near a median of ", 
+                      signif(median(uncertainty), 2), "."),
+       subtitle = "Fans want favorable odds without predicting the outcome.",
+       caption = "Sources: Pinnacle betting data, 2016; Retrosheet Gamelogs, 2016")
+```
+

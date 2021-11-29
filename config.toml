@@ -1,8 +1,6 @@
 baseURL = "https://ssp3nc3r.github.io"
 title   = "p( ssp3nc3r | Columbian )"
 
-DefaultContentLanguage = "en"
-
 theme = "hugo-theme-hello-friend-ng"
 
 PygmentsCodeFences = true
@@ -106,12 +104,6 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
   [[params.social]]
     name = "github"
     url  = "https://github.com/ssp3nc3r"
-
-[languages]
-  [languages.en]
-    subtitle  = ""
-    weight    = 1
-    copyright = ''
 
 [menu]
   [[menu.main]]

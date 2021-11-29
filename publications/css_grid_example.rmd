@@ -1,0 +1,116 @@
+---
+output: 
+  bookdown::html_document2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE)
+```
+
+<style>
+
+.main-container {
+  min-width: 950px;
+  max-width: 950px;
+
+}
+
+.gridlayout { 
+  display: grid;
+  position: relative;
+  margin: 10px;
+  gap: 5px;
+  grid-template-columns: 
+    repeat(8, 1fr);
+  grid-template-rows: 
+    repeat(8, 140px);
+}
+
+.title {
+  background: lightgray;
+  grid-column: 1 / 9;
+  grid-row: 1 / 2;
+  font-size: 14pt;
+}
+
+.large-left {
+  background: lightblue;
+  grid-column: 1 / 5;
+  grid-row: 2 / 5;
+}
+
+.medium-middle {
+  background: lightblue;
+  grid-column: 5 / 7;
+  grid-row: 2 / 5;
+}
+
+.medium-right {
+  background: lightblue;
+  grid-column: 7 / 9;
+  grid-row: 2 / 5;
+}
+
+.bottom-left {
+  background: pink;
+  grid-column: 1 / 5;
+  grid-row: 5 / 8;
+}
+
+.bottom-middle {
+  background: pink;
+  grid-column: 5 / 7;
+  grid-row: 5 / 8;
+}
+
+.bottom-right {
+  background: pink;
+  grid-column: 7 / 9;
+  grid-row: 5 / 8;
+}
+
+</style>
+
+<div class="gridlayout">
+
+<div class="title">This is sample content placed in the area defined by our title class.</div>
+
+<div class="large-left">This is sample content placed in the area defined by our large-left class.
+```{r}
+plot(pressure)
+```
+
+</div>
+
+<div class="medium-middle">This is sample content placed in the area defined by our medium-middle class.
+```{r}
+plot(pressure)
+```
+</div>
+
+<div class="medium-right">This is sample content placed in the area defined by our medium-right class.
+```{r}
+plot(pressure)
+```
+</div>
+
+<div class="bottom-left">This is sample content placed in the area defined by our bottom-full class.
+```{r}
+plot(pressure)
+```
+</div>
+
+<div class="bottom-middle">This is sample content placed in the area defined by our bottom-middle class.
+```{r}
+plot(pressure)
+```
+</div>
+
+<div class="bottom-right">This is sample content placed in the area defined by our bottom-right class.
+```{r}
+plot(pressure)
+```
+</div>
+
+
+</div>

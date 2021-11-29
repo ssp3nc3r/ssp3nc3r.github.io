@@ -14,7 +14,11 @@ tags:
 
 ```{r setup, include=FALSE}
 library(knitr)
-opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE, error=FALSE)
+opts_chunk$set(
+  echo = TRUE, 
+  message = FALSE, 
+  warning = FALSE, 
+  error = FALSE)
 ```
 
 We dread an empty ticket booth. The Dodgers' average game attendance, for example, can be below capacity — they have seats to fill, despite having winning seasons.

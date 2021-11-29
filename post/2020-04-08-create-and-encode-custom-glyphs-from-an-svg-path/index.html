@@ -158,7 +158,7 @@ ggplot(glyph) +
                fill = &#39;lightblue&#39;) +
   labs(x = &#39;x coordinates&#39;, 
        y = &#39;y coordinates&#39;)</code></pre>
-<p><img src="https://ssp3nc3r.github.io/post/2020-04-08-create-and-encode-custom-glyphs-from-an-svg-path.en_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="https://ssp3nc3r.github.io/post/2020-04-08-create-and-encode-custom-glyphs-from-an-svg-path_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>Great, we now have a glyph we can encode place, size, and color according to our data. To illustrate this, let’s create a few random numbers for x, y, and size values that we’ll use as our <code>observed</code> data:</p>
 <pre class="r"><code>d &lt;- data.frame(x = rnorm(10, 50, 5),
                 y = rnorm(10, 30, 5),
@@ -179,7 +179,7 @@ d &lt;- merge(d, glyph)</code></pre>
                color = &quot;black&quot;) +
   labs(x = &#39;x coordinates&#39;, 
        y = &#39;y coordinates&#39;)</code></pre>
-<p><img src="https://ssp3nc3r.github.io/post/2020-04-08-create-and-encode-custom-glyphs-from-an-svg-path.en_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="https://ssp3nc3r.github.io/post/2020-04-08-create-and-encode-custom-glyphs-from-an-svg-path_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>It is now easy to see other ways to encode the glyph, like rotating it based on data values, or combining multiple glyph components, each with its own value and grouping them as, for example, shown in <a href="../../publications#visualizations">publications</a>, <em>Creating and placing custom glyphs</em>.</p>
 <div class="footnotes">
 <hr />

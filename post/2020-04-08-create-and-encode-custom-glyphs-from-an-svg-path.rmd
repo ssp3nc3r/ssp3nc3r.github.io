@@ -11,6 +11,7 @@ tags:
   - glyphs
   - svg
   - grammar of graphics
+self_contained: true
 ---
 
 In `R`'s grammar of graphics package (`ggplot2`), we can encode data in custom-made glyph shapes from vector graphics and encode its size, fill color, or both. `SVG` graphics display lines, colors fills using _paths._ Let's make an `SVG` graphic containing a single path of a complex shape, assign the graphic in `R` to data, and change its attributes. For this exercise, I've created an SVG path of the silhouette of a baseball player (using Inkscape)^[I have also just used graph paper, drawn or traced a glyph, then entered coordinates in order as I moved around the glyph boundary.]. Here are the resulting coordinates of its `SVG` path^[Note that this path only contains coordinates because; the main limitation of the described approach is that the glyph be described in this way, rather than some of the other functions available in SVG paths, like curves and such. When considering your own glyph, first look at the ggplot function description used here, `geom_polygon`.], which I saved as a string into an `R` object:
@@ -48,7 +49,7 @@ glyph$ysh <- with(glyph, (mean(ysh) - ysh) / dist( range(xsh, ysh) ) )
 
 Using `ggplot`, our glyph looks like:
 
-```{r}
+```{r oneglyph}
 library(ggplot2)
 
 ggplot(glyph) + 
@@ -81,7 +82,7 @@ d <- merge(d, glyph)
 
 To place and size the glyphs, we multiply the glyph coordinates (`xsh`, `ysh`) by our size values (`size`) and add the data coordinates (`x`, `y`):
 
-```{r}
+```{r plotglyphs}
 ggplot(d) + 
   theme_minimal() +
   theme(legend.position = '') +

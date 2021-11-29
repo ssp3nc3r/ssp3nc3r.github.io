@@ -49,7 +49,7 @@ glyph$ysh <- with(glyph, (mean(ysh) - ysh) / dist( range(xsh, ysh) ) )
 
 Using `ggplot`, our glyph looks like:
 
-```{r}
+```{r oneglyph}
 library(ggplot2)
 
 ggplot(glyph) + 
@@ -82,7 +82,7 @@ d <- merge(d, glyph)
 
 To place and size the glyphs, we multiply the glyph coordinates (`xsh`, `ysh`) by our size values (`size`) and add the data coordinates (`x`, `y`):
 
-```{r}
+```{r plotglyphs}
 ggplot(d) + 
   theme_minimal() +
   theme(legend.position = '') +

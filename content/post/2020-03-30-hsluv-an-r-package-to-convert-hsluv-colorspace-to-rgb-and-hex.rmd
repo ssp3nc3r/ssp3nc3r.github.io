@@ -12,6 +12,7 @@ tags:
   - HSLuv
   - RGB
   - Perception
+self_contained: true
 ---
 
 HSLuv is a human-friendly way to describe hue, saturation, and luminance --- three attributes of color. The R package includes functions to convert HSLuv colorspace to computer RGB, either as separate red, green, and blue values or as a hex code.

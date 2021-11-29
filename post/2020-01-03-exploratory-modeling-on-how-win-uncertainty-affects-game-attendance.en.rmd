@@ -54,8 +54,8 @@ betting <- pinnacle.data::MLB2016 %>% # betting data available in package pinnac
 ```
 
 ```{r echo=FALSE}
-GL2016 <- read.csv("/Users/ssp3nc3r/Documents/GitHub/ssp3nc3r.github.io/data/GL2016.csv", header = FALSE, stringsAsFactors = FALSE)
-gamelog_header <- read.csv("/Users/ssp3nc3r/Documents/GitHub/ssp3nc3r.github.io/data/gamelog_header.csv")
+GL2016 <- read.csv("data/GL2016.csv", header = FALSE, stringsAsFactors = FALSE)
+gamelog_header <- read.csv("data/gamelog_header.csv")
 names(GL2016) <- names(gamelog_header)
 GL2016 <- GL2016 %>% 
   mutate(GameID = paste0(HomeTeam, Date, DoubleHeader))

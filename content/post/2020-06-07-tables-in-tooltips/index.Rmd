@@ -224,6 +224,7 @@ girafe(
       css = str_c(
         'background-color:white;',
         'color:black;',
+        'font:Helvetica',
         'font-size:8pt;',
         'padding:10px;'
       ),

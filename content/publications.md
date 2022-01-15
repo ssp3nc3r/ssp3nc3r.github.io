@@ -23,7 +23,7 @@ Spencer, Scott. _A physics and geometry-based, stochastic model for calls, swing
 
 Spencer, Scott. _Locality of Baseball Data_.
 
-Spencer, Scott. _Estimating impact of flooding expectations on real property purchase price_. Last updated 2019 July 28.
+Spencer, Scott. [_Estimating impact of climate change on real property purchase price_](flooding-impact-on-prop-val.html). Last updated 2019 July 28.
 
 ## R packages
 

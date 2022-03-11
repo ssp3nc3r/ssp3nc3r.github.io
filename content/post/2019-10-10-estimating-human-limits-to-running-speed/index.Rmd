@@ -417,8 +417,31 @@ ppc_ribbon(exp(dat$rk_log), exp(post)) +
     labels = floor(dat$k)) +
   theme(legend.position = "")
 ```
+Our **<span style="color:steelblue;">posterior estimate</span>** for the age where age-over-age change in record times begins to accelerate is around 70, not moving much from our prior's location, but the data add support by concentrating closer to 70:
 
-And here's our **nonparametric**, **extreme value** model where the biological minimum $b_k$ is a fraction of the record $r_k$:
+```{r out.width="70%", fig.align='center'}
+post <- fit_lq$draws(variables = "k_star", format = "draws_df")
+
+ggplot(post) + 
+  ggthemes::theme_tufte(base_family = 'sans', base_size = 14) +
+  coord_cartesian(xlim = c(50, 90)) +
+  geom_density(aes(k_star), outline.type = 'both', fill = "lightblue", alpha = 0.6) +
+  stat_function(
+    fun = dnorm,
+    args = c(mean = 70, sd = 10),
+    xlim = c(50, 90),
+    geom = 'density',
+    lwd = 1
+  ) +
+  annotate('text', x = 69.5, y = 0.06, label = 'Posterior', fontface = "bold") +
+  annotate('text', x = 80, y = 0.03, label = 'Prior', fontface = "bold") +
+  scale_x_continuous(
+    name = "Estimate where age-over-age change in record times accelerates (k_star)", 
+    breaks = seq(50, 80, by = 10)) +
+  scale_y_continuous(name = "", breaks = NULL)
+```
+
+Next, let's consider a **nonparametric** model based on **extreme value** theory. Here's it is, where the biological minimum $b_k$ is a fraction of the record $r_k$:
 
 ```{cmdstan output.var="np", echo=TRUE}
 data {

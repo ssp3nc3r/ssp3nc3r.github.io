@@ -265,6 +265,7 @@ ggplot(d) +
   ) + 
   facet_wrap(~interaction(distance, units, sep = ' '), scales = 'free')
 ```
+
 # Prior work
 
 @fairEstimatingAgingEffects2018 focused on the performance of older athletes. They explored the biological limit of human running speeds by modeling record times at several distances as a function of age for those 40 years and older.

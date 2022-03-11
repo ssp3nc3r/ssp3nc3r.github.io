@@ -1,0 +1,514 @@
+---
+title: Estimating human limits of running speed
+author: Scott Spencer
+date: '2019-10-10'
+slug: estimating-human-limits-to-running-speed
+categories: []
+tags:
+  - R
+  - Stan
+  - Bayes
+  - Footspeed
+  - Running
+  - Extreme Value Theory
+draft: false
+comments: no
+images: ~
+bibliography: references.bib
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+
+opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE
+  )
+
+library(tidyverse)
+library(lubridate)
+library(ggthemes)
+library(cmdstanr)
+library(bayesplot)
+library(posterior)
+library(flextable)
+
+register_knitr_engine(override = FALSE)
+
+d <- readRDS('../../../data/arrs_records.rds')
+
+d_5k <- 
+  d %>% filter(distance == 5, type == 'road', sex == 'male', age >= 40) %>%
+  mutate(
+    k = age, 
+    rk = (runtime_sec / 60),
+    rk_log = log(rk)
+  ) %>%
+  select(k, rk, rk_log)
+
+dat   <- as.list(d_5k)
+dat$N <- length(dat$k)
+
+summarise_bar <- function(data, max_distinct = 10) {
+  
+  if( max(as.integer(data$value), na.rm = TRUE) <= max_distinct ) {
+    ggplot(data, mapping = aes(value)) + 
+      geom_bar() + 
+      theme_void()
+  } else {
+    ggplot(data, mapping = aes(value)) + 
+      theme_void()
+  }
+}
+  
+
+```
+
+```{r}
+
+
+make_spark <- function(data, max_distinct = 10) {
+  
+  if( max(as.integer(data$value), na.rm = TRUE) <= max_distinct ) {
+    
+    if(is.numeric(data$value)) {
+      ggplot(data, mapping = aes(value)) + 
+        geom_density() + 
+        theme_void()
+      
+    } else {
+      ggplot(data, mapping = aes(value)) + 
+        geom_bar() + 
+        theme_void()
+      
+    }
+    
+  } else {
+    ggplot(data, mapping = aes(value)) + 
+      theme_void()
+  }
+}
+
+
+summarise_tibble <- function(d, desc_len = 10) {
+  
+  # summarise strings and factors
+  d_char <- d %>%
+    mutate_if(is.character, as.factor) %>%
+    select(where(is.factor)) %>%
+    mutate_all(as.character) %>%
+    pivot_longer(cols = everything(), names_to = "Variable") %>%
+    group_by(Variable) %>%
+    summarise(
+      Type = "String/Factor",
+      Min = min(value, na.rm = TRUE),
+      gg = list(  
+        make_spark( data.frame(value), 40000 )
+      ),
+      Max = max(value, na.rm = TRUE),
+      Distinct = n_distinct(value)
+    ) %>%
+    ungroup() %>%
+    mutate_if(is.numeric, as.character)
+    
+  # summarise date
+  d_dates <- 
+    d %>%
+    select(where(is.Date)) %>%
+    pivot_longer(cols = everything(), names_to = "Variable") %>%
+    group_by(Variable) %>%
+    summarise(
+      Type = "Date",
+      Min = round(min(value, na.rm = TRUE), digits = 2),
+      gg = list(  
+        make_spark( data.frame(value), 40000 )
+      ),
+      Max = round(max(value, na.rm = TRUE), digits = 2),
+      Distinct = n_distinct(value)
+    ) %>%
+    ungroup() %>%
+    mutate_if(is.Date, as.character) %>%
+    mutate_if(is.numeric, as.character)
+  
+  # summarise numeric, integer
+  d_num <- d %>%
+    
+    select(where(is.numeric)) %>%
+    pivot_longer(cols = everything(), names_to = "Variable") %>%
+    group_by(Variable) %>%
+    summarise(
+      Type = "Numeric",
+      Min = round(min(value, na.rm = TRUE), digits = 2),
+      gg = list(  
+        make_spark( data.frame(value), 40000 )
+      ),
+      Max = round(max(value, na.rm = TRUE), digits = 2),
+      Distinct = n_distinct(value)
+    ) %>%
+    ungroup() %>%
+    mutate_if(is.numeric, as.character)
+  
+  # combine types
+    d_ <- bind_rows(d_char, d_dates, d_num) %>%
+      rowwise() %>%
+      mutate(
+        Min = ifelse(nchar(Min) <= desc_len, 
+                     Min, 
+                     str_c(substr(Min, 1, desc_len), "...") ),
+        Max = ifelse(nchar(Max) <= desc_len, 
+                     Max, 
+                     str_c(substr(Max, 1, desc_len), "...") ) 
+      )
+    
+    # table it
+    d_ %>%
+      flextable(
+        col_keys = c("Variable", "Type", "Min", "Histogram", "Max", "Distinct"),
+        cwidth = 0
+      ) %>%
+      mk_par(
+        j = "Histogram",
+        value = as_paragraph(
+          gg_chunk(value = gg)
+        )
+      ) %>%
+      set_header_labels(
+        Histogram = "Distribution"
+      ) %>%
+      theme_booktabs() %>%
+      align(j = "Min", align = "right", part = "all")
+    
+
+}
+
+```
+
+> Prefontaine "finally got it through my head that the real purpose of running isn't to win a race. It's to test the limits of the human heart. And that he did. Nobody did it more often. Nobody did it better."
+>
+> --- Bill Bowerman.
+
+We've been recording progress towards those limits, whatever they are, for some time. World records have been collected for running distances, from 50 meters on an indoor track to marathons and beyond. These records also include single-age records. Just what may be the limits that "Pre" pushed to test in running, and how might those limits depend on our age?
+
+@fairEstimatingAgingEffects2018 explored these questions across some ages and some distances. In this post, I aims to explore and extend their analysis using Bayesian methods of estimation.
+
+# Available records
+
+A world, governing body for running events --- [World Athletics](https://www.worldathletics.org) --- maintains records for various distances. To be a reliable and comparable record, the run must comply with certain conditions. Those records include, among other things, the event distance and run date, competitor's name, date of birth, nationality, the marked time, and a world ranking. These events include short and lond distance, and indoor and outdoor.
+
+Along with these data, single-age world records are maintained for longer distance events, from 3,000 meters to marathon, by [The Association of Road Racing Statisticians (ARRS)](https://www.arrs.run). ARRS is an independent, non-profit organization that collects, analyses, and publishes results and statistics regarding elite distance running at distances 3000m and longer. Here are the observed measures:
+
+```{r}
+
+summarise_tibble(d)
+
+```
+
+Let's review the single-age record data for all race distances and gender:
+
+```{r records}
+ggplot(d) + 
+  theme_clean() +
+  geom_point(
+    mapping = aes(
+      x = age,
+      y = runtime_sec / 60 / 60
+    ),
+    size = 0.2,
+    alpha = 0.5
+  ) +
+  geom_line(
+    mapping = aes(
+      x = age, 
+      y = runtime_sec / 60 / 60, 
+      group = interaction(sex, distance, units),
+      color = sex), 
+    lwd = 0.3
+  ) +
+  scale_x_continuous(name = 'Runner age', breaks = seq(10, 100, by = 20)) +
+  scale_y_continuous(name = 'Record time, hours') +
+  scale_color_manual(
+    guide = 'none',
+    breaks = c('female', 'male'),
+    values = c('hotpink3', 'steelblue')
+  ) + 
+  facet_wrap(~interaction(distance, units, sep = ' '), scales = 'free')
+```
+Let's also consider the log of those record run times to consider the rates of change:
+
+```{r logrecords}
+ggplot(d) + 
+  theme_clean() +
+  geom_point(
+    mapping = aes(
+      x = age,
+      y = log(runtime_sec / 60)
+    ),
+    size = 0.2,
+    alpha = 0.5
+  ) +
+  geom_line(
+    mapping = aes(
+      x = age, 
+      y = log(runtime_sec / 60), 
+      group = interaction(sex, distance, units),
+      color = sex), 
+    lwd = 0.3
+  ) +
+  scale_x_continuous(name = 'Runner age', breaks = seq(10, 100, by = 20)) +
+  scale_y_continuous(name = 'Log of record time, minutes') +
+  scale_color_manual(
+    guide = 'none',
+    breaks = c('female', 'male'),
+    values = c('hotpink3', 'steelblue')
+  ) + 
+  facet_wrap(~interaction(distance, units, sep = ' '), scales = 'free')
+```
+# Prior work
+
+@fairEstimatingAgingEffects2018 focused on the performance of older athletes. They explored the biological limit of human running speeds by modeling record times at several distances as a function of age for those 40 years and older.
+
+The authors compared multiple models: a linear-quadratic model, a non-parametric model, and both using the extreme value distribution. Justifying the linear-quadratic model, they theorized that may make sense as information suggested that for ages between around 40 and 70, the log of run times increase linearly with age (a constant rate of decline) and in later years, that rate of decline increases. The authors impose a few restrictions on this linear-quadratic model.
+
+## Linear-Quadratic Model
+
+Summarising the authors' linear-quadratic model, let's let $k$ be age of the runner who set the record, $r_k$ be the log of the record time at age $k$, and $b_k$ be the unobserved biological limit for the log of the record run time at age $k$. The biological limit is related to the record run time in that the record $r_k$ is some $\epsilon$ amount above $b_k$: 
+
+$$
+r_k = b_k + \epsilon_k
+$$
+The biological limit, in turn, is a linear function of age up to an unobserved threshold $k^*$ and afterwards becomes a quadratic function of age:
+
+$$
+b_k = 
+\begin{cases}
+\beta + \alpha k, &\quad 40 \le k \le k^*, \quad \alpha > 0 \\
+\gamma + \theta k + \delta k^2, &\quad k > k^*, \quad \delta > 0
+\end{cases}
+$$
+
+The two functions are restricted in the two must "touch" and have the same slope (first derivative) at $k^*$; thus,
+
+$$
+\gamma = \beta + \delta k^{*2}, \\
+\theta = \alpha - 2 \delta k^*
+$$
+If we perform variable substitutions,
+
+$$
+b_k = 
+\begin{cases}
+\beta + \alpha k, &\quad 40 \le k \le k^*, \quad \alpha > 0 \\
+\beta + \delta k^{*2} + (\alpha - 2 \delta k^{*}) k + \delta k^2, &\quad k > k^*, \quad \delta > 0
+\end{cases}
+$$
+
+and simplify,
+
+$$
+\beta + \delta k^{*2} + \alpha k - 2 \delta k^{*} k + \delta k^2, \quad k > k^*, \quad \delta > 0
+$$
+
+we obtain this final form:
+
+$$
+\beta + \alpha k  + \delta (k^{*2} - 2 k^{*} k + k^2), \quad k > k^*, \quad \delta > 0
+$$
+
+## Non-parametric model
+
+@fairEstimatingAgingEffects2018 also explore a non-parametric model, restricted in that the first and second derivatives must be nonnegative and nondecreasing. Here, I'll relax these restrictions for modeling, though for the given data, those restrictions would hold.
+
+## Extreme value theory
+
+The above models, as the authors note, finds the expected value of the records as a function of age. But with using extreme value theory, we can statistically estimate the true biological limit. The probability density corresponding to a given observed record $r_k$ is
+
+$$
+f_{R_k}(r_k) = \eta \lambda (r_k - b_k) ^ {\lambda - 1} e^{-\eta (r_k - b_k)^{\lambda}}
+$$
+where I specify $b_k$ as either the above linear-quadratic or nonparametric model.
+
+# Analysis
+
+Of note, a review of Figure \@ref(fig:logrecords) above suggests that a linear model doesn't quite fit what the data suggest (the rate of change does not quite appear to be constant even early on). Regardless, we'll begin with a model similar to the linear-quadratic model described in @fairEstimatingAgingEffects2018.
+
+We'll use [Stan](https://mc-stan.org) for modeling estimates. For an initial analysis, let's focus on 5K run times for male athletes aged 40 and over. For our **linear-quadratic** model, let's remove from the data what @fairEstimatingAgingEffects2018 call "soft observations"; *i.e.*, observed records at a given age that is slower than any record by an older runner:
+
+```{cmdstan output.var="lq", echo=TRUE}
+data {
+  int<lower=0> N;
+  vector<lower=0>[N] rk_log;
+  array[N] int<lower=0> k;
+}
+
+parameters {
+  real beta;
+  real<lower=0> alpha;
+  real<lower=0> delta;
+  real<offset=70, multiplier=10> k_star;
+  real<lower=0> sigma;
+}
+
+model {
+  beta   ~ std_normal();
+  alpha  ~ exponential(1);
+  delta  ~ exponential(1);
+  sigma  ~ exponential(1);
+  k_star ~ normal(70, 10);
+  
+  vector[N] mu;
+  
+  for( i in 1:N) mu[i] = beta + alpha * k[i] + 
+  (k[i] > k_star ? delta * (k_star ^ 2 - 2 * k_star * k[i] + k[i] ^ 2) : 0);
+  
+  rk_log ~ normal(mu, sigma); 
+}
+
+generated quantities {
+  vector[N] rk_log_hat;
+  
+  for( i in 1:N) 
+    rk_log_hat[i] = normal_rng(
+    beta + alpha * k[i] + (k[i] > k_star ? 
+      delta * (k_star ^ 2 - 2 * k_star * k[i] + k[i] ^ 2) : 0), sigma);
+}
+
+```
+
+We should probably use more information to set more informative priors. For now, thoug, let's compare the resulting **<span style="color:steelblue;">expectations</span>**, conditional on the model and data, with the **observed records**:
+
+```{r, results="hide"}
+dat <- 
+  d_5k %>% 
+  filter(
+    sapply(seq(n()), function(i) rk[i] < min(rk[(i+1):n()]))
+  ) %>%
+  as.list()
+
+
+dat$N <- length(dat$k)
+dat$rk_log <- log(dat$rk)
+dat$k <- dat$k
+
+fit_lq <- lq$sample(
+  data = dat, 
+  parallel_chains = 4, 
+  chains = 4, 
+  refresh = 0,
+  max_treedepth = 10,
+  adapt_delta = 0.8,
+  show_messages = FALSE
+)
+```
+
+```{r}
+post <- fit_lq$draws(variables = "rk_log_hat", format = "draws_matrix")
+
+ppc_ribbon(exp(dat$rk_log), exp(post)) +
+  scale_y_continuous(
+    name = "5K time (minutes)",
+    breaks = seq(5, 100, by = 5)
+  ) +
+  scale_x_continuous(
+    name = "Runner age at record",
+    breaks = seq(dat$k),
+    labels = floor(dat$k)) +
+  theme(legend.position = "")
+```
+
+And here's our **nonparametric**, **extreme value** model where the biological minimum $b_k$ is a fraction of the record $r_k$:
+
+```{cmdstan output.var="np", echo=TRUE}
+data {
+  int<lower=0> N;
+  vector<lower=0>[N] rk;
+  array[N] int<lower=0> k;
+}
+
+parameters {
+  vector<lower=0, upper=1>[N] b_;
+  real<lower=0> kappa;
+  real<lower=0> lambda;
+}
+
+transformed parameters {
+  vector[N] b = b_ .* rk;
+}
+
+model {
+  b_ ~ beta(20, 1.5);
+  kappa ~ exponential(1);
+  lambda ~ exponential(1);
+  
+  rk - b ~ weibull(kappa, lambda);
+}
+
+generated quantities {
+  vector[N] rk_hat = weibull_rng(kappa, lambda) + b;
+}
+
+```
+
+Conditional on this model and data, here are the **<span style="color:steelblue;">expectations</span>** of the biological envelope, overlain again with the **observed records**:
+
+```{r, results="hide"}
+fit_np <- np$sample(
+  data = dat, 
+  parallel_chains = 4, 
+  chains = 4, 
+  refresh = 0,
+  max_treedepth = 10,
+  adapt_delta = 0.99,
+  show_messages = FALSE
+)
+```
+
+```{r}
+post <- fit_np$draws(variables = "rk_hat", format = "draws_matrix")
+
+ppc_ribbon(dat$rk, post) +
+  scale_y_continuous(
+    name = "5K time (minutes)",
+    breaks = seq(5, 100, by = 5)
+  ) +
+  scale_x_continuous(
+    name = "Runner age at record",
+    breaks = seq(dat$k),
+    labels = floor(dat$k)) +
+  theme(legend.position = "")
+```
+
+Of note, in this case, I only modeled parameters for ages with data. The **<span style="color:steelblue;">expectations</span>** of a biological minimum are so close to the observed records that they are covered by the **trend line of observed records**. The estimates, below, of our **<span style="color:steelblue;">biological limit $b_k$</span>** as a fraction of **record times** are less than 10 percent faster, the uncertainty of which is shown below using the first 200 draws from our model:
+
+```{r}
+post <- fit_np$draws(variables = "b_", format = "draws_matrix")
+
+p <- 
+  ggplot() +
+  ggthemes::theme_tufte(base_family = 'sans') +
+  geom_hline(yintercept = 1) + 
+  coord_cartesian(ylim = c(0.9, 1)) +
+  scale_y_continuous(
+    name = "Biological limit b_k as percent of record time",
+    breaks = seq(0.9, 1, by = 0.025)
+  ) +
+  scale_x_continuous(
+    name = "Runner's age when setting record",
+    breaks = seq(from = 40, to = 90, by = 10),
+    labels = seq(from = 40, to = 90, by = 10)
+  )
+
+for(i in 1:200) {
+  p <- p + geom_line(
+    data = data.frame(y = as.vector(post[i,])),
+    mapping = aes(dat$k, y), color = "steelblue", alpha = 0.1)
+}
+p  
+```
+
+It seems odd that the biological limit would approach the record times as age increases since there are fewer older humans attempting those records.
+
+In a later post, I'll continue the analysis and, among other things, compare another form of modeling, bring in additional data, and, unlike @fairEstimatingAgingEffects2018, account for those "soft observations" instead of simply removing them. With each extension to this analysis, we should learn a little more about what Prefontaine set out to test: *the limits of the human heart*.
+
+# References

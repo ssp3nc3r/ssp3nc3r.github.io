@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Scott Spencer">
+<meta name="description" content="Prefontaine “finally got it through my head that the real purpose of running isn’t to win a race. It’s to test the limits of the human heart. And that he did. Nobody did it more often. Nobody did it better.”
+— Bill Bowerman.
+ We’ve been recording progress towards those limits, whatever they are, for some time. World records have been collected for running distances, from 50 meters on an indoor track to marathons and beyond." />
+<meta name="keywords" content="Scott Spencer, statistical, generative modeling, bayesian inference, writing, data visualization, sports, columbia university, R, Stan, Bayes, Footspeed, Running, Extreme Value Theory" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="https://ssp3nc3r.github.io/post/estimating-human-limits-to-running-speed/" />
+
+
+    <title>
+        
+            Estimating human limits of running speed :: p( ssp3nc3r | Columbian ) 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.d235e788b40b442aba9cd6c69fdc330353b2dec27dcbc4235961469d2155f5a9.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://ssp3nc3r.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://ssp3nc3r.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://ssp3nc3r.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://ssp3nc3r.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://ssp3nc3r.github.io/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="https://ssp3nc3r.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+<meta itemprop="name" content="Estimating human limits of running speed">
+<meta itemprop="description" content="Prefontaine “finally got it through my head that the real purpose of running isn’t to win a race. It’s to test the limits of the human heart. And that he did. Nobody did it more often. Nobody did it better.”
+— Bill Bowerman.
+ We’ve been recording progress towards those limits, whatever they are, for some time. World records have been collected for running distances, from 50 meters on an indoor track to marathons and beyond."><meta itemprop="datePublished" content="2019-10-10T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2019-10-10T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1700"><meta itemprop="image" content="https://ssp3nc3r.github.io"/>
+<meta itemprop="keywords" content="R,Stan,Bayes,Footspeed,Running,Extreme Value Theory," /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://ssp3nc3r.github.io"/>
+
+<meta name="twitter:title" content="Estimating human limits of running speed"/>
+<meta name="twitter:description" content="Prefontaine “finally got it through my head that the real purpose of running isn’t to win a race. It’s to test the limits of the human heart. And that he did. Nobody did it more often. Nobody did it better.”
+— Bill Bowerman.
+ We’ve been recording progress towards those limits, whatever they are, for some time. World records have been collected for running distances, from 50 meters on an indoor track to marathons and beyond."/>
+
+
+
+
+
+    <meta property="article:published_time" content="2019-10-10 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://ssp3nc3r.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#67a2c9;
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://ssp3nc3r.github.io/about/">About</a></li><li><a href="https://ssp3nc3r.github.io/post/">Blog</a></li><li><a href="https://ssp3nc3r.github.io/publications/">Publications</a></li><li><a href="https://ssp3nc3r.github.io/teaching/">Teaching</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://ssp3nc3r.github.io/post/estimating-human-limits-to-running-speed/">Estimating human limits of running speed</a></h2>
+
+            
+
+            <div class="post-content">
+                
+<link href="https://ssp3nc3r.github.io/post/estimating-human-limits-to-running-speed/index_files/tabwid/tabwid.css" rel="stylesheet" />
+
+
+<blockquote>
+<p>Prefontaine “finally got it through my head that the real purpose of running isn’t to win a race. It’s to test the limits of the human heart. And that he did. Nobody did it more often. Nobody did it better.”</p>
+<p>— Bill Bowerman.</p>
+</blockquote>
+<p>We’ve been recording progress towards those limits, whatever they are, for some time. World records have been collected for running distances, from 50 meters on an indoor track to marathons and beyond. These records also include single-age records. Just what may be the limits that “Pre” pushed to test in running, and how might those limits depend on our age?</p>
+<p><span class="citation">Fair and Kaplan (<a href="#ref-fairEstimatingAgingEffects2018" role="doc-biblioref">2018</a>)</span> explored these questions across some ages and some distances. In this post, I aims to explore and extend their analysis using Bayesian methods of estimation.</p>
+<div id="available-records" class="section level1">
+<h1>Available records</h1>
+<p>A world, governing body for running events — <a href="https://www.worldathletics.org">World Athletics</a> — maintains records for various distances. To be a reliable and comparable record, the run must comply with certain conditions. Those records include, among other things, the event distance and run date, competitor’s name, date of birth, nationality, the marked time, and a world ranking. These events include short and lond distance, and indoor and outdoor.</p>
+<p>Along with these data, single-age world records are maintained for longer distance events, from 3,000 meters to marathon, by <a href="https://www.arrs.run">The Association of Road Racing Statisticians (ARRS)</a>. ARRS is an independent, non-profit organization that collects, analyses, and publishes results and statistics regarding elite distance running at distances 3000m and longer. Here are the observed measures:</p>
+<template id="2fa4fe69-9d4d-4ca2-bb18-701d6d0ace7d"><style>
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+</style><div class="tabwid"><style>.cl-465d6a6c{}.cl-4652d5b6{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4652ee52{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-4652ee5c{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-46535248{width:0;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46535252{width:0;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-46535253{width:0;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4653525c{width:0;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4653525d{width:0;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4653525e{width:0;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table class='cl-465d6a6c'>
+<thead><tr style="overflow-wrap:break-word;"><td class="cl-4653525d"><p class="cl-4652ee52"><span class="cl-4652d5b6">Variable</span></p></td><td class="cl-4653525d"><p class="cl-4652ee52"><span class="cl-4652d5b6">Type</span></p></td><td class="cl-4653525e"><p class="cl-4652ee5c"><span class="cl-4652d5b6">Min</span></p></td><td class="cl-4653525d"><p class="cl-4652ee52"><span class="cl-4652d5b6">Distribution</span></p></td><td class="cl-4653525d"><p class="cl-4652ee52"><span class="cl-4652d5b6">Max</span></p></td><td class="cl-4653525d"><p class="cl-4652ee52"><span class="cl-4652d5b6">Distinct</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">nationality</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">String/Factor</span></p></td><td class="cl-46535252"><p class="cl-4652ee5c"><span class="cl-4652d5b6">ALG</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><img style="vertical-align:middle;width:72pt;height:14pt;" src="data:image/png;base64,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" /></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">WAL</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">57</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">run_loc_city</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">String/Factor</span></p></td><td class="cl-46535252"><p class="cl-4652ee5c"><span class="cl-4652d5b6">Aachen</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><img style="vertical-align:middle;width:72pt;height:14pt;" src="data:image/png;base64,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" /></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">Zurich</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">731</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">run_loc_country</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">String/Factor</span></p></td><td class="cl-46535252"><p class="cl-4652ee5c"><span class="cl-4652d5b6">ALG</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><img style="vertical-align:middle;width:72pt;height:14pt;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAA8CAYAAADc3IdaAAAEDmlDQ1BrQ0dDb2xvclNwYWNlR2VuZXJpY1JHQgAAOI2NVV1oHFUUPpu5syskzoPUpqaSDv41lLRsUtGE2uj+ZbNt3CyTbLRBkMns3Z1pJjPj/KRpKT4UQRDBqOCT4P9bwSchaqvtiy2itFCiBIMo+ND6R6HSFwnruTOzu5O4a73L3PnmnO9+595z7t4LkLgsW5beJQIsGq4t5dPis8fmxMQ6dMF90A190C0rjpUqlSYBG+PCv9rt7yDG3tf2t/f/Z+uuUEcBiN2F2Kw4yiLiZQD+FcWyXYAEQfvICddi+AnEO2ycIOISw7UAVxieD/Cyz5mRMohfRSwoqoz+xNuIB+cj9loEB3Pw2448NaitKSLLRck2q5pOI9O9g/t/tkXda8Tbg0+PszB9FN8DuPaXKnKW4YcQn1Xk3HSIry5ps8UQ/2W5aQnxIwBdu7yFcgrxPsRjVXu8HOh0qao30cArp9SZZxDfg3h1wTzKxu5E/LUxX5wKdX5SnAzmDx4A4OIqLbB69yMesE1pKojLjVdoNsfyiPi45hZmAn3uLWdpOtfQOaVmikEs7ovj8hFWpz7EV6mel0L9Xy23FMYlPYZenAx0yDB1/PX6dledmQjikjkXCxqMJS9WtfFCyH9XtSekEF+2dH+P4tzITduTygGfv58a5VCTH5PtXD7EFZiNyUDBhHnsFTBgE0SQIA9pfFtgo6cKGuhooeilaKH41eDs38Ip+f4At1Rq/sjr6NEwQqb/I/DQqsLvaFUjvAx+eWirddAJZnAj1DFJL0mSg/gcIpPkMBkhoyCSJ8lTZIxk0TpKDjXHliJzZPO50dR5ASNSnzeLvIvod0HG/mdkmOC0z8VKnzcQ2M/Yz2vKldduXjp9bleLu0ZWn7vWc+l0JGcaai10yNrUnXLP/8Jf59ewX+c3Wgz+B34Df+vbVrc16zTMVgp9um9bxEfzPU5kPqUtVWxhs6OiWTVW+gIfywB9uXi7CGcGW/zk98k/kmvJ95IfJn/j3uQ+4c5zn3Kfcd+AyF3gLnJfcl9xH3OfR2rUee80a+6vo7EK5mmXUdyfQlrYLTwoZIU9wsPCZEtP6BWGhAlhL3p2N6sTjRdduwbHsG9kq32sgBepc+xurLPW4T9URpYGJ3ym4+8zA05u44QjST8ZIoVtu3qE7fWmdn5LPdqvgcZz8Ww8BWJ8X3w0PhQ/wnCDGd+LvlHs8dRy6bLLDuKMaZ20tZrqisPJ5ONiCq8yKhYM5cCgKOu66Lsc0aYOtZdo5QCwezI4wm9J/v0X23mlZXOfBjj8Jzv3WrY5D+CsA9D7aMs2gGfjve8ArD6mePZSeCfEYt8CONWDw8FXTxrPqx/r9Vt4biXeANh8vV7/+/16ffMD1N8AuKD/A/8leAvFY9bLAAAAOGVYSWZNTQAqAAAACAABh2kABAAAAAEAAAAaAAAAAAACoAIABAAAAAEAAAEsoAMABAAAAAEAAAA8AAAAAFAU5PoAAANxSURBVHgB7drBcdNAFAbgBHOHCqAZT3yhAyqhglRCB7nYkxsl0EEqgAKSIGU47Fs2MyLEw2/r46Qnr1ZP35P/cWa4uPCPAAECBAgQIECAAAECBFYqcLnS5/bYBAj8R4HdbvfY3n6/3y/KojftRY4JECCQLCCwkqejNwIEioDAKhwKAgSSBQRW8nT0RoBAERBYhUNBgECygMBKno7eCBAoAgKrcCgIEEgWEFjJ09EbAQJFQGAVDgUBAskCAit5OnojQKAICKzCoSBAIFlAYCVPR28ECBQBgVU4FAQIJAsIrOTp6I0AgSIgsAqHggCBZAGBlTwdvREgUAQEVuFQECCQLCCwkqejNwIEioDAKhwKAgSSBQRW8nT0RoBAERBYhUNBgECygMBKno7eCBAoAgKrcCgIEEgWEFjJ09EbAQJFQGAVDgUBAskCAit5OnojQKAICKzCoSBAIFlAYCVPR28ECBQBgVU4FAQIJAsIrOTp6I0AgSIgsAqHggCBZAGBlTwdvREgUAQEVuFQECCQLCCwkqejNwIEioDAKhwKAgSSBQRW8nT0RoBAERBYhUNBgECygMBKno7eCBAoAgKrcCgIEEgWEFjJ09EbAQJFQGAVDgUBAskCAit5OnojQKAICKzCoSBAIFngbXJzp9Dbbrd7bPvc7/eXbe2YAIHXExBYr2d5lJ0E4lFYbXqiAv4kPNHBaZvAGgXO7heWXyRrfI2XP7P3Y7lV4sqzC6xE5KU9+TItlbJurQL+JFzr5D03gRMU8AvrBIeW2LJfh4lTOb+eBNb5zfToTyScjk68uhv079QMMPovQv8UWP1NRjcYyb/0utFeiefO/fkSzU+5pyXvS79mft4l37eXXpfq+RRY2+32XddgX88f/2zX3N7elnr+7Orq6nO7Zj5+eHi4ac+Nrhvcv73k6Xi+rse/v7//+MfCwYnBde8Hy8qp0f3Kgr8oRs+32Wx+tFssefnm9dNeH9rrpj7v+v1HvU9W5ZnnNdO8vrR7HQ6H636v6fP+ft/ba547nvb+1H427X0zOje4X3vZxdznkmceefZ7z3uVzaeifzfmOYzODd7t4vJ737t2/+mZv/bPPH0fvrVrnjvuexitW+Ky9Lr+fku+W5Pn3eC68p6N7j+aw2jd6PlG65wjQIAAAQIECBAgQIAAgVUI/AItvMDEql3SGgAAAABJRU5ErkJggg==" /></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">WAL</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">64</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">runner</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">String/Factor</span></p></td><td class="cl-46535252"><p class="cl-4652ee5c"><span class="cl-4652d5b6">Aaron West...</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><img style="vertical-align:middle;width:72pt;height:14pt;" src="data:image/png;base64,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" /></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">Zoya Ivano...</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">936</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">runtime</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">String/Factor</span></p></td><td class="cl-46535252"><p class="cl-4652ee5c"><span class="cl-4652d5b6">00:10:02.3...</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><img style="vertical-align:middle;width:72pt;height:14pt;" src="data:image/png;base64,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" /></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">9:53:48</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">2184</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">sex</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">String/Factor</span></p></td><td class="cl-46535252"><p class="cl-4652ee5c"><span class="cl-4652d5b6">female</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><img style="vertical-align:middle;width:72pt;height:14pt;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAA8CAYAAADc3IdaAAAEDmlDQ1BrQ0dDb2xvclNwYWNlR2VuZXJpY1JHQgAAOI2NVV1oHFUUPpu5syskzoPUpqaSDv41lLRsUtGE2uj+ZbNt3CyTbLRBkMns3Z1pJjPj/KRpKT4UQRDBqOCT4P9bwSchaqvtiy2itFCiBIMo+ND6R6HSFwnruTOzu5O4a73L3PnmnO9+595z7t4LkLgsW5beJQIsGq4t5dPis8fmxMQ6dMF90A190C0rjpUqlSYBG+PCv9rt7yDG3tf2t/f/Z+uuUEcBiN2F2Kw4yiLiZQD+FcWyXYAEQfvICddi+AnEO2ycIOISw7UAVxieD/Cyz5mRMohfRSwoqoz+xNuIB+cj9loEB3Pw2448NaitKSLLRck2q5pOI9O9g/t/tkXda8Tbg0+PszB9FN8DuPaXKnKW4YcQn1Xk3HSIry5ps8UQ/2W5aQnxIwBdu7yFcgrxPsRjVXu8HOh0qao30cArp9SZZxDfg3h1wTzKxu5E/LUxX5wKdX5SnAzmDx4A4OIqLbB69yMesE1pKojLjVdoNsfyiPi45hZmAn3uLWdpOtfQOaVmikEs7ovj8hFWpz7EV6mel0L9Xy23FMYlPYZenAx0yDB1/PX6dledmQjikjkXCxqMJS9WtfFCyH9XtSekEF+2dH+P4tzITduTygGfv58a5VCTH5PtXD7EFZiNyUDBhHnsFTBgE0SQIA9pfFtgo6cKGuhooeilaKH41eDs38Ip+f4At1Rq/sjr6NEwQqb/I/DQqsLvaFUjvAx+eWirddAJZnAj1DFJL0mSg/gcIpPkMBkhoyCSJ8lTZIxk0TpKDjXHliJzZPO50dR5ASNSnzeLvIvod0HG/mdkmOC0z8VKnzcQ2M/Yz2vKldduXjp9bleLu0ZWn7vWc+l0JGcaai10yNrUnXLP/8Jf59ewX+c3Wgz+B34Df+vbVrc16zTMVgp9um9bxEfzPU5kPqUtVWxhs6OiWTVW+gIfywB9uXi7CGcGW/zk98k/kmvJ95IfJn/j3uQ+4c5zn3Kfcd+AyF3gLnJfcl9xH3OfR2rUee80a+6vo7EK5mmXUdyfQlrYLTwoZIU9wsPCZEtP6BWGhAlhL3p2N6sTjRdduwbHsG9kq32sgBepc+xurLPW4T9URpYGJ3ym4+8zA05u44QjST8ZIoVtu3qE7fWmdn5LPdqvgcZz8Ww8BWJ8X3w0PhQ/wnCDGd+LvlHs8dRy6bLLDuKMaZ20tZrqisPJ5ONiCq8yKhYM5cCgKOu66Lsc0aYOtZdo5QCwezI4wm9J/v0X23mlZXOfBjj8Jzv3WrY5D+CsA9D7aMs2gGfjve8ArD6mePZSeCfEYt8CONWDw8FXTxrPqx/r9Vt4biXeANh8vV7/+/16ffMD1N8AuKD/A/8leAvFY9bLAAAAOGVYSWZNTQAqAAAACAABh2kABAAAAAEAAAAaAAAAAAACoAIABAAAAAEAAAEsoAMABAAAAAEAAAA8AAAAAFAU5PoAAAI4SURBVHgB7dZBboMAFEPBtOrdODOna47gRRA8KdO1G8x8yeL18keAAAECBAgQIECAAAECXyrw86Xv7bUfFDiO4//Bx3v0jQLneV66Mb83dvcoAgQIfCRgsD7i888ECNwp8Hf1w3zuXy3a/b2rP/e7b6pZRcAXVuUSehAgMAUM1iQSIECgImCwKpfQgwCBKWCwJpEAAQIVAYNVuYQeBAhMAYM1iQQIEKgIGKzKJfQgQGAKGKxJJECAQEXAYFUuoQcBAlPAYE0iAQIEKgIGq3IJPQgQmAIGaxIJECBQETBYlUvoQYDAFDBYk0iAAIGKgMGqXEIPAgSmgMGaRAIECFQEDFblEnoQIDAFDNYkEiBAoCJgsCqX0IMAgSlgsCaRAAECFQGDVbmEHgQITAGDNYkECBCoCBisyiX0IEBgChisSSRAgEBFwGBVLqEHAQJTwGBNIgECBCoCBqtyCT0IEJgCBmsSCRAgUBEwWJVL6EGAwBQwWJNIgACBioDBqlxCDwIEpoDBmkQCBAhUBAxW5RJ6ECAwBQzWJBIgQKAiYLAql9CDAIEpYLAmkQABAhUBg1W5hB4ECEwBgzWJBAgQqAgYrMol9CBAYAoYrEkkQIBARcBgVS6hBwECU8BgTSIBAgQqAgarcgk9CBCYAgZrEgkQIFARMFiVS+hBgMAUMFiTSIAAgYqAwapcQg8CBKaAwZpEAgQIVAQMVuUSehAgMAUM1iQSIECAAAECBAgQIECAAAECBAgQeFjgDWGvCG7lSjEQAAAAAElFTkSuQmCC" /></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">male</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">2</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">type</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">String/Factor</span></p></td><td class="cl-46535252"><p class="cl-4652ee5c"><span class="cl-4652d5b6">indoor tra...</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><img style="vertical-align:middle;width:72pt;height:14pt;" src="data:image/png;base64,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" /></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">road</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">3</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">units</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">String/Factor</span></p></td><td class="cl-46535252"><p class="cl-4652ee5c"><span class="cl-4652d5b6">Kilometers</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><img style="vertical-align:middle;width:72pt;height:14pt;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAA8CAYAAADc3IdaAAAEDmlDQ1BrQ0dDb2xvclNwYWNlR2VuZXJpY1JHQgAAOI2NVV1oHFUUPpu5syskzoPUpqaSDv41lLRsUtGE2uj+ZbNt3CyTbLRBkMns3Z1pJjPj/KRpKT4UQRDBqOCT4P9bwSchaqvtiy2itFCiBIMo+ND6R6HSFwnruTOzu5O4a73L3PnmnO9+595z7t4LkLgsW5beJQIsGq4t5dPis8fmxMQ6dMF90A190C0rjpUqlSYBG+PCv9rt7yDG3tf2t/f/Z+uuUEcBiN2F2Kw4yiLiZQD+FcWyXYAEQfvICddi+AnEO2ycIOISw7UAVxieD/Cyz5mRMohfRSwoqoz+xNuIB+cj9loEB3Pw2448NaitKSLLRck2q5pOI9O9g/t/tkXda8Tbg0+PszB9FN8DuPaXKnKW4YcQn1Xk3HSIry5ps8UQ/2W5aQnxIwBdu7yFcgrxPsRjVXu8HOh0qao30cArp9SZZxDfg3h1wTzKxu5E/LUxX5wKdX5SnAzmDx4A4OIqLbB69yMesE1pKojLjVdoNsfyiPi45hZmAn3uLWdpOtfQOaVmikEs7ovj8hFWpz7EV6mel0L9Xy23FMYlPYZenAx0yDB1/PX6dledmQjikjkXCxqMJS9WtfFCyH9XtSekEF+2dH+P4tzITduTygGfv58a5VCTH5PtXD7EFZiNyUDBhHnsFTBgE0SQIA9pfFtgo6cKGuhooeilaKH41eDs38Ip+f4At1Rq/sjr6NEwQqb/I/DQqsLvaFUjvAx+eWirddAJZnAj1DFJL0mSg/gcIpPkMBkhoyCSJ8lTZIxk0TpKDjXHliJzZPO50dR5ASNSnzeLvIvod0HG/mdkmOC0z8VKnzcQ2M/Yz2vKldduXjp9bleLu0ZWn7vWc+l0JGcaai10yNrUnXLP/8Jf59ewX+c3Wgz+B34Df+vbVrc16zTMVgp9um9bxEfzPU5kPqUtVWxhs6OiWTVW+gIfywB9uXi7CGcGW/zk98k/kmvJ95IfJn/j3uQ+4c5zn3Kfcd+AyF3gLnJfcl9xH3OfR2rUee80a+6vo7EK5mmXUdyfQlrYLTwoZIU9wsPCZEtP6BWGhAlhL3p2N6sTjRdduwbHsG9kq32sgBepc+xurLPW4T9URpYGJ3ym4+8zA05u44QjST8ZIoVtu3qE7fWmdn5LPdqvgcZz8Ww8BWJ8X3w0PhQ/wnCDGd+LvlHs8dRy6bLLDuKMaZ20tZrqisPJ5ONiCq8yKhYM5cCgKOu66Lsc0aYOtZdo5QCwezI4wm9J/v0X23mlZXOfBjj8Jzv3WrY5D+CsA9D7aMs2gGfjve8ArD6mePZSeCfEYt8CONWDw8FXTxrPqx/r9Vt4biXeANh8vV7/+/16ffMD1N8AuKD/A/8leAvFY9bLAAAAOGVYSWZNTQAqAAAACAABh2kABAAAAAEAAAAaAAAAAAACoAIABAAAAAEAAAEsoAMABAAAAAEAAAA8AAAAAFAU5PoAAAJASURBVHgB7dbBiUNBDERB2zi3iXmis0PoiwQNv/YqEPo15rGvlz8CBAgQIECAAAECBAgQeKjAe/q7zzm/6Z32dQrce8d/P51f6qoWgU/LIe4gQIBAEhCsJGROgECNgGDVPIVDCBBIAoKVhMwJEKgREKyap3AIAQJJQLCSkDkBAjUCglXzFA4hQCAJCFYSMidAoEZAsGqewiEECCQBwUpC5gQI1AgIVs1TOIQAgSQgWEnInACBGgHBqnkKhxAgkAQEKwmZEyBQIyBYNU/hEAIEkoBgJSFzAgRqBASr5ikcQoBAEhCsJGROgECNgGDVPIVDCBBIAoKVhMwJEKgREKyap3AIAQJJQLCSkDkBAjUCglXzFA4hQCAJCFYSMidAoEZAsGqewiEECCQBwUpC5gQI1AgIVs1TOIQAgSQgWEnInACBGgHBqnkKhxAgkAQEKwmZEyBQIyBYNU/hEAIEkoBgJSFzAgRqBL41lzjkMQLnnN9jPvbhH3rvfU8S+A9rUtMuAgRWBQRrlddyAgQmBQRrUtMuAgRWBQRrlddyAgQmBQRrUtMuAgRWBQRrlddyAgQmBQRrUtMuAgRWBQRrlddyAgQmBQRrUtMuAgRWBQRrlddyAgQmBQRrUtMuAgRWBQRrlddyAgQmBQRrUtMuAgRWBQRrlddyAgQmBQRrUtMuAgRWBQRrlddyAgQmBQRrUtMuAgRWBQRrlddyAgQmBQRrUtMuAgRWBQRrlddyAgQIECBAgAABAgQIECBAgACBAYE/LycIbgeFJTYAAAAASUVORK5CYII=" /></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">Miles</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">2</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">birthdate</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">Date</span></p></td><td class="cl-46535252"><p class="cl-4652ee5c"><span class="cl-4652d5b6">1895-01-19</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><img style="vertical-align:middle;width:72pt;height:14pt;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAA8CAYAAADc3IdaAAAEDmlDQ1BrQ0dDb2xvclNwYWNlR2VuZXJpY1JHQgAAOI2NVV1oHFUUPpu5syskzoPUpqaSDv41lLRsUtGE2uj+ZbNt3CyTbLRBkMns3Z1pJjPj/KRpKT4UQRDBqOCT4P9bwSchaqvtiy2itFCiBIMo+ND6R6HSFwnruTOzu5O4a73L3PnmnO9+595z7t4LkLgsW5beJQIsGq4t5dPis8fmxMQ6dMF90A190C0rjpUqlSYBG+PCv9rt7yDG3tf2t/f/Z+uuUEcBiN2F2Kw4yiLiZQD+FcWyXYAEQfvICddi+AnEO2ycIOISw7UAVxieD/Cyz5mRMohfRSwoqoz+xNuIB+cj9loEB3Pw2448NaitKSLLRck2q5pOI9O9g/t/tkXda8Tbg0+PszB9FN8DuPaXKnKW4YcQn1Xk3HSIry5ps8UQ/2W5aQnxIwBdu7yFcgrxPsRjVXu8HOh0qao30cArp9SZZxDfg3h1wTzKxu5E/LUxX5wKdX5SnAzmDx4A4OIqLbB69yMesE1pKojLjVdoNsfyiPi45hZmAn3uLWdpOtfQOaVmikEs7ovj8hFWpz7EV6mel0L9Xy23FMYlPYZenAx0yDB1/PX6dledmQjikjkXCxqMJS9WtfFCyH9XtSekEF+2dH+P4tzITduTygGfv58a5VCTH5PtXD7EFZiNyUDBhHnsFTBgE0SQIA9pfFtgo6cKGuhooeilaKH41eDs38Ip+f4At1Rq/sjr6NEwQqb/I/DQqsLvaFUjvAx+eWirddAJZnAj1DFJL0mSg/gcIpPkMBkhoyCSJ8lTZIxk0TpKDjXHliJzZPO50dR5ASNSnzeLvIvod0HG/mdkmOC0z8VKnzcQ2M/Yz2vKldduXjp9bleLu0ZWn7vWc+l0JGcaai10yNrUnXLP/8Jf59ewX+c3Wgz+B34Df+vbVrc16zTMVgp9um9bxEfzPU5kPqUtVWxhs6OiWTVW+gIfywB9uXi7CGcGW/zk98k/kmvJ95IfJn/j3uQ+4c5zn3Kfcd+AyF3gLnJfcl9xH3OfR2rUee80a+6vo7EK5mmXUdyfQlrYLTwoZIU9wsPCZEtP6BWGhAlhL3p2N6sTjRdduwbHsG9kq32sgBepc+xurLPW4T9URpYGJ3ym4+8zA05u44QjST8ZIoVtu3qE7fWmdn5LPdqvgcZz8Ww8BWJ8X3w0PhQ/wnCDGd+LvlHs8dRy6bLLDuKMaZ20tZrqisPJ5ONiCq8yKhYM5cCgKOu66Lsc0aYOtZdo5QCwezI4wm9J/v0X23mlZXOfBjj8Jzv3WrY5D+CsA9D7aMs2gGfjve8ArD6mePZSeCfEYt8CONWDw8FXTxrPqx/r9Vt4biXeANh8vV7/+/16ffMD1N8AuKD/A/8leAvFY9bLAAAAOGVYSWZNTQAqAAAACAABh2kABAAAAAEAAAAaAAAAAAACoAIABAAAAAEAAAEsoAMABAAAAAEAAAA8AAAAAFAU5PoAAAFhSURBVHgB7dJBCQAACANA062Yxe3gQxBuBTaOVQkBAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIvBBI0i+GGnki4A8nzEoIECBAgAABAgQIECBAgMBWYAC+5wKr6UrO5AAAAABJRU5ErkJggg==" /></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">2013-06-20</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">923</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">rundate</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">Date</span></p></td><td class="cl-46535252"><p class="cl-4652ee5c"><span class="cl-4652d5b6">1965-05-30</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><img style="vertical-align:middle;width:72pt;height:14pt;" src="data:image/png;base64,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" /></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">2020-02-16</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">1510</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">age</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">Numeric</span></p></td><td class="cl-46535252"><p class="cl-4652ee5c"><span class="cl-4652d5b6">3.92</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><img style="vertical-align:middle;width:72pt;height:14pt;" src="data:image/png;base64,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" /></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">98.36</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">2248</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">distance</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">Numeric</span></p></td><td class="cl-46535252"><p class="cl-4652ee5c"><span class="cl-4652d5b6">3</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><img style="vertical-align:middle;width:72pt;height:14pt;" src="data:image/png;base64,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" /></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">30</span></p></td><td class="cl-46535248"><p class="cl-4652ee52"><span class="cl-4652d5b6">11</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-46535253"><p class="cl-4652ee52"><span class="cl-4652d5b6">runtime_sec</span></p></td><td class="cl-46535253"><p class="cl-4652ee52"><span class="cl-4652d5b6">Numeric</span></p></td><td class="cl-4653525c"><p class="cl-4652ee5c"><span class="cl-4652d5b6">440.67</span></p></td><td class="cl-46535253"><p class="cl-4652ee52"><img style="vertical-align:middle;width:72pt;height:14pt;" src="data:image/png;base64,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" /></p></td><td class="cl-46535253"><p class="cl-4652ee52"><span class="cl-4652d5b6">35628</span></p></td><td class="cl-46535253"><p class="cl-4652ee52"><span class="cl-4652d5b6">2175</span></p></td></tr></tbody></table></div></template>
+<div class="flextable-shadow-host" id="c83a0c4b-5ff6-462a-8d74-711733956f53"></div>
+<script>
+var dest = document.getElementById("c83a0c4b-5ff6-462a-8d74-711733956f53");
+var template = document.getElementById("2fa4fe69-9d4d-4ca2-bb18-701d6d0ace7d");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+</script>
+
+<p>Let’s review the single-age record data for all race distances and gender:</p>
+<p><img src="https://ssp3nc3r.github.io/post/estimating-human-limits-to-running-speed/index_files/figure-html/records-1.png" width="672" />
+Let’s also consider the log of those record run times to consider the rates of change:</p>
+<p><img src="https://ssp3nc3r.github.io/post/estimating-human-limits-to-running-speed/index_files/figure-html/logrecords-1.png" width="672" />
+# Prior work</p>
+<p><span class="citation">Fair and Kaplan (<a href="#ref-fairEstimatingAgingEffects2018" role="doc-biblioref">2018</a>)</span> focused on the performance of older athletes. They explored the biological limit of human running speeds by modeling record times at several distances as a function of age for those 40 years and older.</p>
+<p>The authors compared multiple models: a linear-quadratic model, a non-parametric model, and both using the extreme value distribution. Justifying the linear-quadratic model, they theorized that may make sense as information suggested that for ages between around 40 and 70, the log of run times increase linearly with age (a constant rate of decline) and in later years, that rate of decline increases. The authors impose a few restrictions on this linear-quadratic model.</p>
+<div id="linear-quadratic-model" class="section level2">
+<h2>Linear-Quadratic Model</h2>
+<p>Summarising the authors’ linear-quadratic model, let’s let <span class="math inline">\(k\)</span> be age of the runner who set the record, <span class="math inline">\(r_k\)</span> be the log of the record time at age <span class="math inline">\(k\)</span>, and <span class="math inline">\(b_k\)</span> be the unobserved biological limit for the log of the record run time at age <span class="math inline">\(k\)</span>. The biological limit is related to the record run time in that the record <span class="math inline">\(r_k\)</span> is some <span class="math inline">\(\epsilon\)</span> amount above <span class="math inline">\(b_k\)</span>:</p>
+<p><span class="math display">\[
+r_k = b_k + \epsilon_k
+\]</span>
+The biological limit, in turn, is a linear function of age up to an unobserved threshold <span class="math inline">\(k^*\)</span> and afterwards becomes a quadratic function of age:</p>
+<p><span class="math display">\[
+b_k =
+\begin{cases}
+\beta + \alpha k, &amp;\quad 40 \le k \le k^*, \quad \alpha &gt; 0 \\
+\gamma + \theta k + \delta k^2, &amp;\quad k &gt; k^*, \quad \delta &gt; 0
+\end{cases}
+\]</span></p>
+<p>The two functions are restricted in the two must “touch” and have the same slope (first derivative) at <span class="math inline">\(k^*\)</span>; thus,</p>
+<p><span class="math display">\[
+\gamma = \beta + \delta k^{*2}, \\
+\theta = \alpha - 2 \delta k^*
+\]</span>
+If we perform variable substitutions,</p>
+<p><span class="math display">\[
+b_k =
+\begin{cases}
+\beta + \alpha k, &amp;\quad 40 \le k \le k^*, \quad \alpha &gt; 0 \\
+\beta + \delta k^{*2} + (\alpha - 2 \delta k^{*}) k + \delta k^2, &amp;\quad k &gt; k^*, \quad \delta &gt; 0
+\end{cases}
+\]</span></p>
+<p>and simplify,</p>
+<p><span class="math display">\[
+\beta + \delta k^{*2} + \alpha k - 2 \delta k^{*} k + \delta k^2, \quad k &gt; k^*, \quad \delta &gt; 0
+\]</span></p>
+<p>we obtain this final form:</p>
+<p><span class="math display">\[
+\beta + \alpha k  + \delta (k^{*2} - 2 k^{*} k + k^2), \quad k &gt; k^*, \quad \delta &gt; 0
+\]</span></p>
+</div>
+<div id="non-parametric-model" class="section level2">
+<h2>Non-parametric model</h2>
+<p><span class="citation">Fair and Kaplan (<a href="#ref-fairEstimatingAgingEffects2018" role="doc-biblioref">2018</a>)</span> also explore a non-parametric model, restricted in that the first and second derivatives must be nonnegative and nondecreasing. Here, I’ll relax these restrictions for modeling, though for the given data, those restrictions would hold.</p>
+</div>
+<div id="extreme-value-theory" class="section level2">
+<h2>Extreme value theory</h2>
+<p>The above models, as the authors note, finds the expected value of the records as a function of age. But with using extreme value theory, we can statistically estimate the true biological limit. The probability density corresponding to a given observed record <span class="math inline">\(r_k\)</span> is</p>
+<p><span class="math display">\[
+f_{R_k}(r_k) = \eta \lambda (r_k - b_k) ^ {\lambda - 1} e^{-\eta (r_k - b_k)^{\lambda}}
+\]</span>
+where I specify <span class="math inline">\(b_k\)</span> as either the above linear-quadratic or nonparametric model.</p>
+</div>
+</div>
+<div id="analysis" class="section level1">
+<h1>Analysis</h1>
+<p>Of note, a review of Figure <a href="#fig:logrecords"><strong>??</strong></a> above suggests that a linear model doesn’t quite fit what the data suggest (the rate of change does not quite appear to be constant even early on). Regardless, we’ll begin with a model similar to the linear-quadratic model described in <span class="citation">Fair and Kaplan (<a href="#ref-fairEstimatingAgingEffects2018" role="doc-biblioref">2018</a>)</span>.</p>
+<p>We’ll use <a href="https://mc-stan.org">Stan</a> for modeling estimates. For an initial analysis, let’s focus on 5K run times for male athletes aged 40 and over. For our <strong>linear-quadratic</strong> model, let’s remove from the data what <span class="citation">Fair and Kaplan (<a href="#ref-fairEstimatingAgingEffects2018" role="doc-biblioref">2018</a>)</span> call “soft observations”; <em>i.e.</em>, observed records at a given age that is slower than any record by an older runner:</p>
+<pre class="stan"><code>data {
+  int&lt;lower=0&gt; N;
+  vector&lt;lower=0&gt;[N] rk_log;
+  array[N] int&lt;lower=0&gt; k;
+}
+
+parameters {
+  real beta;
+  real&lt;lower=0&gt; alpha;
+  real&lt;lower=0&gt; delta;
+  real&lt;offset=70, multiplier=10&gt; k_star;
+  real&lt;lower=0&gt; sigma;
+}
+
+model {
+  beta   ~ std_normal();
+  alpha  ~ exponential(1);
+  delta  ~ exponential(1);
+  sigma  ~ exponential(1);
+  k_star ~ normal(70, 10);
+  
+  vector[N] mu;
+  
+  for( i in 1:N) mu[i] = beta + alpha * k[i] + 
+  (k[i] &gt; k_star ? delta * (k_star ^ 2 - 2 * k_star * k[i] + k[i] ^ 2) : 0);
+  
+  rk_log ~ normal(mu, sigma); 
+}
+
+generated quantities {
+  vector[N] rk_log_hat;
+  
+  for( i in 1:N) 
+    rk_log_hat[i] = normal_rng(
+    beta + alpha * k[i] + (k[i] &gt; k_star ? 
+      delta * (k_star ^ 2 - 2 * k_star * k[i] + k[i] ^ 2) : 0), sigma);
+}
+</code></pre>
+<p>We should probably use more information to set more informative priors. For now, thoug, let’s compare the resulting <strong><span style="color:steelblue;">expectations</span></strong>, conditional on the model and data, with the <strong>observed records</strong>:</p>
+<p><img src="https://ssp3nc3r.github.io/post/estimating-human-limits-to-running-speed/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>And here’s our <strong>nonparametric</strong>, <strong>extreme value</strong> model where the biological minimum <span class="math inline">\(b_k\)</span> is a fraction of the record <span class="math inline">\(r_k\)</span>:</p>
+<pre class="stan"><code>data {
+  int&lt;lower=0&gt; N;
+  vector&lt;lower=0&gt;[N] rk;
+  array[N] int&lt;lower=0&gt; k;
+}
+
+parameters {
+  vector&lt;lower=0, upper=1&gt;[N] b_;
+  real&lt;lower=0&gt; kappa;
+  real&lt;lower=0&gt; lambda;
+}
+
+transformed parameters {
+  vector[N] b = b_ .* rk;
+}
+
+model {
+  b_ ~ beta(20, 1.5);
+  kappa ~ exponential(1);
+  lambda ~ exponential(1);
+  
+  rk - b ~ weibull(kappa, lambda);
+}
+
+generated quantities {
+  vector[N] rk_hat = weibull_rng(kappa, lambda) + b;
+}
+</code></pre>
+<p>Conditional on this model and data, here are the <strong><span style="color:steelblue;">expectations</span></strong> of the biological envelope, overlain again with the <strong>observed records</strong>:</p>
+<p><img src="https://ssp3nc3r.github.io/post/estimating-human-limits-to-running-speed/index_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Of note, in this case, I only modeled parameters for ages with data. The <strong><span style="color:steelblue;">expectations</span></strong> of a biological minimum are so close to the observed records that they are covered by the <strong>trend line of observed records</strong>. The estimates, below, of our <strong><span style="color:steelblue;">biological limit <span class="math inline">\(b_k\)</span></span></strong> as a fraction of <strong>record times</strong> are less than 10 percent faster, the uncertainty of which is shown below using the first 200 draws from our model:</p>
+<p><img src="https://ssp3nc3r.github.io/post/estimating-human-limits-to-running-speed/index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>It seems odd that the biological limit would approach the record times as age increases since there are fewer older humans attempting those records.</p>
+<p>In a later post, I’ll continue the analysis and, among other things, compare another form of modeling, bring in additional data, and, unlike <span class="citation">Fair and Kaplan (<a href="#ref-fairEstimatingAgingEffects2018" role="doc-biblioref">2018</a>)</span>, account for those “soft observations” instead of simply removing them. With each extension to this analysis, we should learn a little more about what Prefontaine set out to test: <em>the limits of the human heart</em>.</p>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-fairEstimatingAgingEffects2018" class="csl-entry">
+Fair, Ray C., and Edward H. Kaplan. 2018. <span>“Estimating <span>Aging Effects</span> in <span>Running Events</span>.”</span> <em>The Review of Economics and Statistics</em> 100 (4): 704–11. <a href="https://doi.org/10.1162/rest_a_00725">https://doi.org/10.1162/rest_a_00725</a>.
+</div>
+</div>
+</div>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ssp3nc3r.github.io/tags/r">R</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/stan">Stan</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/bayes">Bayes</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/footspeed">Footspeed</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/running">Running</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/extreme-value-theory">Extreme Value Theory</a></span>
+  				</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+        </div>
+    </div>
+    <script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="https://ssp3nc3r.github.io/bundle.min.2e41f03d11de0d5dcc199de839278d4b9fa963ed506d9a7a6af7b179daea5ee06f66c705680d8f31c657b4cb31ed50b710dd9250c4b6c6e2eae9bbdf2a1e391f.js" integrity="sha512-LkHwPRHeDV3MGZ3oOSeNS5&#43;pY&#43;1QbZp6avexedrqXuBvZscFaA2PMcZXtMsx7VC3EN2SUMS2xuLq6bvfKh45Hw=="></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-123500360-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+
+    </body>
+</html>

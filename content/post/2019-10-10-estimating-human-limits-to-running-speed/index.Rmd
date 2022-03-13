@@ -469,7 +469,8 @@ model {
 }
 
 generated quantities {
-  vector[N] rk_hat = weibull_rng(kappa, lambda) + b;
+  vector[N] rk_hat = 
+    rk - to_vector(weibull_rng(rep_vector(kappa, N), rep_vector(lambda, N)));
 }
 
 ```
@@ -503,7 +504,7 @@ ppc_ribbon(dat$rk, post) +
   theme(legend.position = "")
 ```
 
-Of note, in this case, I only modeled parameters for ages with data. The **<span style="color:steelblue;">expectations</span>** of a biological minimum are so close to the observed records that they are covered by the **trend line of observed records**. The estimates, below, of our **<span style="color:steelblue;">biological limit $b_k$</span>** as a fraction of **record times** are less than 10 percent faster, the uncertainty of which is shown below using the first 200 draws from our model:
+Of note, in this case, I only modeled parameters for ages with data. The **<span style="color:steelblue;">estimation of a biological minimum</span>** are at and below the **trend line of observed records**. The estimates, below, of our **<span style="color:steelblue;">biological limit $b_k$</span>** as a fraction of **record times** are less than 10 percent faster, the uncertainty of which is shown below using the first 200 draws from our model:
 
 ```{r}
 post <- fit_np$draws(variables = "b_", format = "draws_matrix")

@@ -172,7 +172,7 @@ F_{\log}(x; \eta, \lambda, \theta) = \eta (x - \theta) ^ \lambda
   }
   
 }</code></pre>
-<p>That’s the bare minimum to get these working, though I also recommend adding code within the functions to test that <code>x</code> &gt; <span class="math inline">\(\theta\)</span>, <span class="math inline">\(\eta\)</span> &gt; 0, and <span class="math inline">\(lambda\)</span> &gt; 0. We can accomplish that by include an <code>if</code> statement where, if true, we stop the sampling with a <code>reject</code> function.</p>
+<p>That’s the bare minimum to get these working, though I also recommend adding code within the functions to test that <code>x</code> &gt; <span class="math inline">\(\theta\)</span>, <span class="math inline">\(\eta\)</span> &gt; 0, and <span class="math inline">\(\lambda\)</span> &gt; 0. We can accomplish that by include an <code>if</code> statement where, if true, we stop the sampling with a <code>reject</code> function.</p>
 <p>We may, of course, also vectorize these statements for convenience and efficiency<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. Once we have them coded, we can use them just like any other distribution statement in Stan. Happy coding.</p>
 <p>Stay curious!</p>
 <div class="footnotes footnotes-end-of-document">

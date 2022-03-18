@@ -68,7 +68,7 @@ functions {
 }
 ```
 
-That's the bare minimum to get these working, though I also recommend adding code within the functions to test that `x` > $\theta$, $\eta$ > 0, and $lambda$ > 0. We can accomplish that by include an `if` statement where, if true, we stop the sampling with a `reject` function.
+That's the bare minimum to get these working, though I also recommend adding code within the functions to test that `x` > $\theta$, $\eta$ > 0, and $\lambda$ > 0. We can accomplish that by include an `if` statement where, if true, we stop the sampling with a `reject` function.
 
 We may, of course, also vectorize these statements for convenience and efficiency^[If coding them this way, be sure to sum the vector before returning for use when adding it to the log likelihood.]. Once we have them coded, we can use them just like any other distribution statement in Stan. Happy coding.
 

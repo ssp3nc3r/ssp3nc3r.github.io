@@ -2,6 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://ssp3nc3r.github.io/tags/custom-distributions/</loc>
+    <lastmod>2021-11-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ssp3nc3r.github.io/tags/extreme-value-distribution/</loc>
+    <lastmod>2021-11-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ssp3nc3r.github.io/post/generating-random-numbers-from-custom-distributions/</loc>
+    <lastmod>2021-11-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ssp3nc3r.github.io/</loc>
+    <lastmod>2022-03-13T17:40:32-04:00</lastmod>
+  </url><url>
+    <loc>https://ssp3nc3r.github.io/post/</loc>
+    <lastmod>2022-03-13T17:40:32-04:00</lastmod>
+  </url><url>
+    <loc>https://ssp3nc3r.github.io/tags/random-numbers/</loc>
+    <lastmod>2021-11-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ssp3nc3r.github.io/tags/stan/</loc>
+    <lastmod>2022-03-13T17:40:32-04:00</lastmod>
+  </url><url>
+    <loc>https://ssp3nc3r.github.io/tags/</loc>
+    <lastmod>2022-03-13T17:40:32-04:00</lastmod>
+  </url><url>
+    <loc>https://ssp3nc3r.github.io/tags/weibull-distribution/</loc>
+    <lastmod>2021-11-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ssp3nc3r.github.io/post/coding-custom-distribution-functions-in-stan/</loc>
+    <lastmod>2021-02-18T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ssp3nc3r.github.io/tags/cumulative-distribution-functions/</loc>
+    <lastmod>2021-02-18T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ssp3nc3r.github.io/tags/probability-density-functions/</loc>
+    <lastmod>2021-02-18T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://ssp3nc3r.github.io/tags/communiction/</loc>
     <lastmod>2021-11-29T21:35:15-05:00</lastmod>
   </url><url>
@@ -14,20 +50,11 @@
     <loc>https://ssp3nc3r.github.io/tags/interactivity/</loc>
     <lastmod>2021-11-29T21:35:15-05:00</lastmod>
   </url><url>
-    <loc>https://ssp3nc3r.github.io/</loc>
-    <lastmod>2022-03-11T14:33:13-05:00</lastmod>
-  </url><url>
-    <loc>https://ssp3nc3r.github.io/post/</loc>
-    <lastmod>2022-03-11T14:33:13-05:00</lastmod>
-  </url><url>
     <loc>https://ssp3nc3r.github.io/tags/r/</loc>
-    <lastmod>2022-03-11T14:33:13-05:00</lastmod>
+    <lastmod>2022-03-13T17:40:32-04:00</lastmod>
   </url><url>
     <loc>https://ssp3nc3r.github.io/post/tables-in-tooltips/</loc>
     <lastmod>2021-11-29T21:35:15-05:00</lastmod>
-  </url><url>
-    <loc>https://ssp3nc3r.github.io/tags/</loc>
-    <lastmod>2022-03-11T14:33:13-05:00</lastmod>
   </url><url>
     <loc>https://ssp3nc3r.github.io/tags/atl/</loc>
     <lastmod>2021-11-29T14:10:45-05:00</lastmod>
@@ -101,26 +128,23 @@
     <loc>https://ssp3nc3r.github.io/post/2020-01-03-exploratory-modeling-on-how-win-uncertainty-affects-game-attendance/</loc>
     <lastmod>2021-11-29T14:04:49-05:00</lastmod>
   </url><url>
-    <loc>https://ssp3nc3r.github.io/tags/stan/</loc>
-    <lastmod>2022-03-11T14:33:13-05:00</lastmod>
-  </url><url>
     <loc>https://ssp3nc3r.github.io/tags/uncertainty/</loc>
     <lastmod>2021-11-29T14:04:49-05:00</lastmod>
   </url><url>
     <loc>https://ssp3nc3r.github.io/tags/bayes/</loc>
-    <lastmod>2022-03-11T14:33:13-05:00</lastmod>
+    <lastmod>2022-03-13T17:40:32-04:00</lastmod>
   </url><url>
     <loc>https://ssp3nc3r.github.io/post/estimating-human-limits-to-running-speed/</loc>
-    <lastmod>2022-03-11T14:33:13-05:00</lastmod>
+    <lastmod>2022-03-13T17:40:32-04:00</lastmod>
   </url><url>
     <loc>https://ssp3nc3r.github.io/tags/extreme-value-theory/</loc>
-    <lastmod>2022-03-11T14:33:13-05:00</lastmod>
+    <lastmod>2022-03-13T17:40:32-04:00</lastmod>
   </url><url>
     <loc>https://ssp3nc3r.github.io/tags/footspeed/</loc>
-    <lastmod>2022-03-11T14:33:13-05:00</lastmod>
+    <lastmod>2022-03-13T17:40:32-04:00</lastmod>
   </url><url>
     <loc>https://ssp3nc3r.github.io/tags/running/</loc>
-    <lastmod>2022-03-11T14:33:13-05:00</lastmod>
+    <lastmod>2022-03-13T17:40:32-04:00</lastmod>
   </url><url>
     <loc>https://ssp3nc3r.github.io/tags/data-for-good/</loc>
     <lastmod>2022-01-15T17:57:28-05:00</lastmod>

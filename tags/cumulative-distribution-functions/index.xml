@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cumulative Distribution Functions on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/tags/cumulative-distribution-functions/</link>
+    <description>Recent content in Cumulative Distribution Functions on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Thu, 18 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/cumulative-distribution-functions/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Coding custom distribution functions in Stan</title>
+      <link>https://ssp3nc3r.github.io/post/coding-custom-distribution-functions-in-stan/</link>
+      <pubDate>Thu, 18 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ssp3nc3r.github.io/post/coding-custom-distribution-functions-in-stan/</guid>
+      <description>The probabilistic programming language called Stan is a powerful tools for modeling. It includes numerous distribution functions we can use to model. While it cannot include every conceivable distribution in its available functions, it does enable the next best thing: we can code our own!
+The Stan library does not, for example, currently include the three-parameter Weibull distribution. In this tutorial, I’ll code its PDF and CDF to demonstrate coding custom distributions in Stan.</description>
+    </item>
+    
+  </channel>
+</rss>

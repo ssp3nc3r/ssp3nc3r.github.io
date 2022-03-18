@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Scott Spencer">
+<meta name="description" content="The probabilistic programming language called Stan is a powerful tools for modeling. It includes numerous distribution functions we can use to model. While it cannot include every conceivable distribution in its available functions, it does enable the next best thing: we can code our own!
+The Stan library does not, for example, currently include the three-parameter Weibull distribution. In this tutorial, I’ll code its PDF and CDF to demonstrate coding custom distributions in Stan." />
+<meta name="keywords" content="Scott Spencer, statistical, generative modeling, bayesian inference, writing, data visualization, sports, columbia university, Stan, Custom Distributions, Probability Density Functions, Cumulative Distribution Functions, Weibull distribution, Extreme value distribution" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="https://ssp3nc3r.github.io/post/coding-custom-distribution-functions-in-stan/" />
+
+
+    <title>
+        
+            Coding custom distribution functions in Stan :: p( ssp3nc3r | Columbian ) 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.d235e788b40b442aba9cd6c69fdc330353b2dec27dcbc4235961469d2155f5a9.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://ssp3nc3r.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://ssp3nc3r.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://ssp3nc3r.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://ssp3nc3r.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://ssp3nc3r.github.io/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="https://ssp3nc3r.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+<meta itemprop="name" content="Coding custom distribution functions in Stan">
+<meta itemprop="description" content="The probabilistic programming language called Stan is a powerful tools for modeling. It includes numerous distribution functions we can use to model. While it cannot include every conceivable distribution in its available functions, it does enable the next best thing: we can code our own!
+The Stan library does not, for example, currently include the three-parameter Weibull distribution. In this tutorial, I’ll code its PDF and CDF to demonstrate coding custom distributions in Stan."><meta itemprop="datePublished" content="2021-02-18T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-02-18T00:00:00+00:00" />
+<meta itemprop="wordCount" content="476"><meta itemprop="image" content="https://ssp3nc3r.github.io"/>
+<meta itemprop="keywords" content="Stan,Custom Distributions,Probability Density Functions,Cumulative Distribution Functions,Weibull distribution,Extreme value distribution," /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://ssp3nc3r.github.io"/>
+
+<meta name="twitter:title" content="Coding custom distribution functions in Stan"/>
+<meta name="twitter:description" content="The probabilistic programming language called Stan is a powerful tools for modeling. It includes numerous distribution functions we can use to model. While it cannot include every conceivable distribution in its available functions, it does enable the next best thing: we can code our own!
+The Stan library does not, for example, currently include the three-parameter Weibull distribution. In this tutorial, I’ll code its PDF and CDF to demonstrate coding custom distributions in Stan."/>
+
+
+
+
+
+    <meta property="article:published_time" content="2021-02-18 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://ssp3nc3r.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#67a2c9;
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://ssp3nc3r.github.io/about/">About</a></li><li><a href="https://ssp3nc3r.github.io/post/">Blog</a></li><li><a href="https://ssp3nc3r.github.io/publications/">Publications</a></li><li><a href="https://ssp3nc3r.github.io/teaching/">Teaching</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://ssp3nc3r.github.io/post/coding-custom-distribution-functions-in-stan/">Coding custom distribution functions in Stan</a></h2>
+
+            
+
+            <div class="post-content">
+                
+
+
+<p>The probabilistic programming language called <a href="https://mc-stan.org">Stan</a> is a powerful tools for modeling. It includes numerous distribution functions we can use to model. While it cannot include every conceivable distribution in its available functions, it does enable the next best thing: <em>we can code our own</em>!</p>
+<p>The Stan library does not, for example, currently include the <a href="https://en.wikipedia.org/wiki/Weibull_distribution#Related_distributions">three-parameter Weibull distribution</a>. In this tutorial, I’ll code its PDF and CDF to demonstrate coding custom distributions in Stan.</p>
+<p>The probability density function of the three-parameter Weibull includes a shape parameter <span class="math inline">\(\eta\)</span> &gt; 0, a scale parameter <span class="math inline">\(\lambda\)</span> &gt; 0, and a location parameter <span class="math inline">\(\theta\)</span> in the following form:</p>
+<p><span class="math display">\[
+f(x; \eta, \lambda, \theta) = \eta \lambda (x - \theta) ^{\lambda - 1} \cdot \exp(-\eta(x - \theta) ^ \lambda)
+\]</span></p>
+<p>And the cumulative distribution function fits the following form:</p>
+<p><span class="math display">\[
+F(x; \eta, \lambda, \theta) = 1 - \exp(-\eta(x - \theta)^\lambda)
+\]</span></p>
+<p>We can code these in Stan directly, but our most common use-case will be to use the log PDF or log CDF. The log of the above PDF is,</p>
+<p><span class="math display">\[
+f_{\log}(x; \eta, \lambda, \theta) = \log(\eta) + \log(\lambda) + (\lambda - 1) \log(x - \theta) - \eta (x - \theta) ^ \lambda
+\]</span></p>
+<p>And the log of the above CDF is,</p>
+<p><span class="math display">\[
+F_{\log}(x; \eta, \lambda, \theta) = \eta (x - \theta) ^ \lambda
+\]</span></p>
+<p>The Stan code will read very similarly to the math. We place this code into the beginning of a Stan program in a “block” called <code>functions {}</code>, shown below with the regular and log form of the PDF and CDF:</p>
+<pre><code>functions {
+
+  real weibull_pdf(data real x, real eta, real lambda, real theta) {
+    return eta * lambda * (x - theta) ^ (lambda - 1) * exp(-eta * (x - theta) ^ lambda);
+  }
+  
+  real weibull_cdf(data real x, real eta, real lambda, real theta) {
+    return 1 - exp(-eta * (x - theta) ^ lambda);
+  }
+  
+  real weibull_lpdf(data real x, real eta, real lambda, real theta) {
+    return log(eta) + log(lambda) - eta * (x - theta) ^ lambda + (lambda - 1) * log(x - theta);
+  } 
+
+  real weibull_lcdf(data real x, real eta, real lambda, real theta) {
+    return 1 - exp(-eta * (x - theta) ^ lambda);
+  }
+  
+}</code></pre>
+<p>That’s the bare minimum to get these working, though I also recommend adding code within the functions to test that <code>x</code> &gt; <span class="math inline">\(\theta\)</span>, <span class="math inline">\(\eta\)</span> &gt; 0, and <span class="math inline">\(lambda\)</span> &gt; 0. We can accomplish that by include an <code>if</code> statement where, if true, we stop the sampling with a <code>reject</code> function.</p>
+<p>We may, of course, also vectorize these statements for convenience and efficiency<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. Once we have them coded, we can use them just like any other distribution statement in Stan. Happy coding.</p>
+<p>Stay curious!</p>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>If coding them this way, be sure to sum the vector before returning for use when adding it to the log likelihood.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ssp3nc3r.github.io/tags/stan">Stan</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/custom-distributions">Custom Distributions</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/probability-density-functions">Probability Density Functions</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/cumulative-distribution-functions">Cumulative Distribution Functions</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/weibull-distribution">Weibull distribution</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/extreme-value-distribution">Extreme value distribution</a></span>
+  				</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+        </div>
+    </div>
+    <script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="https://ssp3nc3r.github.io/bundle.min.2e41f03d11de0d5dcc199de839278d4b9fa963ed506d9a7a6af7b179daea5ee06f66c705680d8f31c657b4cb31ed50b710dd9250c4b6c6e2eae9bbdf2a1e391f.js" integrity="sha512-LkHwPRHeDV3MGZ3oOSeNS5&#43;pY&#43;1QbZp6avexedrqXuBvZscFaA2PMcZXtMsx7VC3EN2SUMS2xuLq6bvfKh45Hw=="></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-123500360-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+
+    </body>
+</html>

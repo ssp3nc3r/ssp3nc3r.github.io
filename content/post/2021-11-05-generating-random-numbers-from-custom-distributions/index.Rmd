@@ -29,7 +29,7 @@ And the log of the above CDF is,
 $$
 u = 1 - \exp(-\eta (x - \theta)^\lambda)
 $$
-Then, to solve for $u$, we can take the log of each side and solve for $x$^[My favorite book to refresh on basic algebra here is Simmons, George F. Precalculus Mathematics in a Nutshell. Geometry, Algebra, Trigonometry. Eugene OR: Resource Publications, 1987.],
+Then, to solve for $x$, we can take the log of each side and rearrange^[My favorite book to refresh on basic algebra here is Simmons, George F. Precalculus Mathematics in a Nutshell. Geometry, Algebra, Trigonometry. Eugene OR: Resource Publications, 1987.],
 
 $$
 x = \left( \frac{\log(1 - u)}{-\eta} \right)^{\lambda^{-1}} + \theta

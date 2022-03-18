@@ -40,9 +40,9 @@ To code a function that generates a random value from that custom distribution, 
 ```
 functions {
 
-  real weibull_rng(real eta, real lambda, real beta) {
+  real weibull_rng(real eta, real lambda, real theta) {
       real u = uniform_rng(0, 1.0);
-      return ( log(1 - u) / -eta ) ^ inv(lambda) + beta;
+      return ( log(1 - u) / -eta ) ^ inv(lambda) + theta;
   }
 
 }

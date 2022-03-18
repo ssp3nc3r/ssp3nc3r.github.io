@@ -34,9 +34,9 @@ x = \left( \frac{\log(1 - u)}{-\eta} \right)^{\lambda^{-1}} + \theta
 <p>To code a function that generates a random value from that custom distribution, we can write a function inside the function block as before.</p>
 <pre><code>functions {
 
-  real weibull_rng(real eta, real lambda, real beta) {
+  real weibull_rng(real eta, real lambda, real theta) {
       real u = uniform_rng(0, 1.0);
-      return ( log(1 - u) / -eta ) ^ inv(lambda) + beta;
+      return ( log(1 - u) / -eta ) ^ inv(lambda) + theta;
   }
 
 }</code></pre>

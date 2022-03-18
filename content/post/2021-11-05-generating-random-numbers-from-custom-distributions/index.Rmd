@@ -20,7 +20,7 @@ In an earlier post, I explained how to code custom distributions for use in mode
 One direct approach just involves a bit of algebra. As in the earlier post, I'll again use the three-parameter Weibull distribution. Generally, in the first step, we can set the CDF of the distribution equal to a random value from, say, a uniform distribution $u \in [0, 1]$, like so:
 
 $$
-u = f(\cdot)
+u = F(\cdot)
 $$
 and then solve for the data parameter we want to be generated. Let's do this for the three-parameter Weibull:
 

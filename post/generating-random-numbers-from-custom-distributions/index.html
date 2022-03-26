@@ -43,7 +43,7 @@ One direct approach just involves a bit of algebra. As in the earlier post, I’
 <meta itemprop="name" content="Generating random numbers from custom distributions">
 <meta itemprop="description" content="In an earlier post, I explained how to code custom distributions for use in modeling using the programming language Stan. Expanding upon that post, here, I’ll demonstrate how we code a function to generate random values from those distributions.
 One direct approach just involves a bit of algebra. As in the earlier post, I’ll again use the three-parameter Weibull distribution. Generally, in the first step, we can set the CDF of the distribution equal to a random value from, say, a uniform distribution \(u \in [0, 1]\), like so:"><meta itemprop="datePublished" content="2021-11-05T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2022-03-18T19:12:16-04:00" />
+<meta itemprop="dateModified" content="2022-03-18T19:16:51-04:00" />
 <meta itemprop="wordCount" content="240"><meta itemprop="image" content="https://ssp3nc3r.github.io"/>
 <meta itemprop="keywords" content="Stan,Random Numbers,Custom Distributions,Weibull distribution,Extreme value distribution," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://ssp3nc3r.github.io"/>
@@ -174,7 +174,7 @@ x = \left( \frac{\log(1 - u)}{-\eta} \right)^{\lambda^{-1}} + \theta
   				<p>
   					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ssp3nc3r.github.io/tags/stan">Stan</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/random-numbers">Random Numbers</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/custom-distributions">Custom Distributions</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/weibull-distribution">Weibull distribution</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/extreme-value-distribution">Extreme value distribution</a></span>
   				</p>
-			    <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-git-commit"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17.01" y1="12" x2="22.96" y2="12"></line></svg><a href="446e46471c5dea4a02ae7e063a3bb87336cc5010" target="_blank" rel="noopener">446e464</a> @ 2022-03-18</p>
+			    <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-git-commit"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17.01" y1="12" x2="22.96" y2="12"></line></svg><a href="bd53cf78f4bf23142a1e74d5974e1280cde27b64" target="_blank" rel="noopener">bd53cf7</a> @ 2022-03-18</p>
   		</div>
     </main>
 

@@ -1,0 +1,158 @@
+---
+title: Modeling forces in 100m Olympic sprint, a study in physics and probability
+author: Scott Spencer
+date: '2019-06-11'
+slug: estimating-force-of-100m-olympic-sprint-with-physics
+categories: []
+tags:
+  - Running
+  - Olympics
+  - Stan
+  - Physics
+comments: no
+images: ~
+bibliography: references.bib
+---
+
+<link href="{{< blogdown/postref >}}index_files/tabwid/tabwid.css" rel="stylesheet" />
+
+
+<p>Let’s practice expressing a probabilistic model aided by physics. Physics have been used, of course, to mathematically describe the forces involved in running short distances. To estimate sprint speed we can inform our models with basic anatomical information and physics. The mathematical physics of running speed depend on body weight, and stride length and rate. Let’s begin with those.</p>
+<p>Let’s start with physics equations to describe speed, and accelerating to maximum speed. We can express this by considering acceleration per stride, as explained in <span class="citation">Herman (<a href="#ref-hermanPhysicsHumanBody2016" role="doc-biblioref">2016</a>)</span>. Imagine stepping into the starting blocks on a 100m sprint. On the first push with our legs, we accelerate to a speed <span class="math inline">\(v_1\)</span> at the end of the stride from a force <span class="math inline">\(F\)</span> moved by a distance <span class="math inline">\(L\)</span>. To accelerate, we must produce the required work <span class="math inline">\(W\)</span>, as force <span class="math inline">\(F\)</span> times stride length <span class="math inline">\(L\)</span> — all together, <span class="math inline">\(W = FL\)</span> — further expressed by the kinetic energy in our body, <span class="math inline">\(\frac{1}{2}ma\)</span>, or more specifically, <span class="math inline">\(\frac{1}{2}(m_{\text{b}} - 2m_{\text{leg}})v_1^2\)</span>, with one leg in the air <span class="math inline">\(\frac{1}{2}m_{\text{leg}}v_1^2\)</span>. After the first stride, then, we can express our speed or velocity as,</p>
+<p><span class="math display">\[
+v_1^2 = \frac{2FL}{m_{\text{b}}- m_{\text{leg}}}
+\]</span></p>
+<p>In the next stride, we’ve switched feet doing the work, again <span class="math inline">\(FL\)</span>, but accelerate the body from <span class="math inline">\(v_1\)</span> to <span class="math inline">\(v_2\)</span> and the first leg from <span class="math inline">\(0\)</span> to <span class="math inline">\(v_2\)</span>, thus,</p>
+<p><span class="math display">\[
+v_2^2 = \frac{2FL}{m_{\text{b}} - m_{\text{leg}}} \left( 1 + \frac{m_{\text{b}} - 2m_{\text{leg}}}{m_{\text{b}} - m_{\text{leg}}} \right)
+\]</span></p>
+<p>For <span class="math inline">\(n\)</span> strides,</p>
+<p><span class="math display">\[
+v_n^2 = \frac{2FL}{m_{\text{b}} - m_{\text{leg}}} \left( 1 + \frac{m_{\text{b}} - 2m_{\text{leg}}}{m_{\text{b}} - m_{\text{leg}}} + \left( \frac{m_{\text{b}} - 2m_{\text{leg}}}{m_{\text{b}} - m_{\text{leg}}} \right)^2 +\dots+\left( \frac{m_{\text{b}} - 2m_{\text{leg}}}{m_{\text{b}} - m_{\text{leg}}} \right)^n\right)
+\]</span></p>
+<p>Notice that these accelerations follow the pattern of a geometric series <span class="math inline">\(1 + x + x^2 + \dots + x^n = (1 - x^n) / (1 - x)\)</span> for <span class="math inline">\(0 &lt; x &lt; 1\)</span>. Thus, the series approaches a final running velocity of,</p>
+<p><span class="math display">\[
+v_{n \rightarrow \infty}= \sqrt \frac{2FL}{m_{\text{leg}}}
+\]</span></p>
+<p>Empirical studies provide an expected leg mass <span class="math inline">\(m_{\text{leg}}\)</span> around <span class="math inline">\(0.161m_{\text{b}}\)</span> see <span class="citation">Herman (<a href="#ref-hermanPhysicsHumanBody2016" role="doc-biblioref">2016</a>)</span>. As with leg mass, empirical studies have estimated stride length as a function of human height, though stride length will also depend on run technique and generated forces. Those experiments measured stride lengths during short distances between around 1.14 to 1.35 times runner height in meters, see <span class="citation">Rompottie (<a href="#ref-rompottieStudyStrideLength1972" role="doc-biblioref">1972</a>)</span> and <span class="citation">Hoffman (<a href="#ref-hoffmanStatureLegLength1972" role="doc-biblioref">1972</a>)</span>. To estimate a new run speed, we can estimate our force, given observations of previous sprints through modeling.</p>
+<p>Let’s code the beginning of a simplified model that reflects these measures and assumptions using <a href="https://mc-stan.org">Stan</a>, a probabilistic programming language. Take some time to compare the mathematical description above with the code below:</p>
+<pre class="stan"><code>data {
+
+// runner and event information
+
+  int&lt;lower=0&gt; N;          // count runs
+  array[N] int&lt;lower=0&gt; r; // runner index
+  vector&lt;lower=0&gt;[N] t;    // time s
+  vector&lt;lower=0&gt;[N] d;    // distance m
+  vector&lt;lower=0&gt;[N] m;    // body mass kg
+  vector&lt;lower=0&gt;[N] h;    // body height m
+
+}
+
+transformed data {
+  int n_r = max(r);                     // count unique runners
+  vector&lt;lower=0&gt;[N] L = 1.35 * h;      // stride length, m
+  vector&lt;lower=0&gt;[N] m_leg = 0.161 * m; // lifted leg weight, kg
+}
+
+parameters {
+  vector&lt;lower=0&gt;[n_r] F; // force each runner, Newtons (kg m / s^2)
+  real&lt;lower=0&gt; F_pop;    // force population, Newtons (kg m / s^2)
+  real&lt;lower=0&gt; sigma;    // overall variation, m / s
+}
+
+model {
+
+  // priors
+  F_pop ~ normal(250, 20);
+  F ~ normal(F_pop, 50);
+  sigma ~ exponential(5);
+
+  // likelihood  
+  vector[N] mu = sqrt(2 * F[r] .* L ./ m_leg);
+  target += normal_lpdf( d ./ t | mu, sigma);
+}
+
+generated quantities {
+  array[N] real 
+    t_hat = normal_rng(sqrt(2 * F[r] .* L ./ m_leg), sigma);
+}
+</code></pre>
+<p>Let’s fit this simplistic model to, say, winning Olympic male sprinters. We can pull <a href="https://en.wikipedia.org/wiki/100_metres_at_the_Olympics">their race information from Wikipedia</a>, along with each winner’s height and weight from their biographies with the <em>caveat</em> that those anthropometric values are general and <strong>do not</strong> necessarily reflect their height and weight at the time of their winning race. Thus, this model fit is merely illustrative. Here are the data:</p>
+<template id="2fdb570d-8e73-44fd-ba0e-1ef988c4089e"><style>
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+</style><div class="tabwid"><style>.cl-2d865c3e{}.cl-2d7c8808{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-2d7ca176{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-2d7d112e{width:144pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2d7d1138{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2d7d1139{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2d7d113a{width:144pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2d7d1142{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2d7d1143{width:144pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table class='cl-2d865c3e'>
+<thead><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1142"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Year</span></p></td><td class="cl-2d7d1143"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Winner</span></p></td><td class="cl-2d7d1142"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Time</span></p></td><td class="cl-2d7d1142"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Height</span></p></td><td class="cl-2d7d1142"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Weight</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1896</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Tom Burke (USA)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">12</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.83</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">66</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1900</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Frank Jarvis (USA)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">11</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.67</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">58</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1904</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Archie Hahn (USA)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">11</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.67</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">64</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1908</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Reggie Walker (SAF)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">10.8</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.70</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">61</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1912</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Ralph Craig (USA)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">10.8</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.82</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">73</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1920</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Charles Paddock (USA)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">10.8</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.71</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">75</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1924</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Harold Abrahams (GBR)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">10.6</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.83</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">75</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1928</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Percy Williams (CAN)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">10.8</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.70</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">56</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1932</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Eddie Tolan (USA)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">10.38</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.70</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">65</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1936</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Jesse Owens (USA)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">10.3</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.80</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">75</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1948</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Harrison Dillard (USA)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">10.3</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.78</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">69</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1952</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Lindy Remigino (USA)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">10.4</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.68</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">63</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1956</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Bobby Morrow (USA)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">10.5</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.86</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">75</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1960</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Armin Hary (GER)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">10.2</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.82</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">71</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1964</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Bob Hayes (USA)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">10</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.80</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">84</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1968</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Jim Hines (USA)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">9.95</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.83</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">81</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1972</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Valeriy Borzov (URS)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">10.14</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.83</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">80</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1976</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Hasely Crawford (TRI)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">10.06</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.87</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">90</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1980</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Allan Wells (GBR)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">10.25</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.83</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">86</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1984</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Carl Lewis (USA)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">9.99</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.88</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">80</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1988</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Carl Lewis (USA)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">9.92</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.88</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">80</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1992</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Linford Christie (GBR)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">9.96</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.88</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">92</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1996</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Donovan Bailey (CAN)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">9.84</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.85</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">91</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">2000</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Maurice Greene (USA)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">9.87</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.76</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">75</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">2004</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Justin Gatlin (USA)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">9.85</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.85</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">83</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">2008</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Usain Bolt (JAM)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">9.69</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.95</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">94</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">2012</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Usain Bolt (JAM)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">9.63</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.95</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">94</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">2016</span></p></td><td class="cl-2d7d112e"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Usain Bolt (JAM)</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">9.81</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.95</span></p></td><td class="cl-2d7d1138"><p class="cl-2d7ca176"><span class="cl-2d7c8808">94</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2d7d1139"><p class="cl-2d7ca176"><span class="cl-2d7c8808">2021</span></p></td><td class="cl-2d7d113a"><p class="cl-2d7ca176"><span class="cl-2d7c8808">Lamont Marcell Jacobs (ITA)</span></p></td><td class="cl-2d7d1139"><p class="cl-2d7ca176"><span class="cl-2d7c8808">9.8</span></p></td><td class="cl-2d7d1139"><p class="cl-2d7ca176"><span class="cl-2d7c8808">1.86</span></p></td><td class="cl-2d7d1139"><p class="cl-2d7ca176"><span class="cl-2d7c8808">84</span></p></td></tr></tbody></table></div></template>
+<div class="flextable-shadow-host" id="f29497c4-b712-4d19-89bc-a4039d8438f1"></div>
+<script>
+var dest = document.getElementById("f29497c4-b712-4d19-89bc-a4039d8438f1");
+var template = document.getElementById("2fdb570d-8e73-44fd-ba0e-1ef988c4089e");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+</script>
+
+<p>Let’s fit the model with these data.</p>
+<p>Running a posterior predictive check, we find that our estimates include the data:</p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Here are our estimates of the forces each winner produced:</p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Now, in this simplified example, I included prior experimental values for leg mass <span class="math inline">\(m_{\text{leg}}\)</span> and stride length <span class="math inline">\(L\)</span>, but these are not precise for our particular sprinters. We can propagate variation and uncertainty in these by estimating them as random variables, informed by past observations. Further, the prior information assigned was illustrative, and not informative. With more care in those priors, we can more accurately model these forces. Of note, we estimated each winner’s forces as separate parameters, informed by a hyper-prior of the average forces generated by the population.</p>
+<p>What can we use these parameters for? Well, we might draw from a particular winner’s estimates to see what a new race may have resulted in. Or we may use the population information to estimate what a new winning sprinter may have generated. But, certainly, there are limitations in the use of this model as is. If we were to extend the model, better uses might be to try to include models for, say, maximum expected forces possible in tomorrow’s Olympic races. To get started, consider some ideas in <span class="citation">Noubary (<a href="#ref-noubaryWhatSpeedLimit2010" role="doc-biblioref">2010</a>)</span>. Or we may consider including models of change in runner forces as they age.</p>
+<p>Stay curious.</p>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-hermanPhysicsHumanBody2016" class="csl-entry">
+Herman, Irving P. 2016. <em>Physics of the <span>Human Body</span></em>. Second. Biological and <span>Medical Physics</span>, <span>Biomedical Engineering</span>. <span>Switzerland</span>: <span>Springer International Publishing</span>. <a href="https://doi.org/10.1007/978-3-319-23932-3">https://doi.org/10.1007/978-3-319-23932-3</a>.
+</div>
+<div id="ref-hoffmanStatureLegLength1972" class="csl-entry">
+Hoffman, K. 1972. <span>“Stature, Leg Length, and Stride Frequency.”</span> <em>Track Technique</em>, no. 46: 1463–69.
+</div>
+<div id="ref-noubaryWhatSpeedLimit2010" class="csl-entry">
+Noubary, Reza. 2010. <span>“What Is the <span>Speed Limit</span> for <span>Men</span>’s 100 <span>Meter Dash</span>.”</span> In <em>Mathematics and Sports</em>, edited by Joseph A. Gallian, 287–94. Dolciani Mathematical Expositions, no. 43. <span>Washington, DC</span>: <span>Mathematical Association of America</span>.
+</div>
+<div id="ref-rompottieStudyStrideLength1972" class="csl-entry">
+Rompottie, K. 1972. <span>“A Study of Stride Length in Running.”</span> <em>International Track and Field</em>, 249–56.
+</div>
+</div>
+</div>

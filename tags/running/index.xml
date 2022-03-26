@@ -17,5 +17,15 @@
  We’ve been recording progress towards those limits, whatever they are, for some time. World records have been collected for running distances, from 50 meters on an indoor track to marathons and beyond.</description>
     </item>
     
+    <item>
+      <title>Modeling forces in 100m Olympic sprint, a study in physics and probability</title>
+      <link>https://ssp3nc3r.github.io/post/estimating-force-of-100m-olympic-sprint-with-physics/</link>
+      <pubDate>Tue, 11 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://ssp3nc3r.github.io/post/estimating-force-of-100m-olympic-sprint-with-physics/</guid>
+      <description>Let’s practice expressing a probabilistic model aided by physics. Physics have been used, of course, to mathematically describe the forces involved in running short distances. To estimate sprint speed we can inform our models with basic anatomical information and physics. The mathematical physics of running speed depend on body weight, and stride length and rate. Let’s begin with those.
+Let’s start with physics equations to describe speed, and accelerating to maximum speed.</description>
+    </item>
+    
   </channel>
 </rss>

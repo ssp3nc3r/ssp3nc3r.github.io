@@ -8,7 +8,7 @@ PygmentsStyle = "monokai"
 
 copyright = "" # This message is only used by the RSS template.
 
-googleAnalytics = "UA-123500360-1"
+googleAnalytics = "G-1V94CLF78W"
 
 archetypeDir = "archetypes"
 contentDir   = "content"

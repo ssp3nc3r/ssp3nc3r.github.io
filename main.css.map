@@ -1,7 +1,7 @@
 {
 	"version": 3,
 	"file": "main.css",
-	"sourceRoot": "/Users/ssp3nc3r/Documents/GitHub/ssp3nc3r.github.io",
+	"sourceRoot": "/Volumes/PRO-BLADE/GitHub/sas/ssp3nc3r.github.io",
 	"sources": [
 		"themes/hugo-theme-hello-friend-ng/assets/scss/main.scss",
 		"themes/hugo-theme-hello-friend-ng/assets/scss/_normalize.scss",

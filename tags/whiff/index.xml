@@ -5,6 +5,7 @@
     <link>https://ssp3nc3r.github.io/tags/whiff/</link>
     <description>Recent content in Whiff on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
     <lastBuildDate>Sat, 01 Sep 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/whiff/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Jointly modeling choice to swing with ball contact</title>
@@ -12,7 +13,7 @@
       <pubDate>Sat, 01 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>https://ssp3nc3r.github.io/post/jointly-modeling-choice-to-swing-with-ball-contact/</guid>
-      <description>Modeling batters’ choices to swing and abilities to contact the ball Variables informing the probability of swinging (the selection submodel) Variables informing probability of contacting the ball (the outcome submodel) Initial joint model  References   Modeling batters’ choices to swing and abilities to contact the ball Models for decisions to swing and ball contact are more nuanced than a model for called pitches (see Modeling Umpire Calls).</description>
+      <description>Modeling batters’ choices to swing and abilities to contact the ball Variables informing the probability of swinging (the selection submodel) Variables informing probability of contacting the ball (the outcome submodel) Initial joint model References Modeling batters’ choices to swing and abilities to contact the ball Models for decisions to swing and ball contact are more nuanced than a model for called pitches (see Modeling Umpire Calls). Batters’ abilities to contact the ball at a given pitch location are presumably not independent of their decisions to swing.</description>
     </item>
     
     <item>
@@ -22,7 +23,7 @@
       
       <guid>https://ssp3nc3r.github.io/post/2017-08-04-contours-of-batter-comparisons/</guid>
       <description>Through the eyes of writer Roger Kahn, we’ve witnessed major league pitchers working to fool batters for ages. Regarding one Brooklyn Dodgers pitcher,
- “Dazzy Vance in his prime had a different trick,” [Kahn’s] father said. “For seven years he was the best strikeout pitcher in the league. Vance wore a long undershirt and he took a scissors and cut slits in the right sleeve. It ran clear down to the wrist.</description>
+“Dazzy Vance in his prime had a different trick,” [Kahn’s] father said. “For seven years he was the best strikeout pitcher in the league. Vance wore a long undershirt and he took a scissors and cut slits in the right sleeve. It ran clear down to the wrist.</description>
     </item>
     
   </channel>

@@ -5,6 +5,7 @@
     <link>https://ssp3nc3r.github.io/tags/bayes/</link>
     <description>Recent content in Bayes on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
     <lastBuildDate>Thu, 10 Oct 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/bayes/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Estimating human limits of running speed</title>
@@ -14,7 +15,7 @@
       <guid>https://ssp3nc3r.github.io/post/estimating-human-limits-to-running-speed/</guid>
       <description>Prefontaine “finally got it through my head that the real purpose of running isn’t to win a race. It’s to test the limits of the human heart. And that he did. Nobody did it more often. Nobody did it better.”
 — Bill Bowerman.
- We’ve been recording progress towards those limits, whatever they are, for some time. World records have been collected for running distances, from 50 meters on an indoor track to marathons and beyond.</description>
+We’ve been recording progress towards those limits, whatever they are, for some time. World records have been collected for running distances, from 50 meters on an indoor track to marathons and beyond.</description>
     </item>
     
     <item>
@@ -32,7 +33,7 @@
       <pubDate>Sun, 03 Dec 2017 00:00:00 +0000</pubDate>
       
       <guid>https://ssp3nc3r.github.io/post/2017-12-03-run-expectancy-distributions/</guid>
-      <description>Team wins—a chain of player events Data and sources for estimating run expectancies Calculate runs scored after every game state of a half inning Estimating run expectancy Preserving and understanding uncertainty of our estimates In half innings, more runs occur less frequently Building a bayesian run expectancy model Model summary The median run expectancy matrix    Team wins—a chain of player events The performance of a baseball player includes numerous on-field (and off-field) activities, roughly divided into skills of offensive (e.</description>
+      <description>Team wins—a chain of player events Data and sources for estimating run expectancies Calculate runs scored after every game state of a half inning Estimating run expectancy Preserving and understanding uncertainty of our estimates In half innings, more runs occur less frequently Building a bayesian run expectancy model Model summary The median run expectancy matrix Team wins—a chain of player events The performance of a baseball player includes numerous on-field (and off-field) activities, roughly divided into skills of offensive (e.</description>
     </item>
     
     <item>
@@ -42,7 +43,7 @@
       
       <guid>https://ssp3nc3r.github.io/post/2017-08-04-contours-of-batter-comparisons/</guid>
       <description>Through the eyes of writer Roger Kahn, we’ve witnessed major league pitchers working to fool batters for ages. Regarding one Brooklyn Dodgers pitcher,
- “Dazzy Vance in his prime had a different trick,” [Kahn’s] father said. “For seven years he was the best strikeout pitcher in the league. Vance wore a long undershirt and he took a scissors and cut slits in the right sleeve. It ran clear down to the wrist.</description>
+“Dazzy Vance in his prime had a different trick,” [Kahn’s] father said. “For seven years he was the best strikeout pitcher in the league. Vance wore a long undershirt and he took a scissors and cut slits in the right sleeve. It ran clear down to the wrist.</description>
     </item>
     
   </channel>

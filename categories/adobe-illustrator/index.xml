@@ -5,6 +5,7 @@
     <link>https://ssp3nc3r.github.io/categories/adobe-illustrator/</link>
     <description>Recent content in Adobe Illustrator on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
     <lastBuildDate>Thu, 28 Feb 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/categories/adobe-illustrator/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Exploring CitiBike ride data</title>
@@ -12,7 +13,7 @@
       <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>https://ssp3nc3r.github.io/post/exploring-citibike-ride-data/</guid>
-      <description>Background The Challenge How can we identify causes, relationships One approach for this analysis Identified data of measurements CitiBike ride data Alternative transportation data Weather information Traffic information  Beginning data exploration — daily bike usage   Background In 2013, the NYC Department of Transportation sought to start a bike share to reduce emissions, road wear, congestion, and improve public health.
+      <description>Background The Challenge How can we identify causes, relationships One approach for this analysis Identified data of measurements CitiBike ride data Alternative transportation data Weather information Traffic information Beginning data exploration — daily bike usage Background In 2013, the NYC Department of Transportation sought to start a bike share to reduce emissions, road wear, congestion, and improve public health.
 After selecting an operator and sponsor, the Citi Bike bike share was established with a bike fleet distributed over a network of docking stations throughout the city.</description>
     </item>
     

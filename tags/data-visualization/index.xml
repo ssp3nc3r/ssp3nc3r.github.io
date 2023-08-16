@@ -5,6 +5,7 @@
     <link>https://ssp3nc3r.github.io/tags/data-visualization/</link>
     <description>Recent content in Data Visualization on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
     <lastBuildDate>Wed, 08 Apr 2020 14:23:00 -0400</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/data-visualization/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Create and encode custom glyphs from an SVG path</title>
@@ -49,7 +50,7 @@ To install, you will need a working toolchain on your computer for compiling C++
       <pubDate>Fri, 15 Mar 2019 00:00:00 +0000</pubDate>
       
       <guid>https://ssp3nc3r.github.io/post/approximating-the-components-of-lupi-s-nobel-no-degrees/</guid>
-      <description>Exemplary, award-winning information graphic Approximating the reference in R An exercise in design using R Data for Lupi’s display Main display of points and lines Per-category histograms or bar charts Per-era stacked bar charts Sankey diagram  Next steps References   Exemplary, award-winning information graphic Giorgia Lupi is a master at designing information for visual narrative — telling stories through visualization. Her portfolio includes a series of exploratory data visualizations published for the largest circulating Italian newspaper, La Lettura.</description>
+      <description>Exemplary, award-winning information graphic Approximating the reference in R An exercise in design using R Data for Lupi’s display Main display of points and lines Per-category histograms or bar charts Per-era stacked bar charts Sankey diagram Next steps References Exemplary, award-winning information graphic Giorgia Lupi is a master at designing information for visual narrative — telling stories through visualization. Her portfolio includes a series of exploratory data visualizations published for the largest circulating Italian newspaper, La Lettura.</description>
     </item>
     
     <item>
@@ -58,7 +59,7 @@ To install, you will need a working toolchain on your computer for compiling C++
       <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>https://ssp3nc3r.github.io/post/exploring-citibike-ride-data/</guid>
-      <description>Background The Challenge How can we identify causes, relationships One approach for this analysis Identified data of measurements CitiBike ride data Alternative transportation data Weather information Traffic information  Beginning data exploration — daily bike usage   Background In 2013, the NYC Department of Transportation sought to start a bike share to reduce emissions, road wear, congestion, and improve public health.
+      <description>Background The Challenge How can we identify causes, relationships One approach for this analysis Identified data of measurements CitiBike ride data Alternative transportation data Weather information Traffic information Beginning data exploration — daily bike usage Background In 2013, the NYC Department of Transportation sought to start a bike share to reduce emissions, road wear, congestion, and improve public health.
 After selecting an operator and sponsor, the Citi Bike bike share was established with a bike fleet distributed over a network of docking stations throughout the city.</description>
     </item>
     
@@ -77,7 +78,7 @@ After selecting an operator and sponsor, the Citi Bike bike share was establishe
       <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
       
       <guid>https://ssp3nc3r.github.io/post/visual-exploration-of-starting-pitcher-duration/</guid>
-      <description>Introduction Exploring influence of times-through-the-order on manager decisions Describing survival with a life table Modeling survival with conditional logistic regression  Exploring game states (context) on pitcher survival Runs accumulated Baserunners accumulated Outs in the half-inning Platooned matchups Pitch count  Further work Appendix Variables as cleaned for these analyses References   Introduction This analysis explores major league baseball decisions of when starting pitchers are removed from the game.</description>
+      <description>Introduction Exploring influence of times-through-the-order on manager decisions Describing survival with a life table Modeling survival with conditional logistic regression Exploring game states (context) on pitcher survival Runs accumulated Baserunners accumulated Outs in the half-inning Platooned matchups Pitch count Further work Appendix Variables as cleaned for these analyses References Introduction This analysis explores major league baseball decisions of when starting pitchers are removed from the game. Baseball, among other wonderful things, is a collection of discrete events measured in time.</description>
     </item>
     
     <item>
@@ -86,7 +87,7 @@ After selecting an operator and sponsor, the Citi Bike bike share was establishe
       <pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate>
       
       <guid>https://ssp3nc3r.github.io/post/toeing-the-line-altuve-and-trout/</guid>
-      <description>Analysis Load and combine data Summarise and prepare data Getting running speed from timestamped coordinates Define variables Graphical overview of coordinates and running speeds Scenario 1: times to first when attempting a double Scenario 2: batters trying to beat a throw to first  Conclusions and Next Steps   In these analyzed data, described below, Trout demonstrated slightly higher expected footspeed and slightly shorter expected times to first base than did Altuve; although their performance is close and we expect a near toss up, given the data used, as to who comes out ahead on any given play.</description>
+      <description>Analysis Load and combine data Summarise and prepare data Getting running speed from timestamped coordinates Define variables Graphical overview of coordinates and running speeds Scenario 1: times to first when attempting a double Scenario 2: batters trying to beat a throw to first Conclusions and Next Steps In these analyzed data, described below, Trout demonstrated slightly higher expected footspeed and slightly shorter expected times to first base than did Altuve; although their performance is close and we expect a near toss up, given the data used, as to who comes out ahead on any given play.</description>
     </item>
     
     <item>
@@ -95,7 +96,7 @@ After selecting an operator and sponsor, the Citi Bike bike share was establishe
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>https://ssp3nc3r.github.io/post/2018-01-08-languages-behind-statistical-learning/</guid>
-      <description>R Markdown—a tool for reproducible reporting From mathematical notation to R Linear Algebra Calculus Probability Distributions Regression  Optimization Gradient descent Simplex method  Algorithms  Data and model visualization Organizing Data Closing   “Can A.I. Be Taught to Explain Itself?” That’s the question recently posed in The New York Times Magazine. A search uncovered helpful references — An Introduction to Statistical Learning with Applications in R and The Elements of Statistical Learning, for example — but none with A.</description>
+      <description>R Markdown—a tool for reproducible reporting From mathematical notation to R Linear Algebra Calculus Probability Distributions Regression Optimization Gradient descent Simplex method Algorithms Data and model visualization Organizing Data Closing “Can A.I. Be Taught to Explain Itself?” That’s the question recently posed in The New York Times Magazine. A search uncovered helpful references — An Introduction to Statistical Learning with Applications in R and The Elements of Statistical Learning, for example — but none with A.</description>
     </item>
     
   </channel>

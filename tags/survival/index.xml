@@ -5,6 +5,7 @@
     <link>https://ssp3nc3r.github.io/tags/survival/</link>
     <description>Recent content in Survival on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
     <lastBuildDate>Wed, 09 May 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/survival/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Visual exploration of starting pitcher duration</title>
@@ -12,7 +13,7 @@
       <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
       
       <guid>https://ssp3nc3r.github.io/post/visual-exploration-of-starting-pitcher-duration/</guid>
-      <description>Introduction Exploring influence of times-through-the-order on manager decisions Describing survival with a life table Modeling survival with conditional logistic regression  Exploring game states (context) on pitcher survival Runs accumulated Baserunners accumulated Outs in the half-inning Platooned matchups Pitch count  Further work Appendix Variables as cleaned for these analyses References   Introduction This analysis explores major league baseball decisions of when starting pitchers are removed from the game.</description>
+      <description>Introduction Exploring influence of times-through-the-order on manager decisions Describing survival with a life table Modeling survival with conditional logistic regression Exploring game states (context) on pitcher survival Runs accumulated Baserunners accumulated Outs in the half-inning Platooned matchups Pitch count Further work Appendix Variables as cleaned for these analyses References Introduction This analysis explores major league baseball decisions of when starting pitchers are removed from the game. Baseball, among other wonderful things, is a collection of discrete events measured in time.</description>
     </item>
     
   </channel>

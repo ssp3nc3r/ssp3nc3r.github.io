@@ -5,6 +5,7 @@
     <link>https://ssp3nc3r.github.io/post/</link>
     <description>Recent content in Posts on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
     <lastBuildDate>Fri, 05 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Generating random numbers from custom distributions</title>
@@ -90,7 +91,7 @@ To draw more fans, consider the words of famed economist Simon Rotternberg, who 
       <guid>https://ssp3nc3r.github.io/post/estimating-human-limits-to-running-speed/</guid>
       <description>Prefontaine “finally got it through my head that the real purpose of running isn’t to win a race. It’s to test the limits of the human heart. And that he did. Nobody did it more often. Nobody did it better.”
 — Bill Bowerman.
- We’ve been recording progress towards those limits, whatever they are, for some time. World records have been collected for running distances, from 50 meters on an indoor track to marathons and beyond.</description>
+We’ve been recording progress towards those limits, whatever they are, for some time. World records have been collected for running distances, from 50 meters on an indoor track to marathons and beyond.</description>
     </item>
     
     <item>
@@ -127,7 +128,7 @@ Let’s start with physics equations to describe speed, and accelerating to maxi
       <pubDate>Fri, 15 Mar 2019 00:00:00 +0000</pubDate>
       
       <guid>https://ssp3nc3r.github.io/post/approximating-the-components-of-lupi-s-nobel-no-degrees/</guid>
-      <description>Exemplary, award-winning information graphic Approximating the reference in R An exercise in design using R Data for Lupi’s display Main display of points and lines Per-category histograms or bar charts Per-era stacked bar charts Sankey diagram  Next steps References   Exemplary, award-winning information graphic Giorgia Lupi is a master at designing information for visual narrative — telling stories through visualization. Her portfolio includes a series of exploratory data visualizations published for the largest circulating Italian newspaper, La Lettura.</description>
+      <description>Exemplary, award-winning information graphic Approximating the reference in R An exercise in design using R Data for Lupi’s display Main display of points and lines Per-category histograms or bar charts Per-era stacked bar charts Sankey diagram Next steps References Exemplary, award-winning information graphic Giorgia Lupi is a master at designing information for visual narrative — telling stories through visualization. Her portfolio includes a series of exploratory data visualizations published for the largest circulating Italian newspaper, La Lettura.</description>
     </item>
     
     <item>
@@ -136,7 +137,7 @@ Let’s start with physics equations to describe speed, and accelerating to maxi
       <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>https://ssp3nc3r.github.io/post/exploring-citibike-ride-data/</guid>
-      <description>Background The Challenge How can we identify causes, relationships One approach for this analysis Identified data of measurements CitiBike ride data Alternative transportation data Weather information Traffic information  Beginning data exploration — daily bike usage   Background In 2013, the NYC Department of Transportation sought to start a bike share to reduce emissions, road wear, congestion, and improve public health.
+      <description>Background The Challenge How can we identify causes, relationships One approach for this analysis Identified data of measurements CitiBike ride data Alternative transportation data Weather information Traffic information Beginning data exploration — daily bike usage Background In 2013, the NYC Department of Transportation sought to start a bike share to reduce emissions, road wear, congestion, and improve public health.
 After selecting an operator and sponsor, the Citi Bike bike share was established with a bike fleet distributed over a network of docking stations throughout the city.</description>
     </item>
     
@@ -146,7 +147,7 @@ After selecting an operator and sponsor, the Citi Bike bike share was establishe
       <pubDate>Thu, 03 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>https://ssp3nc3r.github.io/post/scoping-a-data-analytics-project/</guid>
-      <description>Scoping an analytics project Defining goals, actions, and problems Identifying accessible data Identifying the analyses and tools Estimating time constraints and finances Writing to clarify and communicate Examples of writeups about projects and workflow  References   Scoping an analytics project Here is the wrong way to think about a data analytics project: begin with some data, apply tools you are familiar, and stop when you find something to talk about.</description>
+      <description>Scoping an analytics project Defining goals, actions, and problems Identifying accessible data Identifying the analyses and tools Estimating time constraints and finances Writing to clarify and communicate Examples of writeups about projects and workflow References Scoping an analytics project Here is the wrong way to think about a data analytics project: begin with some data, apply tools you are familiar, and stop when you find something to talk about. This approach gets the concept backwards.</description>
     </item>
     
     <item>
@@ -182,7 +183,7 @@ After selecting an operator and sponsor, the Citi Bike bike share was establishe
       <pubDate>Sat, 01 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>https://ssp3nc3r.github.io/post/jointly-modeling-choice-to-swing-with-ball-contact/</guid>
-      <description>Modeling batters’ choices to swing and abilities to contact the ball Variables informing the probability of swinging (the selection submodel) Variables informing probability of contacting the ball (the outcome submodel) Initial joint model  References   Modeling batters’ choices to swing and abilities to contact the ball Models for decisions to swing and ball contact are more nuanced than a model for called pitches (see Modeling Umpire Calls).</description>
+      <description>Modeling batters’ choices to swing and abilities to contact the ball Variables informing the probability of swinging (the selection submodel) Variables informing probability of contacting the ball (the outcome submodel) Initial joint model References Modeling batters’ choices to swing and abilities to contact the ball Models for decisions to swing and ball contact are more nuanced than a model for called pitches (see Modeling Umpire Calls). Batters’ abilities to contact the ball at a given pitch location are presumably not independent of their decisions to swing.</description>
     </item>
     
     <item>
@@ -200,7 +201,7 @@ After selecting an operator and sponsor, the Citi Bike bike share was establishe
       <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
       
       <guid>https://ssp3nc3r.github.io/post/visual-exploration-of-starting-pitcher-duration/</guid>
-      <description>Introduction Exploring influence of times-through-the-order on manager decisions Describing survival with a life table Modeling survival with conditional logistic regression  Exploring game states (context) on pitcher survival Runs accumulated Baserunners accumulated Outs in the half-inning Platooned matchups Pitch count  Further work Appendix Variables as cleaned for these analyses References   Introduction This analysis explores major league baseball decisions of when starting pitchers are removed from the game.</description>
+      <description>Introduction Exploring influence of times-through-the-order on manager decisions Describing survival with a life table Modeling survival with conditional logistic regression Exploring game states (context) on pitcher survival Runs accumulated Baserunners accumulated Outs in the half-inning Platooned matchups Pitch count Further work Appendix Variables as cleaned for these analyses References Introduction This analysis explores major league baseball decisions of when starting pitchers are removed from the game. Baseball, among other wonderful things, is a collection of discrete events measured in time.</description>
     </item>
     
     <item>
@@ -209,7 +210,7 @@ After selecting an operator and sponsor, the Citi Bike bike share was establishe
       <pubDate>Wed, 25 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>https://ssp3nc3r.github.io/post/modeling-umpire-calls/</guid>
-      <description>Introduction Batting and pitching data from Major League Baseball Advance Media Modeling called strike probabilities Previous work General model description Called strike probabilities modeled in Stan Model diagnostics Called strike probability predictions from the modeled posterior  Bibliography   Introduction The goal of baseball pitchers — when contributing to team defense — is to put out batters. Two ways are (mostly) within the pitchers’ control. They may earn a called strike or a swinging strike.</description>
+      <description>Introduction Batting and pitching data from Major League Baseball Advance Media Modeling called strike probabilities Previous work General model description Called strike probabilities modeled in Stan Model diagnostics Called strike probability predictions from the modeled posterior Bibliography Introduction The goal of baseball pitchers — when contributing to team defense — is to put out batters. Two ways are (mostly) within the pitchers’ control. They may earn a called strike or a swinging strike.</description>
     </item>
     
     <item>
@@ -218,7 +219,7 @@ After selecting an operator and sponsor, the Citi Bike bike share was establishe
       <pubDate>Thu, 05 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>https://ssp3nc3r.github.io/post/neural-networks-the-real-basics/</guid>
-      <description>From logistic regression to a neural net Fitting a logistic regression in R Basic Neural network Forward propogation Back propogation Training the network Our neural network  Bibliography   From logistic regression to a neural net With all the terminology and perhaps unfamiliar looking plots designed to resemble the inner workings of a brain, neural networks may seem confusing. So let’s bypass all the jargon and such for a few minutes.</description>
+      <description>From logistic regression to a neural net Fitting a logistic regression in R Basic Neural network Forward propogation Back propogation Training the network Our neural network Bibliography From logistic regression to a neural net With all the terminology and perhaps unfamiliar looking plots designed to resemble the inner workings of a brain, neural networks may seem confusing. So let’s bypass all the jargon and such for a few minutes. A basic neural network can be thought of as just chaining together regressions that use a nonlinear function to transform \(\boldsymbol{X}\).</description>
     </item>
     
     <item>
@@ -227,7 +228,7 @@ After selecting an operator and sponsor, the Citi Bike bike share was establishe
       <pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate>
       
       <guid>https://ssp3nc3r.github.io/post/toeing-the-line-altuve-and-trout/</guid>
-      <description>Analysis Load and combine data Summarise and prepare data Getting running speed from timestamped coordinates Define variables Graphical overview of coordinates and running speeds Scenario 1: times to first when attempting a double Scenario 2: batters trying to beat a throw to first  Conclusions and Next Steps   In these analyzed data, described below, Trout demonstrated slightly higher expected footspeed and slightly shorter expected times to first base than did Altuve; although their performance is close and we expect a near toss up, given the data used, as to who comes out ahead on any given play.</description>
+      <description>Analysis Load and combine data Summarise and prepare data Getting running speed from timestamped coordinates Define variables Graphical overview of coordinates and running speeds Scenario 1: times to first when attempting a double Scenario 2: batters trying to beat a throw to first Conclusions and Next Steps In these analyzed data, described below, Trout demonstrated slightly higher expected footspeed and slightly shorter expected times to first base than did Altuve; although their performance is close and we expect a near toss up, given the data used, as to who comes out ahead on any given play.</description>
     </item>
     
     <item>
@@ -236,7 +237,7 @@ After selecting an operator and sponsor, the Citi Bike bike share was establishe
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>https://ssp3nc3r.github.io/post/2018-01-08-languages-behind-statistical-learning/</guid>
-      <description>R Markdown—a tool for reproducible reporting From mathematical notation to R Linear Algebra Calculus Probability Distributions Regression  Optimization Gradient descent Simplex method  Algorithms  Data and model visualization Organizing Data Closing   “Can A.I. Be Taught to Explain Itself?” That’s the question recently posed in The New York Times Magazine. A search uncovered helpful references — An Introduction to Statistical Learning with Applications in R and The Elements of Statistical Learning, for example — but none with A.</description>
+      <description>R Markdown—a tool for reproducible reporting From mathematical notation to R Linear Algebra Calculus Probability Distributions Regression Optimization Gradient descent Simplex method Algorithms Data and model visualization Organizing Data Closing “Can A.I. Be Taught to Explain Itself?” That’s the question recently posed in The New York Times Magazine. A search uncovered helpful references — An Introduction to Statistical Learning with Applications in R and The Elements of Statistical Learning, for example — but none with A.</description>
     </item>
     
     <item>
@@ -245,7 +246,7 @@ After selecting an operator and sponsor, the Citi Bike bike share was establishe
       <pubDate>Sun, 03 Dec 2017 00:00:00 +0000</pubDate>
       
       <guid>https://ssp3nc3r.github.io/post/2017-12-03-run-expectancy-distributions/</guid>
-      <description>Team wins—a chain of player events Data and sources for estimating run expectancies Calculate runs scored after every game state of a half inning Estimating run expectancy Preserving and understanding uncertainty of our estimates In half innings, more runs occur less frequently Building a bayesian run expectancy model Model summary The median run expectancy matrix    Team wins—a chain of player events The performance of a baseball player includes numerous on-field (and off-field) activities, roughly divided into skills of offensive (e.</description>
+      <description>Team wins—a chain of player events Data and sources for estimating run expectancies Calculate runs scored after every game state of a half inning Estimating run expectancy Preserving and understanding uncertainty of our estimates In half innings, more runs occur less frequently Building a bayesian run expectancy model Model summary The median run expectancy matrix Team wins—a chain of player events The performance of a baseball player includes numerous on-field (and off-field) activities, roughly divided into skills of offensive (e.</description>
     </item>
     
     <item>
@@ -254,7 +255,7 @@ After selecting an operator and sponsor, the Citi Bike bike share was establishe
       <pubDate>Fri, 24 Nov 2017 00:00:00 +0000</pubDate>
       
       <guid>https://ssp3nc3r.github.io/post/trading-stanton-a-modeling-sketch/</guid>
-      <description>Forecast of Giancarlo Stanton’s Expected Surplus Value Summary Estimate player past performance as Wins Over Replacement Forecasting WAR with a hierarchical model in Stan Dollars Per WAR on the Free-Agent Market Unadjusted surplus value Appendix: Stan Model for Forcasting WAR    Forecast of Giancarlo Stanton’s Expected Surplus Value Summary In most analyses, I would normally lead with the conclusion—here, surplus value. But, as the perceived goals of analysis are evaluating, well, the analysis, I’ll start with my methods.</description>
+      <description>Forecast of Giancarlo Stanton’s Expected Surplus Value Summary Estimate player past performance as Wins Over Replacement Forecasting WAR with a hierarchical model in Stan Dollars Per WAR on the Free-Agent Market Unadjusted surplus value Appendix: Stan Model for Forcasting WAR Forecast of Giancarlo Stanton’s Expected Surplus Value Summary In most analyses, I would normally lead with the conclusion—here, surplus value. But, as the perceived goals of analysis are evaluating, well, the analysis, I’ll start with my methods.</description>
     </item>
     
     <item>
@@ -264,7 +265,7 @@ After selecting an operator and sponsor, the Citi Bike bike share was establishe
       
       <guid>https://ssp3nc3r.github.io/post/2017-08-04-contours-of-batter-comparisons/</guid>
       <description>Through the eyes of writer Roger Kahn, we’ve witnessed major league pitchers working to fool batters for ages. Regarding one Brooklyn Dodgers pitcher,
- “Dazzy Vance in his prime had a different trick,” [Kahn’s] father said. “For seven years he was the best strikeout pitcher in the league. Vance wore a long undershirt and he took a scissors and cut slits in the right sleeve. It ran clear down to the wrist.</description>
+“Dazzy Vance in his prime had a different trick,” [Kahn’s] father said. “For seven years he was the best strikeout pitcher in the league. Vance wore a long undershirt and he took a scissors and cut slits in the right sleeve. It ran clear down to the wrist.</description>
     </item>
     
   </channel>

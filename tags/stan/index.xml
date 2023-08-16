@@ -6,7 +6,17 @@
     <description>Recent content in Stan on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 05 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/stan/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 16 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/stan/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Speedy splines in Stan</title>
+      <link>https://ssp3nc3r.github.io/post/speedy-splines-in-stan/</link>
+      <pubDate>Wed, 16 Aug 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://ssp3nc3r.github.io/post/speedy-splines-in-stan/</guid>
+      <description>Milad Kharratzadeh provides a helpful case study on estimating splines in Stan. We can improve on his work with a few tricks to speed up the estimation process. Namely, if we decompose the spline matrix using QR decomposition, we speed up Stan’s fitting process by at least an order of magnitude.
+Here’s how we can alter the code to accommodate splines with a few tricks to speed things up:</description>
+    </item>
+    
     <item>
       <title>Generating random numbers from custom distributions</title>
       <link>https://ssp3nc3r.github.io/post/generating-random-numbers-from-custom-distributions/</link>

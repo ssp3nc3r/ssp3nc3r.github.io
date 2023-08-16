@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Scott Spencer">
+<meta name="description" content="Milad Kharratzadeh provides a helpful case study on estimating splines in Stan. We can improve on his work with a few tricks to speed up the estimation process. Namely, if we decompose the spline matrix using QR decomposition, we speed up Stan’s fitting process by at least an order of magnitude.
+Here’s how we can alter the code to accommodate splines with a few tricks to speed things up:" />
+<meta name="keywords" content="Scott Spencer, statistical, generative modeling, bayesian inference, writing, data visualization, sports, columbia university, Stan" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="https://ssp3nc3r.github.io/post/speedy-splines-in-stan/" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1V94CLF78W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1V94CLF78W');
+</script>
+
+
+    <title>
+        
+            Speedy splines in Stan :: p( ssp3nc3r | Columbian ) 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.d235e788b40b442aba9cd6c69fdc330353b2dec27dcbc4235961469d2155f5a9.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://ssp3nc3r.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://ssp3nc3r.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://ssp3nc3r.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://ssp3nc3r.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://ssp3nc3r.github.io/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="https://ssp3nc3r.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+<meta itemprop="name" content="Speedy splines in Stan">
+<meta itemprop="description" content="Milad Kharratzadeh provides a helpful case study on estimating splines in Stan. We can improve on his work with a few tricks to speed up the estimation process. Namely, if we decompose the spline matrix using QR decomposition, we speed up Stan’s fitting process by at least an order of magnitude.
+Here’s how we can alter the code to accommodate splines with a few tricks to speed things up:"><meta itemprop="datePublished" content="2023-08-16T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2023-08-16T19:01:05-04:00" />
+<meta itemprop="wordCount" content="771"><meta itemprop="image" content="https://ssp3nc3r.github.io"/>
+<meta itemprop="keywords" content="Stan," /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://ssp3nc3r.github.io"/>
+
+<meta name="twitter:title" content="Speedy splines in Stan"/>
+<meta name="twitter:description" content="Milad Kharratzadeh provides a helpful case study on estimating splines in Stan. We can improve on his work with a few tricks to speed up the estimation process. Namely, if we decompose the spline matrix using QR decomposition, we speed up Stan’s fitting process by at least an order of magnitude.
+Here’s how we can alter the code to accommodate splines with a few tricks to speed things up:"/>
+
+
+
+    <meta property="article:section" content="Stan" />
+
+
+
+    <meta property="article:published_time" content="2023-08-16 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://ssp3nc3r.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#67a2c9;
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://ssp3nc3r.github.io/about/">About</a></li><li><a href="https://ssp3nc3r.github.io/post/">Blog</a></li><li><a href="https://ssp3nc3r.github.io/publications/">Publications</a></li><li><a href="https://ssp3nc3r.github.io/teaching/">Teaching</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://ssp3nc3r.github.io/post/speedy-splines-in-stan/">Speedy splines in Stan</a></h2>
+
+            
+
+            <div class="post-content">
+                
+
+
+<p>Milad Kharratzadeh provides a helpful <a href="https://mc-stan.org/users/documentation/case-studies/splines_in_stan.html">case study</a> on estimating splines in Stan. We can improve on his work with a few tricks to speed up the estimation process. Namely, if we decompose the spline matrix using QR decomposition, we speed up Stan’s fitting process by at least an order of magnitude.</p>
+<p>Here’s how we can alter the code to accommodate splines with a few tricks to speed things up:</p>
+<pre class="stan"><code>
+functions {
+  
+  vector build_b_spline(vector t, array[] real ext_knots, int ind, int order) {
+    
+    vector[size(t)] b_spline;
+    vector[size(t)] w1 = rep_vector(0, size(t));
+    vector[size(t)] w2 = rep_vector(0, size(t));
+    
+    if (order == 1)
+    
+      for (i in 1:size(t)) 
+        b_spline[i] = (ext_knots[ind] &lt;= t[i]) &amp;&amp; (t[i] &lt; ext_knots[ind+1]); 
+    
+    else {
+    
+      if (ext_knots[ind] != ext_knots[ind + order-1])
+        w1 = (to_vector(t) - rep_vector(ext_knots[ind], size(t))) / 
+             (ext_knots[ind + order-1] - ext_knots[ind]);
+      if (ext_knots[ind + 1] != ext_knots[ind + order])
+        w2 = 1 - (to_vector(t) - rep_vector(ext_knots[ind + 1], size(t))) / 
+                 (ext_knots[ind + order] - ext_knots[ind + 1]);
+                 
+      b_spline = w1 .* build_b_spline(t, ext_knots, ind, order - 1) + 
+                 w2 .* build_b_spline(t, ext_knots, ind+1, order - 1);
+    
+    }
+    
+    return b_spline;
+  
+  }
+  
+}
+
+
+data {
+  
+  int&lt;lower=1&gt; T;                 // number of times measured
+  vector[T] t;                    // remove and replace with position
+  vector[T] y;                    // the measurement at each time point t
+  
+  int&lt;lower=1&gt; K;                 // number of knots
+  int&lt;lower=1&gt; degree;            // degree of the spline
+  int&lt;lower=0,upper=1&gt; penalized; // whether to use prior for smoothing
+  
+}
+
+
+transformed data {
+  
+  // knots at evenly-spaced quantiles of data
+  array[K] real p;
+  for(i in 1:K) p[i] = (i - 1.0) / (K-1.0);
+  array[K] real k = quantile(t, p);
+  
+  // build the spline matrix B
+  int n_basis = K + degree - 1; 
+  matrix[n_basis, T] B;
+  
+  array[2 * degree + K] real ext_knots =
+  append_array(append_array(rep_array(k[1], degree), k), rep_array(k[K], degree));
+  
+  for (ind in 1:n_basis)
+    B[ind,:] = to_row_vector(build_b_spline(t, (ext_knots), ind, degree + 1));
+  
+  B[K + degree - 1, T] = 1;
+  
+  // QR decomposition of B
+  matrix[T, n_basis] Q_ast;
+  matrix[n_basis, n_basis] R_ast;
+  matrix[n_basis, n_basis] R_ast_inverse;
+  
+  // thin and scale the QR decomposition
+  Q_ast = qr_thin_Q(B&#39;) * sqrt(T - 1);
+  R_ast = qr_thin_R(B&#39;) / sqrt(T - 1);
+  R_ast_inverse = inverse(R_ast);
+  
+  // helper stuff
+  vector[T] zeros_T = rep_vector(0, T);
+  
+}
+
+
+parameters {
+  
+  vector[n_basis] theta_raw; // coefficients on Q_ast
+  real&lt;lower=0&gt; sigma;       // scale of the variation
+  real&lt;lower=0&gt; tau;         // penalization on wiggles
+  
+}
+
+
+transformed parameters {
+  
+  vector[n_basis] theta;
+  
+  if(penalized) {
+    theta[1] = theta_raw[1];
+    for(i in 2:n_basis) theta[i] = theta[i-1] + theta_raw[i] * tau;
+  } else {
+    theta = theta_raw;
+  }
+  
+}
+
+
+model {
+  
+  theta_raw ~ normal(0, 1);
+  tau ~ normal(0, 1);
+  sigma ~ exponential(1);  
+  y ~ normal_id_glm(Q_ast, zeros_T, theta, sigma);
+
+}
+
+generated quantities {
+  vector[n_basis] beta;
+  beta = R_ast_inverse * theta;
+  vector[T] y_hat = B&#39; * beta;
+}
+</code></pre>
+<p>We can compile the model like so,</p>
+<pre class="r"><code>library(cmdstanr)
+m = cmdstan_model(&#39;b_spline_QR.stan&#39;)</code></pre>
+<p>The main changes from the original case study are to decompose the spline matrix B into components:</p>
+<pre><code>  // QR decomposition of B
+  matrix[T, n_basis] Q_ast;
+  matrix[n_basis, n_basis] R_ast;
+  matrix[n_basis, n_basis] R_ast_inverse;
+  
+  // thin and scale the QR decomposition
+  Q_ast = qr_thin_Q(B&#39;) * sqrt(T - 1);
+  R_ast = qr_thin_R(B&#39;) / sqrt(T - 1);
+  R_ast_inverse = inverse(R_ast);</code></pre>
+<p>Then, we regress on the decomposed matrix.</p>
+<p>Let’s simulate some data for the model and fit it:</p>
+<pre class="r"><code>set.seed(11)
+
+num_knots &lt;- 10
+spline_degree &lt;- 3
+num_basis &lt;- num_knots + spline_degree - 1
+
+a0 &lt;- 0.2
+a &lt;- rnorm(num_basis, 0, 1)
+
+X &lt;- seq(from=-10, to=10, by=.1)
+knots &lt;- unname(quantile(X,probs=seq(from=0, to=1, length.out = num_knots)))
+num_data &lt;- length(X)
+
+B_true &lt;- t(bs(X, df=num_basis, degree=spline_degree, intercept = TRUE))
+Y_true &lt;- as.vector(a0*X + a%*%B_true)
+Y &lt;- Y_true + rnorm(length(X), 0, 0.2)</code></pre>
+<p>With that data, let’s fit it in Stan using our improved model:</p>
+<pre class="r"><code>num_knots &lt;- 20
+spline_degree &lt;- 3
+
+dat &lt;- list(
+  T = length(X),
+  K = num_knots,
+  penalized = 1,
+  degree = spline_degree,
+  y = Y,
+  t = X
+)
+
+fit &lt;- m$sample(
+  data = dat,
+  parallel_chains = 4,
+  iter_warmup = 500,
+  iter_sampling = 500,
+  adapt_delta = 0.8,
+  max_treedepth = 9,
+  refresh = 0
+)</code></pre>
+<pre><code>## Running MCMC with 4 parallel chains...
+## 
+## Chain 1 finished in 0.8 seconds.
+## Chain 2 finished in 0.9 seconds.
+## Chain 3 finished in 0.8 seconds.
+## Chain 4 finished in 1.0 seconds.
+## 
+## All 4 chains finished successfully.
+## Mean chain execution time: 0.9 seconds.
+## Total execution time: 1.2 seconds.</code></pre>
+<p>Fast, nice! Here’s a look at our fit on the original simulated data:</p>
+<pre class="r"><code>yhat &lt;- fit$summary(&#39;y_hat&#39;, ~quantile(., prob = c(0.025, 0.5, 0.975)))
+x &lt;- seq(nrow(yhat))
+
+ggplot(yhat) + 
+  geom_ribbon(
+    mapping = aes(x, ymin = `2.5%`, ymax = `97.5%`), 
+    alpha = 0.2
+  ) + 
+  geom_line(
+    mapping = aes(seq(nrow(yhat)), y = `50%`)
+  ) + 
+  geom_point(
+    mapping = aes(seq(nrow(yhat)), y = Y)
+  ) + 
+  labs(x = &#39;time&#39;, y = &#39;y&#39;)</code></pre>
+<p><img src="https://ssp3nc3r.github.io/post/speedy-splines-in-stan/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ssp3nc3r.github.io/tags/stan">Stan</a></span>
+  				</p>
+			    <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-git-commit"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17.01" y1="12" x2="22.96" y2="12"></line></svg><a href="aad956f573e8a8f212acdc5eb6b9704dc52653f8" target="_blank" rel="noopener">aad956f</a> @ 2023-08-16</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+        </div>
+    </div>
+    <script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="https://ssp3nc3r.github.io/bundle.min.fbf016a5f89be88f4916a0898302f777692ee6600991c3b6108fc423ed982dc83b470742cc92dd796861136f5ca96988b35e049b5f4cb4b1343686784a58c8ce.js" integrity="sha512-&#43;/AWpfib6I9JFqCJgwL3d2ku5mAJkcO2EI/EI&#43;2YLcg7RwdCzJLdeWhhE29cqWmIs14Em19MtLE0NoZ4SljIzg=="></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'G-1V94CLF78W', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+
+    </body>
+</html>

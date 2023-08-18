@@ -32,10 +32,10 @@ functions {
     else {
     
       if (ext_knots[ind] != ext_knots[ind + order-1])
-        w1 = (to_vector(t) - rep_vector(ext_knots[ind], size(t))) / 
+        w1 = (t - rep_vector(ext_knots[ind], size(t))) / 
              (ext_knots[ind + order-1] - ext_knots[ind]);
       if (ext_knots[ind + 1] != ext_knots[ind + order])
-        w2 = 1 - (to_vector(t) - rep_vector(ext_knots[ind + 1], size(t))) / 
+        w2 = 1 - (t - rep_vector(ext_knots[ind + 1], size(t))) / 
                  (ext_knots[ind + order] - ext_knots[ind + 1]);
                  
       b_spline = w1 .* build_b_spline(t, ext_knots, ind, order - 1) + 
@@ -82,15 +82,10 @@ transformed data {
   
   B[K + degree - 1, T] = 1;
   
-  // QR decomposition of B
-  matrix[T, n_basis] Q_ast;
-  matrix[n_basis, n_basis] R_ast;
-  matrix[n_basis, n_basis] R_ast_inverse;
-  
-  // thin and scale the QR decomposition
-  Q_ast = qr_thin_Q(B&#39;) * sqrt(T - 1);
-  R_ast = qr_thin_R(B&#39;) / sqrt(T - 1);
-  R_ast_inverse = inverse(R_ast);
+  // QR decomposition of B, thin and scale
+  matrix[T, n_basis] Q_ast = qr_thin_Q(B&#39;) * sqrt(T - 1);
+  matrix[n_basis, n_basis] R_ast = qr_thin_R(B&#39;) / sqrt(T - 1);
+  matrix[n_basis, n_basis] R_ast_inverse = inverse(R_ast);
   
   // helper stuff
   vector[T] zeros_T = rep_vector(0, T);
@@ -191,14 +186,14 @@ fit &lt;- m$sample(
 )</code></pre>
 <pre><code>## Running MCMC with 4 parallel chains...
 ## 
-## Chain 1 finished in 0.8 seconds.
-## Chain 2 finished in 0.9 seconds.
-## Chain 3 finished in 0.8 seconds.
+## Chain 1 finished in 1.0 seconds.
+## Chain 3 finished in 1.0 seconds.
 ## Chain 4 finished in 1.0 seconds.
+## Chain 2 finished in 1.1 seconds.
 ## 
 ## All 4 chains finished successfully.
-## Mean chain execution time: 0.9 seconds.
-## Total execution time: 1.2 seconds.</code></pre>
+## Mean chain execution time: 1.0 seconds.
+## Total execution time: 1.3 seconds.</code></pre>
 <p>Fast, nice! Here’s a look at our fit on the original simulated data:</p>
 <pre class="r"><code>yhat &lt;- fit$summary(&#39;y_hat&#39;, ~quantile(., prob = c(0.025, 0.5, 0.975)))
 x &lt;- seq(nrow(yhat))

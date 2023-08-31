@@ -11,7 +11,7 @@ tags:
   - Stan
   - splines
   - derivatives
-draft: yes
+draft: no
 toc: no
 images: ~
 bibliography: references.bib

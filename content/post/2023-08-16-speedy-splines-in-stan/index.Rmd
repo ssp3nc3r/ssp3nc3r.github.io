@@ -5,8 +5,12 @@ date: '2023-08-16'
 slug: speedy-splines-in-stan
 categories:
   - Stan
+  - splines
+  - QR decomposition
 tags:
   - Stan
+  - splines
+  - QR decomposition
 comments: no
 images: ~
 ---

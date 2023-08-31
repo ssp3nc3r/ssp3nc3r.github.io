@@ -6,7 +6,17 @@
     <description>Recent content on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 16 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 31 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Speedy splines part two, derivative work</title>
+      <link>https://ssp3nc3r.github.io/post/derivative-work-on-speedy-splines/</link>
+      <pubDate>Thu, 31 Aug 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://ssp3nc3r.github.io/post/derivative-work-on-speedy-splines/</guid>
+      <description>In the last post, I showed how we can speed up computation for splines in Stan. This post is, ahem, derivative. Perhaps we have noisy data of position and time, and we want to estimate speed and acceleration. We can use b-splines and their derivatives for this.
+So let’s pick up where we left off, and add calculations in Stan to calculate the first and second derivatives of the spline in Stan.</description>
+    </item>
+    
     <item>
       <title>Speedy splines in Stan part one</title>
       <link>https://ssp3nc3r.github.io/post/speedy-splines-in-stan/</link>

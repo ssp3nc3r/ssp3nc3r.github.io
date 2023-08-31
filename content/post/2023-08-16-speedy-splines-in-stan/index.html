@@ -1,12 +1,16 @@
 ---
-title: Speedy splines in Stan
+title: Speedy splines in Stan part one
 author: Scott Spencer
 date: '2023-08-16'
 slug: speedy-splines-in-stan
 categories:
   - Stan
+  - splines
+  - QR decomposition
 tags:
   - Stan
+  - splines
+  - QR decomposition
 comments: no
 images: ~
 ---
@@ -186,14 +190,14 @@ fit &lt;- m$sample(
 )</code></pre>
 <pre><code>## Running MCMC with 4 parallel chains...
 ## 
-## Chain 1 finished in 1.0 seconds.
-## Chain 3 finished in 1.0 seconds.
-## Chain 4 finished in 1.0 seconds.
-## Chain 2 finished in 1.1 seconds.
+## Chain 1 finished in 0.8 seconds.
+## Chain 3 finished in 0.8 seconds.
+## Chain 4 finished in 0.8 seconds.
+## Chain 2 finished in 1.0 seconds.
 ## 
 ## All 4 chains finished successfully.
-## Mean chain execution time: 1.0 seconds.
-## Total execution time: 1.3 seconds.</code></pre>
+## Mean chain execution time: 0.9 seconds.
+## Total execution time: 1.1 seconds.</code></pre>
 <p>Fast, nice! Here’s a look at our fit on the original simulated data:</p>
 <pre class="r"><code>yhat &lt;- fit$summary(&#39;y_hat&#39;, ~quantile(., prob = c(0.025, 0.5, 0.975)))
 x &lt;- seq(nrow(yhat))

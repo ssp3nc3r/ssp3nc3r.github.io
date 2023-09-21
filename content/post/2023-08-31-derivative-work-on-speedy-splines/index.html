@@ -27,31 +27,19 @@ bibliography: references.bib
                         int ind, int k, int deriv) {
     
     int n_x = size(x);
-    
+    vector[n_x] zeros = rep_vector(0, n_x);
     // basis functions &amp; weights
-    vector[n_x] b_spline;
-    vector[n_x] w1 = rep_vector(0, n_x);
-    vector[n_x] w2 = rep_vector(0, n_x);
-
+    vector[n_x] d0, w1 = zeros, w2 = zeros;
     // first derivative &amp; weights
-    vector[n_x] d1;
-    vector[n_x] f1 = rep_vector(0, n_x);
-    vector[n_x] f2 = rep_vector(0, n_x);
-    vector[n_x] f3 = rep_vector(0, n_x);
-    vector[n_x] f4 = rep_vector(0, n_x);
-    
+    vector[n_x] d1, f1 = zeros, f2 = zeros, f3 = zeros, f4 = zeros;
     // second derivative &amp; weights
-    vector[n_x] d2;
-    vector[n_x] s1 = rep_vector(0, n_x);
-    vector[n_x] s2 = rep_vector(0, n_x);
-    vector[n_x] s3 = rep_vector(0, n_x);
-    vector[n_x] s4 = rep_vector(0, n_x);
+    vector[n_x] d2, s1 = zeros, s2 = zeros, s3 = zeros, s4 = zeros;
     
     if (k == 1) {
       
       // first order splines
       for (i in 1:n_x) {
-        b_spline[i] = (ext_knots[ind] &lt;= x[i]) 
+        d0[i] = (ext_knots[ind] &lt;= x[i]) 
                     &amp;&amp; (x[i] &lt; ext_knots[ind + 1]); 
         d1[i] = 0;
         d2[i] = 0;
@@ -68,7 +56,7 @@ bibliography: references.bib
         w2 = 1 - (x - rep_vector(ext_knots[ind + 1], n_x)) 
            / (ext_knots[ind + k] - ext_knots[ind + 1]);
       
-      b_spline = w1 .* build_b_spline(x, ext_knots, ind, k - 1, 0) 
+      d0 = w1 .* build_b_spline(x, ext_knots, ind, k - 1, 0) 
                + w2 .* build_b_spline(x, ext_knots, ind + 1, k - 1, 0);
       
       // first derivative
@@ -117,7 +105,7 @@ bibliography: references.bib
     }
 
     if(deriv == 0) 
-      return b_spline;
+      return d0;
     else if (deriv == 1) 
       return d1; 
     else 
@@ -178,7 +166,6 @@ transformed data {
  
   // helpers
   vector[X] zeros_X = rep_vector(0, X);
-  int k = degree + 1; // k is order of spline
 }
 
 

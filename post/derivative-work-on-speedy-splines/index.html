@@ -53,8 +53,8 @@ So let’s pick up where we left off, and add calculations in Stan to calculate 
 <meta itemprop="name" content="Speedy splines part two, derivative work">
 <meta itemprop="description" content="In the last post, I showed how we can speed up computation for splines in Stan. This post is, ahem, derivative. Perhaps we have noisy data of position and time, and we want to estimate speed and acceleration. We can use b-splines and their derivatives for this.
 So let’s pick up where we left off, and add calculations in Stan to calculate the first and second derivatives of the spline in Stan."><meta itemprop="datePublished" content="2023-08-31T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2023-08-31T13:31:43-04:00" />
-<meta itemprop="wordCount" content="1137"><meta itemprop="image" content="https://ssp3nc3r.github.io"/>
+<meta itemprop="dateModified" content="2023-08-31T14:01:26-04:00" />
+<meta itemprop="wordCount" content="1110"><meta itemprop="image" content="https://ssp3nc3r.github.io"/>
 <meta itemprop="keywords" content="Stan,splines,derivatives," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://ssp3nc3r.github.io"/>
 
@@ -158,31 +158,19 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
                         int ind, int k, int deriv) {
     
     int n_x = size(x);
-    
+    vector[n_x] zeros = rep_vector(0, n_x);
     // basis functions &amp; weights
-    vector[n_x] b_spline;
-    vector[n_x] w1 = rep_vector(0, n_x);
-    vector[n_x] w2 = rep_vector(0, n_x);
-
+    vector[n_x] d0, w1 = zeros, w2 = zeros;
     // first derivative &amp; weights
-    vector[n_x] d1;
-    vector[n_x] f1 = rep_vector(0, n_x);
-    vector[n_x] f2 = rep_vector(0, n_x);
-    vector[n_x] f3 = rep_vector(0, n_x);
-    vector[n_x] f4 = rep_vector(0, n_x);
-    
+    vector[n_x] d1, f1 = zeros, f2 = zeros, f3 = zeros, f4 = zeros;
     // second derivative &amp; weights
-    vector[n_x] d2;
-    vector[n_x] s1 = rep_vector(0, n_x);
-    vector[n_x] s2 = rep_vector(0, n_x);
-    vector[n_x] s3 = rep_vector(0, n_x);
-    vector[n_x] s4 = rep_vector(0, n_x);
+    vector[n_x] d2, s1 = zeros, s2 = zeros, s3 = zeros, s4 = zeros;
     
     if (k == 1) {
       
       // first order splines
       for (i in 1:n_x) {
-        b_spline[i] = (ext_knots[ind] &lt;= x[i]) 
+        d0[i] = (ext_knots[ind] &lt;= x[i]) 
                     &amp;&amp; (x[i] &lt; ext_knots[ind + 1]); 
         d1[i] = 0;
         d2[i] = 0;
@@ -199,7 +187,7 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
         w2 = 1 - (x - rep_vector(ext_knots[ind + 1], n_x)) 
            / (ext_knots[ind + k] - ext_knots[ind + 1]);
       
-      b_spline = w1 .* build_b_spline(x, ext_knots, ind, k - 1, 0) 
+      d0 = w1 .* build_b_spline(x, ext_knots, ind, k - 1, 0) 
                + w2 .* build_b_spline(x, ext_knots, ind + 1, k - 1, 0);
       
       // first derivative
@@ -248,7 +236,7 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
     }
 
     if(deriv == 0) 
-      return b_spline;
+      return d0;
     else if (deriv == 1) 
       return d1; 
     else 
@@ -309,7 +297,6 @@ transformed data {
  
   // helpers
   vector[X] zeros_X = rep_vector(0, X);
-  int k = degree + 1; // k is order of spline
 }
 
 
@@ -383,7 +370,7 @@ Rogers, David F. 2001. <em>An Introduction to NURBS: With Historical Perspective
   				<p>
   					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ssp3nc3r.github.io/tags/stan">Stan</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/splines">splines</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/derivatives">derivatives</a></span>
   				</p>
-			    <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-git-commit"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17.01" y1="12" x2="22.96" y2="12"></line></svg><a href="fcb95ea3a29a9863cb88192206fc78937951eddc" target="_blank" rel="noopener">fcb95ea</a> @ 2023-08-31</p>
+			    <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-git-commit"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17.01" y1="12" x2="22.96" y2="12"></line></svg><a href="3542caca25c4ce991a72925685484b4723d863f7" target="_blank" rel="noopener">3542cac</a> @ 2023-08-31</p>
   		</div>
     </main>
 

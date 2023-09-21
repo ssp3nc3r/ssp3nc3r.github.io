@@ -53,8 +53,8 @@ So let’s pick up where we left off, and add calculations in Stan to calculate 
 <meta itemprop="name" content="Speedy splines part two, derivative work">
 <meta itemprop="description" content="In the last post, I showed how we can speed up computation for splines in Stan. This post is, ahem, derivative. Perhaps we have noisy data of position and time, and we want to estimate speed and acceleration. We can use b-splines and their derivatives for this.
 So let’s pick up where we left off, and add calculations in Stan to calculate the first and second derivatives of the spline in Stan."><meta itemprop="datePublished" content="2023-08-31T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2023-08-31T14:01:26-04:00" />
-<meta itemprop="wordCount" content="1110"><meta itemprop="image" content="https://ssp3nc3r.github.io"/>
+<meta itemprop="dateModified" content="2023-09-21T11:14:09-04:00" />
+<meta itemprop="wordCount" content="996"><meta itemprop="image" content="https://ssp3nc3r.github.io"/>
 <meta itemprop="keywords" content="Stan,splines,derivatives," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://ssp3nc3r.github.io"/>
 
@@ -152,10 +152,11 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
 
 <p>In the last post, I showed how we can speed up computation for splines in Stan. This post is, ahem, derivative. Perhaps we have noisy data of position and time, and we want to estimate speed and acceleration. We can use b-splines and their derivatives for this.</p>
 <p>So let’s pick up where we left off, and add calculations in Stan to calculate the first and second derivatives of the spline in Stan. Much of the code below mirrors that of the previous post. There are multiple approaches to calculating derivatives of splines. We can take the derivative of the basis functions <span class="citation">(<a href="#ref-rogers2001">Rogers 2001, sec. 3.10</a> B-Spline Curve Derivatives)</span> or we can difference the coefficients <span class="citation">(<a href="#ref-deboor2001">Boor 2001</a>, X. The Stable Evaluation of B-Splines and Splines)</span>. In the Stan functions block below, I’ve added calculations for the first and second derivatives of the basis functions.</p>
-<pre class="stan"><code>functions {
+<pre class="stan"><code>
+functions {
   
-  vector build_b_spline(vector x, array[] real ext_knots, 
-                        int ind, int k, int deriv) {
+  tuple(vector, vector, vector) build_b_spline(vector x, array[] real ext_knots, 
+                        int ind, int k) {
     
     int n_x = size(x);
     vector[n_x] zeros = rep_vector(0, n_x);
@@ -178,83 +179,68 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
         
     } else {
     
-      // basis function
-      if (ext_knots[ind] != ext_knots[ind + k - 1])
-        w1 = (x - rep_vector(ext_knots[ind], n_x)) 
+      // calculate weights for b, b&#39;, b&quot;
+      if (ext_knots[ind] != ext_knots[ind + k - 1]) {
+        w1 = (x - rep_vector(ext_knots[ind], n_x))   
            / (ext_knots[ind + k - 1] - ext_knots[ind]);
-             
-      if (ext_knots[ind + 1] != ext_knots[ind + k])
-        w2 = 1 - (x - rep_vector(ext_knots[ind + 1], n_x)) 
-           / (ext_knots[ind + k] - ext_knots[ind + 1]);
-      
-      d0 = w1 .* build_b_spline(x, ext_knots, ind, k - 1, 0) 
-               + w2 .* build_b_spline(x, ext_knots, ind + 1, k - 1, 0);
-      
-      // first derivative
-      if (ext_knots[ind] != ext_knots[ind + k - 1])
         f1 = rep_vector(1, n_x) 
            / (ext_knots[ind + k - 1] - ext_knots[ind]);
-      
-      if (ext_knots[ind + 1] != ext_knots [ind + k])
-        f2 = rep_vector(-1, n_x) 
-           / (ext_knots[ind + k] - ext_knots[ind + 1]);
-      
-      if (ext_knots[ind] != ext_knots[ind + k - 1])
         f3 = (x - rep_vector(ext_knots[ind], n_x)) 
            / (ext_knots[ind + k - 1] - ext_knots[ind]);
-        
-      if (ext_knots[ind + 1] != ext_knots[ind + k])
-        f4 = 1 - (x - rep_vector(ext_knots[ind + 1], n_x)) 
-           / (ext_knots[ind + k] - ext_knots[ind + 1]);
-        
-      d1  = f1 .* build_b_spline(x, ext_knots, ind,     k - 1, 0)
-          + f2 .* build_b_spline(x, ext_knots, ind + 1, k - 1, 0)
-          + f3 .* build_b_spline(x, ext_knots, ind,     k - 1, 1)
-          + f4 .* build_b_spline(x, ext_knots, ind + 1, k - 1, 1);
-      
-      // second derivative
-      if (ext_knots[ind] != ext_knots[ind + k - 1])
         s1 = rep_vector(2, n_x) 
            / (ext_knots[ind + k - 1] - ext_knots[ind]);
-      
-      if (ext_knots[ind + 1] != ext_knots[ind + k])
-        s2 = rep_vector(-2, n_x) 
-           / (ext_knots[ind + k] - ext_knots[ind + 1]);
-        
-      if (ext_knots[ind] != ext_knots[ind + k - 1])
         s3 = (x - rep_vector(ext_knots[ind], n_x)) 
           / (ext_knots[ind + k - 1] - ext_knots[ind]);
-        
-      if (ext_knots[ind + 1] != ext_knots[ind + k])
+      }
+      
+      if (ext_knots[ind + 1] != ext_knots[ind + k]) {
+        w2 = 1 - (x - rep_vector(ext_knots[ind + 1], n_x)) 
+           / (ext_knots[ind + k] - ext_knots[ind + 1]);
+        f2 = rep_vector(-1, n_x) 
+           / (ext_knots[ind + k] - ext_knots[ind + 1]);
+        f4 = 1 - (x - rep_vector(ext_knots[ind + 1], n_x)) 
+           / (ext_knots[ind + k] - ext_knots[ind + 1]);
+        s2 = rep_vector(-2, n_x) 
+           / (ext_knots[ind + k] - ext_knots[ind + 1]);
         s4 = 1 - (x - rep_vector(ext_knots[ind + 1], n_x)) 
            / (ext_knots[ind + k] - ext_knots[ind + 1]);
-           
-      d2  = s1 .* build_b_spline(x, ext_knots, ind,     k - 1, 1)
-          + s2 .* build_b_spline(x, ext_knots, ind + 1, k - 1, 1)
-          + s3 .* build_b_spline(x, ext_knots, ind,     k - 1, 2)
-          + s4 .* build_b_spline(x, ext_knots, ind + 1, k - 1, 2);
+      }
+
+      // calculate B, B&#39;, B&quot;
+      tuple(vector[n_x], vector[n_x], vector[n_x]) b1 = 
+        build_b_spline(x, ext_knots, ind, k - 1);
+      tuple(vector[n_x], vector[n_x], vector[n_x]) b2 = 
+        build_b_spline(x, ext_knots, ind + 1, k - 1);
+      
+      d0 = w1 .* b1.1 + w2 .* b2.1;
+      d1 = f1 .* b1.1 + f2 .* b2.1 + f3 .* b1.2 + f4 .* b2.2;
+      d2 = s1 .* b1.2 + s2 .* b2.2 + s3 .* b1.3 + s4 .* b2.3;
     }
 
-    if(deriv == 0) 
-      return d0;
-    else if (deriv == 1) 
-      return d1; 
-    else 
-      return d2;
+    return( (d0, d1, d2) );
   
   }
   
 
-  matrix build_B(int degree, int T, array[] real t, 
-                 int X, vector x, int deriv) {
+  tuple(matrix, matrix, matrix) build_B(int degree, int T, array[] real t, 
+                 int X, vector x) {
     
-    matrix[T + degree - 1, X] B;
+    tuple(matrix[T + degree - 1, X],
+          matrix[T + degree - 1, X],
+          matrix[T + degree - 1, X]) B;
+    
+    tuple(vector[X], vector[X], vector[X]) bv;
+    
     array[2 * degree + T] real ext_knots =
     append_array(append_array(rep_array(t[1], degree), t), rep_array(t[T], degree));
-    for (ind in 1:(T + degree - 1))
-      B[ind,:] = to_row_vector(build_b_spline(x, ext_knots, ind, degree + 1, deriv));
-  
-    if(deriv == 0) B[T + degree - 1, X] = 1;
+    for (ind in 1:(T + degree - 1)) {
+      bv = build_b_spline(x, ext_knots, ind, degree + 1);
+      B.1[ind,:] = to_row_vector(bv.1);
+      B.2[ind,:] = to_row_vector(bv.2);
+      B.3[ind,:] = to_row_vector(bv.3);
+    }
+      
+    B.1[T + degree - 1, X] = 1;
   
     return B;
   }
@@ -284,17 +270,17 @@ transformed data {
   for(i in 1:T) p[i] = (i - 1.0) / (T-1.0);
   array[T] real t = quantile(append_row(xb[1], append_row(x, xb[2])), p);
 
-  // build the spline matrix B and decompose
+  // build the spline matrix B, B&#39;, and B&quot; and decompose B
   int n_basis = T + degree - 1; 
-  matrix[n_basis, X] B = build_B(degree, T, t, X, x, 0);
-  matrix[X, n_basis] Q_ast = qr_thin_Q(B&#39;) * sqrt(X - 1);
-  matrix[n_basis, n_basis] R_ast = qr_thin_R(B&#39;) / sqrt(X - 1);
+  
+  tuple(matrix[n_basis, X],
+        matrix[n_basis, X],
+        matrix[n_basis, X]) B = build_B(degree, T, t, X, x);
+  
+  matrix[X, n_basis] Q_ast = qr_thin_Q(B.1&#39;) * sqrt(X - 1);
+  matrix[n_basis, n_basis] R_ast = qr_thin_R(B.1&#39;) / sqrt(X - 1);
   matrix[n_basis, n_basis] R_ast_inverse = inverse(R_ast);
   
-  // build first and second derivatives of spline matrix B
-  matrix[n_basis, X] B1 = build_B(degree, T, t, X, x, 1);
-  matrix[n_basis, X] B2 = build_B(degree, T, t, X, x, 2);
- 
   // helpers
   vector[X] zeros_X = rep_vector(0, X);
 }
@@ -339,9 +325,9 @@ model {
 generated quantities {
   
   vector[n_basis] beta = R_ast_inverse * alpha;
-  vector[X] y_hat = B&#39;  * beta;
-  vector[X] dydt1 = B1&#39; * beta;
-  vector[X] dydt2 = B2&#39; * beta;
+  vector[X] y_hat = B.1&#39; * beta;
+  vector[X] dydt1 = B.2&#39; * beta;
+  vector[X] dydt2 = B.3&#39; * beta;
   
 }
 </code></pre>
@@ -370,7 +356,7 @@ Rogers, David F. 2001. <em>An Introduction to NURBS: With Historical Perspective
   				<p>
   					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ssp3nc3r.github.io/tags/stan">Stan</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/splines">splines</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/derivatives">derivatives</a></span>
   				</p>
-			    <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-git-commit"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17.01" y1="12" x2="22.96" y2="12"></line></svg><a href="3542caca25c4ce991a72925685484b4723d863f7" target="_blank" rel="noopener">3542cac</a> @ 2023-08-31</p>
+			    <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-git-commit"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17.01" y1="12" x2="22.96" y2="12"></line></svg><a href="2aeec46ef59d5acc1df92f723dcfef06b86f8cfd" target="_blank" rel="noopener">2aeec46</a> @ 2023-09-21</p>
   		</div>
     </main>
 

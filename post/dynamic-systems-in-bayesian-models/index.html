@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Scott Spencer">
+<meta name="description" content="By dynamic systems, I mean using differential equations to describe how data changes over time. Take running speed, for example. Several physics-based models of running speed have been developed, which I’ve previously discussed. The primary goal in those previous discussions involving sprint speed have been in estimating a maximum speed. But the underlying structure of these models estimate change in speed at time two from speed at time one: a differential equation." />
+<meta name="keywords" content="Scott Spencer, statistical, generative modeling, bayesian inference, writing, data visualization, sports, columbia university, Stan, Differential Equations, Dynamic systems, Running, Footspeed, Baseball" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="https://ssp3nc3r.github.io/post/dynamic-systems-in-bayesian-models/" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1V94CLF78W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1V94CLF78W');
+</script>
+
+
+    <title>
+        
+            Dynamic systems in Bayesian models :: p( ssp3nc3r | Columbian ) 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.d235e788b40b442aba9cd6c69fdc330353b2dec27dcbc4235961469d2155f5a9.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://ssp3nc3r.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://ssp3nc3r.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://ssp3nc3r.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://ssp3nc3r.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://ssp3nc3r.github.io/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="https://ssp3nc3r.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+<meta itemprop="name" content="Dynamic systems in Bayesian models">
+<meta itemprop="description" content="By dynamic systems, I mean using differential equations to describe how data changes over time. Take running speed, for example. Several physics-based models of running speed have been developed, which I’ve previously discussed. The primary goal in those previous discussions involving sprint speed have been in estimating a maximum speed. But the underlying structure of these models estimate change in speed at time two from speed at time one: a differential equation."><meta itemprop="datePublished" content="2019-10-31T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2019-10-31T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1499"><meta itemprop="image" content="https://ssp3nc3r.github.io"/>
+<meta itemprop="keywords" content="Stan,Differential Equations,Dynamic systems,Running,Footspeed,Baseball," /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://ssp3nc3r.github.io"/>
+
+<meta name="twitter:title" content="Dynamic systems in Bayesian models"/>
+<meta name="twitter:description" content="By dynamic systems, I mean using differential equations to describe how data changes over time. Take running speed, for example. Several physics-based models of running speed have been developed, which I’ve previously discussed. The primary goal in those previous discussions involving sprint speed have been in estimating a maximum speed. But the underlying structure of these models estimate change in speed at time two from speed at time one: a differential equation."/>
+
+
+
+    <meta property="article:section" content="Stan" />
+
+    <meta property="article:section" content="Differential Equations" />
+
+    <meta property="article:section" content="Dynamic systems" />
+
+    <meta property="article:section" content="Running" />
+
+    <meta property="article:section" content="Footspeed" />
+
+    <meta property="article:section" content="Baseball" />
+
+
+
+    <meta property="article:published_time" content="2019-10-31 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://ssp3nc3r.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#67a2c9;
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://ssp3nc3r.github.io/about/">About</a></li><li><a href="https://ssp3nc3r.github.io/post/">Blog</a></li><li><a href="https://ssp3nc3r.github.io/publications/">Publications</a></li><li><a href="https://ssp3nc3r.github.io/teaching/">Teaching</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://ssp3nc3r.github.io/post/dynamic-systems-in-bayesian-models/">Dynamic systems in Bayesian models</a></h2>
+
+            
+
+            <div class="post-content">
+                
+
+
+<p>By dynamic systems, I mean using differential equations to describe how data changes over time. Take running speed, for example. Several physics-based models of running speed have been developed, which I’ve previously discussed. The primary goal in those previous discussions involving sprint speed have been in estimating a maximum speed. But the underlying structure of these models estimate change in speed at time two from speed at time one: a differential equation.</p>
+<p>Here, I expand on previous goals with the two-fold aims of demonstrating the value of including dyanmic structures into a Bayesian data analysis, and in the specific example estimating a maximum speed at <em>any given distance or time</em>, constrained to the distances and times encountered in baseball when fielding or base running. Stated differently, I aim to estimate the position of a runner given elapsed time <span class="math inline">\(x(t)\)</span>.</p>
+<div id="deriving-velocity-and-position-as-a-function-of-time" class="section level1">
+<h1>Deriving velocity and position as a function of time</h1>
+<p>In that context, we begin with <strong>Newton’s second law of motion</strong>: <span class="math inline">\(F = ma\)</span> where acceleration <span class="math inline">\(a\)</span> is the derivative of velocity. Thus, the net force of that the runner produces <span class="math inline">\(F_{\text{net}} = m \dot{v}(t)\)</span>. Net force consists of both propulsive and resistive forces: <span class="math inline">\(F_{\text{net}} = F_{\text{propulsive}} + F_{\text{resistive}}\)</span>.</p>
+<p>Propulsive force <span class="math inline">\(F_{\text{propulsive}}\)</span> depends on the runner’s fitness and effort that is less than or equal to his maximum effort.</p>
+<p>Resistive forces <span class="math inline">\(F_{\text{resistive}}\)</span> depend on, for example, runner size, biological inefficiencies, and air resistance. <span class="citation">Keller (<a href="#ref-keller1973">1973</a>)</span> defines this force as proportional to the runner’s mass and velocity to excellent results: <span class="math inline">\(F_{\text{resistive}} = -k m v(t)\)</span> where <span class="math inline">\(k \ge 0\)</span>.</p>
+<p>All together, we have the ordinary differential equation,</p>
+<p><span class="math display">\[
+m \dot{v}(t) = m F_{\text{propulsive}} - kmv(t)
+\]</span> As runner mass <span class="math inline">\(m\)</span> cancels out, this simplifies,</p>
+<p><span class="math display">\[
+\dot{v}(t) = F_{\text{propulsive}} - kv(t)
+\]</span></p>
+<p>For times when we can assume an initial condition <span class="math inline">\(v(0) = 0\)</span>, we can solve the system of ordinary differential equations by solving the separable equation,</p>
+<p><span class="math display">\[
+\frac{dv(t)}{dt} = F_{\text{propulsive}} - kv(t)
+\]</span> such that <span class="math inline">\(v(0) = 0\)</span>. We divide both sides by <span class="math inline">\(F_{\text{propulsive}} - kv(t)\)</span>:</p>
+<p><span class="math display">\[
+\frac{\frac{dv(t)}{dt}}{F_{\text{propulsive}} - kv(t)} = 1
+\]</span></p>
+<p>and integrate both sides with respect to <span class="math inline">\(t\)</span>:</p>
+<p><span class="math display">\[
+\int \frac{\frac{dv(t)}{dt}}{F_{\text{propulsive}} - kv(t)}dt = \int 1
+dt
+\]</span></p>
+<p>Then evaluate the integrals. For the integral,</p>
+<p><span class="math display">\[
+\int \frac{1}{F_{\text{propulsive}} - kt}
+\]</span> substitute <span class="math inline">\(u = F_{\text{propulsive}} - kt\)</span> and <span class="math inline">\(du = -kdt\)</span>:</p>
+<p><span class="math display">\[
+=-\frac{1}{k} \int \frac{1}{u}du
+\]</span> The integral of <span class="math inline">\(1/u\)</span> is <span class="math inline">\(\text{log}(u)\)</span> plus a constant:</p>
+<p><span class="math display">\[
+= - \frac{\text{log}(u)}{k} + c
+\]</span></p>
+<p>substituting back for <span class="math inline">\(u = F_{\text{propulsive}} - kt\)</span>, we get:</p>
+<p><span class="math display">\[
+= - \frac{\text{log}(F_{\text{propulsive}} - kt)}{k} + c
+\]</span></p>
+<p>The right side integral of <span class="math inline">\(1\)</span>,</p>
+<p><span class="math display">\[
+\int 1 dt
+\]</span></p>
+<p>is simply: <span class="math inline">\(=t + c\)</span>.</p>
+<p>Next, we solve for <span class="math inline">\(v(t)\)</span>:</p>
+<p><span class="math display">\[
+- \frac{\text{log}(F_{\text{propulsive}} - kv(t) )}{k} = t + c
+\]</span> Multiplying both sides by <span class="math inline">\(-k\)</span>, we get:</p>
+<p><span class="math display">\[
+\text{log}(F_{\text{propulsive}} - kv(t))= -kt -kc
+\]</span> and cancel the logarithm:</p>
+<p><span class="math display">\[
+F_{\text{propulsive}} - kv(t) = e^{-kt - kc}
+\]</span> Subtracting <span class="math inline">\(F_{\text{propulsive}}\)</span> from both sides and dividing by <span class="math inline">\(-k\)</span>:</p>
+<p><span class="math display">\[
+v(t) = \frac{F_{\text{propulsive}}}{k} - \frac{e^{-kt - kc}}{k}
+\]</span></p>
+<p>We solve for <span class="math inline">\(c\)</span> using initial conditions, substituting <span class="math inline">\(v(0)=0\)</span> into the above equation:</p>
+<p><span class="math display">\[
+\frac{-e^{-kc}+F_{\text{propulsive}}}{k}=0
+\]</span> Rearranging, we get <span class="math inline">\(c\)</span>:</p>
+<p><span class="math display">\[
+c = - \frac{\text{log}(F_{\text{propulsive}})}{k}
+\]</span></p>
+<p>Substituting <span class="math inline">\(c\)</span>:</p>
+<p><span class="math display">\[
+v(t) = \frac{F_{\text{propulsive}} - F_{\text{propulsive}} e^{-kt}}{k}
+\]</span></p>
+<p>Now that we have analytically derived velocity as a function of time, we can substitute it back into our first principles based ODE with parameters for runner’s propulsive force and resistive parameters where we’ll also substitute <span class="math inline">\(t - t_0\)</span> for <span class="math inline">\(t\)</span> to account for delay or reaction time in beginning the run,</p>
+<p><span class="math display" id="eq:pos">\[
+\begin{equation}
+x(t) = \frac{F_{\text{propulsive}_p}}{k_p} \cdot (e^{-k_p (t - t_0)} - 1 + k_p \cdot (t - t_0))
+\tag{1}
+\end{equation}
+\]</span></p>
+<p>we can estimate <span class="math inline">\(\textbf{F}_\text{propulsive}\)</span> and <span class="math inline">\(\textbf{k}\)</span> in Stan. Once estimated, we can calculate maximum velocity,</p>
+<p><span class="math display" id="eq:maxvelo">\[
+\begin{equation}
+v_\text{max} = F_\text{propulsive} / k
+\tag{2}
+\end{equation}
+\]</span></p>
+<p>as well as calculate position and velocity given time (<em>e.g.</em>, time from bat-ball contact to intercept with ground), or the other way around: we may calculate time given distance traveled:</p>
+<p><span class="math display">\[
+t(x) = \frac{1 + (k^2 x)/F + W(-e^{-1 - (k^2 x)/F)})}{k} + t_0
+\]</span></p>
+<p>where <span class="math inline">\(W(\cdot)\)</span> is the Lambert W function.</p>
+<p>This would help us estimate the probability that a fielder catches a fly ball given his location, the ball’s landing location and speed; the probability of stealing a base given the runner’s lead-off, pitch speed and catcher pop time; and many other questions. After all, scoring runs and — ultimately — wins always depend on running speed except for strikeouts and home runs.</p>
+</div>
+<div id="estimating-runner-propulsive-and-resistive-forces" class="section level1">
+<h1>Estimating runner propulsive and resistive forces</h1>
+<p>Bayesian inference is a preferred method of estimating unknown parameters in a way that fully expresses variation in those parameters. In the below model, we use time-stamped distances for a runner, estimate runner-specific parameters for propulsive force <span class="math inline">\(P\)</span> and their running inefficiencies <span class="math inline">\(k\)</span>, the latter of which is partially-pooled towards a population (they share biology and air resistance, for example), and estimate the variation in our estimates from the observations.</p>
+<p>Stated mathematically, the model estimates <span class="math inline">\(\textbf{F}_\text{propulsive}\)</span> and <span class="math inline">\(\textbf{k}\)</span> from equation <a href="#eq:pos">(1)</a> as follows:</p>
+<p><span class="math display">\[
+\begin{align}
+x_{p[t]} &amp;\sim N(\mu_{p[t]}, \sigma) \\
+\mu_{p[t]} &amp;= \frac{F_{\text{propulsive}_p}}{k_p} \cdot (e^{-k_p (t - t_0)} - 1 + k_p \cdot (t - t_0)) \\
+\sigma &amp;\sim \text{normal}^+(0,1) \\
+\textbf{F}_\text{propulsive} &amp;\sim \text{exponential}(0.1) \\
+\textbf{k} &amp;\sim \text{normal}(\mu_k, \sigma_k) \\
+\mu_k &amp;\sim \text{exponential}(1) \\
+\sigma_k &amp;\sim \text{normal}^+(0,1) \\
+\end{align}
+\]</span></p>
+<p>Finally, we estimate maximum velocities from the model to compare against published estimates. Let’s put this model to work.</p>
+</div>
+<div id="example-inferences-statcast-sprint-speed-leaderboard" class="section level1">
+<h1>Example inferences: Statcast sprint speed leaderboard</h1>
+<p>Baseball Savant maintains a <a href="https://baseballsavant.mlb.com/sprint_speed_leaderboard">“sprint speed” leaderboard</a>, from seasons 2015 through the present. These summarize game data in a couple of ways. First, they define “sprint speed” as,</p>
+<blockquote>
+<p>Sprint Speed is Statcast’s foot speed metric, defined as “feet per second in a player’s fastest one-second window” on individual plays. For a player’s seasonal average, the following two types of plays currently qualify for inclusion in Sprint Speed. The best of these runs, approximately two-thirds, are averaged for a player’s seasonal average.</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>Runs of two bases or more on non-homers, excluding being a runner on second base when an extra base hit happens</li>
+<li>Home to first on “topped” or “weakly hit” balls.</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>The Major League average on a “competitive” play is 27 ft/sec, and the competitive range is roughly from 23 ft/sec (poor) to 30 ft/sec (elite). A Bolt is any run above 30ft/sec. A player must have at least 10 competitive runs to qualify for this leaderboard. <a href="https://www.mlb.com/news/2018-update-to-sprint-speed-boosts-trea-turner-c272810784">Read more about how Sprint Speed works here</a>.</p>
+</blockquote>
+<p>Their calculations do not really represent a player’s ability to run. For example, biologically, players decline in underlying sprint speed starting around age 30 <span class="citation">(<a href="#ref-moore1975">Moore 1975</a>)</span> but the sprint speed leaderboard shows 60 percent of players having a higher year-over-year sprint speed after age 30. Further, their method uses observational data wherein each player has differing numbers of runs that Statcast has identified as “competitive”, differing player intentions on those runs, and over varying distances. Top speed in a sprint requires between 60-80 meters of full effort (just over a double), but the arbitrary subset of runs that Statcast averages includes singles, among other things.</p>
+<p>We’ll test for bias in the leaderboard using a second form of data provided. Along with “sprint speed,” the website provides <a href="https://baseballsavant.mlb.com/leaderboard/running_splits">“90ft running splits”</a>, which include an imperfect summary of a player’s best times from home plate to first base at every five feet.</p>
+<p>We’ll use these times to estimate the players’ force and inefficiencies, and then compare those to the estimates of sprint speed.</p>
+<p>Our physics-based model recovered estimates of position within a standard deviation of 0.49 foot from the observed splits every five foot.</p>
+<p>Using those same estimates, we can calculate an estimated maximum velocity (equation <a href="#eq:maxvelo">(2)</a>) and compare those to Savant’s sprint speed leaderboard. Doing so,</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-4"></span>
+<img src="https://ssp3nc3r.github.io/post/dynamic-systems-in-bayesian-models/index_files/figure-html/unnamed-chunk-4-1.png" alt="Modeling max running speed from 90-ft running splits reveals systematic bias in sprint speed leaderboard." width="672" />
+<p class="caption">
+Figure 1: Modeling max running speed from 90-ft running splits reveals systematic bias in sprint speed leaderboard.
+</p>
+</div>
+<p>we learn from modelling the additional information from Savant’s splits that their method for calculating sprint speed systematically underestimates player ability, even using Statcast’s same method for collecting the data.</p>
+<p>Aside from more accurately estimating maximum velocity of runners, this approach adds the ability to estimate position or speed at any point along a run<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, around the bases or in the field.</p>
+<p>Hopefully, this post helps demonstrate the power of including dynamic structures governed by physics in a Bayesian framework, and the insights that it can bring.</p>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-keller1973" class="csl-entry">
+Keller, Joseph B. 1973. <span>“A Theory of Competitive Running.”</span> <em>Physics Today</em> 26 (9): 43–47. <a href="https://doi.org/10.1063/1.3128231">https://doi.org/10.1063/1.3128231</a>.
+</div>
+<div id="ref-moore1975" class="csl-entry">
+Moore, Dan H. 1975. <span>“A Study of Age Group Track and Field Records to Relate Age and Running Speed.”</span> <em>Nature</em> 253 (5489): 264–65. <a href="https://doi.org/10.1038/253264a0">https://doi.org/10.1038/253264a0</a>.
+</div>
+<div id="ref-mureika1997" class="csl-entry">
+Mureika, J. R. 1997. <span>“A Simple Model for Predicting Sprint Race Times Accounting for Energy Loss on the Curve.”</span> <em>Canadian Journal of Physics</em> 75 (11): 837–51. <a href="https://doi.org/10.1139/cjp-75-11-837">https://doi.org/10.1139/cjp-75-11-837</a>.
+</div>
+</div>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>This method does assume running in a fairly straight line. We can also include information on the curvature of the run in the model for estimating runners rounding bases, and taking curved routes in other circumstances. See, for example, <span class="citation">Mureika (<a href="#ref-mureika1997">1997</a>)</span>.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ssp3nc3r.github.io/tags/stan">Stan</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/differential-equations">Differential Equations</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/dynamic-systems">Dynamic systems</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/running">Running</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/footspeed">Footspeed</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/baseball">Baseball</a></span>
+  				</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+        </div>
+    </div>
+    <script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="https://ssp3nc3r.github.io/bundle.min.fbf016a5f89be88f4916a0898302f777692ee6600991c3b6108fc423ed982dc83b470742cc92dd796861136f5ca96988b35e049b5f4cb4b1343686784a58c8ce.js" integrity="sha512-&#43;/AWpfib6I9JFqCJgwL3d2ku5mAJkcO2EI/EI&#43;2YLcg7RwdCzJLdeWhhE29cqWmIs14Em19MtLE0NoZ4SljIzg=="></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'G-1V94CLF78W', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+
+    </body>
+</html>

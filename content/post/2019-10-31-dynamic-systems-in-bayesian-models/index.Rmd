@@ -1,5 +1,5 @@
 ---
-title: Dynamic systems in Bayesian models
+title: Dynamic, physics-informed systems in Bayesian models
 author: Scott Spencer
 date: '2019-10-31'
 slug: dynamic-systems-in-bayesian-models

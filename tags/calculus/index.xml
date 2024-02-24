@@ -6,15 +6,14 @@
     <description>Recent content in Calculus on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 08 Jan 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/calculus/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 08 Jan 2018 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/calculus/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Languages Behind Statistical Learning, and Useful Tools</title>
       <link>https://ssp3nc3r.github.io/post/2018-01-08-languages-behind-statistical-learning/</link>
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/2018-01-08-languages-behind-statistical-learning/</guid>
       <description>R Markdown—a tool for reproducible reporting From mathematical notation to R Linear Algebra Calculus Probability Distributions Regression Optimization Gradient descent Simplex method Algorithms Data and model visualization Organizing Data Closing “Can A.I. Be Taught to Explain Itself?” That’s the question recently posed in The New York Times Magazine. A search uncovered helpful references — An Introduction to Statistical Learning with Applications in R and The Elements of Statistical Learning, for example — but none with A.</description>
     </item>
-    
   </channel>
 </rss>

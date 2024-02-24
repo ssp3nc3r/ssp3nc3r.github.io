@@ -6,25 +6,22 @@
     <description>Recent content in Cycling on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 08 May 2020 14:34:25 -0400</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/cycling/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 08 May 2020 14:34:25 -0400</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/cycling/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Calculating training load in cycling</title>
       <link>https://ssp3nc3r.github.io/post/2020-05-08-calculating-training-load-in-cycling/</link>
       <pubDate>Fri, 08 May 2020 14:34:25 -0400</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/2020-05-08-calculating-training-load-in-cycling/</guid>
       <description>In cycling, (Allen 2019) has been an influential instruction for training and racing with a power meter. The authors discuss training load in the context of a few functions: one they call a training stress score, the other two acute and chronic training load, respectively. Training stress score is an estimate of the amount of work going into a single workout while acute and chronic training loads are estimates of the short and medium term accumulated loads from training.</description>
     </item>
-    
     <item>
       <title>Exploring CitiBike ride data</title>
       <link>https://ssp3nc3r.github.io/post/exploring-citibike-ride-data/</link>
       <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/exploring-citibike-ride-data/</guid>
       <description>Background The Challenge How can we identify causes, relationships One approach for this analysis Identified data of measurements CitiBike ride data Alternative transportation data Weather information Traffic information Beginning data exploration — daily bike usage Background In 2013, the NYC Department of Transportation sought to start a bike share to reduce emissions, road wear, congestion, and improve public health.
 After selecting an operator and sponsor, the Citi Bike bike share was established with a bike fleet distributed over a network of docking stations throughout the city.</description>
     </item>
-    
   </channel>
 </rss>

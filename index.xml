@@ -6,337 +6,270 @@
     <description>Recent content on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 31 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 31 Aug 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Speedy splines part two, derivative work</title>
       <link>https://ssp3nc3r.github.io/post/derivative-work-on-speedy-splines/</link>
       <pubDate>Thu, 31 Aug 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/derivative-work-on-speedy-splines/</guid>
       <description>In the last post, I showed how we can speed up computation for splines in Stan. This post is, ahem, derivative. Perhaps we have noisy data of position and time, and we want to estimate speed and acceleration. We can use b-splines and their derivatives for this.
 So let’s pick up where we left off, and add calculations in Stan to calculate the first and second derivatives of the spline in Stan.</description>
     </item>
-    
     <item>
       <title>Speedy splines in Stan part one</title>
       <link>https://ssp3nc3r.github.io/post/speedy-splines-in-stan/</link>
       <pubDate>Wed, 16 Aug 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/speedy-splines-in-stan/</guid>
       <description>Milad Kharratzadeh provides a helpful case study on estimating splines in Stan. We can improve on his work with a few tricks to speed up the estimation process. Namely, if we decompose the spline matrix using QR decomposition, we speed up Stan’s fitting process by at least an order of magnitude.
 Here’s how we can alter the code to accommodate splines with a few tricks to speed things up:</description>
     </item>
-    
     <item>
       <title>Generating random numbers from custom distributions</title>
       <link>https://ssp3nc3r.github.io/post/generating-random-numbers-from-custom-distributions/</link>
       <pubDate>Fri, 05 Nov 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/generating-random-numbers-from-custom-distributions/</guid>
       <description>In an earlier post, I explained how to code custom distributions for use in modeling using the programming language Stan. Expanding upon that post, here, I’ll demonstrate how we code a function to generate random values from those distributions.
 One direct approach just involves a bit of algebra. As in the earlier post, I’ll again use the three-parameter Weibull distribution. Generally, in the first step, we can set the CDF of the distribution equal to a random value from, say, a uniform distribution \(u \in [0, 1]\), like so:</description>
     </item>
-    
     <item>
       <title>Coding custom distribution functions in Stan</title>
       <link>https://ssp3nc3r.github.io/post/coding-custom-distribution-functions-in-stan/</link>
       <pubDate>Thu, 18 Feb 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/coding-custom-distribution-functions-in-stan/</guid>
       <description>The probabilistic programming language called Stan is a powerful tools for modeling. It includes numerous distribution functions we can use to model. While it cannot include every conceivable distribution in its available functions, it does enable the next best thing: we can code our own!
 The Stan library does not, for example, currently include the three-parameter Weibull distribution. In this tutorial, I’ll code its PDF and CDF to demonstrate coding custom distributions in Stan.</description>
     </item>
-    
     <item>
       <title>Tables in tooltips</title>
       <link>https://ssp3nc3r.github.io/post/tables-in-tooltips/</link>
       <pubDate>Sun, 07 Jun 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/tables-in-tooltips/</guid>
       <description>With interactive communications, we frequently encourage the graphic to provide some form of overview, and use interactions for adding details on demand. For these details, tables provide a flexible way to organize the information. And we can link the view of such tables to user actions like a pointer hover event where the table of details is in a tooltip. In this tutorial, we construct an html table for our tooltip so that we can organize lots of details on demand.</description>
     </item>
-    
     <item>
       <title>Calculating training load in cycling</title>
       <link>https://ssp3nc3r.github.io/post/2020-05-08-calculating-training-load-in-cycling/</link>
       <pubDate>Fri, 08 May 2020 14:34:25 -0400</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/2020-05-08-calculating-training-load-in-cycling/</guid>
       <description>In cycling, (Allen 2019) has been an influential instruction for training and racing with a power meter. The authors discuss training load in the context of a few functions: one they call a training stress score, the other two acute and chronic training load, respectively. Training stress score is an estimate of the amount of work going into a single workout while acute and chronic training loads are estimates of the short and medium term accumulated loads from training.</description>
     </item>
-    
     <item>
       <title>Create and encode custom glyphs from an SVG path</title>
       <link>https://ssp3nc3r.github.io/post/2020-04-08-create-and-encode-custom-glyphs-from-an-svg-path/</link>
       <pubDate>Wed, 08 Apr 2020 14:23:00 -0400</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/2020-04-08-create-and-encode-custom-glyphs-from-an-svg-path/</guid>
       <description>In R’s grammar of graphics package (ggplot2), we can encode data in custom-made glyph shapes from vector graphics and encode its size, fill color, or both. SVG graphics display lines, colors fills using paths. Let’s make an SVG graphic containing a single path of a complex shape, assign the graphic in R to data, and change its attributes. For this exercise, I’ve created an SVG path of the silhouette of a baseball player (using Inkscape)1.</description>
     </item>
-    
     <item>
       <title>ggSankeyGrad: an R package to create a ggplot-based sankey graphic that encodes flows with color gradients</title>
       <link>https://ssp3nc3r.github.io/post/2020-03-30-r-package-to-create-a-ggplot-based-sankey-graphic-that-encodes-flows-with-a-color-gradient/</link>
       <pubDate>Mon, 30 Mar 2020 17:05:13 -0400</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/2020-03-30-r-package-to-create-a-ggplot-based-sankey-graphic-that-encodes-flows-with-a-color-gradient/</guid>
       <description>ssSankeyGrad returns a ggplot object encoding the flow between beginning and ending categorical data, i.e., a sankey diagram, wherein each flow is encoded as a color gradient. Those color gradients transition between a user-specified color for each category. The parameters are constructed such that c1, c2, col1, col2, and values are all vectors of the same length and corresponding positions represent one flow between categories. The categories c1, c2 are vectors of type character string, col1, col2 are vectors of type character string and include either named colors or hexidecimal representations of color, and values are of an integer or numeric type that encode the amount of “flow” between each category.</description>
     </item>
-    
     <item>
       <title>HSLuv: an R Package to convert HSLuv colorspace to RGB and hex</title>
       <link>https://ssp3nc3r.github.io/post/2020-03-30-hsluv-an-r-package-to-convert-hsluv-colorspace-to-rgb-and-hex/</link>
       <pubDate>Mon, 30 Mar 2020 16:49:54 -0400</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/2020-03-30-hsluv-an-r-package-to-convert-hsluv-colorspace-to-rgb-and-hex/</guid>
       <description>HSLuv is a human-friendly way to describe hue, saturation, and luminance — three attributes of color. The R package includes functions to convert HSLuv colorspace to computer RGB, either as separate red, green, and blue values or as a hex code.
 To install, you will need a working toolchain on your computer for compiling C++ code, and the R package devtools installed. Once those are working, simply run the following code in an R session:</description>
     </item>
-    
     <item>
       <title>Exploratory modeling on how win uncertainty affects baseball game attendance</title>
       <link>https://ssp3nc3r.github.io/post/2020-01-03-exploratory-modeling-on-how-win-uncertainty-affects-game-attendance/</link>
       <pubDate>Fri, 03 Jan 2020 18:01:28 -0400</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/2020-01-03-exploratory-modeling-on-how-win-uncertainty-affects-game-attendance/</guid>
       <description>We dread an empty ticket booth. The Dodgers’ average game attendance, for example, can be below capacity — they have seats to fill, despite having winning seasons.
 To draw more fans, consider the words of famed economist Simon Rotternberg, who said “uncertainty of outcome is necessary for consumers to pay admission to ball games.” While winning is important, it’s the not knowing that creates excitement. Have the Dodgers maximized winning with uncertainty of outcome?</description>
     </item>
-    
     <item>
       <title>Dynamic, physics-informed systems in Bayesian models</title>
       <link>https://ssp3nc3r.github.io/post/dynamic-systems-in-bayesian-models/</link>
       <pubDate>Thu, 31 Oct 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/dynamic-systems-in-bayesian-models/</guid>
       <description>By dynamic systems, I mean using differential equations to describe how data changes over time. Take running speed, for example. Several physics-based models of running speed have been developed, which I’ve previously discussed. The primary goal in those previous discussions involving sprint speed have been in estimating a maximum speed. But the underlying structure of these models estimate change in speed at time two from speed at time one: a differential equation.</description>
     </item>
-    
     <item>
       <title>Estimating human limits of running speed</title>
       <link>https://ssp3nc3r.github.io/post/estimating-human-limits-to-running-speed/</link>
       <pubDate>Thu, 10 Oct 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/estimating-human-limits-to-running-speed/</guid>
       <description>Prefontaine “finally got it through my head that the real purpose of running isn’t to win a race. It’s to test the limits of the human heart. And that he did. Nobody did it more often. Nobody did it better.”
 — Bill Bowerman.
 We’ve been recording progress towards those limits, whatever they are, for some time. World records have been collected for running distances, from 50 meters on an indoor track to marathons and beyond.</description>
     </item>
-    
     <item>
       <title>See the rising sea</title>
       <link>https://ssp3nc3r.github.io/post/see-the-rising-sea/</link>
       <pubDate>Fri, 02 Aug 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/see-the-rising-sea/</guid>
       <description>Responding to the global effects of climate change — whether by mitigation or adaptation — requires that we, as humans, collectively change how we live. In many ways, how we live is governed by what policies we, or whomever made those policies, decided. Perhaps an effective way in some societies to enact change for the common good is, sadly, for those in power — e.g., those wealthy — to internalize future effects.</description>
     </item>
-    
     <item>
       <title>Modeling forces in 100m Olympic sprint, a study in physics and probability</title>
       <link>https://ssp3nc3r.github.io/post/estimating-force-of-100m-olympic-sprint-with-physics/</link>
       <pubDate>Tue, 11 Jun 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/estimating-force-of-100m-olympic-sprint-with-physics/</guid>
       <description>Let’s practice expressing a probabilistic model aided by physics. Physics have been used, of course, to mathematically describe the forces involved in running short distances. To estimate sprint speed we can inform our models with basic anatomical information and physics. The mathematical physics of running speed depend on body weight, and stride length and rate. Let’s begin with those.
 Let’s start with physics equations to describe speed, and accelerating to maximum speed.</description>
     </item>
-    
     <item>
       <title>NYC bike share rebalancing information graphic</title>
       <link>https://ssp3nc3r.github.io/post/nyc-bike-share-rebalancing-information-graphic/</link>
       <pubDate>Mon, 08 Apr 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/nyc-bike-share-rebalancing-information-graphic/</guid>
       <description>We continue exploring the NYC bike share program. This time we create an information graphic visualizing bike and docking station availability by time of day and rate of new rides per minute.</description>
     </item>
-    
     <item>
       <title>Approximating the components of Lupi&#39;s Nobel no degrees</title>
       <link>https://ssp3nc3r.github.io/post/approximating-the-components-of-lupi-s-nobel-no-degrees/</link>
       <pubDate>Fri, 15 Mar 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/approximating-the-components-of-lupi-s-nobel-no-degrees/</guid>
       <description>Exemplary, award-winning information graphic Approximating the reference in R An exercise in design using R Data for Lupi’s display Main display of points and lines Per-category histograms or bar charts Per-era stacked bar charts Sankey diagram Next steps References Exemplary, award-winning information graphic Giorgia Lupi is a master at designing information for visual narrative — telling stories through visualization. Her portfolio includes a series of exploratory data visualizations published for the largest circulating Italian newspaper, La Lettura.</description>
     </item>
-    
     <item>
       <title>Exploring CitiBike ride data</title>
       <link>https://ssp3nc3r.github.io/post/exploring-citibike-ride-data/</link>
       <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/exploring-citibike-ride-data/</guid>
       <description>Background The Challenge How can we identify causes, relationships One approach for this analysis Identified data of measurements CitiBike ride data Alternative transportation data Weather information Traffic information Beginning data exploration — daily bike usage Background In 2013, the NYC Department of Transportation sought to start a bike share to reduce emissions, road wear, congestion, and improve public health.
 After selecting an operator and sponsor, the Citi Bike bike share was established with a bike fleet distributed over a network of docking stations throughout the city.</description>
     </item>
-    
     <item>
       <title>Scoping a data analytics project</title>
       <link>https://ssp3nc3r.github.io/post/scoping-a-data-analytics-project/</link>
       <pubDate>Thu, 03 Jan 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/scoping-a-data-analytics-project/</guid>
       <description>Scoping an analytics project Defining goals, actions, and problems Identifying accessible data Identifying the analyses and tools Estimating time constraints and finances Writing to clarify and communicate Examples of writeups about projects and workflow References Scoping an analytics project Here is the wrong way to think about a data analytics project: begin with some data, apply tools you are familiar, and stop when you find something to talk about. This approach gets the concept backwards.</description>
     </item>
-    
     <item>
       <title>Baseball Abstract 01</title>
       <link>https://ssp3nc3r.github.io/post/baseball-abstract-01/</link>
       <pubDate>Fri, 21 Dec 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/baseball-abstract-01/</guid>
       <description> </description>
     </item>
-    
     <item>
       <title>Estimating the marginal value of baseball events</title>
       <link>https://ssp3nc3r.github.io/post/estimating-the-marginal-value-of-baseball-events/</link>
       <pubDate>Sat, 08 Dec 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/estimating-the-marginal-value-of-baseball-events/</guid>
       <description>Teams score — or don’t — event by event. Events change the state of the game. Solo home runs aside, whether a score results from any event depends upon prior events: a batter’s double only “drives in a score” when an earlier batter made it on base. By the collection of events a player generates, or more accurately, by the change in expected runs to which they contribute, we can measure players offensive values.</description>
     </item>
-    
     <item>
       <title>McElreath&#39;s Statistical Rethinking examples recoded into Stan</title>
       <link>https://ssp3nc3r.github.io/post/mcelreath-s-statistical-rethinking-examples-recoded-into-stan/</link>
       <pubDate>Tue, 09 Oct 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/mcelreath-s-statistical-rethinking-examples-recoded-into-stan/</guid>
       <description>McElreath’s Statistical Rethinking is among the best books for learning Bayesian statistics (he has a second edition coming out too). As an exercise in pedagogy, I’ve recoded all his examples directly into Stan, a probabilistic programming language. Recoding examples from one programming language into another is a great way to practice learning that other language. Give it a try. I’ve made my recoded examples available here if you get stuck or want to compare methods of coding.</description>
     </item>
-    
     <item>
       <title>Jointly modeling choice to swing with ball contact</title>
       <link>https://ssp3nc3r.github.io/post/jointly-modeling-choice-to-swing-with-ball-contact/</link>
       <pubDate>Sat, 01 Sep 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/jointly-modeling-choice-to-swing-with-ball-contact/</guid>
       <description>Modeling batters’ choices to swing and abilities to contact the ball Variables informing the probability of swinging (the selection submodel) Variables informing probability of contacting the ball (the outcome submodel) Initial joint model References Modeling batters’ choices to swing and abilities to contact the ball Models for decisions to swing and ball contact are more nuanced than a model for called pitches (see Modeling Umpire Calls). Batters’ abilities to contact the ball at a given pitch location are presumably not independent of their decisions to swing.</description>
     </item>
-    
     <item>
       <title>Stan Is Not an Acronym: Bayesian Solutions to Sabermetric Shortcomings</title>
       <link>https://ssp3nc3r.github.io/post/stan-is-not-an-acronym-bayesian-solutions-to-sabermetric-shortcomings/</link>
       <pubDate>Sun, 05 Aug 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/stan-is-not-an-acronym-bayesian-solutions-to-sabermetric-shortcomings/</guid>
       <description>Here is our description of our presentation at Saberseminar 2018: “A common definition of sabermetrics is the application of statistics to baseball. However, despite clear progress over the past few decades, we argue that sabermetrics has largely ignored the most important statistical principle to baseball: generative modeling. In this talk we discuss several conceptual errors with sabermetrics that preclude optimal decision making. Each of these problems can be overcome using a principled Bayesian approach to inference, which we demonstrate using the Stan statistical software.</description>
     </item>
-    
     <item>
       <title>Visual exploration of starting pitcher duration</title>
       <link>https://ssp3nc3r.github.io/post/visual-exploration-of-starting-pitcher-duration/</link>
       <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/visual-exploration-of-starting-pitcher-duration/</guid>
       <description>Introduction Exploring influence of times-through-the-order on manager decisions Describing survival with a life table Modeling survival with conditional logistic regression Exploring game states (context) on pitcher survival Runs accumulated Baserunners accumulated Outs in the half-inning Platooned matchups Pitch count Further work Appendix Variables as cleaned for these analyses References Introduction This analysis explores major league baseball decisions of when starting pitchers are removed from the game. Baseball, among other wonderful things, is a collection of discrete events measured in time.</description>
     </item>
-    
     <item>
       <title>Modeling Umpire Calls</title>
       <link>https://ssp3nc3r.github.io/post/modeling-umpire-calls/</link>
       <pubDate>Wed, 25 Apr 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/modeling-umpire-calls/</guid>
       <description>Introduction Batting and pitching data from Major League Baseball Advance Media Modeling called strike probabilities Previous work General model description Called strike probabilities modeled in Stan Model diagnostics Called strike probability predictions from the modeled posterior Bibliography Introduction The goal of baseball pitchers — when contributing to team defense — is to put out batters. Two ways are (mostly) within the pitchers’ control. They may earn a called strike or a swinging strike.</description>
     </item>
-    
     <item>
       <title>Neural networks — the real basics</title>
       <link>https://ssp3nc3r.github.io/post/neural-networks-the-real-basics/</link>
       <pubDate>Thu, 05 Apr 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/neural-networks-the-real-basics/</guid>
       <description>From logistic regression to a neural net Fitting a logistic regression in R Basic Neural network Forward propogation Back propogation Training the network Our neural network Bibliography From logistic regression to a neural net With all the terminology and perhaps unfamiliar looking plots designed to resemble the inner workings of a brain, neural networks may seem confusing. So let’s bypass all the jargon and such for a few minutes. A basic neural network can be thought of as just chaining together regressions that use a nonlinear function to transform \(\boldsymbol{X}\).</description>
     </item>
-    
     <item>
       <title>Toeing the Line: Altuve and Trout</title>
       <link>https://ssp3nc3r.github.io/post/toeing-the-line-altuve-and-trout/</link>
       <pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/toeing-the-line-altuve-and-trout/</guid>
       <description>Analysis Load and combine data Summarise and prepare data Getting running speed from timestamped coordinates Define variables Graphical overview of coordinates and running speeds Scenario 1: times to first when attempting a double Scenario 2: batters trying to beat a throw to first Conclusions and Next Steps In these analyzed data, described below, Trout demonstrated slightly higher expected footspeed and slightly shorter expected times to first base than did Altuve; although their performance is close and we expect a near toss up, given the data used, as to who comes out ahead on any given play.</description>
     </item>
-    
     <item>
       <title>Languages Behind Statistical Learning, and Useful Tools</title>
       <link>https://ssp3nc3r.github.io/post/2018-01-08-languages-behind-statistical-learning/</link>
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/2018-01-08-languages-behind-statistical-learning/</guid>
       <description>R Markdown—a tool for reproducible reporting From mathematical notation to R Linear Algebra Calculus Probability Distributions Regression Optimization Gradient descent Simplex method Algorithms Data and model visualization Organizing Data Closing “Can A.I. Be Taught to Explain Itself?” That’s the question recently posed in The New York Times Magazine. A search uncovered helpful references — An Introduction to Statistical Learning with Applications in R and The Elements of Statistical Learning, for example — but none with A.</description>
     </item>
-    
     <item>
       <title>Run Expectancy Distributions of MLB Game States</title>
       <link>https://ssp3nc3r.github.io/post/2017-12-03-run-expectancy-distributions/</link>
       <pubDate>Sun, 03 Dec 2017 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/2017-12-03-run-expectancy-distributions/</guid>
       <description>Team wins—a chain of player events Data and sources for estimating run expectancies Calculate runs scored after every game state of a half inning Estimating run expectancy Preserving and understanding uncertainty of our estimates In half innings, more runs occur less frequently Building a bayesian run expectancy model Model summary The median run expectancy matrix Team wins—a chain of player events The performance of a baseball player includes numerous on-field (and off-field) activities, roughly divided into skills of offensive (e.</description>
     </item>
-    
     <item>
       <title>Trading Stanton: a modeling sketch</title>
       <link>https://ssp3nc3r.github.io/post/trading-stanton-a-modeling-sketch/</link>
       <pubDate>Fri, 24 Nov 2017 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/trading-stanton-a-modeling-sketch/</guid>
       <description>Forecast of Giancarlo Stanton’s Expected Surplus Value Summary Estimate player past performance as Wins Over Replacement Forecasting WAR with a hierarchical model in Stan Dollars Per WAR on the Free-Agent Market Unadjusted surplus value Appendix: Stan Model for Forcasting WAR Forecast of Giancarlo Stanton’s Expected Surplus Value Summary In most analyses, I would normally lead with the conclusion—here, surplus value. But, as the perceived goals of analysis are evaluating, well, the analysis, I’ll start with my methods.</description>
     </item>
-    
     <item>
       <title>Contours of batter comparisons: a trick up the sleeve</title>
       <link>https://ssp3nc3r.github.io/post/2017-08-04-contours-of-batter-comparisons/</link>
       <pubDate>Fri, 04 Aug 2017 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/2017-08-04-contours-of-batter-comparisons/</guid>
       <description>Through the eyes of writer Roger Kahn, we’ve witnessed major league pitchers working to fool batters for ages. Regarding one Brooklyn Dodgers pitcher,
 “Dazzy Vance in his prime had a different trick,” [Kahn’s] father said. “For seven years he was the best strikeout pitcher in the league. Vance wore a long undershirt and he took a scissors and cut slits in the right sleeve. It ran clear down to the wrist.</description>
     </item>
-    
     <item>
       <title>About</title>
       <link>https://ssp3nc3r.github.io/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/about/</guid>
       <description>Hello, I&amp;rsquo;m Scott. I lecture in the applied analytics graduate program at Columbia University, my alma mater. I work with core developers of Stan, a probabilistic programming language, building Bayesian, generative models of complex processes involving both human behavior and physical phenomena.
 My applied work focuses on modeling data for good and on professional sports. Recent efforts are on the spatial and temporal impact of sea-level rise on the perceived value of coastal land, and on major league baseball player and team performance.</description>
     </item>
-    
     <item>
       <title>Publications</title>
       <link>https://ssp3nc3r.github.io/publications/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/publications/</guid>
-      <description>Working papers Spencer, Scott. Data in Wonderland. Last updated 2021 April 12.
+      <description>Working papers Spencer, Scott. Data in Wonderland. Last updated 2024 Feb 22.
 Spencer, Scott. Estimating utility of called pitches. 2020 June 11.
 Spencer, Scott. p( persuasion | data, analysis, storytelling ). Last updated 2020 March 07.
 Spencer, Scott. Similarities between R and Python for data analysis. Last updated 2020 February 3.
 Spencer, Scott. A physics and geometry-based, stochastic model for calls, swings, and contact. Last updated 2019 December 29.
 Spencer, Scott.</description>
     </item>
-    
     <item>
       <title>Teaching</title>
       <link>https://ssp3nc3r.github.io/teaching/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/teaching/</guid>
-      <description>2023 Spring Columbia University. Applied Analytics. Storytelling with Data.
+      <description>2024 Spring Columbia University. Applied Analytics. Storytelling with Data.
+2023 Fall Columbia University. Applied Analytics. Research Design.
+2023 Spring Columbia University. Applied Analytics. Storytelling with Data.
 2022 Fall Columbia University. Applied Analytics. Research Design.
 2022 Summer Columbia University. Applied Analytics. Storytelling with Data.
 2022 Spring Columbia University. Applied Analytics. Storytelling with Data.
 2021 Fall Columbia University. Applied Analytics. Storytelling with Data.
 Columbia University. Applied Analytics. Research Design.
-2021 Spring Columbia University. Applied Analytics. Storytelling with Data.
-2020 Fall Columbia University. Applied Analytics. Research Design.
-2020 Spring Columbia University.</description>
+2021 Spring Columbia University.</description>
     </item>
-    
   </channel>
 </rss>

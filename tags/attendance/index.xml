@@ -6,16 +6,15 @@
     <description>Recent content in Attendance on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 03 Jan 2020 18:01:28 -0400</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/attendance/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 03 Jan 2020 18:01:28 -0400</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/attendance/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Exploratory modeling on how win uncertainty affects baseball game attendance</title>
       <link>https://ssp3nc3r.github.io/post/2020-01-03-exploratory-modeling-on-how-win-uncertainty-affects-game-attendance/</link>
       <pubDate>Fri, 03 Jan 2020 18:01:28 -0400</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/2020-01-03-exploratory-modeling-on-how-win-uncertainty-affects-game-attendance/</guid>
       <description>We dread an empty ticket booth. The Dodgers’ average game attendance, for example, can be below capacity — they have seats to fill, despite having winning seasons.
 To draw more fans, consider the words of famed economist Simon Rotternberg, who said “uncertainty of outcome is necessary for consumers to pay admission to ball games.” While winning is important, it’s the not knowing that creates excitement. Have the Dodgers maximized winning with uncertainty of outcome?</description>
     </item>
-    
   </channel>
 </rss>

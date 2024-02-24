@@ -6,15 +6,14 @@
     <description>Recent content in Machine Learning on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 05 Apr 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/machine-learning/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 05 Apr 2018 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/machine-learning/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Neural networks — the real basics</title>
       <link>https://ssp3nc3r.github.io/post/neural-networks-the-real-basics/</link>
       <pubDate>Thu, 05 Apr 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/neural-networks-the-real-basics/</guid>
       <description>From logistic regression to a neural net Fitting a logistic regression in R Basic Neural network Forward propogation Back propogation Training the network Our neural network Bibliography From logistic regression to a neural net With all the terminology and perhaps unfamiliar looking plots designed to resemble the inner workings of a brain, neural networks may seem confusing. So let’s bypass all the jargon and such for a few minutes. A basic neural network can be thought of as just chaining together regressions that use a nonlinear function to transform \(\boldsymbol{X}\).</description>
     </item>
-    
   </channel>
 </rss>

@@ -6,24 +6,21 @@
     <description>Recent content in Expectations on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 08 Dec 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/expectations/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 08 Dec 2018 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/expectations/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Estimating the marginal value of baseball events</title>
       <link>https://ssp3nc3r.github.io/post/estimating-the-marginal-value-of-baseball-events/</link>
       <pubDate>Sat, 08 Dec 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/estimating-the-marginal-value-of-baseball-events/</guid>
       <description>Teams score — or don’t — event by event. Events change the state of the game. Solo home runs aside, whether a score results from any event depends upon prior events: a batter’s double only “drives in a score” when an earlier batter made it on base. By the collection of events a player generates, or more accurately, by the change in expected runs to which they contribute, we can measure players offensive values.</description>
     </item>
-    
     <item>
       <title>Stan Is Not an Acronym: Bayesian Solutions to Sabermetric Shortcomings</title>
       <link>https://ssp3nc3r.github.io/post/stan-is-not-an-acronym-bayesian-solutions-to-sabermetric-shortcomings/</link>
       <pubDate>Sun, 05 Aug 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/stan-is-not-an-acronym-bayesian-solutions-to-sabermetric-shortcomings/</guid>
       <description>Here is our description of our presentation at Saberseminar 2018: “A common definition of sabermetrics is the application of statistics to baseball. However, despite clear progress over the past few decades, we argue that sabermetrics has largely ignored the most important statistical principle to baseball: generative modeling. In this talk we discuss several conceptual errors with sabermetrics that preclude optimal decision making. Each of these problems can be overcome using a principled Bayesian approach to inference, which we demonstrate using the Stan statistical software.</description>
     </item>
-    
   </channel>
 </rss>

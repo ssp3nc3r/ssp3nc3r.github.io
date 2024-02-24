@@ -6,53 +6,44 @@
     <description>Recent content in Stan on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 31 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/categories/stan/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 31 Aug 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/categories/stan/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Speedy splines part two, derivative work</title>
       <link>https://ssp3nc3r.github.io/post/derivative-work-on-speedy-splines/</link>
       <pubDate>Thu, 31 Aug 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/derivative-work-on-speedy-splines/</guid>
       <description>In the last post, I showed how we can speed up computation for splines in Stan. This post is, ahem, derivative. Perhaps we have noisy data of position and time, and we want to estimate speed and acceleration. We can use b-splines and their derivatives for this.
 So let’s pick up where we left off, and add calculations in Stan to calculate the first and second derivatives of the spline in Stan.</description>
     </item>
-    
     <item>
       <title>Speedy splines in Stan part one</title>
       <link>https://ssp3nc3r.github.io/post/speedy-splines-in-stan/</link>
       <pubDate>Wed, 16 Aug 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/speedy-splines-in-stan/</guid>
       <description>Milad Kharratzadeh provides a helpful case study on estimating splines in Stan. We can improve on his work with a few tricks to speed up the estimation process. Namely, if we decompose the spline matrix using QR decomposition, we speed up Stan’s fitting process by at least an order of magnitude.
 Here’s how we can alter the code to accommodate splines with a few tricks to speed things up:</description>
     </item>
-    
     <item>
       <title>Dynamic, physics-informed systems in Bayesian models</title>
       <link>https://ssp3nc3r.github.io/post/dynamic-systems-in-bayesian-models/</link>
       <pubDate>Thu, 31 Oct 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/dynamic-systems-in-bayesian-models/</guid>
       <description>By dynamic systems, I mean using differential equations to describe how data changes over time. Take running speed, for example. Several physics-based models of running speed have been developed, which I’ve previously discussed. The primary goal in those previous discussions involving sprint speed have been in estimating a maximum speed. But the underlying structure of these models estimate change in speed at time two from speed at time one: a differential equation.</description>
     </item>
-    
     <item>
       <title>Stan Is Not an Acronym: Bayesian Solutions to Sabermetric Shortcomings</title>
       <link>https://ssp3nc3r.github.io/post/stan-is-not-an-acronym-bayesian-solutions-to-sabermetric-shortcomings/</link>
       <pubDate>Sun, 05 Aug 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/stan-is-not-an-acronym-bayesian-solutions-to-sabermetric-shortcomings/</guid>
       <description>Here is our description of our presentation at Saberseminar 2018: “A common definition of sabermetrics is the application of statistics to baseball. However, despite clear progress over the past few decades, we argue that sabermetrics has largely ignored the most important statistical principle to baseball: generative modeling. In this talk we discuss several conceptual errors with sabermetrics that preclude optimal decision making. Each of these problems can be overcome using a principled Bayesian approach to inference, which we demonstrate using the Stan statistical software.</description>
     </item>
-    
     <item>
       <title>Trading Stanton: a modeling sketch</title>
       <link>https://ssp3nc3r.github.io/post/trading-stanton-a-modeling-sketch/</link>
       <pubDate>Fri, 24 Nov 2017 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/trading-stanton-a-modeling-sketch/</guid>
       <description>Forecast of Giancarlo Stanton’s Expected Surplus Value Summary Estimate player past performance as Wins Over Replacement Forecasting WAR with a hierarchical model in Stan Dollars Per WAR on the Free-Agent Market Unadjusted surplus value Appendix: Stan Model for Forcasting WAR Forecast of Giancarlo Stanton’s Expected Surplus Value Summary In most analyses, I would normally lead with the conclusion—here, surplus value. But, as the perceived goals of analysis are evaluating, well, the analysis, I’ll start with my methods.</description>
     </item>
-    
   </channel>
 </rss>

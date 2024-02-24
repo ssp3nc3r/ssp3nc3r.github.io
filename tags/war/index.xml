@@ -6,15 +6,14 @@
     <description>Recent content in WAR on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 05 Aug 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://ssp3nc3r.github.io/tags/war/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 05 Aug 2018 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/war/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Stan Is Not an Acronym: Bayesian Solutions to Sabermetric Shortcomings</title>
       <link>https://ssp3nc3r.github.io/post/stan-is-not-an-acronym-bayesian-solutions-to-sabermetric-shortcomings/</link>
       <pubDate>Sun, 05 Aug 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://ssp3nc3r.github.io/post/stan-is-not-an-acronym-bayesian-solutions-to-sabermetric-shortcomings/</guid>
       <description>Here is our description of our presentation at Saberseminar 2018: “A common definition of sabermetrics is the application of statistics to baseball. However, despite clear progress over the past few decades, we argue that sabermetrics has largely ignored the most important statistical principle to baseball: generative modeling. In this talk we discuss several conceptual errors with sabermetrics that preclude optimal decision making. Each of these problems can be overcome using a principled Bayesian approach to inference, which we demonstrate using the Stan statistical software.</description>
     </item>
-    
   </channel>
 </rss>

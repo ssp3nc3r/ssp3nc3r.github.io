@@ -9,6 +9,14 @@ date: "2020"
 title: Teaching
 ---
 
+## 2024 Spring
+
+Columbia University. Applied Analytics. _Storytelling with Data_.
+
+## 2023 Fall
+
+Columbia University. Applied Analytics. _Research Design_.
+
 ## 2023 Spring
 
 [Columbia University. Applied Analytics. _Storytelling with Data_](https://ssp3nc3r.github.io/comm-course-ds-2023-01/).

@@ -9,6 +9,10 @@ date: "2020"
 title: Teaching
 ---
 
+## 2024 Summer
+
+Athlyticz. [_Becoming a Bayesian I_](https://athlyticz.com/stan-i).
+
 ## 2024 Spring
 
 Columbia University. Applied Analytics. _Storytelling with Data_.

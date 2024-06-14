@@ -104,6 +104,9 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
   [[params.social]]
     name = "github"
     url  = "https://github.com/ssp3nc3r"
+  [[params.social]]
+    name = "linkedin"
+    url  = "https://www.linkedin.com/in/scottaspencer"
 
 [menu]
   [[menu.main]]

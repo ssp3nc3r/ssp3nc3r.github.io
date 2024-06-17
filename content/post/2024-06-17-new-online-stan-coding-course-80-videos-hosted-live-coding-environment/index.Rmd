@@ -167,7 +167,7 @@ Here's a general list of topics in the course:
         outcomes](#binomially-distributed-count-outcomes)
     2.  [Poisson distributed count
         outcomes](#poisson-distributed-count-outcomes)
-16. [More GLMs: Modeling categorial
+16. [More GLMs: Modeling categorical
     outcomes](#more-glms-modeling-categorial-outcomes)
 17. [Hierarchical models, an
     Introduction](#hierarchical-models-an-introduction)

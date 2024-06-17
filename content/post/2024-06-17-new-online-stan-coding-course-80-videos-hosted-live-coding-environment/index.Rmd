@@ -1,0 +1,192 @@
+---
+title: 'New online Stan coding course'
+author: Scott Spencer
+date: '2024-06-17'
+slug: new-online-stan-coding-course
+categories:
+  - Stan
+  - Education
+tags:
+  - Stan
+  - Education
+  - Sports
+comments: no
+images: null
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+Hey everyone! I’m excited to announce my new online course for learning
+direct Stan coding for Bayesian analysis. Available starting this
+Friday; enroll here: <https://athlyticz.com/stan-i>.
+
+[— **TL;DR** —]{.smallcaps}
+
+-   Actual Stan coding, not a high-level interface
+-   At-your-own-pace videos: shows live coding while explaining
+-   Hosted RStudio session to practice alongside me
+-   Starts with fundamentals, builds to hierarchical models
+-   Emphasizes a Bayesian workflow
+-   Modeling applied to sports data
+
+My goal is to **make learning Stan as easy as possible**.
+
+------------------------------------------------------------------------
+
+Details below:
+
+If you — or someone you know — may be keen on mastering Stan and
+Bayesian analysis at your own pace and modeling sports data, that’s this
+course.
+
+**Here's what sets my course apart**:
+
+It gives you 80 videos to learn by watching me live code for you and
+walk you through every line of code in `R` and `Stan`. Along with using
+`cmdstanr` as the interface between these languages, I leverage modern
+`R`/`tidyverse` tools for data exploration, posterior review, and more.
+And you can binge-watch or revisit all lessons as needed.
+
+Starting with fundamental concepts (*e.g.*, probability, distributions,
+simulation), I gradually introduce you to basic regressions,
+correlations, and hierarchical modeling. Throughout, I emphasize a
+Bayesian workflow, culminating in a comprehensive case study.
+
+Unlike courses and textbooks using high-level wrappers (`rstanarm`,
+`brms`, `ulam`), I guide you to code directly in Stan, supported by
+handy functions from `posterior`, `tidybayes`, and `ggdist` for easy and
+efficient posterior handling and visualization. I'll show you that
+`rvar` objects and functions like `spread_draws` make Stan friendlier;
+no need to "go Houdini"!
+
+To create a smooth learning experience, my course videos are paired with
+a web-based RStudio session. This setup lets you run and modify all the
+code with me interactively, seeing firsthand how your changes impact
+outcomes — without worrying about setup issues.
+
+In essence, **I've crafted the course I wish I had when starting out**.
+I'm currently working on a follow-up, intermediate course. Looking
+forward to sharing this journey with you! :)
+
+------------------------------------------------------------------------
+
+Here's a general list of topics in the course:
+
+1.  [Introducing Bayesian analysis for
+    sports](#introducing-bayesian-analysis-for-sports)
+    1.  [Introduction](#introduction)
+    2.  [Course topics](#course-topics)
+2.  [Exploring uncertainty and
+    variation](#exploring-uncertainty-and-variation)
+    1.  [Example — 100 meter Olympic
+        sprint](#example-100-meter-olympic-sprint)
+    2.  [Visualizing the example data](#visualizing-the-example-data)
+3.  [Introducing probability, random variables, and
+    distributions](#introducing-probability-random-variables-and-distributions)
+    1.  [Concepts in probability](#concepts-in-probability)
+    2.  [Random variables](#random-variables)
+    3.  [Discrete distributions](#discrete-distributions)
+    4.  [Bernoulli](#bernoulli)
+    5.  [Bernoulli as a special case of
+        Binomial](#bernoulli-as-a-special-case-of-binomial)
+    6.  [Binomial with specific conditions is a
+        Poisson](#binomial-with-specific-conditions-is-a-poisson)
+    7.  [Binomial with specific conditions is a
+        Normal](#binomial-with-specific-conditions-is-a-normal)
+    8.  [Continuous distributions](#continuous-distributions)
+    9.  [Continuous uniform
+        distribution](#continuous-uniform-distribution)
+    10. [Beta distribution](#beta-distribution)
+    11. [Normal distribution](#normal-distribution)
+    12. [Summary statistics](#summary-statistics)
+    13. [Two joint distributions](#two-joint-distributions)
+    14. [Marginal distributions](#marginal-distributions)
+    15. [Conditional distributions](#conditional-distributions)
+    16. [Independence between
+        variables](#independence-between-variables)
+    17. [Getting to Bayes rule](#getting-to-bayes-rule)
+4.  [Priors, likelihoods, and posteriors: Bayes
+    Rule](#priors-likelihoods-and-posteriors-bayes-rule)
+    1.  [Priors](#priors)
+    2.  [Likelihoods](#likelihoods)
+    3.  [Normalizing constant](#normalizing-constant)
+    4.  [Conjugate priors: e.g.,
+        Beta-Binomial](#conjugate-priors-e.g.-beta-binomial)
+5.  [Simulating distributions in R](#simulating-distributions-in-r)
+    1.  [Randomization](#randomization)
+    2.  [Transforming random numbers to simulate
+        distributions](#transforming-random-numbers-to-simulate-distributions)
+6.  [Representing distributions with the random variable code
+    object](#representing-distributions-with-the-random-variable-code-object)
+7.  [Simulation and models in Stan](#simulation-and-models-in-stan)
+    1.  [Introduction to Stan](#introduction-to-stan)
+    2.  [Stan documentation](#stan-documentation)
+    3.  [Toy Stan example: simulating
+        values](#toy-stan-example-simulating-values)
+    4.  [Compiling, fitting, and reviewing the model in
+        R](#compiling-fitting-and-reviewing-the-model-in-r)
+    5.  [Second example: Beta-Binomial](#second-example-beta-binomial)
+8.  [Posterior simulation: example with grid
+    approximation](#posterior-simulation-example-with-grid-approximation)
+9.  [Approximate posteriors with MH and
+    HMC](#approximate-posteriors-with-mh-and-hmc)
+    1.  [Random walk Metropolis
+        Hastings](#random-walk-metropolis-hastings)
+    2.  [Hamiltonian Monte Carlo](#hamiltonian-monte-carlo)
+10. [A language for describing
+    models](#a-language-for-describing-models)
+11. [Simple normal regression](#simple-normal-regression)
+    1.  [Overview](#overview)
+    2.  [Priors with predictive checks](#priors-with-predictive-checks)
+    3.  [Coding a normal regression
+        model](#coding-a-normal-regression-model)
+    4.  [Compiling and fitting the
+        model](#compiling-and-fitting-the-model)
+    5.  [Checking HMC diagnostics](#checking-hmc-diagnostics)
+    6.  [Reviewing the model
+        parameters](#reviewing-the-model-parameters)
+12. [cmdstanr model object, helper functions, model
+    evaluation](#cmdstanr-model-object-helper-functions-model-evaluation)
+    1.  [From sampling to Stan model
+        object](#from-sampling-to-stan-model-object)
+    2.  [Posterior predictive checks: three
+        approaches](#posterior-predictive-checks-three-approaches)
+    3.  [Model comparison: ELPD and
+        loo-cv](#model-comparison-elpd-and-loo-cv)
+13. [Extending normal regression](#extending-normal-regression)
+    1.  [Not just linear models!](#not-just-linear-models)
+    2.  [Categorical predictors](#categorical-predictors)
+14. [Generalized linear models: conceptual
+    introduction](#generalized-linear-models-conceptual-introduction)
+    1.  [Logit link function](#logit-link-function)
+    2.  [Log link function](#log-link-function)
+15. [GLMs: Modeling integer or count
+    outcomes](#glms-modeling-integer-or-count-outcomes)
+    1.  [Binomially-distributed count
+        outcomes](#binomially-distributed-count-outcomes)
+    2.  [Poisson distributed count
+        outcomes](#poisson-distributed-count-outcomes)
+16. [More GLMs: Modeling categorial
+    outcomes](#more-glms-modeling-categorial-outcomes)
+17. [Hierarchical models, an
+    Introduction](#hierarchical-models-an-introduction)
+    1.  [Parameters sharing
+        information](#parameters-sharing-information)
+    2.  [Model example](#model-example)
+    3.  [Diagnostics and
+        reparameterization](#diagnostics-and-reparameterization)
+18. [Workflow recap](#workflow-recap)
+19. [Case study](#case-study)
+    1.  [Setup](#setup)
+    2.  [The problem](#the-problem)
+    3.  [The data](#the-data)
+    4.  [Visually exploring the pitch
+        data](#visually-exploring-the-pitch-data)
+    5.  [Modeling goals as bernoulli](#modeling-goals-as-bernoulli)
+    6.  [Expanding the model](#expanding-the-model)
+    7.  [Hierarchical modeling](#hierarchical-modeling)
+    8.  [Using the model: estimates for
+        decisionmaking](#using-the-model-estimates-for-decisionmaking)
+20. [Next steps: for the case study, and your
+    journey](#next-steps-for-the-case-study-and-your-journey)

@@ -6,8 +6,17 @@
     <description>Recent content in Stan on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 31 Aug 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 17 Jun 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://ssp3nc3r.github.io/tags/stan/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>New online Stan coding course</title>
+      <link>https://ssp3nc3r.github.io/post/new-online-stan-coding-course/</link>
+      <pubDate>Mon, 17 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/new-online-stan-coding-course/</guid>
+      <description>Hey everyone! I’m excited to announce my new online course for learning direct Stan coding for Bayesian analysis. Available starting this Friday; enroll here: https://athlyticz.com/stan-i.
+— TL;DR —
+Actual Stan coding, not a high-level interface At-your-own-pace videos: shows live coding while explaining Hosted RStudio session to practice alongside me Starts with fundamentals, builds to hierarchical models Emphasizes a Bayesian workflow Modeling applied to sports data My goal is to make learning Stan as easy as possible.</description>
+    </item>
     <item>
       <title>Speedy splines part two, derivative work</title>
       <link>https://ssp3nc3r.github.io/post/derivative-work-on-speedy-splines/</link>

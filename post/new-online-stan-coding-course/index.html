@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Scott Spencer">
+<meta name="description" content="Hey everyone! I’m excited to announce my new online course for learning direct Stan coding for Bayesian analysis. Available starting this Friday; enroll here: https://athlyticz.com/stan-i.
+— TL;DR —
+Actual Stan coding, not a high-level interface At-your-own-pace videos: shows live coding while explaining Hosted RStudio session to practice alongside me Starts with fundamentals, builds to hierarchical models Emphasizes a Bayesian workflow Modeling applied to sports data My goal is to make learning Stan as easy as possible." />
+<meta name="keywords" content="Scott Spencer, statistical, generative modeling, bayesian inference, writing, data visualization, sports, columbia university, Stan, Education, Sports" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="https://ssp3nc3r.github.io/post/new-online-stan-coding-course/" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1V94CLF78W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1V94CLF78W');
+</script>
+
+
+    <title>
+        
+            New online Stan coding course :: p( ssp3nc3r | Columbian ) 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.d235e788b40b442aba9cd6c69fdc330353b2dec27dcbc4235961469d2155f5a9.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://ssp3nc3r.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://ssp3nc3r.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://ssp3nc3r.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://ssp3nc3r.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://ssp3nc3r.github.io/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="https://ssp3nc3r.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+<meta itemprop="name" content="New online Stan coding course">
+<meta itemprop="description" content="Hey everyone! I’m excited to announce my new online course for learning direct Stan coding for Bayesian analysis. Available starting this Friday; enroll here: https://athlyticz.com/stan-i.
+— TL;DR —
+Actual Stan coding, not a high-level interface At-your-own-pace videos: shows live coding while explaining Hosted RStudio session to practice alongside me Starts with fundamentals, builds to hierarchical models Emphasizes a Bayesian workflow Modeling applied to sports data My goal is to make learning Stan as easy as possible."><meta itemprop="datePublished" content="2024-06-17T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2024-06-17T00:00:00+00:00" />
+<meta itemprop="wordCount" content="636"><meta itemprop="image" content="https://ssp3nc3r.github.io"/>
+<meta itemprop="keywords" content="Stan,Education,Sports," /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://ssp3nc3r.github.io"/>
+
+<meta name="twitter:title" content="New online Stan coding course"/>
+<meta name="twitter:description" content="Hey everyone! I’m excited to announce my new online course for learning direct Stan coding for Bayesian analysis. Available starting this Friday; enroll here: https://athlyticz.com/stan-i.
+— TL;DR —
+Actual Stan coding, not a high-level interface At-your-own-pace videos: shows live coding while explaining Hosted RStudio session to practice alongside me Starts with fundamentals, builds to hierarchical models Emphasizes a Bayesian workflow Modeling applied to sports data My goal is to make learning Stan as easy as possible."/>
+
+
+
+    <meta property="article:section" content="Stan" />
+
+    <meta property="article:section" content="Education" />
+
+
+
+    <meta property="article:published_time" content="2024-06-17 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://ssp3nc3r.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#67a2c9;
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://ssp3nc3r.github.io/about/">About</a></li><li><a href="https://ssp3nc3r.github.io/post/">Blog</a></li><li><a href="https://ssp3nc3r.github.io/publications/">Publications</a></li><li><a href="https://ssp3nc3r.github.io/teaching/">Teaching</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://ssp3nc3r.github.io/post/new-online-stan-coding-course/">New online Stan coding course</a></h2>
+
+            
+
+            <div class="post-content">
+                
+
+
+<p>Hey everyone! I’m excited to announce my new online course for learning
+direct Stan coding for Bayesian analysis. Available starting this
+Friday; enroll here: <a href="https://athlyticz.com/stan-i" class="uri">https://athlyticz.com/stan-i</a>.</p>
+<p><span class="smallcaps">— <strong>TL;DR</strong> —</span></p>
+<ul>
+<li>Actual Stan coding, not a high-level interface</li>
+<li>At-your-own-pace videos: shows live coding while explaining</li>
+<li>Hosted RStudio session to practice alongside me</li>
+<li>Starts with fundamentals, builds to hierarchical models</li>
+<li>Emphasizes a Bayesian workflow</li>
+<li>Modeling applied to sports data</li>
+</ul>
+<p>My goal is to <strong>make learning Stan as easy as possible</strong>.</p>
+<hr />
+<p>Details below:</p>
+<p>If you — or someone you know — may be keen on mastering Stan and
+Bayesian analysis at your own pace and modeling sports data, that’s this
+course.</p>
+<p><strong>Here’s what sets my course apart</strong>:</p>
+<p>It gives you 80 videos to learn by watching me live code for you and
+walk you through every line of code in <code>R</code> and <code>Stan</code>. Along with using
+<code>cmdstanr</code> as the interface between these languages, I leverage modern
+<code>R</code>/<code>tidyverse</code> tools for data exploration, posterior review, and more.
+And you can binge-watch or revisit all lessons as needed.</p>
+<p>Starting with fundamental concepts (<em>e.g.</em>, probability, distributions,
+simulation), I gradually introduce you to basic regressions,
+correlations, and hierarchical modeling. Throughout, I emphasize a
+Bayesian workflow, culminating in a comprehensive case study.</p>
+<p>Unlike courses and textbooks using high-level wrappers (<code>rstanarm</code>,
+<code>brms</code>, <code>ulam</code>), I guide you to code directly in Stan, supported by
+handy functions from <code>posterior</code>, <code>tidybayes</code>, and <code>ggdist</code> for easy and
+efficient posterior handling and visualization. I’ll show you that
+<code>rvar</code> objects and functions like <code>spread_draws</code> make Stan friendlier;
+no need to “go Houdini”!</p>
+<p>To create a smooth learning experience, my course videos are paired with
+a web-based RStudio session. This setup lets you run and modify all the
+code with me interactively, seeing firsthand how your changes impact
+outcomes — without worrying about setup issues.</p>
+<p>In essence, <strong>I’ve crafted the course I wish I had when starting out</strong>.
+I’m currently working on a follow-up, intermediate course. Looking
+forward to sharing this journey with you! :)</p>
+<hr />
+<p>Here’s a general list of topics in the course:</p>
+<ol style="list-style-type: decimal">
+<li><a href="#introducing-bayesian-analysis-for-sports">Introducing Bayesian analysis for
+sports</a>
+<ol style="list-style-type: decimal">
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#course-topics">Course topics</a></li>
+</ol></li>
+<li><a href="#exploring-uncertainty-and-variation">Exploring uncertainty and
+variation</a>
+<ol style="list-style-type: decimal">
+<li><a href="#example-100-meter-olympic-sprint">Example — 100 meter Olympic
+sprint</a></li>
+<li><a href="#visualizing-the-example-data">Visualizing the example data</a></li>
+</ol></li>
+<li><a href="#introducing-probability-random-variables-and-distributions">Introducing probability, random variables, and
+distributions</a>
+<ol style="list-style-type: decimal">
+<li><a href="#concepts-in-probability">Concepts in probability</a></li>
+<li><a href="#random-variables">Random variables</a></li>
+<li><a href="#discrete-distributions">Discrete distributions</a></li>
+<li><a href="#bernoulli">Bernoulli</a></li>
+<li><a href="#bernoulli-as-a-special-case-of-binomial">Bernoulli as a special case of
+Binomial</a></li>
+<li><a href="#binomial-with-specific-conditions-is-a-poisson">Binomial with specific conditions is a
+Poisson</a></li>
+<li><a href="#binomial-with-specific-conditions-is-a-normal">Binomial with specific conditions is a
+Normal</a></li>
+<li><a href="#continuous-distributions">Continuous distributions</a></li>
+<li><a href="#continuous-uniform-distribution">Continuous uniform
+distribution</a></li>
+<li><a href="#beta-distribution">Beta distribution</a></li>
+<li><a href="#normal-distribution">Normal distribution</a></li>
+<li><a href="#summary-statistics">Summary statistics</a></li>
+<li><a href="#two-joint-distributions">Two joint distributions</a></li>
+<li><a href="#marginal-distributions">Marginal distributions</a></li>
+<li><a href="#conditional-distributions">Conditional distributions</a></li>
+<li><a href="#independence-between-variables">Independence between
+variables</a></li>
+<li><a href="#getting-to-bayes-rule">Getting to Bayes rule</a></li>
+</ol></li>
+<li><a href="#priors-likelihoods-and-posteriors-bayes-rule">Priors, likelihoods, and posteriors: Bayes
+Rule</a>
+<ol style="list-style-type: decimal">
+<li><a href="#priors">Priors</a></li>
+<li><a href="#likelihoods">Likelihoods</a></li>
+<li><a href="#normalizing-constant">Normalizing constant</a></li>
+<li><a href="#conjugate-priors-e.g.-beta-binomial">Conjugate priors: e.g.,
+Beta-Binomial</a></li>
+</ol></li>
+<li><a href="#simulating-distributions-in-r">Simulating distributions in R</a>
+<ol style="list-style-type: decimal">
+<li><a href="#randomization">Randomization</a></li>
+<li><a href="#transforming-random-numbers-to-simulate-distributions">Transforming random numbers to simulate
+distributions</a></li>
+</ol></li>
+<li><a href="#representing-distributions-with-the-random-variable-code-object">Representing distributions with the random variable code
+object</a></li>
+<li><a href="#simulation-and-models-in-stan">Simulation and models in Stan</a>
+<ol style="list-style-type: decimal">
+<li><a href="#introduction-to-stan">Introduction to Stan</a></li>
+<li><a href="#stan-documentation">Stan documentation</a></li>
+<li><a href="#toy-stan-example-simulating-values">Toy Stan example: simulating
+values</a></li>
+<li><a href="#compiling-fitting-and-reviewing-the-model-in-r">Compiling, fitting, and reviewing the model in
+R</a></li>
+<li><a href="#second-example-beta-binomial">Second example: Beta-Binomial</a></li>
+</ol></li>
+<li><a href="#posterior-simulation-example-with-grid-approximation">Posterior simulation: example with grid
+approximation</a></li>
+<li><a href="#approximate-posteriors-with-mh-and-hmc">Approximate posteriors with MH and
+HMC</a>
+<ol style="list-style-type: decimal">
+<li><a href="#random-walk-metropolis-hastings">Random walk Metropolis
+Hastings</a></li>
+<li><a href="#hamiltonian-monte-carlo">Hamiltonian Monte Carlo</a></li>
+</ol></li>
+<li><a href="#a-language-for-describing-models">A language for describing
+models</a></li>
+<li><a href="#simple-normal-regression">Simple normal regression</a>
+<ol style="list-style-type: decimal">
+<li><a href="#overview">Overview</a></li>
+<li><a href="#priors-with-predictive-checks">Priors with predictive checks</a></li>
+<li><a href="#coding-a-normal-regression-model">Coding a normal regression
+model</a></li>
+<li><a href="#compiling-and-fitting-the-model">Compiling and fitting the
+model</a></li>
+<li><a href="#checking-hmc-diagnostics">Checking HMC diagnostics</a></li>
+<li><a href="#reviewing-the-model-parameters">Reviewing the model
+parameters</a></li>
+</ol></li>
+<li><a href="#cmdstanr-model-object-helper-functions-model-evaluation">cmdstanr model object, helper functions, model
+evaluation</a>
+<ol style="list-style-type: decimal">
+<li><a href="#from-sampling-to-stan-model-object">From sampling to Stan model
+object</a></li>
+<li><a href="#posterior-predictive-checks-three-approaches">Posterior predictive checks: three
+approaches</a></li>
+<li><a href="#model-comparison-elpd-and-loo-cv">Model comparison: ELPD and
+loo-cv</a></li>
+</ol></li>
+<li><a href="#extending-normal-regression">Extending normal regression</a>
+<ol style="list-style-type: decimal">
+<li><a href="#not-just-linear-models">Not just linear models!</a></li>
+<li><a href="#categorical-predictors">Categorical predictors</a></li>
+</ol></li>
+<li><a href="#generalized-linear-models-conceptual-introduction">Generalized linear models: conceptual
+introduction</a>
+<ol style="list-style-type: decimal">
+<li><a href="#logit-link-function">Logit link function</a></li>
+<li><a href="#log-link-function">Log link function</a></li>
+</ol></li>
+<li><a href="#glms-modeling-integer-or-count-outcomes">GLMs: Modeling integer or count
+outcomes</a>
+<ol style="list-style-type: decimal">
+<li><a href="#binomially-distributed-count-outcomes">Binomially-distributed count
+outcomes</a></li>
+<li><a href="#poisson-distributed-count-outcomes">Poisson distributed count
+outcomes</a></li>
+</ol></li>
+<li><a href="#more-glms-modeling-categorial-outcomes">More GLMs: Modeling categorial
+outcomes</a></li>
+<li><a href="#hierarchical-models-an-introduction">Hierarchical models, an
+Introduction</a>
+<ol style="list-style-type: decimal">
+<li><a href="#parameters-sharing-information">Parameters sharing
+information</a></li>
+<li><a href="#model-example">Model example</a></li>
+<li><a href="#diagnostics-and-reparameterization">Diagnostics and
+reparameterization</a></li>
+</ol></li>
+<li><a href="#workflow-recap">Workflow recap</a></li>
+<li><a href="#case-study">Case study</a>
+<ol style="list-style-type: decimal">
+<li><a href="#setup">Setup</a></li>
+<li><a href="#the-problem">The problem</a></li>
+<li><a href="#the-data">The data</a></li>
+<li><a href="#visually-exploring-the-pitch-data">Visually exploring the pitch
+data</a></li>
+<li><a href="#modeling-goals-as-bernoulli">Modeling goals as bernoulli</a></li>
+<li><a href="#expanding-the-model">Expanding the model</a></li>
+<li><a href="#hierarchical-modeling">Hierarchical modeling</a></li>
+<li><a href="#using-the-model-estimates-for-decisionmaking">Using the model: estimates for
+decisionmaking</a></li>
+</ol></li>
+<li><a href="#next-steps-for-the-case-study-and-your-journey">Next steps: for the case study, and your
+journey</a></li>
+</ol>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ssp3nc3r.github.io/tags/stan">Stan</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/education">Education</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/sports">Sports</a></span>
+  				</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+        </div>
+    </div>
+    <script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="https://ssp3nc3r.github.io/bundle.min.cf635d24bf68547733f27857b49c171df862bc4292c4ef792bd9947e432e5143feddd11bf4042024607b5fae3d7b8ff73f8ca4104d5961d57daf4cabe1d0d3b2.js" integrity="sha512-z2NdJL9oVHcz8nhXtJwXHfhivEKSxO95K9mUfkMuUUP&#43;3dEb9AQgJGB7X649e4/3P4ykEE1ZYdV9r0yr4dDTsg=="></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'G-1V94CLF78W', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+
+    </body>
+</html>

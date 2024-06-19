@@ -9,7 +9,7 @@ date: "2021"
 title: About
 ---
 
-Hello, I'm Scott. I lecture in the [applied analytics graduate program at Columbia University](https://sps.columbia.edu/faculty/scott-spencer "Columbia University, Faculty and Lecturer"), my alma mater. And to make Bayesian data analysis and Stan coding more accessible, I've [developed online courses](https://athlyticz.com/stan-i "Becoming a Bayesian I") too. I work with core developers of `Stan`, a probabilistic programming language, building Bayesian, generative models of complex processes involving both human behavior and physical phenomena.
+Hello, I'm Scott. I lecture in the [applied analytics graduate program at Columbia University](https://sps.columbia.edu/faculty/scott-spencer "Columbia University, Faculty and Lecturer"), my alma mater. And to make Bayesian data analysis and Stan coding more accessible, I've [developed and teach online courses](https://athlyticz.com/stan-i "Becoming a Bayesian I") too. I work with core developers of `Stan`, a probabilistic programming language, building Bayesian, generative models of complex processes involving both human behavior and physical phenomena.
 
 My applied work focuses on modeling data for good and on professional sports. Recent efforts are on the spatial and temporal impact of sea-level rise on the perceived value of coastal land, and on major league baseball player and team performance. My work in modeling and communication arise from a doctor of jurisprudence with honors in research and writing, master of science in sports management focused on data science, and bachelor of science in chemical engineering focused on numerical methods and statistical process control.
 

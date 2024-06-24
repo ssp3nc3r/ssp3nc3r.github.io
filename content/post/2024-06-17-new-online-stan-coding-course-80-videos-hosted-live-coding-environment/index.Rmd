@@ -22,8 +22,8 @@ editor_options:
 ---
 
 Hey everyone! I’m excited to announce my new online course for learning
-direct Stan coding for Bayesian analysis. Available starting this
-Friday; enroll here: <https://athlyticz.com/stan-i>.
+direct Stan coding for Bayesian analysis. Available now; enroll here:
+<https://athlyticz.com/stan-i>.
 
 [— **TL;DR** —]{.smallcaps}
 
@@ -34,7 +34,7 @@ Friday; enroll here: <https://athlyticz.com/stan-i>.
 -   Emphasizes a Bayesian workflow
 -   Modeling applied to sports data
 
-My goal is to **make learning Stan as easy as possible**.
+My goal is to **make learning Stan as easy and fast as possible**.
 
 ------------------------------------------------------------------------
 

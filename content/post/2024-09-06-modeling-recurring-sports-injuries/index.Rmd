@@ -23,29 +23,29 @@ comments: no
 images: ~
 ---
 
-Each sport carries with it specific types of injury risks. Pitching in baseball, UCL, rotator cuffs, and elbow injuries. Soccer, ACL tears, hamstrings, ankles. And so forth. Understanding the risks of injury is the first step in minimizing or preventing such injuries. In this post, I outline a Bayesian model for modeling these risks.  
+Each sport carries with it specific types of injury risks. Pitching in baseball: UCL, rotator cuffs, and elbow injuries. Soccer: ACL tears, hamstrings, ankles. And so forth. Understanding the risks of injury is the first step in minimizing or preventing such injuries. In this post, I outline a Bayesian model for modeling these risks.  
 
-Let's say we want to model K types of injury in a given sport, with the possibility of a player having multiple injuries over time. Each athlete may experience multiple injuries and each injury corresponds to one of the K types. If over the time in question, no injury occurs, we can call that "censored".
+Let's say we want to model $K$ types of injury in a given sport, with the possibility of a player having multiple injuries over time. Each athlete may experience multiple injuries and each injury corresponds to one of the $K$ types. If over the time in question, no injury occurs, we can call that "censored".
 
-To make this easier to follow, let's create some notation. We will index athletes by $i$ where $i = 1, ...,N$. Events will also be indexed, $e = 1,...,E$. Each time to the e-th event (or if censored no event), we'll call $T_e$. Since there are multiple types of injuries, we'll include an event indicator $\delta_e = 0$ for no injury, or $\delta_e = k$ for an injury where injury types are $k = 1,...,K$.
+To make this easier to follow, let's create some notation. We will index athletes by $i$ where $i = 1, ...,N$. Events will also be indexed, $e = 1,...,E$. Each time to the e-th event (if censored, no event), we'll call $T_e$. Since there are multiple types of injuries, we'll include an event indicator $\delta_e = 0$ for no injury, or $\delta_e = k$ for an injury where injury types are $k = 1,...,K$.
 
 We may also have possible predictors for these injuries, which may either be time independent or time dependent. Let's label these $\bf{X}_k$ and include an intercept and things like prior injury indicators.
 
 The time to injury for each of these injury types $k$ can be modeled with a Weibull distribution, which has a scale parameter $\lambda_k$ and a shape parameter $\alpha_k$.
 
-The function describing the risk of instantaneous injury or (aka hazard) for type $k$, then, is:
+The function describing the risk of instantaneous injury (aka hazard) for type $k$, then, is:
 
 $$
 h_k(T_e \mid \lambda_k, \alpha_k) = \frac{\alpha_k}{\lambda_k}\left( \frac{T_e}{\lambda_k} \right)^{\alpha_k-1}
 $$
 
-No event, then (surviving it), corresponds to:
+No event (surviving), then, corresponds to:
 
 $$
 S_k(T_e \mid \lambda_k, \alpha_k) = \exp\left( -\left(\frac{T_e}{\lambda_k}\right)^{\alpha_k} \right)
 $$
 
-For each injury type $k$, we can use a Weibull distribution with its own scale parameter $\lambda_k$ and shape parameter $\alpha_k$. We can adjust the scale parameter $\lambda_k$ with the covariates we explained above (*e.g.*, intercept, prior injuries, ...) and a shared athlete-specific "frailty term. Let's call those terms $\eta_i$. Then, the scale parameter for injury type $k$, we model as:
+For each injury type $k$, we can use a Weibull distribution with its own scale parameter $\lambda_k$ and shape parameter $\alpha_k$. We can adjust the scale parameter $\lambda_k$ with the covariates we explained above (*e.g.*, intercept, prior injuries, ...) and a shared athlete-specific "frailty" term. Let's call those terms $\eta_i$. Then, the scale parameter for injury type $k$, we model as:
 
 $$
 \lambda_{k,e} = \lambda_k \exp \left(\bf{X}_{k,e}\cdot\beta_k \right) \eta_i
@@ -79,7 +79,7 @@ $$
 $$
 where $L_e$ is the likelihood for the $e$-th event based on whether it was an injury of type $k$ or a censored event (no injury for the time frame).
 
-Next, let's discuss our predictors or covariates. Including an intercept will represent the baseline effect when non of the other predictors occur. Other predictors, *e.g.*, indicator for prior injury, let's use consider the effect of those prior injuries (any type or a specific type), and will help us account for increased risk of recurring injuries.
+Next, let's discuss our predictors or covariates. Including an intercept will represent the baseline effect when none of the other predictors occur. Other predictors, *e.g.*, indicator for prior injury, let's consider the effect of those prior injuries (any type or a specific type), and will help us account for increased risk of recurring injuries.
 
 Thus, in this generalized model structure for $K$ injuries, we are using a Weibull distribution to model the time to each injury type. These are competing risks for $K$ injury types, where the covariates may influence the risk of each type. In this arrangement, recurring risks are naturally modeled, allowing for multiple injuries over time for each athlete. And the covariates capture a baseline risk and, perhaps, history-dependent effects.
 

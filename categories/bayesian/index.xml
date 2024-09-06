@@ -13,8 +13,8 @@
       <link>https://ssp3nc3r.github.io/post/modeling-recurring-sports-injuries/</link>
       <pubDate>Fri, 06 Sep 2024 00:00:00 +0000</pubDate>
       <guid>https://ssp3nc3r.github.io/post/modeling-recurring-sports-injuries/</guid>
-      <description>Each sport carries with it specific types of injury risks. Pitching in baseball, UCL, rotator cuffs, and elbow injuries. Soccer, ACL tears, hamstrings, ankles. And so forth. Understanding the risks of injury is the first step in minimizing or preventing such injuries. In this post, I outline a Bayesian model for modeling these risks.
-Let’s say we want to model K types of injury in a given sport, with the possibility of a player having multiple injuries over time.</description>
+      <description>Each sport carries with it specific types of injury risks. Pitching in baseball: UCL, rotator cuffs, and elbow injuries. Soccer: ACL tears, hamstrings, ankles. And so forth. Understanding the risks of injury is the first step in minimizing or preventing such injuries. In this post, I outline a Bayesian model for modeling these risks.
+Let’s say we want to model \(K\) types of injury in a given sport, with the possibility of a player having multiple injuries over time.</description>
     </item>
     <item>
       <title>New online Stan coding course</title>

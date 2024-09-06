@@ -53,7 +53,7 @@ Thus, our prior allows for individual-level variability in the model.</p>
 <p><span class="math display">\[
 L_e = f_\text{Weibull}(T_e \mid \alpha_k, \lambda_{k,e}) \cdot \prod_{j \ne k} (1 - F_\text{Weibull}(T_e \mid \alpha_j, \lambda_{j,e}))
 \]</span>
-and if no event occurred ($_k=0), then the likelihood is the product of all complementary cumulative distributions of each injury type:</p>
+and if no event occurred (<span class="math inline">\(\delta_k=0\)</span>), then the likelihood is the product of all complementary cumulative distributions of each injury type:</p>
 <p><span class="math display">\[
 L_e = \prod_{k=1}^K (1 - F_\text{Weibull}(T_e \mid \alpha_k, \lambda_{k,e}))
 \]</span>

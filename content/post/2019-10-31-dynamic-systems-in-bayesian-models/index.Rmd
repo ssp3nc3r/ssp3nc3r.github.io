@@ -32,7 +32,7 @@ library(cmdstanr)
 
 By dynamic systems, I mean using differential equations to describe how data changes over time. Take running speed, for example. Several physics-based models of running speed have been developed, which I've previously discussed. The primary goal in those previous discussions involving sprint speed have been in estimating a maximum speed. But the underlying structure of these models estimate change in speed at time two from speed at time one: a differential equation.
 
-Here, I expand on previous goals with the two-fold aims of demonstrating the value of including dyanmic structures into a Bayesian data analysis, and in the specific example estimating a maximum speed at *any given distance or time*, constrained to the distances and times encountered in baseball when fielding or base running. Stated differently, I aim to estimate the position of a runner given elapsed time $x(t)$.
+Here, I expand on previous goals with the two-fold aims of demonstrating the value of including dynamic structures into a Bayesian data analysis, and in the specific example estimating a maximum speed at *any given distance or time*, constrained to the distances and times encountered in baseball when fielding or base running. Stated differently, I aim to estimate the position of a runner given elapsed time $x(t)$.
 
 # Deriving velocity and position as a function of time
 

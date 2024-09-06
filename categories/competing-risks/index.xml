@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Competing risks on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/categories/competing-risks/</link>
+    <description>Recent content in Competing risks on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 06 Sep 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/categories/competing-risks/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bayesian modeling recurring sports injuries</title>
+      <link>https://ssp3nc3r.github.io/post/modeling-recurring-sports-injuries/</link>
+      <pubDate>Fri, 06 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/modeling-recurring-sports-injuries/</guid>
+      <description>Each sport carries with it specific types of injury risks. Pitching in baseball, UCL, rotator cuffs, and elbow injuries. Soccer, ACL tears, hamstrings, ankles. And so forth. Understanding the risks of injury is the first step in minimizing or preventing such injuries. In this post, I outline a Bayesian model for modeling these risks.
+Let’s say we want to model K types of injury in a given sport, with the possibility of a player having multiple injuries over time.</description>
+    </item>
+  </channel>
+</rss>

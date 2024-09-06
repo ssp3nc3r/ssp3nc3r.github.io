@@ -1,0 +1,91 @@
+---
+title: Bayesian modeling recurring sports injuries
+author: Scott Spencer
+date: '2024-09-06'
+slug: modeling-recurring-sports-injuries
+categories:
+  - Bayes
+  - Bayesian
+  - Sports
+  - Injuries
+  - Survival
+  - Competing risks
+  - recurring events
+tags:
+  - Bayes
+  - Bayesian
+  - Sports
+  - Injuries
+  - Survival
+  - Competing risks
+  - recurring events
+comments: no
+images: ~
+---
+
+Each sport carries with it specific types of injury risks. Pitching in baseball, UCL, rotator cuffs, and elbow injuries. Soccer, ACL tears, hamstrings, ankles. And so forth. Understanding the risks of injury is the first step in minimizing or preventing such injuries. In this post, I outline a Bayesian model for modeling these risks.  
+
+Let's say we want to model K types of injury in a given sport, with the possibility of a player having multiple injuries over time. Each athlete may experience multiple injuries and each injury corresponds to one of the K types. If over the time in question, no injury occurs, we can call that "censored".
+
+To make this easier to follow, let's create some notation. We will index athletes by $i$ where $i = 1, ...,N$. Events will also be indexed, $e = 1,...,E$. Each time to the e-th event (or if censored no event), we'll call $T_e$. Since there are multiple types of injuries, we'll include an event indicator $\delta_e = 0$ for no injury, or $\delta_e = k$ for an injury where injury types are $k = 1,...,K$.
+
+We may also have possible predictors for these injuries, which may either be time independent or time dependent. Let's label these $\bf{X}_k$ and include an intercept and things like prior injury indicators.
+
+The time to injury for each of these injury types $k$ can be modeled with a Weibull distribution, which has a scale parameter $\lambda_k$ and a shape parameter $\alpha_k$.
+
+The function describing the risk of instantaneous injury or (aka hazard) for type $k$, then, is:
+
+$$
+h_k(T_e \mid \lambda_k, \alpha_k) = \frac{\alpha_k}{\lambda_k}\left( \frac{T_e}{\lambda_k} \right)^{\alpha_k-1}
+$$
+
+No event, then (surviving it), corresponds to:
+
+$$
+S_k(T_e \mid \lambda_k, \alpha_k) = \exp\left( -\left(\frac{T_e}{\lambda_k}\right)^{\alpha_k} \right)
+$$
+
+For each injury type $k$, we can use a Weibull distribution with its own scale parameter $\lambda_k$ and shape parameter $\alpha_k$. We can adjust the scale parameter $\lambda_k$ with the covariates we explained above (*e.g.*, intercept, prior injuries, ...) and a shared athlete-specific "frailty term. Let's call those terms $\eta_i$. Then, the scale parameter for injury type $k$, we model as:
+
+$$
+\lambda_{k,e} = \lambda_k \exp \left(\bf{X}_{k,e}\cdot\beta_k \right) \eta_i
+$$
+
+where 
+
+$\lambda_k$ is the baseline scale parameter for injury type $k$; $\bf{X}_{k,e}$ are the covariates for injury type $k$ at event $e$; $\beta_k$ are the coefficients for injury type $k$; and $\eta_i$ is the athlete-specific susceptibility parameter shared across all injury types. Of note, the shape parameter $\alpha_k$ we will assume to be constant across athletes and events for each injury type.
+
+Let's discuss a bit more deeply the athlete-specific susceptibility $\eta_i$. This term estimates the unobserved heterogeneity across athletes. It is shared across injury types and events for the same athlete, allowing for some athletes to be more or less injury-prone due to unobserved factors. As a value of 1 in the model is a baseline, we can model our prior information as:
+
+$$
+\eta_i \sim \text{Log-Normal}(0, \sigma_\eta^2)
+$$
+Thus, our prior allows for individual-level variability in the model.
+
+Now, for each event $e$, we can calculate the likelihood contribution based on whether the event was an injury of type $k$, or was censored. If an injury (*i.e.*, $\delta_e = k$), then the likelihood is the Weibull distribution for injury type $k$, and the complementary cumulative distribution of the Weibull, 
+
+$$
+L_e = f_\text{Weibull}(T_e \mid \alpha_k, \lambda_{k,e}) \cdot \prod_{j \ne k} (1 - F_\text{Weibull}(T_e \mid \alpha_j, \lambda_{j,e}))
+$$
+and if no event occurred ($\delta_k=0), then the likelihood is the product of all complementary cumulative distributions of each injury type:
+
+$$
+L_e = \prod_{k=1}^K (1 - F_\text{Weibull}(T_e \mid \alpha_k, \lambda_{k,e}))
+$$
+The total log-likelihood for the model, then, is the sum of the log-likelihood contributions for all events:
+
+$$
+\log L = \sum_{e=1}^E \log L_e
+$$
+where $L_e$ is the likelihood for the $e$-th event based on whether it was an injury of type $k$ or a censored event (no injury for the time frame).
+
+Next, let's discuss our predictors or covariates. Including an intercept will represent the baseline effect when non of the other predictors occur. Other predictors, *e.g.*, indicator for prior injury, let's use consider the effect of those prior injuries (any type or a specific type), and will help us account for increased risk of recurring injuries.
+
+Thus, in this generalized model structure for $K$ injuries, we are using a Weibull distribution to model the time to each injury type. These are competing risks for $K$ injury types, where the covariates may influence the risk of each type. In this arrangement, recurring risks are naturally modeled, allowing for multiple injuries over time for each athlete. And the covariates capture a baseline risk and, perhaps, history-dependent effects.
+
+Such a model can be implemented in the Stan programming language to properly handle and propogate uncertainty of these risks. 
+
+In sum, this generalized model can be applied to any scenario involving multiple types of competing risks. For each risk (injury type $k$), a Weibull distribution is used to model the time to injury, and covariates (e.g., intercepts, prior injuries) and a shared frailty term are used to capture individual-level risk factors. The model accounts for both censored and recurring events, making it flexible for use in survival analysis with competing and recurrent risks.
+
+I hope this helps sports teams and other stakeholders in assessing multiple risks of recurring injury on their athletes. Understanding the risks is a first step in minimizing or preventing them!
+

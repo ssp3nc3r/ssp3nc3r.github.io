@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://ssp3nc3r.github.io/post/choose-your-favorite-color/</loc>
+    <lastmod>2024-09-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ssp3nc3r.github.io/tags/ggplot2/</loc>
+    <lastmod>2024-09-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ssp3nc3r.github.io/tags/interactivity/</loc>
+    <lastmod>2024-09-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ssp3nc3r.github.io/</loc>
+    <lastmod>2024-09-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ssp3nc3r.github.io/post/</loc>
+    <lastmod>2024-09-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ssp3nc3r.github.io/tags/r/</loc>
+    <lastmod>2024-09-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ssp3nc3r.github.io/tags/</loc>
+    <lastmod>2024-09-20T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://ssp3nc3r.github.io/tags/bayes/</loc>
     <lastmod>2024-09-06T19:34:01-04:00</lastmod>
   </url><url>
@@ -32,12 +53,6 @@
     <loc>https://ssp3nc3r.github.io/categories/injuries/</loc>
     <lastmod>2024-09-06T19:34:01-04:00</lastmod>
   </url><url>
-    <loc>https://ssp3nc3r.github.io/</loc>
-    <lastmod>2024-09-06T19:34:01-04:00</lastmod>
-  </url><url>
-    <loc>https://ssp3nc3r.github.io/post/</loc>
-    <lastmod>2024-09-06T19:34:01-04:00</lastmod>
-  </url><url>
     <loc>https://ssp3nc3r.github.io/tags/recurring-events/</loc>
     <lastmod>2024-09-06T19:34:01-04:00</lastmod>
   </url><url>
@@ -54,9 +69,6 @@
     <lastmod>2024-09-06T19:34:01-04:00</lastmod>
   </url><url>
     <loc>https://ssp3nc3r.github.io/categories/survival/</loc>
-    <lastmod>2024-09-06T19:34:01-04:00</lastmod>
-  </url><url>
-    <loc>https://ssp3nc3r.github.io/tags/</loc>
     <lastmod>2024-09-06T19:34:01-04:00</lastmod>
   </url><url>
     <loc>https://ssp3nc3r.github.io/tags/education/</loc>
@@ -125,16 +137,7 @@
     <loc>https://ssp3nc3r.github.io/tags/communiction/</loc>
     <lastmod>2021-11-29T21:35:15-05:00</lastmod>
   </url><url>
-    <loc>https://ssp3nc3r.github.io/tags/ggplot2/</loc>
-    <lastmod>2023-08-16T20:23:56-04:00</lastmod>
-  </url><url>
     <loc>https://ssp3nc3r.github.io/tags/grammar-of-graphics/</loc>
-    <lastmod>2023-08-16T20:23:56-04:00</lastmod>
-  </url><url>
-    <loc>https://ssp3nc3r.github.io/tags/interactivity/</loc>
-    <lastmod>2021-11-29T21:35:15-05:00</lastmod>
-  </url><url>
-    <loc>https://ssp3nc3r.github.io/tags/r/</loc>
     <lastmod>2023-08-16T20:23:56-04:00</lastmod>
   </url><url>
     <loc>https://ssp3nc3r.github.io/post/tables-in-tooltips/</loc>

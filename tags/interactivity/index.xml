@@ -6,8 +6,17 @@
     <description>Recent content in interactivity on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 07 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 20 Sep 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://ssp3nc3r.github.io/tags/interactivity/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Choose your favorite color</title>
+      <link>https://ssp3nc3r.github.io/post/choose-your-favorite-color/</link>
+      <pubDate>Fri, 20 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/choose-your-favorite-color/</guid>
+      <description>The function below provides quick access to R color name information in an R Studio session. Running the function provides a grid of tiled colors, where you may hover over the tile to get its R color name, hex code, and rgb value:
+To have function ready when you open R Studio, place the code into a file, say, plot_colors.r and follow these steps:
+Instructions: Save the file: Make sure the plot_colors.</description>
+    </item>
     <item>
       <title>Tables in tooltips</title>
       <link>https://ssp3nc3r.github.io/post/tables-in-tooltips/</link>

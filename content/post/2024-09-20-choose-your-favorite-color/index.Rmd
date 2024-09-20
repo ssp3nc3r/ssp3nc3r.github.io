@@ -80,9 +80,9 @@ plot_colors <- function() {
     ) +
     annotate(
       'text',
-      x = 20,
+      x = 19.5,
       y = 22,
-      label = ' > colors()',
+      label = ' > plot_colors()',
       hjust = 0,
       size = 11 / .pt
     ) +

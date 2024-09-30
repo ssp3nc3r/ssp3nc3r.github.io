@@ -6,8 +6,16 @@
     <description>Recent content in Baseball on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 03 Jan 2020 18:01:28 -0400</lastBuildDate>
+    <lastBuildDate>Wed, 29 Mar 2023 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://ssp3nc3r.github.io/tags/baseball/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Pitch selection to maximize motion-in-depth variation</title>
+      <link>https://ssp3nc3r.github.io/post/pitch-selection-to-maximize-motion-in-depth/</link>
+      <pubDate>Wed, 29 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/pitch-selection-to-maximize-motion-in-depth/</guid>
+      <description>Those in baseball are well aware of the concept of platoon advantage: batters tend to have an advantage when facing pitchers of the opposite handedness. But knowledge of a platoon advantage may go beyond choice of relief pitchers on the mound to matchup with the upcoming lineup of power batters. It may inform, among other things, pitching strategy.
+Considering reasons behind the phenomenon, it may be explained by the greater relative variation in movement of the ball inside a batter’s plane of sight, which I’ll define in a moment, while same-handed pitchers tend to keep the ball’s trajectory more aligned with that plane, making it harder to perceive lateral movement.</description>
+    </item>
     <item>
       <title>Exploratory modeling on how win uncertainty affects baseball game attendance</title>
       <link>https://ssp3nc3r.github.io/post/2020-01-03-exploratory-modeling-on-how-win-uncertainty-affects-game-attendance/</link>

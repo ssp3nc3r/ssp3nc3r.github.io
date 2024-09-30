@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Package Build">
+<meta name="description" content="Those in baseball are well aware of the concept of platoon advantage: batters tend to have an advantage when facing pitchers of the opposite handedness. But knowledge of a platoon advantage may go beyond choice of relief pitchers on the mound to matchup with the upcoming lineup of power batters. It may inform, among other things, pitching strategy.
+Considering reasons behind the phenomenon, it may be explained by the greater relative variation in movement of the ball inside a batter’s plane of sight, which I’ll define in a moment, while same-handed pitchers tend to keep the ball’s trajectory more aligned with that plane, making it harder to perceive lateral movement." />
+<meta name="keywords" content="Scott Spencer, statistical, generative modeling, bayesian inference, writing, data visualization, sports, columbia university, Baseball, Stan, Bayesian, Pitching, Batting, platoon advantage" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="https://ssp3nc3r.github.io/post/pitch-selection-to-maximize-motion-in-depth/" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1V94CLF78W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1V94CLF78W');
+</script>
+
+
+    <title>
+        
+            Pitch selection to maximize motion-in-depth variation :: p( ssp3nc3r | Columbian ) 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.d235e788b40b442aba9cd6c69fdc330353b2dec27dcbc4235961469d2155f5a9.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://ssp3nc3r.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://ssp3nc3r.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://ssp3nc3r.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://ssp3nc3r.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://ssp3nc3r.github.io/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="https://ssp3nc3r.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+<meta itemprop="name" content="Pitch selection to maximize motion-in-depth variation">
+<meta itemprop="description" content="Those in baseball are well aware of the concept of platoon advantage: batters tend to have an advantage when facing pitchers of the opposite handedness. But knowledge of a platoon advantage may go beyond choice of relief pitchers on the mound to matchup with the upcoming lineup of power batters. It may inform, among other things, pitching strategy.
+Considering reasons behind the phenomenon, it may be explained by the greater relative variation in movement of the ball inside a batter’s plane of sight, which I’ll define in a moment, while same-handed pitchers tend to keep the ball’s trajectory more aligned with that plane, making it harder to perceive lateral movement."><meta itemprop="datePublished" content="2023-03-29T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2023-03-29T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1062"><meta itemprop="image" content="https://ssp3nc3r.github.io"/>
+<meta itemprop="keywords" content="Baseball,Stan,Bayesian,Pitching,Batting,platoon advantage," /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://ssp3nc3r.github.io"/>
+
+<meta name="twitter:title" content="Pitch selection to maximize motion-in-depth variation"/>
+<meta name="twitter:description" content="Those in baseball are well aware of the concept of platoon advantage: batters tend to have an advantage when facing pitchers of the opposite handedness. But knowledge of a platoon advantage may go beyond choice of relief pitchers on the mound to matchup with the upcoming lineup of power batters. It may inform, among other things, pitching strategy.
+Considering reasons behind the phenomenon, it may be explained by the greater relative variation in movement of the ball inside a batter’s plane of sight, which I’ll define in a moment, while same-handed pitchers tend to keep the ball’s trajectory more aligned with that plane, making it harder to perceive lateral movement."/>
+
+
+
+    <meta property="article:section" content="Baseball" />
+
+    <meta property="article:section" content="Stan" />
+
+    <meta property="article:section" content="Bayesian" />
+
+    <meta property="article:section" content="Pitching" />
+
+    <meta property="article:section" content="Batting" />
+
+    <meta property="article:section" content="platoon advantage" />
+
+
+
+    <meta property="article:published_time" content="2023-03-29 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://ssp3nc3r.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#67a2c9;
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://ssp3nc3r.github.io/about/">About</a></li><li><a href="https://ssp3nc3r.github.io/post/">Blog</a></li><li><a href="https://ssp3nc3r.github.io/publications/">Publications</a></li><li><a href="https://ssp3nc3r.github.io/teaching/">Teaching</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://ssp3nc3r.github.io/post/pitch-selection-to-maximize-motion-in-depth/">Pitch selection to maximize motion-in-depth variation</a></h2>
+
+            
+
+            <div class="post-content">
+                
+
+
+<p>Those in baseball are well aware of the concept of platoon advantage: batters tend to have an advantage when facing pitchers of the opposite handedness. But knowledge of a platoon advantage may go beyond choice of relief pitchers on the mound to matchup with the upcoming lineup of power batters. It may inform, among other things, pitching strategy.</p>
+<p>Considering reasons behind the phenomenon, it may be explained by the greater relative variation in movement of the ball inside a batter’s <strong>plane of sight</strong>, which I’ll define in a moment, while same-handed pitchers tend to keep the ball’s trajectory more aligned with that plane, making it harder to perceive lateral movement.</p>
+<p>I’m only building upon previous ideas, placing earlier theoretical and empirical work (<em>see e.g.</em>, <span class="citation">Gray and Regan (<a href="#ref-gray2006">2006</a>)</span>; <span class="citation">Gray (<a href="#ref-gray2017">2017</a>)</span>) into a new context.</p>
+<p>I’ll define a batter’s plane-of-sight from three points in space: the batter’s eye location, the ball’s release point location, and the center of the strike zone (roughly the center of home plate, for simplicity).</p>
+<p>Movement within or near this plane represents motion “in-depth”, which the batter finds harder to perceive. When the ball’s movement trajectory stays closer to or within this plane, it aligns with the batter’s plane of sight, leading to higher uncertainty in location and lower contact rates.</p>
+<p>In relation to this plane-of-sight, we can consider ball motion perpendicular to the plane as movement that occurs horizontally.</p>
+<div id="plane-of-sight-description" class="section level1">
+<h1>Plane-of-sight description</h1>
+<p>Let’s puts some math notation to the idea in the context of the batter’s perspective:</p>
+<p><strong>POS (in-depth motion)</strong>: The plane of sight can be characterized by the vector normal to the plane, which can be derived from the following points:</p>
+<ul>
+<li><p><strong>Release point</strong> <span class="math inline">\(r_{\text{release}} = (x_r, y_r, z_r)\)</span>,</p></li>
+<li><p><strong>Batter’s eye</strong> <span class="math inline">\(r_{\text{eye}} = (x_{\text{eye}}, y_{\text{eye}}, z_{\text{eye}})\)</span>,</p></li>
+<li><p><strong>Center of zone</strong> <span class="math inline">\(r_{\text{home}} = (0, \frac{17}{12}, z_{\text{batter}})\)</span></p></li>
+</ul>
+<p>The normal vector to this plane can be found as the cross product of the vectors <span class="math inline">\(\bf{r}_{\text{release}} - \bf{r}_{\text{eye}}\)</span> and <span class="math inline">\(\bf{r}_{\text{home}} - \bf{r}_{\text{eye}}\)</span>.</p>
+<p><span class="math display">\[
+\bf{n}_{\text{POS}} = (\bf{r}_{\text{release}} - \bf{r}_{\text{eye}}) \times (\bf{r}_{\text{home}} - \bf{r}_{\text{eye}})
+\]</span></p>
+<p>A point <span class="math inline">\(\bf{r} = (x, y, z)\)</span> lies in the POS if the following holds:</p>
+<p><span class="math display">\[
+\bf{n}_{\text{POS}} \cdot (\bf{r} - \bf{r}_{\text{eye}}) = 0
+\]</span></p>
+<p>Lateral motion perpendicular to the plane, in contrast, is characterized by the velocity vector <strong>projected</strong> into this plane, representing lateral movement. We can calculate the velocity vector <span class="math inline">\(\bf{v}\)</span> and other characteristics of the ball’s motion relative to this perpendicular plane by subtracting its projection onto the normal vector of the <strong>POS</strong>. For example,</p>
+<p><span class="math display">\[
+\bf{v}_{\perp} = \bf{v} - \left( \frac{\bf{v} \cdot \bf{n}_{\text{POS}}}{\|\mathbf{n}_{\text{POS}}\|
+^2} \right) \bf{n}_{\text{POS}}
+\]</span></p>
+<p>The more motion captured by <span class="math inline">\(\bf{v}_{\perp}\)</span>, the more lateral movement the batter perceives, which generally makes the pitch easier to track.</p>
+</div>
+<div id="differences-in-movement-for-same-vs.-opposite-handedness" class="section level1">
+<h1>Differences in movement for same vs. opposite handedness</h1>
+<p>For same-handed pitchers, the release point tends to be closer to the batter’s side of the field, which aligns the trajectory more closely with the POS. This results in more motion in-depth along the plane of sight, making it harder for the batter to track the ball’s lateral movement.</p>
+<p>But for opposite-handed pitchers, The release point is farther from the batter’s side, creating a more divergent angle relative to the plane of sight. This increases the amount of perceived lateral movement (<em>i.e.</em>, motion outside the POS), making it easier for the batter to track the ball’s trajectory.</p>
+<p>In sum, the batter’s difficulty comes from the pitches that travel along the POS (motion-in-depth), represented by the projection of the velocity vector onto <span class="math inline">\(\bf{n}_{\text{LOS}}\)</span>, whereas the batter’s advantage is from pitches that move more laterally (perpendicular to the POS), which is captured by the component of the velocity vector in <span class="math inline">\(\bf{v}_{\perp}\)</span>.</p>
+</div>
+<div id="components-of-a-joint-selection-model-of-choice-to-swing-and-ball-contact." class="section level1">
+<h1>Components of a joint, selection model of choice-to-swing and ball contact.</h1>
+<p>We can incorporate these plane functions into a model, such that the pitch’s characteristics is split into two components: <strong>in-depth</strong> movement <span class="math inline">\(\theta_{\text{POS}}\)</span> (aligned with the POS) and perpendicular movement <span class="math inline">\(\theta_{\perp}\)</span>.</p>
+<p>When the ball’s motion is harder to perceive (i.e., larger <span class="math inline">\(\sigma_\theta\)</span>, it should negatively affect the batter’s likelihood of making contact. Of course, There’s an inherent skill factor associated with each batter in this regard, which can be included as some random effect.</p>
+<p>In practice, these ideas influence both choice to swing and ball contact, motivating use of the idea and parameters within a joint selection model, which I’ve discussed elsewhere.</p>
+</div>
+<div id="relation-to-modeling-ball-flight" class="section level1">
+<h1>Relation to modeling ball flight</h1>
+<p>Let’s consider the solution to perceived ball location at anticipated time of contact using basic ball flight modeled as a system of ODE’s by starting with the forces acting on the ball and defining the equations from Newton’s second law. The equations account for both horizontal and vertical motion, integrating the effects of gravity.</p>
+<p>Then, within the system of ODEs, we rotate the coordinate system, and include in-plane and out-of-plane perception errors across time wherein we have measures of the total errors as deviations of bat location from center of sweet spot location of contact.</p>
+<p>We already have some ball-bat <em>contact</em> information, from which the launch and spray angles can inform where the ball path was in relation to the ideal contact point on the bat. All misses, on the other hand, are also missing data in this regard. But advanced bat data is coming, and as advanced bat location data from MLB’s Hawkeye system becomes available, we can use that information to compare the location and timing of the center of it’s sweet spot to that of the ball path and use differences as measured variation that we may model as functions of in-plane and out-of-plane ball movement.</p>
+</div>
+<div id="implications-and-pitching-strategy" class="section level1">
+<h1>Implications and pitching strategy</h1>
+<p>The pitcher should tailor pitch selection based on these findings, favoring pitches with more variation in in-depth motion. Further and more specifically, we may learn by modeling this process that it may be favorable to select pitches which have more or less change in depth than that of a ball trajectory unaffected by spin, or unaffected by average spin, would have. In other words, the batter may have a mental model of how the object is normally affected by gravity and drag, but cannot pick up cues that the spin affecting motion-in-depth deviates from his expectation.</p>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-gray2017" class="csl-entry">
+Gray, Rob. 2017. <span>“Visual Information about Horizontal Pitch Movement: Sensitivity, Release Points &amp; Eye Separation,”</span> August. <a href="http://perceptionaction.com/horizinfo/">http://perceptionaction.com/horizinfo/</a>.
+</div>
+<div id="ref-gray2006" class="csl-entry">
+Gray, Rob, and David M Regan. 2006. <span>“Unconfounding the Direction of Motion in Depth, Time to Passage and Rotation Rate of an Approaching Object.”</span> <em>Vision Research</em> 46 (15): 2388–2402. <a href="https://doi.org/10.1016/j.visres.2006.02.005">https://doi.org/10.1016/j.visres.2006.02.005</a>.
+</div>
+</div>
+</div>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ssp3nc3r.github.io/tags/baseball">Baseball</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/stan">Stan</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/bayesian">Bayesian</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/pitching">Pitching</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/batting">Batting</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/platoon-advantage">platoon advantage</a></span>
+  				</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+        </div>
+    </div>
+    <script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="https://ssp3nc3r.github.io/bundle.min.cf635d24bf68547733f27857b49c171df862bc4292c4ef792bd9947e432e5143feddd11bf4042024607b5fae3d7b8ff73f8ca4104d5961d57daf4cabe1d0d3b2.js" integrity="sha512-z2NdJL9oVHcz8nhXtJwXHfhivEKSxO95K9mUfkMuUUP&#43;3dEb9AQgJGB7X649e4/3P4ykEE1ZYdV9r0yr4dDTsg=="></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'G-1V94CLF78W', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+
+    </body>
+</html>

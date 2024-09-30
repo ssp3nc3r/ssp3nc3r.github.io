@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Baseball on p( ssp3nc3r | Columbian )</title>
-    <link>https://ssp3nc3r.github.io/categories/baseball/</link>
-    <description>Recent content in Baseball on p( ssp3nc3r | Columbian )</description>
+    <title>Batting on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/categories/batting/</link>
+    <description>Recent content in Batting on p( ssp3nc3r | Columbian )</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Wed, 29 Mar 2023 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://ssp3nc3r.github.io/categories/baseball/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://ssp3nc3r.github.io/categories/batting/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Pitch selection to maximize motion-in-depth variation</title>
       <link>https://ssp3nc3r.github.io/post/pitch-selection-to-maximize-motion-in-depth/</link>
@@ -15,13 +15,6 @@
       <guid>https://ssp3nc3r.github.io/post/pitch-selection-to-maximize-motion-in-depth/</guid>
       <description>Those in baseball are well aware of the concept of platoon advantage: batters tend to have an advantage when facing pitchers of the opposite handedness. But knowledge of a platoon advantage may go beyond choice of relief pitchers on the mound to matchup with the upcoming lineup of power batters. It may inform, among other things, pitching strategy.
 Considering reasons behind the phenomenon, it may be explained by the greater relative variation in movement of the ball inside a batter’s plane of sight, which I’ll define in a moment, while same-handed pitchers tend to keep the ball’s trajectory more aligned with that plane, making it harder to perceive lateral movement.</description>
-    </item>
-    <item>
-      <title>Dynamic, physics-informed systems in Bayesian models</title>
-      <link>https://ssp3nc3r.github.io/post/dynamic-systems-in-bayesian-models/</link>
-      <pubDate>Thu, 31 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>https://ssp3nc3r.github.io/post/dynamic-systems-in-bayesian-models/</guid>
-      <description>By dynamic systems, I mean using differential equations to describe how data changes over time. Take running speed, for example. Several physics-based models of running speed have been developed, which I’ve previously discussed. The primary goal in those previous discussions involving sprint speed have been in estimating a maximum speed. But the underlying structure of these models estimate change in speed at time two from speed at time one: a differential equation.</description>
     </item>
   </channel>
 </rss>

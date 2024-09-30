@@ -25,5 +25,13 @@ Let’s say we want to model \(K\) types of injury in a given sport, with the po
 — TL;DR —
 Actual Stan coding, not a high-level interface At-your-own-pace videos: shows live coding while explaining Hosted RStudio session to practice alongside me Starts with fundamentals, builds to hierarchical models Emphasizes a Bayesian workflow Modeling applied to sports data My goal is to make learning Stan as easy and fast as possible.</description>
     </item>
+    <item>
+      <title>Pitch selection to maximize motion-in-depth variation</title>
+      <link>https://ssp3nc3r.github.io/post/pitch-selection-to-maximize-motion-in-depth/</link>
+      <pubDate>Wed, 29 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/pitch-selection-to-maximize-motion-in-depth/</guid>
+      <description>Those in baseball are well aware of the concept of platoon advantage: batters tend to have an advantage when facing pitchers of the opposite handedness. But knowledge of a platoon advantage may go beyond choice of relief pitchers on the mound to matchup with the upcoming lineup of power batters. It may inform, among other things, pitching strategy.
+Considering reasons behind the phenomenon, it may be explained by the greater relative variation in movement of the ball inside a batter’s plane of sight, which I’ll define in a moment, while same-handed pitchers tend to keep the ball’s trajectory more aligned with that plane, making it harder to perceive lateral movement.</description>
+    </item>
   </channel>
 </rss>

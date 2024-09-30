@@ -34,6 +34,14 @@ So let’s pick up where we left off, and add calculations in Stan to calculate 
 Here’s how we can alter the code to accommodate splines with a few tricks to speed things up:</description>
     </item>
     <item>
+      <title>Pitch selection to maximize motion-in-depth variation</title>
+      <link>https://ssp3nc3r.github.io/post/pitch-selection-to-maximize-motion-in-depth/</link>
+      <pubDate>Wed, 29 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/pitch-selection-to-maximize-motion-in-depth/</guid>
+      <description>Those in baseball are well aware of the concept of platoon advantage: batters tend to have an advantage when facing pitchers of the opposite handedness. But knowledge of a platoon advantage may go beyond choice of relief pitchers on the mound to matchup with the upcoming lineup of power batters. It may inform, among other things, pitching strategy.
+Considering reasons behind the phenomenon, it may be explained by the greater relative variation in movement of the ball inside a batter’s plane of sight, which I’ll define in a moment, while same-handed pitchers tend to keep the ball’s trajectory more aligned with that plane, making it harder to perceive lateral movement.</description>
+    </item>
+    <item>
       <title>Dynamic, physics-informed systems in Bayesian models</title>
       <link>https://ssp3nc3r.github.io/post/dynamic-systems-in-bayesian-models/</link>
       <pubDate>Thu, 31 Oct 2019 00:00:00 +0000</pubDate>

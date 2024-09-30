@@ -33,5 +33,13 @@ Actual Stan coding, not a high-level interface At-your-own-pace videos: shows li
       <description>Those in baseball are well aware of the concept of platoon advantage: batters tend to have an advantage when facing pitchers of the opposite handedness. But knowledge of a platoon advantage may go beyond choice of relief pitchers on the mound to matchup with the upcoming lineup of power batters. It may inform, among other things, pitching strategy.
 Considering reasons behind the phenomenon, it may be explained by the greater relative variation in movement of the ball inside a batter’s plane of sight, which I’ll define in a moment, while same-handed pitchers tend to keep the ball’s trajectory more aligned with that plane, making it harder to perceive lateral movement.</description>
     </item>
+    <item>
+      <title>The case for physics, geometry, and variation in sports models</title>
+      <link>https://ssp3nc3r.github.io/post/the-case-for-physics-geometry-and-variation-in-sports-models/</link>
+      <pubDate>Wed, 08 May 2019 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/the-case-for-physics-geometry-and-variation-in-sports-models/</guid>
+      <description>Traditional machine learning of sports performance often overlooks the physical constraints of the game, making models prone to identifying patterns driven by selection bias rather than actual game dynamics. Machine learning models may overfit to confounding variables, generating predictions that are not generalizable or realistic without grounding predictions in the known physics and geometry of sports, including baseball.
+Physics, geometry, and trigonometry govern all movement in sports performance, like baseball&amp;mdash;from the ball&amp;rsquo;s trajectories off the mound or in the outfield to player positioning, rounding bases, throws, and ball contact with bats, dirt, and grass.</description>
+    </item>
   </channel>
 </rss>

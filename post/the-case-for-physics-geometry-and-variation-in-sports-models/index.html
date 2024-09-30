@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Scott Spencer">
+<meta name="description" content="Traditional machine learning of sports performance often overlooks the physical constraints of the game, making models prone to identifying patterns driven by selection bias rather than actual game dynamics. Machine learning models may overfit to confounding variables, generating predictions that are not generalizable or realistic without grounding predictions in the known physics and geometry of sports, including baseball.
+Physics, geometry, and trigonometry govern all movement in sports performance, like baseball&amp;mdash;from the ball&amp;rsquo;s trajectories off the mound or in the outfield to player positioning, rounding bases, throws, and ball contact with bats, dirt, and grass." />
+<meta name="keywords" content="Scott Spencer, statistical, generative modeling, bayesian inference, writing, data visualization, sports, columbia university" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="https://ssp3nc3r.github.io/post/the-case-for-physics-geometry-and-variation-in-sports-models/" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1V94CLF78W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1V94CLF78W');
+</script>
+
+
+    <title>
+        
+            The case for physics, geometry, and variation in sports models :: p( ssp3nc3r | Columbian ) 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.d235e788b40b442aba9cd6c69fdc330353b2dec27dcbc4235961469d2155f5a9.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://ssp3nc3r.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://ssp3nc3r.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://ssp3nc3r.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://ssp3nc3r.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://ssp3nc3r.github.io/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="https://ssp3nc3r.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+<meta itemprop="name" content="The case for physics, geometry, and variation in sports models">
+<meta itemprop="description" content="Traditional machine learning of sports performance often overlooks the physical constraints of the game, making models prone to identifying patterns driven by selection bias rather than actual game dynamics. Machine learning models may overfit to confounding variables, generating predictions that are not generalizable or realistic without grounding predictions in the known physics and geometry of sports, including baseball.
+Physics, geometry, and trigonometry govern all movement in sports performance, like baseball&mdash;from the ball&rsquo;s trajectories off the mound or in the outfield to player positioning, rounding bases, throws, and ball contact with bats, dirt, and grass."><meta itemprop="datePublished" content="2019-05-08T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2019-05-08T00:00:00+00:00" />
+<meta itemprop="wordCount" content="971"><meta itemprop="image" content="https://ssp3nc3r.github.io"/>
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://ssp3nc3r.github.io"/>
+
+<meta name="twitter:title" content="The case for physics, geometry, and variation in sports models"/>
+<meta name="twitter:description" content="Traditional machine learning of sports performance often overlooks the physical constraints of the game, making models prone to identifying patterns driven by selection bias rather than actual game dynamics. Machine learning models may overfit to confounding variables, generating predictions that are not generalizable or realistic without grounding predictions in the known physics and geometry of sports, including baseball.
+Physics, geometry, and trigonometry govern all movement in sports performance, like baseball&mdash;from the ball&rsquo;s trajectories off the mound or in the outfield to player positioning, rounding bases, throws, and ball contact with bats, dirt, and grass."/>
+
+
+
+    <meta property="article:section" content="Bayesian" />
+
+    <meta property="article:section" content="Physics" />
+
+    <meta property="article:section" content="Geometry" />
+
+    <meta property="article:section" content="Trigonometry" />
+
+    <meta property="article:section" content="Variation" />
+
+    <meta property="article:section" content="Sports" />
+
+
+
+    <meta property="article:published_time" content="2019-05-08 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://ssp3nc3r.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#67a2c9;
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://ssp3nc3r.github.io/about/">About</a></li><li><a href="https://ssp3nc3r.github.io/post/">Blog</a></li><li><a href="https://ssp3nc3r.github.io/publications/">Publications</a></li><li><a href="https://ssp3nc3r.github.io/teaching/">Teaching</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://ssp3nc3r.github.io/post/the-case-for-physics-geometry-and-variation-in-sports-models/">The case for physics, geometry, and variation in sports models</a></h2>
+
+            
+
+            <div class="post-content">
+                <p><strong>Traditional machine learning</strong> of sports performance often overlooks the physical constraints of the game, making models prone to identifying patterns driven by selection bias rather than actual game dynamics. Machine learning models may overfit to confounding variables, generating predictions that are not generalizable or realistic without grounding predictions in the known physics and geometry of sports, including baseball.</p>
+<p><strong>Physics, geometry, and trigonometry</strong> govern <em><strong>all movement</strong></em> in sports performance, like baseball&mdash;from the ball&rsquo;s trajectories off the mound or in the outfield to player positioning, rounding bases, throws, and ball contact with bats, dirt, and grass. Players, coaches, and managers make decisions based on these physical realities. Ignoring them in data models risks producing outputs that don&rsquo;t align with how the game is actually played.</p>
+<h3 id="the-dangers-of-summary-statistics-as-predictors">The Dangers of Summary Statistics as Predictors</h3>
+<p>Machine learning approaches often rely on <strong>summary statistics</strong> like FIP (Fielding Independent Pitching) or OPS (On-base Plus Slugging) as predictors. While these summaries simplify complex data, they come with significant drawbacks.</p>
+<ol>
+<li>
+<p><strong>Loss of Granularity</strong>: Summary statistics as predictors condense multiple underlying variables into a single number, masking important nuances. For example, FIP aggregates outcomes but doesn&rsquo;t capture critical factors like pitch velocity, spin rate, or sequencing that directly influence those outcomes. By reducing this complexity, the model misses important context.</p>
+</li>
+<li>
+<p><strong>Bias and Self-Selection</strong>: Summarized data as predictors can also obscure selection biases inherent in observational data. A pitcher&rsquo;s FIP might reflect an overall average, but it may miss context-specific performance shifts, such as how that pitcher fares against certain batters or in high-pressure situations. These biases become exacerbated when machine learning models attempt to learn from overly aggregated data.</p>
+</li>
+<li>
+<p><strong>Masking True Drivers</strong>: By summarizing the data as predictors, models often pick up correlations without understanding the underlying mechanisms. This leads to misleading conclusions, making it difficult for teams to identify <strong>why</strong> a player succeeds or struggles in a particular context.</p>
+</li>
+</ol>
+<h3 id="the-problem-with-overfitting-and-spurious-correlations">The Problem with Overfitting and Spurious Correlations</h3>
+<p><strong>Overfitting</strong> is a common issue in machine learning when models latch onto noisy patterns in the data, producing highly specific predictions that don&rsquo;t hold up in new contexts. In baseball, where observational data contains noise due to countless variables, machine learning models can identify spurious correlations unrelated to actual gameplay. For instance, a model might attribute a pitcher&rsquo;s success to pitch type without considering fatigue or pitch sequence, leading to erroneous conclusions.</p>
+<p>Without incorporating physics or geometric constraints, machine learning models risk suggesting impossible player movements or unrealistic pitch outcomes. This misalignment with the game&rsquo;s physical dynamics undermines the model&rsquo;s utility in real-world decision-making.</p>
+<h3 id="bayesian-models-provide-more-interpretability">Bayesian Models Provide More Interpretability</h3>
+<p>A major limitation of many data-driven models is their <strong>lack of interpretability</strong>. Machine learning models often act as &ldquo;black boxes,&rdquo; offering predictions without explaining the mechanisms behind them. For example, a machine learning model might predict a high probability of a pitcher performing well under certain conditions but offer little insight into whether this is due to pitch speed, batter behavior, or field positioning.</p>
+<p>By contrast, <strong>Bayesian models</strong> grounded in physics provide clear interpretability. They explain the interactions between physical variables&mdash;pitch velocity, spin, and batter reaction times&mdash;and give decision-makers actionable insights about <strong>why</strong> specific outcomes occur. This leads to a more informed understanding of performance and clearer, data-driven decision-making.</p>
+<h3 id="preserving-variation-and-uncertainty-in-bayesian-models">Preserving Variation and Uncertainty in Bayesian Models</h3>
+<p>Traditional models that rely on acronym-statistics, such as FIP, often <strong>underestimate the inherent uncertainty</strong> in performance metrics. These summary statistics provide a single number for a player&rsquo;s performance, but they don&rsquo;t capture variability or account for extreme scenarios. This simplification can lead to overconfident predictions.</p>
+<p>On the other hand, <strong>Bayesian models</strong> that incorporate raw measures <strong>preserve the natural variation</strong> within these measures, enabling a better understanding of performance. The uncertainty modeled by these Bayesian approaches reflects the real-world randomness and variability inherent in baseball, allowing for probabilistic predictions that better represent reality.</p>
+<h3 id="stan-incorporating-physical-geometric-and-trigonometric-constraints">Stan: Incorporating Physical, Geometric, and Trigonometric Constraints</h3>
+<p>Stan provides a flexible and powerful framework to implement <strong>Bayesian models</strong> that incorporate the physical, geometric, and trigonometric constraints governing sports like baseball. This allows for more realistic and actionable predictions. Specifically:</p>
+<ul>
+<li>
+<p><strong>Preserving Raw Data Variation</strong>: By modeling relationships between raw physical measures like pitch speed, spin rate, and release angle, Stan preserves the inherent variation in the data, offering more accurate predictions than summary statistics, which mask key details.</p>
+</li>
+<li>
+<p><strong>Modeling Physical Constraints</strong>: Stan allows for direct coding of physical laws into the model. For example, pitch trajectories governed by gravity, or the limits of a player&rsquo;s reaction time, can be explicitly modeled to ensure predictions are physically plausible and generalizable.</p>
+</li>
+<li>
+<p><strong>Simulating Hypothetical Scenarios</strong>: One of Stan&rsquo;s key strengths is the ability to <strong>simulate outcomes under hypothetical scenarios</strong>. For example, a team might want to simulate how a batter will perform against a pitcher they haven&rsquo;t faced before. By incorporating the full uncertainty of the posterior distribution, Stan models can realistically predict performance based on physical constraints, past data, and probabilistic outcomes. This offers a reliable framework for <strong>in-game decision-making</strong> and strategic planning.</p>
+</li>
+</ul>
+<h3 id="conclusion">Conclusion</h3>
+<p>By relying on simplified summary statistics and ignoring the physical constraints governing baseball, traditional machine learning models risk producing misleading predictions that don&rsquo;t generalize to real gameplay. These models are prone to overfitting, spurious correlations, and black-box outputs that provide little insight into underlying game dynamics.</p>
+<p>In contrast, <strong>Bayesian models</strong> that integrate physical, geometric, and trigonometric laws offer several key advantages:</p>
+<ul>
+<li>
+<p>They maintain the full variation in raw data, preserving important details that explain <strong>why</strong> specific outcomes occur.</p>
+</li>
+<li>
+<p>They ensure predictions are grounded in the physical realities of the game, producing results that are both interpretable and actionable.</p>
+</li>
+<li>
+<p>They allow teams to simulate hypothetical scenarios with confidence, knowing the models respect the physical constraints and natural variation of the game.</p>
+</li>
+</ul>
+<p>For decision-makers in professional sports like baseball, this approach provides more reliable insights, enabling better-informed strategies and more effective decisions both on and off the field.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+        </div>
+    </div>
+    <script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="https://ssp3nc3r.github.io/bundle.min.cf635d24bf68547733f27857b49c171df862bc4292c4ef792bd9947e432e5143feddd11bf4042024607b5fae3d7b8ff73f8ca4104d5961d57daf4cabe1d0d3b2.js" integrity="sha512-z2NdJL9oVHcz8nhXtJwXHfhivEKSxO95K9mUfkMuUUP&#43;3dEb9AQgJGB7X649e4/3P4ykEE1ZYdV9r0yr4dDTsg=="></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'G-1V94CLF78W', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+
+    </body>
+</html>

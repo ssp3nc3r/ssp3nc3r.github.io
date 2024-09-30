@@ -275,8 +275,8 @@ After selecting an operator and sponsor, the Citi Bike bike share was establishe
       <link>https://ssp3nc3r.github.io/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://ssp3nc3r.github.io/about/</guid>
-      <description>Hello, I&amp;rsquo;m Scott. I lecture in the applied analytics graduate program at Columbia University, my alma mater. And to make Bayesian data analysis and Stan coding more accessible, I&amp;rsquo;ve developed and teach online courses too. I work with core developers of Stan, a probabilistic programming language, building Bayesian, generative models of complex processes involving both human behavior and physical phenomena.
-My applied work focuses on modeling data for good and on professional sports.</description>
+      <description>I lecture in the applied analytics graduate program at Columbia University, my alma mater. To make probabilistic programming in Stan and Bayesian data analysis more accessible, I develop and teaches online courses too: e.g., https://athlyticz.com/stan-i
+Working with core developers of Stan and consulting, I build Bayesian, generative models of complex processes involving both human behavior and physical phenomena. My applied work focuses on modeling data for good and on professional sports.</description>
     </item>
     <item>
       <title>Publications</title>
@@ -295,15 +295,15 @@ Spencer, Scott.</description>
       <link>https://ssp3nc3r.github.io/teaching/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://ssp3nc3r.github.io/teaching/</guid>
-      <description>2024 Summer Athlyticz. Becoming a Bayesian I.
+      <description>2024 Fall Columbia University. Applied Analytics. Research Design, two sections.
+Athlyticz. Becoming a Bayesian I.
+2024 Summer Athlyticz. Becoming a Bayesian I.
 2024 Spring Columbia University. Applied Analytics. Storytelling with Data.
 2023 Fall Columbia University. Applied Analytics. Research Design.
 2023 Spring Columbia University. Applied Analytics. Storytelling with Data.
 2022 Fall Columbia University. Applied Analytics. Research Design.
 2022 Summer Columbia University. Applied Analytics. Storytelling with Data.
-2022 Spring Columbia University. Applied Analytics. Storytelling with Data.
-2021 Fall Columbia University. Applied Analytics. Storytelling with Data.
-Columbia University. Applied Analytics.</description>
+2022 Spring Columbia University. Applied Analytics.</description>
     </item>
   </channel>
 </rss>

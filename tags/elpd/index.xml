@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ELPD on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/tags/elpd/</link>
+    <description>Recent content in ELPD on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 04 Oct 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/elpd/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Lost in the forest</title>
+      <link>https://ssp3nc3r.github.io/post/lost-in-the-forest/</link>
+      <pubDate>Fri, 04 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/lost-in-the-forest/</guid>
+      <description>In this post, I want to address why Bayesian modeling approaches, especially those implemented in Stan, should be considered as a valid alternative to common machine learning techniques in sports analytics. Specifically, I’ll focus on a well-established criterion for model evaluation: leave-one-out cross-validation (LOO-CV) and its use to calculate the expected log predictive density (ELPD). This scoring rule measures how well a model predicts unseen data. If you’d like a deeper explanation of ELPD and its interpretation in the context of this example, I’ll include one in an appendix at the end.</description>
+    </item>
+  </channel>
+</rss>

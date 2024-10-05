@@ -1,0 +1,202 @@
+---
+title: Lost in the forest
+subtitle: Finding our way with Jensen's inequality and LOO-CV ELPD
+author: Package Build
+date: '2024-10-04'
+slug: lost-in-the-forest
+categories:
+  - Stan
+  - Bayesian
+  - Gaussian processes
+  - Random Forest
+  - LOO-CV
+  - ELPD
+  - Jensen's inequality
+tags:
+  - Stan
+  - Bayesian
+  - Random Forest
+  - Gaussian processes
+  - LOO-CV
+  - ELPD
+  - Jensen's inequality
+comments: no
+images: ~
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  eval = TRUE,
+	echo = TRUE,
+	error = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+library(tidyverse)
+library(posterior)
+library(ggdist)
+library(tidybayes)
+library(bayesplot)
+library(loo)
+library(cmdstanr)
+library(gt)
+register_knitr_engine(override = TRUE)
+options(mc.cores = 4)
+```
+
+In this post, I want to address why Bayesian modeling approaches, especially those implemented in Stan, should be considered as a valid alternative to common machine learning techniques in sports analytics. Specifically, I’ll focus on a well-established criterion for model evaluation: leave-one-out cross-validation (LOO-CV) and its use to calculate the expected log predictive density (ELPD). This scoring rule measures how well a model predicts unseen data. If you'd like a deeper explanation of ELPD and its interpretation in the context of this example, I'll include one in an appendix at the end.
+
+Let’s begin by generating some simple, non-linear data:
+
+```{r}
+set.seed(123)
+N <- 200
+x <- runif(N, -3, 3)
+y <- sin(x) + rnorm(N, sd = 0.3)
+df <- data.frame(x = x, y = y)
+```
+
+Here’s what our data looks like:
+
+```{r}
+#| echo: false
+library(tidyverse)
+df |> ggplot() + geom_point(mapping = aes(x, y))
+```
+
+## Modeling with Random Forests
+
+Now, let’s try fitting a random forest model, a popular machine learning method. Random forests, while useful for finding patterns, don't explicitly model uncertainty in predictions. Nevertheless, we can approximate the ELPD by predicting the mean and variance across trees:
+
+```{r}
+library(randomForest)
+
+predict_with_variance <- function(rf_model, newdata) {
+  all_tree_preds <- predict(rf_model, newdata = newdata, predict.all = TRUE)$individual
+  pred_mean <- rowMeans(all_tree_preds)
+  pred_var <- apply(all_tree_preds, 1, var)
+  return(list(mean = pred_mean, variance = pred_var))
+}
+```
+
+To calculate LOO-CV for the random forest model, we iteratively refit the model on training data with one observation left out at a time, predicting the left-out observation and accumulating the log-likelihood of the predictions:
+
+```{r}
+loo_cv_random_forest <- function(data) {
+  n <- nrow(data)
+  log_lik <- numeric(n)
+  
+  for (i in 1:n) {
+    train_data <- data[-i, ]
+    test_data <- data[i, , drop = FALSE]
+    rf_model <- randomForest(y ~ x, data = train_data)
+    pred_with_var <- predict_with_variance(rf_model, newdata = test_data)
+    log_lik[i] <- dnorm(test_data$y, mean = pred_with_var$mean, sd = sqrt(pred_with_var$variance), log = TRUE)
+  }
+  
+  return(sum(log_lik))
+}
+```
+
+Here's the result for the random forest's approximate LOO-CV ELPD:
+
+```{r}
+approx_elpd_loo <- loo_cv_random_forest(df)
+approx_elpd_loo
+```
+
+## Bayesian Gaussian Process in Stan
+
+Next, let’s use a Bayesian approach. Specifically, we’ll fit the same data with a Gaussian process model using Stan, a flexible and probabilistic programming language that allows us to properly account for uncertainty. Nothing fancy, we'll just grab the basic model [described in the Stan User Guide](https://mc-stan.org/docs/stan-users-guide/gaussian-processes.html#fit-gp.section):
+
+```{r}
+#| echo: false
+#| class-output: stan
+#| comment: ''
+cat(read_lines('basic_gp.stan'), sep = '\n')
+```
+
+After fitting the model with Stan, we calculate the LOO-CV ELPD, where uncertainty is fully propagated through the model:
+
+```{r}
+#| results: false
+
+library(cmdstanr)
+
+dat <- list(N = N, x = x, y = y)
+
+m <- cmdstan_model('basic_gp.stan')
+f <- m$sample(data = dat, adapt_delta = 0.99, refresh = 0)
+```
+
+```{r}
+#| comment: ''
+f$loo(cores = 4)
+```
+
+## The Result: Why Bayesian Methods Win
+
+When comparing the LOO-CV ELPD from the random forest to that of the Bayesian Gaussian process, the difference is stark. The ELPD tells us how well the model generalizes to unseen data. The Bayesian model produces a much higher ELPD, meaning it makes better probabilistic predictions.
+
+Now, let’s discuss why this happens. A key concept in understanding this is [Jensen’s inequality](https://en.wikipedia.org/wiki/Jensen%27s_inequality), which states that:
+
+$$
+\mathbb{E}[f(X)] \neq f(\mathbb{E}[X])
+$$
+for a convex or concave function $f$. In other words, the expected value of a function of a random variable is not necessarily the function of the expected value of the random variable. This becomes important in machine learning models, where people often use point estimates as inputs to non-linear models like random forests.
+
+When random forests predict an outcome, they use the mean prediction from many trees. However, due to Jensen’s inequality, using the mean prediction can lead to biased estimates in the presence of non-linearity, because the variance in the model is not properly accounted for. Bayesian methods avoid this issue by directly modeling the full probability distribution rather than a point estimate.
+
+By using a Bayesian approach, not only do we achieve better predictive performance as shown by ELPD, but we also gain the advantage of interpreting results in a probabilistic framework. This can provide deeper insights into the data, offer reliable uncertainty quantification, and ultimately lead to more informed decision-making in sports analytics.
+
+Let's not get lost in the forest. If you’re interested in learning more about Bayesian methods and Stan, feel free to join me in my online Bayesian data analysis course using Stan: https://athlyticz.com/stan-i
+
+## Appendix: a deeper look at LOO-CV ELPD
+
+As mentioned, Expected Log Predictive Density (ELPD) is a scoring rule used to evaluate the predictive performance of statistical models, especially in Bayesian settings. It combines elements of how well a model fits the data and how well it generalizes to unseen data, making it especially useful for model comparison.
+
+The ELPD essentially evaluates the average log probability of the observed data points under the model's predictive distribution. More formally:
+
+$$
+\text{ELPD} = \sum_{i=1}^N \log(y_i \mid \text{model} )
+$$
+
+where:
+
+* $y_i$ is the observed data point, 
+
+* $p(y_i \mid \text{model})$ is the predicted probability of observing $y_i$, based on the model's posterior predictive distribution. 
+
+The **log probability** measures the likelihood of observing the actual data point $y_i$ given the model's predictions. Higher values indicate better predictions (*i.e.*, the model assigns high probability to the observed data). That it's **expected** reflects the average predictive distribution for unseen data, taking into account the uncertainty in the model parameters. ELPD is typically reported in **log units**. Since it sums log-probabilities across data points, the total ELPD can be thought of as the average log-probability that the model assigns to each observation. 
+
+A higher (less negative) ELPD indicates a better predictive model. It show that the model is assigning relatively higher probabilities to observed data points. The scale of ELPD is influenced by the number of observations $N$. This means that in practice, ELPD tends to be lower (*i.e.*, more negative) for larger datasets. It can be normalized by dividing by $N$ to give an **average log predictive density per observation**. 
+
+In practice, especially when evaluating model generalization, we often compute ELPD using **leave-one-out cross validation (LOO-CV)**. The process looks like this: for each data point $y_i$, fit the model using all other data points except $y_i$. Predict $y_i$ using this model, and calculate its log predictive density. Sum the log densities over all data points.
+
+LOO-CV provides a more honest estimate of ELPD by mimicking out-of-sample prediction. ELPD is commonly used to compare models. Given two models, the one with a higher ELPD is considered to have better out-of-sample predictive performance. When comparing models, the difference in their ELPD scores helps us assess which model generalizes better to new data.
+
+### Example comparing the random forest and the Stan model
+
+Let's consider the two LOO-CV ELPD scores from the random forest model and the Bayesian Gaussian process, both pretty much right out of the box, so to speak:
+
+For $N=200$ observations, if the ELPD values are −393 for the random forest and −41 for the Stan model, here’s how to compute the average log predictive density per observation:
+
+$$
+\begin{aligned}
+\text{Average log predictive density (random forest)} &= \frac{-393}{200} = -1.965 \\
+\text{Average log predictive density (Stan)} &= \frac{-41}{200} = -0.205 \\
+\end{aligned}
+$$
+
+### Interpretation of the Average Log Predictive Density
+
+The average log predictive density reflects how well the model predicts individual data points, on average. Larger values (closer to 0) are better, meaning the model assigns higher probabilities to the observed outcomes. With an average log predictive density of −1.965, the random forest model is assigning lower probabilities (closer to zero) to each observed data point, suggesting that its predictions are relatively poor. With an average log predictive density of −0.205, the Bayesian model is assigning much higher probabilities to each data point, meaning its predictions are much more accurate. You can convert the average log predictive density into an average probability (although this is less common) by exponentiating the value:
+
+$$
+\begin{aligned}
+\text{Average probability (random forest)} &= \exp(-1.965) \approx 0.14 \\
+\text{Average probability (Stan)} &= \exp(-0.205) \approx 0.82 \\
+\end{aligned}
+$$
+The average probability tells you, roughly, how confident the model is in predicting the actual observed values. A higher average probability means the model is much better at capturing the true underlying data-generating process. In this case, the Stan model is far superior to the random forest. This kind of analysis reinforces why ELPD is such a valuable metric for comparing models—particularly in terms of generalization and predictive performance.
+

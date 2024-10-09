@@ -82,6 +82,14 @@ One direct approach just involves a bit of algebra. As in the earlier post, I’
 The Stan library does not, for example, currently include the three-parameter Weibull distribution. In this tutorial, I’ll code its PDF and CDF to demonstrate coding custom distributions in Stan.</description>
     </item>
     <item>
+      <title>Who and why? — communicating models and insights</title>
+      <link>https://ssp3nc3r.github.io/post/who-and-why-communicating-models-and-insights/</link>
+      <pubDate>Mon, 11 Jan 2021 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/who-and-why-communicating-models-and-insights/</guid>
+      <description>Want to persuade others to take action from your data models and insights? If your analyses suggests a decision-maker is using biased or inaccurate information, don&amp;rsquo;t start by telling them they&amp;rsquo;re wrong.
+As Tali Sharot points out in The Influential Mind, &amp;lsquo;When you provide someone with new data, they quickly accept evidence that confirms their preconceived notions (what are known as prior beliefs) and assess counter evidence with a critical eye.</description>
+    </item>
+    <item>
       <title>Tables in tooltips</title>
       <link>https://ssp3nc3r.github.io/post/tables-in-tooltips/</link>
       <pubDate>Sun, 07 Jun 2020 00:00:00 +0000</pubDate>

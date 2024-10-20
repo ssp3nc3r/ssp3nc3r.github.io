@@ -11,6 +11,8 @@ title: Publications
 
 ## Working papers
 
+Spencer, Scott. [No One’s Replaceable: A Joint Model for Peace Amidst WAR](https://ssp3nc3r.github.io/publications/xruns-jointstan.html). Last updated 2024 Oct 20.
+
 Spencer, Scott. [_Data in Wonderland_](https://ssp3nc3r.github.io/diw). Last updated 2024 Feb 22.
 
 Spencer, Scott. [_Estimating utility of called pitches_](https://ssp3nc3r.github.io/publications/pitch-utility.html). 2020 June 11.

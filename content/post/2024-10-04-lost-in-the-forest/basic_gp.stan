@@ -19,9 +19,9 @@ model {
     matrix[N, N] K = gp_exp_quad_cov(x, alpha, rho);
 
     // diagonal elements
-    for (n in 1:N) {
-      K[n, n] = K[n, n] + delta;
-    }
+    
+    K = add_diag(K, delta);
+    
 
     L_K = cholesky_decompose(K);
     f = L_K * eta;
@@ -43,9 +43,7 @@ generated quantities {
     matrix[N, N] K = gp_exp_quad_cov(x, alpha, rho);
 
     // diagonal elements
-    for (n in 1:N) {
-      K[n, n] = K[n, n] + delta;
-    }
+    K = add_diag(K, delta);
 
     L_K = cholesky_decompose(K);
     f = L_K * eta;
@@ -58,4 +56,3 @@ generated quantities {
   
   array[N] real y_pred = normal_rng(f, sigma);
 }
-

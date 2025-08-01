@@ -5,9 +5,19 @@ aliases:
 - contact
 author:
   name: ssp3nc3r
-date: "2020"
 title: Teaching
 ---
+
+
+## 2025 Summer
+
+Athlyticz. [_Becoming a Bayesian I_](https://athlyticz.com/stan-i) and [_Becoming a Bayesian II_](https://athlyticz.com/stan-ii).
+
+## 2025 Spring
+
+Columbia University. Applied Analytics. _Storytelling with Data and AI_.
+
+Athlyticz. [_Becoming a Bayesian I_](https://athlyticz.com/stan-i) and [_Becoming a Bayesian II_](https://athlyticz.com/stan-ii).
 
 ## 2024 Fall
 

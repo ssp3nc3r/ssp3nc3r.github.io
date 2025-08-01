@@ -1,8 +1,8 @@
 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            {{ if .Site.Author.name }}
-                <span><a href="{{ .Site.BaseURL }}">{{ .Site.Author.name }}</a></span>
+            {{ if .Site.Params.Author.name }}
+                <span><a href="{{ .Site.BaseURL }}">{{ .Site.Params.Author.name }}</a></span>
             {{ end }}
             <span>{{ .Site.Copyright| safeHTML }}</span>
         </div>

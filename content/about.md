@@ -5,7 +5,6 @@ aliases:
 - contact
 author:
   name: ssp3nc3r
-date: "2021"
 title: About
 ---
 

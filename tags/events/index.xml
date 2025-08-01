@@ -4,16 +4,16 @@
     <title>Events on p( ssp3nc3r | Columbian )</title>
     <link>https://ssp3nc3r.github.io/tags/events/</link>
     <description>Recent content in Events on p( ssp3nc3r | Columbian )</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 08 Dec 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 30 Mar 2020 14:35:11 -0400</lastBuildDate>
     <atom:link href="https://ssp3nc3r.github.io/tags/events/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Estimating the marginal value of baseball events</title>
       <link>https://ssp3nc3r.github.io/post/estimating-the-marginal-value-of-baseball-events/</link>
       <pubDate>Sat, 08 Dec 2018 00:00:00 +0000</pubDate>
       <guid>https://ssp3nc3r.github.io/post/estimating-the-marginal-value-of-baseball-events/</guid>
-      <description>Teams score — or don’t — event by event. Events change the state of the game. Solo home runs aside, whether a score results from any event depends upon prior events: a batter’s double only “drives in a score” when an earlier batter made it on base. By the collection of events a player generates, or more accurately, by the change in expected runs to which they contribute, we can measure players offensive values.</description>
+      <description>&lt;script src=&#34;https://ssp3nc3r.github.io/./rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;&#xA;&#xA;&#xA;&lt;p&gt;Teams score — or &lt;em&gt;don’t&lt;/em&gt; — event by event. Events change the state of the game. Solo home runs aside, whether a score results from any event depends upon prior events: &lt;em&gt;a batter’s double only “drives in a score” when an earlier batter made it on base.&lt;/em&gt; By the collection of events a player generates, or more accurately, by the change in expected runs to which they contribute, we can measure players offensive values.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

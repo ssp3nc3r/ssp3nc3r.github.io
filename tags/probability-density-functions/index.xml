@@ -4,17 +4,16 @@
     <title>Probability Density Functions on p( ssp3nc3r | Columbian )</title>
     <link>https://ssp3nc3r.github.io/tags/probability-density-functions/</link>
     <description>Recent content in Probability Density Functions on p( ssp3nc3r | Columbian )</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 18 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 18 Mar 2022 19:15:12 -0400</lastBuildDate>
     <atom:link href="https://ssp3nc3r.github.io/tags/probability-density-functions/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Coding custom distribution functions in Stan</title>
       <link>https://ssp3nc3r.github.io/post/coding-custom-distribution-functions-in-stan/</link>
       <pubDate>Thu, 18 Feb 2021 00:00:00 +0000</pubDate>
       <guid>https://ssp3nc3r.github.io/post/coding-custom-distribution-functions-in-stan/</guid>
-      <description>The probabilistic programming language called Stan is a powerful tools for modeling. It includes numerous distribution functions we can use to model. While it cannot include every conceivable distribution in its available functions, it does enable the next best thing: we can code our own!
-The Stan library does not, for example, currently include the three-parameter Weibull distribution. In this tutorial, I’ll code its PDF and CDF to demonstrate coding custom distributions in Stan.</description>
+      <description>&lt;p&gt;The probabilistic programming language called &lt;a href=&#34;https://mc-stan.org&#34;&gt;Stan&lt;/a&gt; is a powerful tools for modeling. It includes numerous distribution functions we can use to model. While it cannot include every conceivable distribution in its available functions, it does enable the next best thing: &lt;em&gt;we can code our own&lt;/em&gt;!&lt;/p&gt;&#xA;&lt;p&gt;The Stan library does not, for example, currently include the &lt;a href=&#34;https://en.wikipedia.org/wiki/Weibull_distribution#Related_distributions&#34;&gt;three-parameter Weibull distribution&lt;/a&gt;. In this tutorial, I’ll code its PDF and CDF to demonstrate coding custom distributions in Stan.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

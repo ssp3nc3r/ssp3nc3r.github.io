@@ -1,0 +1,734 @@
+---
+title: 'Modeling Umpire Calls'
+author: Scott Spencer
+date: '2018-04-25'
+slug: modeling-umpire-calls
+categories: []
+tags:
+  - Baseball
+  - Umpires
+  - Probability
+  - Pitchers
+  - Stan
+  - Strike Zone
+description: 'A model for umpire calls should account for measurement error and variability in those calls. We consider and extend previous work, and find that on average umpires do not fully consider strike zone height when calling pitches.'
+draft: no
+disable_comments: yes
+output:
+  blogdown::html_page:
+    toc: true
+    dev: "svg"
+bibliography: ["pitching_command.bib"] 
+biblio-style: "apalike"
+link-citations: true
+linkcolor: black
+urlcolor: MidnightBlue
+---
+
+
+
+```{r setup, include=FALSE}
+require(knitr); require(kableExtra); require(dplyr)
+opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE, cache = F, eval=T)
+skimr::skim_with(numeric = list(hist = NULL, n = NULL), 
+                 integer = list(hist = NULL, n = NULL), 
+                 factor = list(n = NULL, ordered = NULL))
+```
+
+------  
+
+# Introduction
+
+The goal of baseball pitchers --- when contributing to team defense --- is to put out batters. Two ways are (mostly) within the pitchers' control. They may earn a *called strike* or a *swinging strike*. The "definition of a good pitcher", explains Sandy Koufax, is a "guy that throws what he intends to throw." [@Morrison:2018vd] said that quantifying pitchers' abilities to "throw the ball where he intends to", called pitching command, is "one of the most challenging aspects of pitching to quantify." As data of where the pitcher "intends to" throw are not publicly available, we agree. Various approaches have been tried. Baseball Info Solutions has measured catcher mitt starting locations for each pitch [@Dewan:2011uj], to which ball catch locations are compared. But pitchers are not necessarily aiming at the mitt: consider catcher mitt location, for example, when a ball curves through the strike zone before diving into the dirt.
+
+Trying another approach, [@Morrison:2018vd] "identified target points in each corner of the zone using the likelihood of a pitch to be called a strike, and quantify the pitcher’s ability to hit that spot consistently." The authors divided "the strike zone into quadrants that highlight a pitcher’s ability to miss the most dangerous part of the zone. These quadrants are mapped against Called Strike Probability . . . contours to identify the ideal target in each section of the zone."
+
+This approach seems partly an improvement to the extent it considers probabilities of called strikes (called strike probabilities were not directly estimated, discussed later). But a static, target point in four quadrants inside the strike zone, defined without context of each at bat, are even less an intended target than the mitt. Pitching intentions are described by Don Drysdale,
+
+> When the ball is over the middle of the plate, the batter is hitting it with the sweet part of the bat. When it's inside, he's hitting it with the part of the bat from the handle to the trademark. When it's outside, he's hitting it with the end of the bat. You've got to keep the ball away from the sweet part of the bat. To do that, the pitcher has to move the hitter off the plate.
+
+Instead of trying to measure pitcher command to the mitt or a few static points, we can assume the pitcher intends to maximize the probability of ideal outcomes: called or swinging strikes. That means pitching with movements to locations --- continuous regions --- that maximize probabilities of ideal outcomes. We aim to model ideal outcomes,
+
+\begin{equation}
+p(\textrm{ideal outcome})=p(\textrm{called strike}) \cdot (1 - p(\textrm{swing})) + p(\textrm{whiff}\mid \textrm{swing}) \cdot p(\textrm{swing})
+(\#eq:ideal1)
+\end{equation}
+
+where these probabilities are modelled generatively. With such a model, we can explore questions such as whether consistency in pitching for ideal outcomes varies for starting pitchers as pitch counts pile up.  
+
+# Batting and pitching data from Major League Baseball Advance Media
+
+For modeling, we start with MLBAM's publicly available information of all games from the 2017 regular season. An early, concise description of these data are available in [@Fast:2007uo].
+
+
+```{r}
+require(RMySQL); require(dplyr)
+
+conn <- dbConnect(MySQL(),
+                  user = 'root',
+                  password = 'root',
+                  dbname = 'baseball')
+
+query <- paste0("SELECT gameday_link FROM game WHERE (gameday_link ", 
+                "like '%2017%' AND game_type = 'R' AND ",
+                "status IN ('Final', 'Completed Early'))")
+
+games <- dbGetQuery(conn, query)
+games <- paste("'gid_", unlist(games), "'", sep = "", collapse = ", ")
+
+atbat <- dbGetQuery(conn, 
+                    paste("SELECT gameday_link, `key`, inning, inning_side,", 
+                          " pitcher, pitcher_name, p_throws, batter,",
+                          " batter_name, stand, b_height, num, event_num, event,",
+                          " b, s, o, home_team_runs, away_team_runs FROM atbat",
+                          " WHERE gameday_link IN (", games, ")"))
+
+atbat <- mutate(atbat,
+                key = as.integer(key),
+                inning = factor(inning),
+                inning_side = factor(inning_side, 
+                                     levels = c('top', 'bottom'), 
+                                     ordered = T),
+                pitcher = factor(pitcher),
+                p_throws = factor(p_throws),
+                batter = factor(batter),
+                stand = factor(stand),
+                b_height = as.numeric(substr(b_height, 1,  1)) * 12 + 
+                  as.numeric(substr(b_height, 3,  length(b_height))),
+                num = as.integer(num),
+                event_num = as.integer(event_num),
+                event = factor(event),
+                b = as.integer(b),
+                s = as.integer(s),
+                o = as.integer(o),
+                home_team_runs = as.integer(home_team_runs),
+                away_team_runs = as.integer(away_team_runs),
+                pitching_team = ifelse(inning_side == 'top', 
+                                       substr(gameday_link, 23, 25), 
+                                       substr(gameday_link, 16, 18)))
+
+atbat <- filter(atbat, b <= 4)
+atbat <- unique(atbat)
+
+# add umpire information
+umpires <- dbGetQuery(conn, 
+                      paste("SELECT * FROM umpire",
+                            " WHERE gameday_link IN (", games, ")"))
+
+umpires <- umpires %>% 
+  filter(position == 'home') %>% 
+  select(name, id, gameday_link) %>% 
+  rename(umpire = id, ump_name = name) %>%
+  mutate(umpire = as.factor(umpire))
+
+atbat <- left_join(atbat, umpires)
+
+# on base events
+onbase <- c('Double', 'Single', 'Walk', 'Home Run', 'Triple', 'Hit By Pitch', 'Intent Walk')
+
+# sequentially number at bats for each pitcher, add indicators for 
+# starting pitcher, survived to next batter, and censored
+
+atbat <- 
+  atbat %>% 
+  arrange(gameday_link, event_num) %>%
+  
+  # sequence of batters for each pitcher
+  group_by(gameday_link, pitcher) %>%
+  mutate(num_atbat = 1:n()) %>%
+  
+  # group data by game-team
+  group_by(gameday_link, inning_side) %>%
+  
+  # drop any games where data not available for start of game
+  mutate(has_beginning = ifelse(first(inning) == 1, TRUE, FALSE)) %>%
+  filter(has_beginning == TRUE) %>% select(-has_beginning) %>%
+  
+  # identify starting pitchers and whether survive to face next batter
+  mutate(start_pitcher = ifelse(pitcher == first(pitcher), TRUE, FALSE)) %>%
+  mutate(survived = ifelse(lead(start_pitcher), TRUE, FALSE)) %>% 
+  
+  # identify whether last pitch thrown for team (complete game if starting pitcher)
+  mutate(censored = ifelse(row_number() == n(), TRUE, FALSE)) %>% 
+  
+  # add performance/strategy variables we want to explore
+  # runs allowed up to that pitch
+  mutate(runs_allowed = ifelse(inning_side == 'top',
+                               away_team_runs - first(away_team_runs),
+                               home_team_runs - first(home_team_runs)) ) %>%
+  
+  # next batter platoon-advantaged
+  mutate(nb_opposite_hands = ifelse( p_throws != lead(stand), TRUE, FALSE ) ) %>% 
+  mutate(nb_opposite_hands = ifelse( is.na(nb_opposite_hands), 
+                                     FALSE, nb_opposite_hands) ) %>%
+  
+  # accumulative home runs
+  mutate(cumHR = cumsum(event == 'Home Run')) %>%
+  
+  # accumulative baserunners
+  mutate(cumOnbase = cumsum(event %in% onbase)) %>%
+  
+  # clean up
+  ungroup() %>%
+  mutate(Period = paste0("[", formatC(num_atbat, width = 2, flag = '0'), 
+                         ",", formatC(num_atbat + 1, width = 2, flag = '0'), ")")) 
+
+
+atbat1 <- 
+  atbat %>% 
+  
+  # create stratum and arrange
+  mutate(stratum = paste0(gameday_link, pitcher)) %>% 
+  mutate(stratum = as.factor(stratum)) %>%
+  arrange(stratum) %>% 
+  
+  # remove censored games
+  group_by(stratum) %>%
+  filter(start_pitcher == TRUE) %>%
+  mutate(completegame = max(censored) ) %>% 
+  filter(completegame == 0) %>% ungroup() %>%
+  
+  # change Period/num_atbat (batter faced) to ordered factor
+  mutate(Period = factor(Period, levels = unique(Period), ordered = T),
+         num_atbat = factor(num_atbat, levels = unique(num_atbat), ordered = T))
+
+
+# get us army anthropological data
+ansurii <- read.csv("ansurii.csv")
+ansurii <- ansurii %>% 
+  mutate(Waist = waistheightomphalion / 25.4,
+         Knee = kneeheightmidpatella / 25.4) %>%
+  rename(b_height = Heightin) %>% 
+  filter(b_height > 60 & b_height < 85) %>%
+  select(b_height, Waist, Knee) %>% 
+  group_by(b_height) %>%
+  summarise(Waist_mean = mean(Waist),
+            Waist_sd = sd(Waist),
+            Knee_mean = mean(Knee),
+            Knee_sd = sd(Knee))
+
+atbat1 <- left_join(atbat1, ansurii)
+
+# add pitch information
+pitch_vars <- paste0('gameday_link, inning, inning_side, num, sv_id, count, ',
+                     'px, pz, x0, y0, z0, vx0, vy0, vz0, ax, ay, az, des, sz_top, sz_bot', 
+                     collapse = '')
+pitch <- dbGetQuery(conn, 
+                    paste("SELECT gameday_link", pitch_vars, " FROM pitch",
+                          " WHERE gameday_link IN (", games, ")"))
+
+
+
+pitch <- 
+  mutate(pitch, 
+         inning = factor(inning, 
+                         levels = unique(pitch$inning), 
+                         ordered = T),
+         inning_side = factor(inning_side, 
+                              levels = c('top', 'bottom'), 
+                              ordered = T)) %>%
+  mutate(px = px * 12,      
+         pz = pz * 12,
+         sz_top = sz_top * 12,
+         sz_bot = sz_bot * 12)
+
+# clean up and combine with atbat
+pitch <- pitch %>% filter( !is.na(px), !is.na(pz), !(des == 'Automatic Ball') )
+pitch <- unique(pitch)
+pitch <- inner_join(atbat1, pitch, by = c('gameday_link', 'inning', 'inning_side', 'num'))
+```
+
+These data are transformed and cleaned in several ways. Pitch location measurements are converted to inches. The vertical locations are centered to the middle of each batter's strike zone, which is defined in the rules of baseball,
+
+> The STRIKE ZONE is that area over home plate the upper limit of which is a horizontal line at the midpoint between the top of the shoulders and the top of the uniform pants, and the lower level is a line at the hollow beneath the kneecap. The Strike Zone shall be determined from the batter’s stance as the batter is prepared to swing at a pitched ball.
+
+[@MLB:2017ua]. The top and bottom of the zone depend on player anatomies and are judged each pitch. Take note of both the inherent uncertainty and pitch-by-pitch variation: the "Strike Zone shall be determined *from the batter’s stance as the batter is prepared to swing at a pitched ball*." Some variation exists in the strike zone, even for a given batter as we do not expect his stance to remain constant. 
+
+Along with batter stance variation, the per-pitch strike zone measurements have error [@Lemire:2017tt] and include values too extreme to be possible, as shown in Table \@ref(tab:sz1). 
+
+```{r sz1}
+sz <- pitch %>% select(sz_top, sz_bot) %>% skimr::skim_to_list()
+kable( sz$numeric, caption = 'Summary of strike zone measurements', booktabs = T ) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+```
+
+We supplement these data using prior information. Controlled, anatomical measures of male soldiers have been published by the United States Military [@Benson:2017uy]. Presumably anatomical measurements of male soldiers approximate the stature of pro ball players. These data, shown in Figure \@ref(fig:ansurii), include overall, knee (mid-patella), and navel height [@Gordon:2014to], which should be close to the defined zone as seen by umpires.
+
+```{r ansurii, echo=FALSE, fig.width=4, fig.height=2, fig.align='center', fig.cap="Anthropological survey of male anatomies"}
+ansurii <- read.csv("ansurii.csv")
+
+library(reshape2)
+ansurii <- ansurii %>% 
+  mutate(Waist = waistheightomphalion / 25.4,
+         Knee = kneeheightmidpatella / 25.4) %>%
+  rename(Height = Heightin) %>% 
+  filter(Height > 60 & Height < 85) %>%
+  select(Height, Waist, Knee) %>% melt(id.vars = 'Height')
+
+
+library(ggplot2); library(ggthemes)
+ggplot(ansurii) + 
+  geom_point(aes(value, Height, group = variable), color = '#BBBBBB', alpha = .07) +
+  geom_smooth(aes(value, Height, group = variable), method = 'lm', color = 'dodgerblue', size = .2) +
+  annotate('text', x = 24, y = 81, label = 'Knee', size = 2.5) +
+  annotate('text', x = 49, y = 81, label = 'Waist', size = 2.5) +
+  ylim(60, 83) +
+  theme_tufte(base_family = 'sans', base_size = 9) + 
+  theme(plot.caption = element_text( hjust = 0.5, size = rel(.9) ),
+        axis.ticks = element_line(color = '#AAAAAA'),
+        axis.text = element_text(color = '#AAAAAA'),
+        axis.title = element_text(size = rel(.9)),
+        legend.position = '') +
+  scale_x_continuous(breaks = seq(15, 50, by = 5)) +
+  labs(x = 'Height of body part (inches)', y = 'Overall height (inches)')
+```
+
+MLBAM zone measurements more than three standard deviations outside the anatomical data corresponding to each batter's height are recoded as missing and replaced by the mean of measurements from the same batter heights in the study. Post-cleaned medians and standard deviations of within-batter, per-pitch measurements of the bottom and top of their strike zones are shown in Table \@ref(tab:measerrsz).
+
+```{r}
+pitch <- pitch %>%
+  group_by(batter) %>%
+  mutate(sz_top = ifelse(sz_top < (Waist_mean - 3 * Waist_sd) | sz_top > (Waist_mean + 3 * Waist_sd), Waist_mean, sz_top), 
+         sz_bot = ifelse(sz_bot < (Knee_mean - 3 * Knee_sd) | sz_bot > (Knee_mean + 3 * Knee_sd), Knee_mean, sz_bot))
+
+  
+pitch <- pitch %>%
+  group_by(batter) %>%
+  mutate(sz_top_med = median(sz_top, na.rm = T),
+         sz_bot_med = median(sz_bot, na.rm = T)) %>%
+  mutate(sz_top = ifelse(is.na(sz_top), sz_top_med, sz_top),
+         sz_bot = ifelse(is.na(sz_bot), sz_bot_med, sz_bot),
+         zone_med = (sz_top_med + sz_bot_med) / 2 ) %>%
+  mutate(pz_centered = pz - zone_med,
+         zone_ht = sz_top_med - sz_bot_med) %>%
+  ungroup()
+
+pitch1 <- pitch %>%
+  filter( des %in% c('Ball', 'Called Strike' ) ) %>%
+  
+  # reset likely miscoded/mismeasured data as missing
+  mutate(des = ifelse( abs(px) >  20.5, NA, des ) ) %>% # two feet outside zone
+  mutate(des = ifelse( pz      >  50,   NA, des ) ) %>% # two feet above zone
+  mutate(des = ifelse( pz      <  10,   NA, des ) ) %>% # below ground level
+  
+  # remove missing values
+  filter( !is.na(px), !is.na(pz), !is.na(des) ) %>% 
+  
+  # organize data
+  group_by( gameday_link, inning_side ) %>%
+  arrange( key, sv_id ) %>% ungroup
+
+games2017 <- pitch1
+#rm(list = setdiff(ls(), 'games2017') )
+```
+
+```{r measerrsz}
+meas_err_sz <- games2017 %>% group_by(batter) %>% 
+  summarise(`Within batter observations` = as.numeric(n()),
+            `Median Bottom Strike Zone` = median(sz_bot), 
+            `Standard Deviation Bottom Strike Zone` = sd(sz_bot), 
+            `Median Top Strike Zone` = median(sz_top), 
+            `Standard Deviation Top Strike Zone` = sd(sz_top) ) %>% 
+  ungroup() %>% select(-batter) %>% skimr::skim_to_list()
+
+kable( meas_err_sz$numeric, caption = 'Within-batter measurements of the strike zone', booktabs = T ) 
+```
+
+Post-cleaning measurements of the strike zone and pitch locations on called strikes for players José Altuve and Aaron Judge, for perspective, are shown in Figure \@ref(fig:measerr1) alongside a sketch for context of their relative heights.
+
+```{r measerr1, echo=FALSE, fig.width=8, fig.height=4, fig.align='center', fig.cap="Post-cleaning measurements of the strike zone with called strike locations measured in inches (umpire's view)"}
+require(ggplot2); require(ggthemes)
+# plot for short player altuve 514888
+p1 <- ggplot(filter(games2017, batter == 514888, des == 'Called Strike') ) +
+  geom_segment(x = -8.5, xend = 8.5, y = 0, yend = 0, 
+               size = 3, color = '#EEEEEE') + 
+  geom_hline(yintercept = 66, color = '#DDDDDD' ) +
+  annotate('text', x = -10, y = 68, label = "5'6", size = 3) +
+  geom_rect(aes(xmin = -8.5, xmax = 8.5,
+                ymin = sz_bot, ymax = sz_top),
+            color = alpha('#222222', .05), fill = NA) +
+  stat_density_2d(aes(x = px, y = pz, fill = ..level..), geom = "polygon", alpha = .35) +
+  #geom_density_2d(aes(x = px, y = pz, colour = ..level..), size = .1) +
+  geom_point(aes(x = px, y = pz), size = .3, color = '#0189BF', alpha = .1) +
+  coord_fixed(ratio = 1) +
+  theme_tufte(base_family = 'sans', base_size = 9) + 
+  theme(plot.caption = element_text( hjust = 0.5, size = rel(.9) ),
+        axis.ticks = element_line(color = '#AAAAAA'),
+        axis.text = element_text(color = '#AAAAAA'),
+        legend.position = '') +
+  scale_x_continuous(breaks = seq(-30, 30, by = 10), limits = c(-20, 20) ) + 
+  scale_y_continuous(breaks = seq(  0, 85, by = 10), limits = c(-5, 85) ) +
+  scale_color_continuous(low = '#000000', high='#000000') +
+  scale_fill_continuous(low = '#EBF8FD', high='#0189BF') +
+  labs(x = '', y = '', caption = "José Altuve (height 5'6)")
+
+# plot for tall player aaron judge 592450
+p2 <- ggplot(filter(games2017, batter == 592450, des == 'Called Strike') ) +
+  geom_segment(x = -8.5, xend = 8.5, y = 0, yend = 0, 
+               size = 3, color = '#EEEEEE') + 
+  geom_hline(yintercept = 79, color = '#DDDDDD' ) +
+  annotate('text', x = -10, y = 81, label = "6'7", size = 3) +
+  geom_rect(aes(xmin = -8.5, xmax = 8.5,
+                ymin = sz_bot, ymax = sz_top),
+            color = alpha('#222222', .05), fill = NA) +
+  stat_density_2d(aes(x = px, y = pz, fill = ..level..), geom = "polygon", alpha = .35) +
+  #geom_density_2d(aes(x = px, y = pz, colour = ..level..), size = .1) +
+  geom_point(aes(x = px, y = pz), size = .3, color = '#0189BF', alpha = .1) +
+  coord_fixed(ratio = 1) +
+  theme_tufte(base_family = 'sans', base_size = 9) + 
+  theme(plot.caption = element_text( hjust = 0.5, size = rel(.9) ),
+        axis.ticks = element_line(color = '#AAAAAA'),
+        axis.text = element_text(color = '#AAAAAA'),
+        legend.position = '') +
+  scale_x_continuous(breaks = seq(-30, 30, by = 10), limits = c(-20, 20) ) + 
+  scale_y_continuous(breaks = seq(  0, 85, by = 10), limits = c(-5, 85) ) +
+  scale_color_continuous(low = '#000000', high='#000000') +
+  scale_fill_continuous(low = '#EBF8FD', high='#0189BF') +
+  labs(x = '', y = '', caption = "Aaron Judge (height 6'7)")
+
+players_image <- png::readPNG("altuvejudge.png")
+require(grid)
+p3 <- ggplot() + 
+  annotation_custom(rasterGrob(players_image)) + 
+  xlim(-20, 20) + ylim(0, 77) +
+  theme_void()
+
+library(cowplot)
+library(gridExtra)
+p = align_plots(p1, p3, p2, align = "hv")
+grid.arrange(p[[1]], p[[2]], p[[3]], nrow = 1)
+```
+
+While called strikes are spread fairly throughout Altuve's (varied) zone(s), relatively few called strikes are near the upper region of Judge's zone(s) and significant numbers are below. For our model, post-cleaned median values per batter are used to approximate each batter's strike zone, ignoring within-batter measurement error and variation. (Examples of more sophisticated approaches to measurement error are described in [@StanDevelopmentTeam:2016uz], [@Muff:2015uz], and [@McElreath:2015us].) These data are filtered to keep only umpire calls on balls and strikes. The working model is used to estimate per-pitch probabilities of called strikes.
+
+Modeling called strike probabilities is part of our larger goals, reconsidering measures of pitching command and exploring trends and variation as games progress. As such, any games for which no data were available from the beginning of the game were removed. We also identify whether (1) each pitch was the last pitch of the game (*i.e.*, the data are censored), (2) the next batter stands opposite the pitcher's throwing arm, and accumulations of (3) runs allowed, (4) homeruns, (5) runners on base, and (5) outs after each pitch. These data are used later in the analysis.
+
+# Modeling called strike probabilities
+
+Called strikes by definition depend on pitched ball locations at home plate relative to that batter's strike zone. Our data for modeling probabilities of called strikes are listed in Tables \@ref(tab:chars) to \@ref(tab:numerics).
+
+```{r}
+vars <- skimr::skim_to_list(games2017[, c('gameday_link', 'batter', 'b_height', 'stand', 
+                                          'sz_top', 'sz_bot', 'umpire', 'des', 'px', 
+                                          'pz_centered', 'zone_ht')] ) 
+```
+
+```{r chars}
+kable( vars$character, caption = 'Character Variables', booktabs = T ) 
+```
+
+```{r factors}
+kable( vars$factor, caption = 'Factor Variables', booktabs = T ) 
+```
+
+```{r numerics}
+kable( vars$numeric, caption = 'Numeric Variables', booktabs = T ) 
+```
+
+## Previous work
+
+Our modeling differs significantly from earlier work. [@Brooks:2015um]'s called strike probability model aims to assign "called strikes above average" to particular catchers (to measure their framing abilities) using a mixed-effects model. Their model does not directly estimate called strike probabilities from pitch location and other relevant variables. Instead, it includes as a parameter a "composite probability of a strike being called" obtained from Pitch Info Solutions. Pitch Info Solutions's *proprietary* algorithm is said to include "a particular type of pitch in a particular location during a particular count at a particular ball park". It is unclear whether the proprietary probabilities that [@Brooks:2015um] combine with player and umpire identity parameters are matched pitch-to-pitch. Their model is later used to examine pitching performance in [@Pavlidis:2017tw] and [@Morrison:2018vd] but the underlying proprietary, composite called strike probabilities remain a predictor separate from their models.
+
+Like [@Brooks:2015um], [@Deshpande:2017td] explore catchers' abilities to frame pitches and include, as an input to their model, a parameter for called strike probabilities. The authors helpfully compare the two approaches:
+
+> Rather than specifying a explicit parametrization in terms of the horizontal and vertical coordinates, we propose using a smoothed estimate of the historical log-odds of a called strike as an implicit parametrization of pitch location. This is very similar to the approach taken in [@Brooks:2015um], who included the estimated called strike probability as a covariate in their probit model.
+
+[@Deshpande:2017td] differ, however, in that they estimate their own called strike probabilities using four separate models, one for each combination of pitcher and batter handedness. In each, horizontal and vertical locations of the pitch are variables that interact within an undisclosed smoothing function in a generalized additive model. Curiously, these pitch location data are "historical", and lack congruency with the data used as random effects parameters in their ultimate model.
+
+## General model description
+
+The generative approach described here, in contrast with earlier work, explicitly models the underlying components defined in the rules of baseball, including batter anatomies and pitch locations. Per the rules, batter anatomies define the upper and lower bounds of each strike zone. [@Deshpande:2017td] average the measurements from PITCHf/x on the top and bottom boundaries of the strike zone to show heatmaps of pitch locations. But this information was not used in their modeling of called strike probabilities. We do, as explained above. Further, we calculate the length of each batter's zone as a parameter interacting with pitch location. Anticipating that batter handedness may affect umpire calls, we stratify the nonlinear, smoothing predictors for ball location by handedness.
+
+Congruent with pitch location and zone length, our model also includes those making the calls --- umpires! As mentioned, the strike zone requires a subjective judgment: was the ball above or below "the midpoint between the top of the shoulders and the top of the uniform pants", for example, "as the batter is prepared to swing"? Considering the speed and movement of the ball and the timing needed to make this judgment, it is understandable that umpires apply the rules imperfectly [@Lemire:2017tt]. Some are better than others and technology has helped them become more consistently accurate [@Davis:2015ut]. The particular home plate umpire and his calls, then, are part of our generative model. Earlier work suggests umpire calls are influenced by context, namely the ball-strike count [@MacMahon:2008ek], so we include count too.
+
+To the extent that umpires' perceptions of balls and strikes succumb to framing effects by catchers, see [@Deshpande:2017td] and [@Judge:2018wg], including catcher identities could improve this model. We also omit pitch type as the pitcher's grip on the ball is hidden and modeling pitch types accurately are difficult, a task to be handled outside the scope here (MLBAM's pitch classifications rely on a proprietary algorithm, not direct observation, and its accuracy can be improved. Some approaches have been explored in [@Albert:2017wr]).
+
+Our model incorporates a spline function to estimate changes in the probability of a called strike with changes in pitched-ball location and batter strike zone length. Mathematically, our model can be written as,
+
+\begin{equation}
+p(y_i = 1) = \textrm{logit}^{-1}(\alpha + \alpha_{j[i]} + \cdots + \mathcal{S})
+(\#eq:model1)
+\end{equation}
+
+where $p(y_i = 1)$ is the probability that the umpire's call $y$ for pitch $i$ is a strike. Probabilities are mapped from a logistic transformation^[Switching to a probit transformation as suggested by [@Brooks:2015um] did not improve our model.] of the predictors. We combine information on umpire decisions by pooling all calls together and jointly grouping those calls by umpire,
+
+\begin{equation}
+\alpha_j \sim \textrm{N}(0, \sigma^2_j) \textrm{ for j = 1, ..., umpires}
+(\#eq:model2)
+\end{equation}
+
+The information from each umpire's calls depend upon the variance in their calls for observed pitches compared with the variance of calls for pitches pooled across the population of umpires. Variance for binary outcomes (called strike or not) are,
+
+\begin{equation}
+\sigma_y = \sqrt{p (1 - p)}
+(\#eq:model3)
+\end{equation}
+
+Thus, the amount of information for umpire $j$ in the model is approximately,
+
+\begin{equation}
+	\alpha_{j} = \dfrac{\dfrac{n_j}{\sigma_y^2} \cdot \bar{y}_j + \dfrac{1}{\sigma_{\alpha}^2} \cdot y_{\mathrm{all}}}{\dfrac{n_j}{\sigma_y^2} + \dfrac{1}{\sigma_{\alpha}^2}}
+	(\#eq:model4)
+\end{equation}
+
+We parameterize pitch location and batter-specific zone length as,
+
+\begin{equation}
+\mathcal{S}(\cdot) = \beta_1 + \beta_2x + \sum_{h=3}^{H+2}{\beta_hb_h(\cdot)}
+(\#eq:model5)
+\end{equation}
+
+where the basis function $b_h(\cdot)$ for the smoothing spline $\mathcal{S}(\cdot)$ includes the horizontal and vertical location of each pitched ball at the vertical plane intersecting the front of home plate, along with the batter's strike zone length. The particular spline chosen applies the same smoothing across these variables, which should be appropriate as they are isotropic and all measured in the same units (inches). The data used in this model are shared with the additional models for batter choice to swing and ability to make contact. As the probabilities of called strikes are presumably independent of batters' decisions or abilities, however, we model umpire calls separately.
+
+## Called strike probabilities modeled in Stan
+
+All models are coded using the Stan modeling language [@StanDevelopmentTeam:2016uz], while data preparation and post-modeling analyses are coded in R. Some of the data are withheld from modeling for use in post-modeling checks. A random 30 percent of observations are withheld for testing. 
+
+```{r echo=FALSE}
+set.seed(T)
+train_idx <- sample( NROW(games2017), NROW(games2017) * .7 )
+```
+
+```{r, echo=FALSE}
+fit0_60 <- readRDS('fit0_60.RDS')
+```
+
+We specified $\textrm{normal}(0,1)$ across coefficients to provide some regularization, and $\textrm{exponential}(1)$ across variance terms. When specifying the number of knots to create the smoothing splines, too few result in a probability model that doesn't capture the underlying process while too many may result in overfitting. Somewhere around 60 seemed sufficient, give or take, after a bit of experimentation.^["Exact choice of k is not generally critical" [@Wood:2005wz].]
+
+The model specification includes,
+
+\begin{equation}
+p(\textrm{call = strike}) \sim \textrm{ball-strike count} + \mathcal{S}(\textrm{x}, \textrm{z}_{\textrm{centered}}, \textrm{zone height}, \textrm{by = stand}, k = 60) + (1 \mid \textrm{umpires})
+(\#eq:umpcalls1)
+\end{equation}
+
+## Model diagnostics
+
+Our analysis follows the recommended Bayesian workflow [@Gabry:2017tb]. We next check the model for problems. All $\hat{r}$ values are near 1.0, and $\widehat{\textrm{neff}}$ sample sizes are substantial. Approximating leave-one-out cross-validation, reveals that some of the observations used for modeling have somewhat elevated [@Vehtari:wy] Pareto-K values, colored blue in Figure \@ref(fig:loo060), which means those observations could have disproportionate influence on model parameters.
+
+```{r, eval=FALSE}
+fit0_60_loo <- loo( fit0_60, cores = parallel::detectCores() )
+```
+
+```{r}
+fit0_60_loo <- readRDS('fit0_60_loo.RDS')
+```
+
+```{r loo060, echo=FALSE, dev='png', dpi = 300, fig.width=8, fig.height=3.5, fig.align='center', fig.cap='Diagnostics using PSIS-LOO approximation'}
+require(ggplot2); require(ggthemes)
+p1 <- ggplot(data.frame(Observation = seq_along(fit0_60_loo$diagnostics$pareto_k),
+                  Pareto_K = fit0_60_loo$diagnostics$pareto_k,
+                  Cols = cut(fit0_60_loo$diagnostics$pareto_k, c(-Inf, .5, .7, 1, Inf) ))) +
+  geom_point(aes(Observation, Pareto_K, color = Cols ), size = .5, alpha = 1) +
+  scale_color_manual(name = 'Cols', values = c('#F5F5F5', '#DAF4FF', '#8CDCFC', '#0189BF') ) +
+  geom_hline(yintercept = .5, linetype = 'dashed', color = '#DDDDDD') +
+  geom_hline(yintercept = .7, linetype = 'solid', color = '#DDDDDD') +
+  geom_hline(yintercept = 1, linetype = 'solid', color = '#DDDDDD') +
+  theme_tufte(base_family = 'sans', base_size = 9) +
+  theme(legend.position = '', plot.caption = element_text( hjust = 0.5, size = rel(.9)) ) +
+  labs(x = '', y = 'Pareto K (below 0.7 are good)', caption = "Observations") 
+
+games2017_train <- 
+  bind_cols(games2017[train_idx,], paretoK1 = fit0_60_loo$diagnostics$pareto_k)
+
+p2 <-   ggplot() + 
+  annotate(geom = "rect", xmin = -8.5, ymin = mean(games2017$sz_bot_med), 
+              xmax =  8.5, ymax = mean(games2017$sz_top_med), 
+              color = '#EEEEEE', fill = NA, size = 3) +
+  annotate(geom = "segment", x = -8.5, xend = 8.5, y = 0, yend = 0, 
+               size = 3, color = '#EEEEEE') +
+  geom_point(data = filter(games2017_train, paretoK1 > .5 & paretoK1 < 7 & des == "Ball"),
+             mapping = aes(px, pz), size = .5, color = '#DAF4FF', alpha = 1) +
+  geom_point(data = filter(games2017_train, paretoK1 > .7 & paretoK1 < 1 & des == "Ball"),
+             mapping = aes(px, pz), size = .5, color = '#8CDCFC', alpha = 1) +
+  geom_point(data = filter(games2017_train, paretoK1 > 1 & des == "Ball"),
+             mapping = aes(px, pz), size = .5, color = '#0189BF', alpha = 1) +
+  coord_fixed(ratio = 1) + 
+  theme_tufte(base_family = 'sans', base_size = 9) + 
+  theme(plot.caption = element_text( hjust = 0.5, size = rel(.9) ),
+        axis.ticks = element_line(color = '#AAAAAA'),
+        axis.text = element_text(color = '#AAAAAA'),
+        legend.position = '') +
+  scale_x_continuous(breaks = seq(-50, 50, by = 10), limits = c(-50, 50) ) + 
+  scale_y_continuous(breaks = seq(  -10, 70, by = 10), limits = c(-10, 70) ) + 
+  labs(x = '', y = '', caption = "Inches (Umpire's View)")
+
+library(cowplot)
+library(gridExtra)
+p = align_plots(p1, p2, align = "hv")
+grid.arrange(p[[1]], p[[2]], nrow = 1)
+```
+
+These observations are well within the empirically accepted threshold and are several inches outside the average strike zone. We check the fit by binning residuals [@Gelman:2000tc, section 6.4] on the held-out data. Figure \@ref(fig:binres1) shows observations binned in one tenth of a percent increments compared with one and two standard deviations of the binomial distribution.
+
+```{r}
+# bin probabilities in 1 percent increments
+binned_residuals <- function(y, y_prob, pct_round = 1 ) {
+  midbin <- 1 / 10^pct_round * .5
+  data.frame(y, y_prob) %>%
+    mutate(bin = round(y_prob, pct_round)) %>%
+    group_by(bin) %>%
+    summarise(residual = mean(y) - (first(bin) + midbin ),
+              n = n(),
+              std_dev  = sqrt((first(bin) + midbin) * 
+                              (1 - first(bin) + midbin) / n()) )  
+}
+
+require(rstanarm)
+y_prob <- posterior_linpred(fit0_60, 
+          newdata = games2017[-train_idx,c('des', 'px', 'pz_centered', 
+                                           'zone_ht', 'stand', 'umpire')], 
+          transform = T)
+```
+
+```{r binres1, echo=FALSE, fig.width=4, fig.height=2.5, fig.align='center', fig.cap='Residuals binned by called strike probabilities of held-out data'}
+# plot results for first simulation
+binned_residuals(games2017[-train_idx,]$des == 'Called Strike', y_prob[1,], pct_round = 2 ) %>%
+  ggplot() + geom_point( aes(bin, residual), color = '#888888', size = .5, alpha = .3 ) + 
+  geom_line(aes(bin,  std_dev), linetype = 'solid', color = '#888888') + 
+  geom_line(aes(bin, -std_dev), linetype = 'solid', color = '#888888') +
+  geom_line(aes(bin,  std_dev * 2), linetype = 'solid', color = '#DDDDDD') + 
+  geom_line(aes(bin, -std_dev * 2), linetype = 'solid', color = '#DDDDDD') +  
+  theme_tufte(base_family = 'sans', base_size = 9) + 
+  theme(plot.caption = element_text( hjust = 0.5, size = rel(.9) ),
+        axis.ticks = element_line(color = '#AAAAAA'),
+        axis.text = element_text(color = '#AAAAAA'),
+        legend.position = '') + 
+  labs(x = 'Probability of a called strike', y = 'Residual')
+  
+```
+
+```{r}
+# percent of binned observations within the standard error
+binned <- binned_residuals(games2017[-train_idx,]$des == 'Called Strike', y_prob[1,], 2 ) %>% 
+  summarise(pct_inside = sum(abs(residual)<=std_dev) / n() ) %>% .$pct_inside 
+```
+
+Approximately `r round(binned * 100, digits = 1)` percent of the binned simulations fall within one standard deviation (the interior dashed lines), about what we expect, revealing no problems with under or over fitting. It is also a good sign that the binned residuals reveal no obvious patterns.
+
+## Called strike probability predictions from the modeled posterior
+
+Our model's estimates of called strike probabilities for right-handed batters are shown in Figure \@ref(fig:plateprobs1) overlaying a strike zone for the average player, and compared with probabilities for players seeing eye-to-eye with José Altuve and those taller, like Aaron Judge. 
+
+```{r plateprobs1, echo=FALSE, fig.width=8, fig.height=4, fig.align='center', fig.cap="Posterior called strike probabilities by pitch location, measured in inches (umpire's view)"}
+require(rstanarm)
+# new data average player
+nd <- expand.grid(px = seq(-25, 25, by = 1), 
+                  pz_centered = seq(  -30, 30, by = 1),
+                  umpire = 0,
+                  batter = c('0', '514888', '592450'),
+                  stand = 'R')
+
+# average batter zone info
+zones <- games2017 %>% 
+  summarise(sz_top = mean(sz_top_med), 
+            sz_bot = mean(sz_bot_med), 
+            zone_med = mean(zone_med), 
+            zone_ht = mean(zone_ht)) %>% 
+  mutate(batter = '0')
+
+zones <- games2017 %>% 
+  filter(batter %in% c('514888', '592450')) %>% 
+  group_by(batter) %>%
+  summarise(sz_top = mean(sz_top_med), 
+            sz_bot = mean(sz_bot_med), 
+            zone_med = mean(zone_med), 
+            zone_ht = mean(zone_ht)) %>% 
+  bind_rows(., zones)
+
+nd <- left_join(nd, zones)
+nd <- nd %>% mutate(pz = pz_centered + zone_med)
+
+
+y_pred <- posterior_linpred( fit0_60, newdata = nd, transform = T)
+y_pred <- colMeans(y_pred)
+nd     <- bind_cols(nd, strike_prob = y_pred)
+
+
+require(ggplot2); require(ggthemes); require(directlabels)
+
+# plot for average player
+
+p1 <- ggplot(filter(nd, batter == 0), aes(x = px, y = pz, z = strike_prob) ) +
+  geom_rect(xmin = -8.5, ymin = mean(nd[nd$batter == 0,]$sz_bot), 
+            xmax =  8.5, ymax = mean(nd[nd$batter == 0,]$sz_top), 
+            color = '#EEEEEE', fill = NA, size = 3) +
+  geom_segment(x = -8.5, xend = 8.5, y = 0, yend = 0, 
+               size = 3, color = '#EEEEEE') + 
+  geom_raster( aes(fill = strike_prob), alpha = .4) +
+  scale_fill_continuous(low = '#FFFFFF', high='#84bddb') + 
+  geom_contour( aes(color = ..level..) , size = 0.1, linetype = 1, 
+                breaks = c(.1, .25, .5, .75, .9)) + 
+  scale_color_continuous(low = '#888888', high='#888888') + 
+  coord_fixed(ratio = 1) + 
+  theme_tufte(base_family = 'sans', base_size = 9) + 
+  theme(plot.caption = element_text( hjust = 0.5, size = rel(.9) ),
+        axis.ticks = element_line(color = '#AAAAAA'),
+        axis.text = element_text(color = '#AAAAAA'),
+        legend.position = '') +
+  scale_x_continuous(breaks = seq(-30, 30, by = 10), limits = c(-20, 20) ) + 
+  scale_y_continuous(breaks = seq(  0, 60, by = 10), limits = c(0, 60) ) + 
+  labs(x = '', y = '', caption = 'Average batter')
+
+p1 <- direct.label(p1, list("bottom.pieces", cex = .4))
+
+
+# plot for short player altuve
+
+p2 <- ggplot(filter(nd, batter == 514888), aes(x = px, y = pz, z = strike_prob) ) +
+  geom_rect(xmin = -8.5, ymin = mean(nd[nd$batter == 514888,]$sz_bot), 
+            xmax =  8.5, ymax = mean(nd[nd$batter == 514888,]$sz_top), 
+            color = '#EEEEEE', fill = NA, size = 3) +
+  geom_segment(x = -8.5, xend = 8.5, y = 0, yend = 0, 
+               size = 3, color = '#EEEEEE') + 
+  geom_raster( aes(fill = strike_prob), alpha = .4) +
+  scale_fill_continuous(low = '#FFFFFF', high='#84bddb') + 
+  geom_contour( aes(color = ..level..) , size = 0.1, linetype = 1, 
+                breaks = c(.1, .25, .5, .75, .9)) + 
+  scale_color_continuous(low = '#888888', high='#888888') + 
+  coord_fixed(ratio = 1) + 
+  theme_tufte(base_family = 'sans', base_size = 9) + 
+  theme(plot.caption = element_text( hjust = 0.5, size = rel(.9) ),
+        axis.ticks = element_line(color = '#AAAAAA'),
+        axis.text = element_text(color = '#AAAAAA'),
+        legend.position = '') +
+  scale_x_continuous(breaks = seq(-30, 30, by = 10), limits = c(-20, 20) ) + 
+  scale_y_continuous(breaks = seq(  0, 60, by = 10), limits = c(0, 60), labels = NULL ) + 
+  labs(x = '', y = '', caption = "José Altuve (height 5'6)")
+
+p2 <- direct.label(p2, list("bottom.pieces", cex = .4))
+
+# plot for tall player aaron judge
+
+p3 <- ggplot(filter(nd, batter == 592450), aes(x = px, y = pz, z = strike_prob) ) +
+  geom_rect(xmin = -8.5, ymin = mean(nd[nd$batter == 592450,]$sz_bot), 
+            xmax =  8.5, ymax = mean(nd[nd$batter == 592450,]$sz_top), 
+            color = '#EEEEEE', fill = NA, size = 3) +
+  geom_segment(x = -8.5, xend = 8.5, y = 0, yend = 0, 
+               size = 3, color = '#EEEEEE') + 
+  geom_raster( aes(fill = strike_prob), alpha = .4) +
+  scale_fill_continuous(low = '#FFFFFF', high='#84bddb') + 
+  geom_contour( aes(color = ..level..) , size = 0.1, linetype = 1, 
+                breaks = c(.1, .25, .5, .75, .9)) + 
+  scale_color_continuous(low = '#888888', high='#888888') + 
+  coord_fixed(ratio = 1) + 
+  theme_tufte(base_family = 'sans', base_size = 9) + 
+  theme(plot.caption = element_text( hjust = 0.5, size = rel(.9) ),
+        axis.ticks = element_line(color = '#AAAAAA'),
+        axis.text = element_text(color = '#AAAAAA'),
+        legend.position = '') +
+  scale_x_continuous(breaks = seq(-30, 30, by = 10), limits = c(-20, 20) ) + 
+  scale_y_continuous(breaks = seq(  0, 60, by = 10), limits = c(0, 60), labels = NULL ) + 
+  labs(x = '', y = '', caption = "Aaron Judge (height 6'7)")
+
+p3 <- direct.label(p3, list("bottom.pieces", cex = .4))
+
+library(cowplot)
+library(gridExtra)
+p = align_plots(p1, p2, p3, align = "hv")
+grid.arrange(p[[1]], p[[2]], p[[3]], nrow = 1)
+```
+
+The model seems plausible when comparing predictions with actual called strikes against Altuve and Judge (shown above, Figure \@ref(fig:measerr1)). Umpires view each pitch with line-of-sight between the catcher and batter. From this perspective, we expect that umpires would have some difficulty with depth perception of pitches located low and outside. And this can be seen from the lack of symmetry in the model estimates. Also of note, the model suggests that on average umpires do not fully consider batter height when judging the zone. This model is folded into our larger model, described in a future post.
+
+# Bibliography

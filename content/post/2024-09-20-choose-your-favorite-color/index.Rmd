@@ -1,0 +1,250 @@
+---
+title: Choose your favorite color
+author: Package Build
+date: '2024-09-20'
+slug: choose-your-favorite-color
+categories: []
+tags:
+  - R
+  - ggplot2
+  - interactivity
+comments: no
+images: ~
+---
+
+The function below provides quick access to R color name information in an R Studio session. Running the function provides a grid of tiled colors, where you may hover over the tile to get its R color name, hex code, and rgb value:
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(ggiraph)
+library(grDevices)
+
+get_hsv_values <- function(color_name) {
+  rgb_values <- col2rgb(color_name) / 255
+  hsv_values <- rgb2hsv(rgb_values[1], rgb_values[2], rgb_values[3])
+  tibble(H = hsv_values['h', ], S = hsv_values['s', ], V = hsv_values['v', ])
+}
+
+plot_colors <- function() {
+  colors_df <- tibble(
+    color_name = colors(),
+    hex_code = rgb(
+      col2rgb(colors())[1, ],
+      col2rgb(colors())[2, ],
+      col2rgb(colors())[3, ],
+      maxColorValue = 255
+    )
+  ) |>
+    distinct(hex_code, .keep_all = TRUE) |>
+    mutate(hsv_value = map(color_name, get_hsv_values)) |>
+    unnest(hsv_value) |>
+    arrange(H, S, V)
+  
+  n_colors <- nrow(colors_df)
+  grid_size <- ceiling(sqrt(n_colors))
+  colors_df <- colors_df |>
+    mutate(
+      x = rep(1:grid_size, length.out = n_colors),
+      y = rep(1:grid_size, each = grid_size)[1:n_colors]
+    )
+  
+  p <- ggplot(colors_df, aes(x, y)) +
+    geom_tile_interactive(
+      aes(
+        fill = color_name,
+        tooltip = paste0(
+          '<table><tr><td><b>Color:</b></td><td>',
+          color_name,
+          '</td></tr>',
+          '<tr><td><b>Hex:</b></td><td>',
+          hex_code,
+          '</td></tr>',
+          '<tr><td><b>RGB:</b></td><td>',
+          paste(
+            col2rgb(color_name)[1, ],
+            col2rgb(color_name)[2, ],
+            col2rgb(color_name)[3, ],
+            sep = ', '
+          ),
+          '</td></tr></table>'
+        ),
+        data_id = color_name
+      ),
+      color = 'black',
+      width = 0.95,
+      height = 0.95
+    ) +
+    annotate(
+      'text',
+      x = 19.5,
+      y = 22,
+      label = ' > plot_colors()',
+      hjust = 0,
+      size = 11 / .pt
+    ) +
+    scale_fill_manual(values = setNames(colors_df$hex_code, colors_df$color_name)) +
+    theme_void() +
+    theme(legend.position = 'none') +
+    labs(title = 'Hover over a tile to reveal its name, hex code, and rgb values.')
+  
+  girafe(
+    ggobj = p,
+    options = list(
+      opts_selection(type = 'single'),
+      opts_hover(css = 'fill-opacity:0.8;'),
+      opts_sizing(rescale = TRUE)
+    )
+  )
+}
+
+plot_colors()
+
+```
+
+To have function ready when you open R Studio, place the code into a file, say, `plot_colors.r` and follow these steps:
+
+## Instructions: 
+
+### Save the file: 
+
+Make sure the `plot_colors.r` file (which contains the code) is saved in
+a location where it can be easily accessed.
+
+### Locate or create the `.Rprofile` file: 
+
+The `.Rprofile` file is an initialization script that R reads every time
+it starts. This file can either be in the project's root directory (if
+you want it to load only for that project) or in your home directory (if
+you want it to load globally every time RStudio starts, regardless of
+the project).
+
+To create or locate the global `.Rprofile`, use the following command in
+R: `file.edit("~/.Rprofile")` This will either open the existing
+`.Rprofile` or create a new one in your home directory.
+
+### Modify the .Rprofile file: 
+
+In the `.Rprofile` file, add the following line of code to source the
+`plot_colors.r` file when RStudio starts:
+`source("/path/to/your/plot_colors.r")`
+
+Make sure to replace "`/path/to/your/plot_colors.r`" with the actual
+file path where `plot_colors.r` is located.
+
+If you are working in a specific RStudio project and want it to load
+only for that project, create a `.Rprofile` file in the root directory
+of the project and add the same line.
+
+### Restart RStudio: 
+
+Once you’ve saved the changes to the .Rprofile file, restart RStudio.
+The code from `plot_colors.r` should automatically load into your R
+environment each time you start RStudio.
+
+### Verifying the Setup: 
+
+After RStudio restarts, you can use the function `plot_colors()` With
+these steps, the code in `plot_colors.r` will be sourced into the R
+environment every time RStudio starts.
+
+## Code:
+
+```{r}
+#| eval: false
+library(tidyverse)
+library(ggiraph)
+library(grDevices)
+
+get_hsv_values <- function(color_name) {
+  rgb_values <- col2rgb(color_name) / 255
+  hsv_values <- rgb2hsv(rgb_values[1], 
+                        rgb_values[2], 
+                        rgb_values[3])
+  tibble(
+    H = hsv_values['h', ], 
+    S = hsv_values['s', ], 
+    V = hsv_values['v', ])
+}
+
+plot_colors <- function() {
+  colors_df <- tibble(
+    color_name = colors(),
+    hex_code = rgb(
+      col2rgb(colors())[1, ],
+      col2rgb(colors())[2, ],
+      col2rgb(colors())[3, ],
+      maxColorValue = 255
+    )
+  ) |>
+    distinct(hex_code, .keep_all = TRUE) |>
+    mutate(
+      hsv_value = map(color_name, get_hsv_values)
+    ) |>
+    unnest(hsv_value) |>
+    arrange(H, S, V)
+  
+  n_colors <- nrow(colors_df)
+  grid_size <- ceiling(sqrt(n_colors))
+  colors_df <- colors_df |>
+    mutate(
+      x = rep(1:grid_size, length.out = n_colors),
+      y = rep(1:grid_size, each = grid_size)[1:n_colors]
+    )
+  
+  p <- ggplot(colors_df, aes(x, y)) +
+    geom_tile_interactive(
+      aes(
+        fill = color_name,
+        tooltip = paste0(
+          '<table><tr><td><b>Color:</b></td><td>',
+          color_name,
+          '</td></tr>',
+          '<tr><td><b>Hex:</b></td><td>',
+          hex_code,
+          '</td></tr>',
+          '<tr><td><b>RGB:</b></td><td>',
+          paste(
+            col2rgb(color_name)[1, ],
+            col2rgb(color_name)[2, ],
+            col2rgb(color_name)[3, ],
+            sep = ', '
+          ),
+          '</td></tr></table>'
+        ),
+        data_id = color_name
+      ),
+      color = 'black',
+      width = 0.95,
+      height = 0.95
+    ) +
+    annotate('text', x = 20, y = 22, label = ' > colors()',
+      hjust = 0, size = 11 / .pt
+    ) +
+    scale_fill_manual(
+      values = setNames(colors_df$hex_code, colors_df$color_name)
+    ) +
+    theme_void() +
+    theme(legend.position = 'none') +
+    labs(
+      title = str_c('Hover over a tile to reveal',
+                    'its name, hex code, and rgb values.')
+      )
+  
+  girafe(
+    ggobj = p,
+    options = list(
+      opts_selection(type = 'single'),
+      opts_hover(css = 'fill-opacity:0.8;'),
+      opts_sizing(rescale = TRUE)
+    )
+  )
+}
+
+plot_colors()
+
+```
+

@@ -1,0 +1,240 @@
+---
+title: Tables in tooltips
+author: Scott Spencer
+date: '2020-06-07'
+slug: tables-in-tooltips
+categories: []
+tags:
+  - Communiction
+  - R
+  - ggplot2
+  - grammar of graphics
+  - interactivity
+comments: no
+images: ~
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  message = FALSE, 
+  warning = FALSE, 
+  cache = FALSE, 
+  eval = TRUE)
+```
+
+With interactive communications, we frequently encourage the graphic to provide some form of *overview*, and use interactions for adding *details on demand*. For these details, tables provide a flexible way to organize the information. And we can link the view of such tables to user actions like a *pointer hover event* where the table of details is in a *tooltip*. In this tutorial, we construct an `html` table for our tooltip so that we can organize lots of details on demand.
+
+Such tooltips are easy to customize within the `R` ecosystem, especially when founded upon or extending the *grammar of graphics*. Here, our code relies on functions in `ggplot2`, `ggiraph`, and `flextable`. Let's load these first.
+
+```{r}
+library(tidyverse)
+library(flextable)
+library(ggiraph)
+```
+
+For our example data, we construct a periodic table of elements where the hover events adds details about each element. Information on the known elements are available in another package, `rbokeh`. Next, we load this data, 
+
+```{r}
+data(list = 'elements', package = 'rbokeh')
+```
+
+and transform it a bit. First, we define a color for each element type:
+
+```{r}
+element_type <- c(
+  "alkali metal", "alkaline earth metal", "halogen", "metal", 
+  "metalloid", "noble gas", "nonmetal", "transition metal")
+
+element_color <- c(
+  "#a6cee3", "#1f78b4", "#fdbf6f", "#b2df8a", 
+  "#33a02c", "#bbbb88", "#baa2a6", "#e08e79")
+```
+
+Next, we add this information to our data:
+
+```{r}
+elements <- 
+  elements %>%
+  filter( !is.na(group) ) %>%
+  mutate(
+    across(.cols = group:atomic.mass, as.character),
+    atomic.mass = if_else(symbol == "Uus", " ", atomic.mass),
+    color = element_color[match(metal, element_type)],
+    type = metal
+  )
+```
+
+Our data are structured as follows:
+
+```{r}
+cbind(names(elements), sapply(elements, class)) %>% 
+data.frame %>% 
+flextable(col_keys = c('X1', 'X2')) %>%
+set_header_labels( X1 = 'Variable', X2 = 'Type' ) %>%
+color(color = '#777777', part = 'all')
+```
+
+Next, we create a table for each element. To do this, we create a function to build an `html` table from whatever data variables we pass it, returning the html code as a string. then, for each element (each row in our dataframe), we save the table as a new variable in the dataframe (we'll call the variable `tooltip`) that holds a string of the `html` defining the table. Here's the function:
+
+```{r}
+tooltip_table <- function(...) {
+  
+  data.frame(...) %>% 
+  mutate( across(.cols = everything(), as.character) ) %>%
+  pivot_longer(cols = everything(), names_to = 'P', values_to = 'V') %>%
+  flextable(col_keys = c('P', 'V')) %>%
+  set_header_labels( P = '', V = '' ) %>%
+  fontsize(size = 8, part = 'all') %>%
+  line_spacing(space = 5, unit = 'mm', part = 'all') %>%
+  set_table_properties(layout = 'autofit') %>%
+  theme_alafoli() %>%
+  htmltools_value(ft.shadow = FALSE) %>%
+  as.character()
+  
+}
+```
+
+Notice that all we do is convert whatever variables the function receives (`...`) into a data.frame (`data.frame(...)`), coerce them all to character strings (`mutate()`), pivot them to long format (`pivot_longer()`) so that we can list each variable alongside its value, and then create the table, formatted however we like using the syntax described in the [book for FlexTable](https://ardata-fr.github.io/flextable-book/). Of note, while we only list variables with their values, we can extend our table to include graphics, too. See the documentation.
+
+Next, as mentioned, we save the html code for each observation as a string in the variable `tooltip`.
+
+```{r}
+elements <- 
+  elements %>%
+  rowwise() %>%
+  mutate(tooltip = tooltip_table( 
+    name, type, atomic.mass, density, electronic.configuration, 
+    boiling.point, melting.point, bonding.type) 
+  ) %>%
+  ungroup()
+```
+
+Finally, now that we have the html code to construct a table for each unique data observation, we can link it to the `tooltip` parameter in any interactive geometry from `ggiraph` that maps data (the variable we called `tooltip`) to the function parameter by the same name. Here is the grammar of graphics specification to construct the interactive table:
+
+```{r}
+p <- 
+  elements %>%
+  
+  ggplot(
+    mapping = aes(group, period)
+  ) +
+  
+  theme_void() +
+  
+  coord_equal() +
+  
+  scale_x_discrete(limits = factor(1:18) ) +
+  scale_y_discrete(limits = factor(7:1) ) +
+  scale_fill_identity() +
+  
+  # base color of each element square
+  geom_tile(
+    mapping = aes(
+      fill = color,
+    ),
+    alpha = 0.6,
+    width = 1,
+    height = 1,
+    color = '#ffffff',
+    lwd = 0.3
+  ) +
+  
+  # add symbol to each square
+  geom_text_interactive(
+    mapping = aes(
+      label = symbol,
+      data_id = atomic.number
+    ),
+    size = 7/.pt,
+    hjust = 0,
+    vjust = 0.5,
+    nudge_x = -0.4,
+    nudge_y = 0.04,
+    fontface = 'bold'
+  ) +
+  
+  # add atomic number to each square
+  geom_text_interactive(
+    mapping = aes(
+      label = atomic.number,
+      data_id = atomic.number
+    ),
+    size = 4/.pt,
+    hjust = 0,
+    vjust = 0.5,
+    nudge_x = -0.4,
+    nudge_y = 0.35
+  ) +
+  
+  # add name to each square
+  geom_text_interactive(
+    mapping = aes(
+      label = name,
+      data_id = atomic.number
+    ),
+    size = 3/.pt,
+    hjust = 0,
+    vjust = 0.5,
+    nudge_x = -0.4,
+    nudge_y = -0.2
+  ) +
+  
+  # add atomic mass to each square
+  geom_text_interactive(
+    mapping = aes(
+      label = atomic.mass,
+      data_id = atomic.number
+    ),
+    size = 3/.pt,
+    hjust = 0,
+    vjust = 0.5,
+    nudge_x = -0.4,
+    nudge_y = -0.35
+  ) +
+  
+  # for mouseover, set alpha very low
+  geom_tile_interactive(
+    mapping = aes(
+      fill = color,
+      data_id = atomic.number,
+      tooltip = tooltip
+    ),
+    alpha = 0.01,
+    width = 1,
+    height = 1,
+    color = '#ffffff',
+    lwd = 0.3
+  )
+```
+
+Of note, we include the last `geom_tile_interactive` because we construct the grammar of graphics in layers, and the pointer hover will interact with whatever the top layer is. By including a top layer as an almost fully transparent tile, the pointer will interact with the entire square of information.
+
+Finally, we bind the interactive graphic to interactive components and specify css for the interactivity.
+
+```{r}
+girafe(
+  ggobj = p,
+  options = list(
+    opts_hover(
+      css = 'fill-width:3;'),
+    opts_hover_inv(
+      css = 'fill-opacity:0.2;'),
+    opts_tooltip(
+      css = str_c(
+        'background-color:white;',
+        'color:black;',
+        'font:Helvetica',
+        'font-size:8pt;',
+        'padding:10px;'
+      ),
+      offx = 10,
+      offy = 10
+    )
+  )
+)
+```
+
+As mentioned, we can extend this idea in limitless ways. I hope this gives you ideas for your own work.
+
+Stay curious.

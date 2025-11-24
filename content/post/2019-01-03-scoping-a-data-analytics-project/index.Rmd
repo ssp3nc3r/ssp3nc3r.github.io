@@ -1,0 +1,86 @@
+
+---
+title: Scoping a data analytics project
+author: Scott Spencer
+date: '2019-01-03'
+slug: scoping-a-data-analytics-project
+categories: []
+tags:
+  - Project Scoping
+description: 'Scopes of data analytics projects include various considerations. We provide an overview.'
+draft: no
+disable_comments: yes
+output:
+  blogdown::html_page:
+    toc: true
+    dev: "svg"
+bibliography: ["projscope.bib"]
+biblio-style: "apalike"
+link-citations: true
+linkcolor: black
+urlcolor: MidnightBlue
+---
+
+
+```{r setup, include=FALSE}
+require(knitr); require(kableExtra); require(dplyr)
+opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE, cache = F, eval=T)
+skimr::skim_with(numeric = list(hist = NULL, n = NULL), 
+                 integer = list(hist = NULL, n = NULL), 
+                 factor = list(n = NULL, ordered = NULL))
+```
+
+------  
+
+# Scoping an analytics project
+
+Here is the wrong way to think about a data analytics project: begin with some data, apply tools you are familiar, and stop when you find something to talk about. This approach gets the concept backwards. To get to deeper, interesting results, we should begin by thinking hard about **goals** and **actions** to achieve those goals. Then, ask questions: what information may be useful in enabling those actions? Identifying such goals, actions, and information, and developing questions around this information requires domain experience.
+
+The framework of identifying goals and actions, and following with information and techniques gives us a structure not unlike having the outline of a story, beginning with why we are working on a problem and ending with how we expect to solve it. Just as stories sometimes evolve when retold, our ideas and structure of the problem may shift as we progress on the project. But like the well-posed story, once we have our project well-scoped we should be able to easily discuss or write about its arc: purpose, problem, and solution.
+
+Specificity in framing and answering basic questions is important: *What problem is to be solved? Is it important? Does it have impact? Do data play a role in solving the problem? Are the right data available? Is the organization ready to tackle the problem and take actions from insights?* These are the initial questions of a data analytics project. Project successes inevitably depend on our specificity in answering these questions.
+
+## Defining goals, actions, and problems
+
+Identifying a specific problem is the first step in any project. And a well-defined problem illuminates its importance and impact. The problem should be solvable with identified resources. If the problem seems unsolvable, try focusing on one or more aspects of the problem. Think in terms of goals, actions, data, and analysis. Our objective is to take the outcome we want to achieve and turn it into a **measurable** and **optimizable** goal.
+
+Consider what actions can be taken to achieve the identified goal. Such actions usually need to be specific. A well-specified project ideally has a set of actions that the organization is taking --- or can take --- that can now be better informed through data science. While improving on existing actions is a good general starting point in defining a project, the scope does not need to be so limited. New actions may be defined too. Conversely, if the problem stated and anticipated analyses does not inform an action, it is usually not helpful in achieving organizational goals. Conversely, to optimize our goal, we need to define the **expected utility** of each possible action.
+
+## Identifying accessible data
+
+Do data play a role in solving the problem? Before a project can move forward, data must be both accessible and relevant to the problem. Consider what variables each data source contributes. While some data are publicly available, other data are privately owned and permission becomes a prerequisite. To be sure, obtaining the right data is usually a top challenge: sometimes the variable is unmeasured or not recorded.
+
+In cataloguing the data, be specific. Identify where data are stored and their form. Are data recorded on paper or electronically, such as in a database or on a website? Are the data structured --- such as a `CSV` file --- or unstructured, like comments on a twitter feed? Provenance is important [@Moreau:2008vn]: how were the data recorded? By a human or by an instrument, such as optically or through radar? 
+
+What quality are the data [@Fan:2015wx]? Measurement error? Are observations missing? How frequently is it collected? Is it available historically, or only in real-time? Do the data have documentation describing what it represents? These are but a few questions whose answers may impact your project or approach. 
+
+## Identifying the analyses and tools
+
+The workflow needed to bridge the gap between raw data and actions typically involves an iterative process of exploratory and confirmatory analysis [@Pu:2018vo], see Figure 1, which employs visualization, transformation, modeling, and testing.
+
+```{r workflow, echo=FALSE, fig.cap="General statistical workflow."}
+knitr::include_graphics("statistical-workflow.pdf")
+```
+
+## Estimating time constraints and finances
+
+Can the identified project be completed within financial constraints in time to support the relevant actions and decisions?
+
+## Writing to clarify and communicate
+
+Writing is part and parcel to the analysis.
+
+> I write entirely to find out what I'm thinking, what I'm looking at, what I see, and what it means.
+> --- Joan Didion, *What I Write*
+
+
+We generally revise our written words and refine our thoughts together; the improvements made in our thinking and improvements made in our writing reinforce each other. Clear writing signals clear thinking. To test our project, then, we should clarify it in writing. Once it is clear, we can begin the processes of data collection, further clarify our understanding, begin technical work, again clarify our understanding, and continuing the iterative process until we converge on interesting answers that support actions and goals.
+
+## Examples of writeups about projects and workflow
+
+We can find numerous examples describing workflow and projects and proposals. The [AI for Social Good Workshop NIPS2018](https://aiforsocialgood.github.io/2018/acceptedpapers.htm), for example, recognized [@Caldeira:2018uu] with an award for their project and write up. 
+
+A Bayesian general workflow is described with a simulated project in [@StanDevelopmentTeam:2018uaa, Chapter 5 *Workflow in Action*].
+
+# References {-}
+

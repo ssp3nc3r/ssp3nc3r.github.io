@@ -1,0 +1,96 @@
+---
+title: Pitch selection to maximize motion-in-depth variation
+author: Package Build
+date: '2023-03-29'
+slug: pitch-selection-to-maximize-motion-in-depth
+categories:
+  - Baseball
+  - Stan
+  - Bayesian
+  - Pitching
+  - Batting
+  - platoon advantage
+tags:
+  - Baseball
+  - Stan
+  - Bayesian
+  - Pitching
+  - Batting
+  - platoon advantage
+comments: no
+images: ~
+bibliography: references.bib
+---
+
+Those in baseball are well aware of the concept of platoon advantage: batters tend to have an advantage when facing pitchers of the opposite handedness. But knowledge of a platoon advantage may go beyond choice of relief pitchers on the mound to matchup with the upcoming lineup of power batters. It may inform, among other things, pitching strategy.
+
+Considering reasons behind the phenomenon, it may be explained by the greater relative variation in movement of the ball inside a batter's **plane of sight**, which I'll define in a moment, while same-handed pitchers tend to keep the ball’s trajectory more aligned with that plane, making it harder to perceive lateral movement.
+
+I'm only building upon previous ideas, placing earlier theoretical and empirical work (*see e.g.*, @gray2006; @gray2017) into a new context.
+
+I'll define a batter's plane-of-sight from three points in space: the batter's eye location, the ball's release point location, and the center of the strike zone (roughly the center of home plate, for simplicity).
+
+Movement within or near this plane represents motion "in-depth", which the batter finds harder to perceive. When the ball's movement trajectory stays closer to or within this plane, it aligns with the batter's plane of sight, leading to higher uncertainty in location and lower contact rates.
+
+In relation to this plane-of-sight, we can consider ball motion perpendicular to the plane as movement that occurs horizontally.
+
+# Plane-of-sight description
+
+Let's puts some math notation to the idea in the context of the batter's perspective:
+
+**POS (in-depth motion)**: The plane of sight can be characterized by the vector normal to the plane, which can be derived from the following points:
+
+-   **Release point** $r_{\text{release}} = (x_r, y_r, z_r)$,
+
+-   **Batter's eye** $r_{\text{eye}} = (x_{\text{eye}}, y_{\text{eye}}, z_{\text{eye}})$,
+
+-   **Center of zone** $r_{\text{home}} = (0, \frac{17}{12}, z_{\text{batter}})$
+
+The normal vector to this plane can be found as the cross product of the vectors $\bf{r}_{\text{release}} - \bf{r}_{\text{eye}}$ and $\bf{r}_{\text{home}} - \bf{r}_{\text{eye}}$.
+
+$$
+\bf{n}_{\text{POS}} = (\bf{r}_{\text{release}} - \bf{r}_{\text{eye}}) \times (\bf{r}_{\text{home}} - \bf{r}_{\text{eye}})
+$$
+
+A point $\bf{r} = (x, y, z)$ lies in the POS if the following holds:
+
+$$
+\bf{n}_{\text{POS}} \cdot (\bf{r} - \bf{r}_{\text{eye}}) = 0
+$$
+
+Lateral motion perpendicular to the plane, in contrast, is characterized by the velocity vector **projected** into this plane, representing lateral movement. We can calculate the velocity vector $\bf{v}$ and other characteristics of the ball's motion relative to this perpendicular plane by subtracting its projection onto the normal vector of the **POS**. For example,
+
+$$
+\bf{v}_{\perp} = \bf{v} - \left( \frac{\bf{v} \cdot \bf{n}_{\text{POS}}}{\|\mathbf{n}_{\text{POS}}\|
+^2} \right) \bf{n}_{\text{POS}}
+$$ 
+
+The more motion captured by $\bf{v}_{\perp}$, the more lateral movement the batter perceives, which generally makes the pitch easier to track.
+
+# Differences in movement for same vs. opposite handedness
+
+For same-handed pitchers, the release point tends to be closer to the batter's side of the field, which aligns the trajectory more closely with the POS. This results in more motion in-depth along the plane of sight, making it harder for the batter to track the ball’s lateral movement.
+
+But for opposite-handed pitchers, The release point is farther from the batter’s side, creating a more divergent angle relative to the plane of sight. This increases the amount of perceived lateral movement (*i.e.*, motion outside the POS), making it easier for the batter to track the ball's trajectory.
+
+In sum, the batter's difficulty comes from the pitches that travel along the POS (motion-in-depth), represented by the projection of the velocity vector onto $\bf{n}_{\text{LOS}}$, whereas the batter's advantage is from pitches that move more laterally (perpendicular to the POS), which is captured by the component of the velocity vector in $\bf{v}_{\perp}$.
+
+# Components of a joint, selection model of choice-to-swing and ball contact.
+
+We can incorporate these plane functions into a model, such that the pitch's characteristics is split into two components: **in-depth** movement $\theta_{\text{POS}}$ (aligned with the POS) and perpendicular movement $\theta_{\perp}$.
+
+When the ball’s motion is harder to perceive (i.e., larger $\sigma_\theta$, it should negatively affect the batter’s likelihood of making contact. Of course, There’s an inherent skill factor associated with each batter in this regard, which can be included as some random effect.
+
+In practice, these ideas influence both choice to swing and ball contact, motivating use of the idea and parameters within a joint selection model, which I've discussed elsewhere.
+
+# Relation to modeling ball flight
+
+Let's consider the solution to perceived ball location at anticipated time of contact using basic ball flight modeled as a system of ODE's by starting with the forces acting on the ball and defining the equations from Newton's second law. The equations account for both horizontal and vertical motion, integrating the effects of gravity.
+
+Then, within the system of ODEs, we rotate the coordinate system, and include in-plane and out-of-plane perception errors across time wherein we have measures of the total errors as deviations of bat location from center of sweet spot location of contact.
+
+We already have some ball-bat *contact* information, from which the launch and spray angles can inform where the ball path was in relation to the ideal contact point on the bat. All misses, on the other hand, are also missing data in this regard. But advanced bat data is coming, and as advanced bat location data from MLB's Hawkeye system becomes available, we can use that information to compare the location and timing of the center of it's sweet spot to that of the ball path and use differences as measured variation that we may model as functions of in-plane and out-of-plane ball movement.
+
+# Implications and pitching strategy
+
+The pitcher should tailor pitch selection based on these findings, favoring pitches with more variation in in-depth motion. Further and more specifically, we may learn by modeling this process that it may be favorable to select pitches which have more or less change in depth than that of a ball trajectory unaffected by spin, or unaffected by average spin, would have. In other words, the batter may have a mental model of how the object is normally affected by gravity and drag, but cannot pick up cues that the spin affecting motion-in-depth deviates from his expectation.

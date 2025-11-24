@@ -1,0 +1,34 @@
+---
+title: See the rising sea
+author: Scott Spencer
+date: '2019-08-02'
+slug: see-the-rising-sea
+draft: false
+comments: false
+tags:
+  - R
+  - Stan
+  - Data for good
+images: ~
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+opts_chunk$set(
+  echo = TRUE, 
+  message = FALSE, 
+  warning = FALSE, 
+  error = FALSE)
+```
+
+Responding to the global effects of climate change — whether by mitigation or adaptation — requires that we, as humans, collectively change how we live. In many ways, how we live is governed by what policies we, or whomever made those policies, decided. Perhaps an effective way in some societies to enact change for the common good is, sadly, for those in power — *e.g.*, those wealthy — to internalize future effects. Thus, if someone demonstrates that climate change negatively affects those in power to change policies, change is more likely.
+
+If wealthy property owners had credible analyses that estimated the effects of climate change, like sea level rise, on property values, through expected flooding, we’d have their attention.
+
+That task in establishing a causal link between climate change and property value is, however, complex. Property value depends on many factors, even economies. A property cannot both flood and not flood at a moment in time. And we cannot run a controlled trial, randomly choosing to flood properties in a given area and measuring the resulting sale of properties in each group. Even if we could, each land property is unique at least in its geographical location: *a neighbors’ land is not an owner’s land*.
+
+Further, even if all factors were known, there is no single true value for a property; it entirely depends upon a single-person’s willingness to purchase it at a given time. Thus, in reality we are trying to link the complexities of, say, expected future flooding (due to climate change, itself having large uncertainty) with *perceived* value.
+
+As an exercise, let’s work with publicly available data on both property information, sale information, historic and estimated sea-level rise, and attempt to model an association.
+
+This working paper has been added to publications.

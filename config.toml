@@ -1,0 +1,133 @@
+baseURL = "https://ssp3nc3r.github.io"
+title   = "p( ssp3nc3r | Columbian )"
+
+theme = "hugo-theme-hello-friend-ng"
+
+PygmentsCodeFences = true
+PygmentsStyle = "monokai"
+
+copyright = "" # This message is only used by the RSS template.
+
+googleAnalytics = "G-1V94CLF78W"
+
+archetypeDir = "archetypes"
+contentDir   = "content"
+dataDir      = "data"
+layoutDir    = "layouts"
+publishDir   = "public"
+
+buildDrafts  = false
+buildFuture  = false
+buildExpored = false
+canonifyURLs = true
+
+enableRobotsTXT = true
+enableGitInfo   = true
+enableEmoji     = true
+enableMissingTranslationPlaceholders = false
+disableRSS     = true
+disableSitemap = false
+disable404     = false
+disableHugoGeneratorInject = false
+ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\\.md$"]
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+      
+[permalinks]
+  posts = "/post/:year/:month/:title/"
+
+[author]
+  name = ""
+
+[blackfriday]
+  hrefTargetBlank = true
+
+[taxonomies]
+  tag      = "tags"
+  category = "categories"
+
+[params]
+  dateform        = "Jan 2, 2006"
+  dateformShort   = "Jan 2"
+  dateformNum     = "2006-01-02"
+  dateformNumTime = "2006-01-02 15:04 -0700"
+
+
+  # Metadata mostly used in document's head
+  description = "Scott Spencer's blog and publications on statistical, generative modeling, bayesian inference, writing, data visualization, and sports."
+  keywords = "Scott Spencer, statistical, generative modeling, bayesian inference, writing, data visualization, sports, columbia university"
+  images = [""]
+
+  homeSubtitle = "statistical, generative modeling. bayesian inference. writing. data visualization. sports."
+
+  # Prefix of link to the git commit detail page. GitInfo must be enabled.
+  # gitUrl = ""
+
+  # Set disableReadOtherPosts to true in order to hide the links to other posts.
+  disableReadOtherPosts = false
+
+  # Integrate Javascript files or stylesheets by adding the url to the external assets or by
+  # linking local files with their path relative to the static folder, e.g. "css/styles.css"
+  customCSS = []
+  customJS  = []
+
+  # Toggle this option need to rebuild SCSS, requires extended version of Hugo
+  justifyContent = false  # Set "text-align: justify" to .content.
+
+  # Directory name of your blog content (default is `content/posts`)
+  contentTypeName = "post"
+
+  # Default theme "light" or "dark"
+  defaultTheme = "dark"
+  themeColor = "#252627"
+
+  # Colors for favicons
+  [params.favicon.color]
+    mask = "#252627"
+    msapplication = "#252627"
+    theme = "#252627"
+
+  [params.logo]
+    logoText     = "$ cd /home/"
+    logoHomeLink = "/"
+    # Set true to remove the logo cursor entirely.
+    logoCursorDisabled = false
+    # Set to a valid CSS color to change the cursor in the logo.
+    logoCursorColor    = "#67a2c9"
+    # Set to a valid CSS time value to change the animation duration, "0s" to disable.
+    # logoCursorAnimate  = "2s"
+
+  # Social icons
+  [[params.social]]
+    name = "github"
+    url  = "https://github.com/ssp3nc3r"
+  [[params.social]]
+    name = "linkedin"
+    url  = "https://www.linkedin.com/in/scottaspencer"
+  [[params.social]]
+    name = "youtube"
+    url  = "https://www.youtube.com/@ssp3nc3r"
+  [[params.social]]
+    name = "glass"
+    url = "https://glass.photo/ssp3nc3r"
+
+[menu]
+  [[menu.main]]
+    identifier = "about"
+    name       = "About"
+    url        = "about/"
+   [[menu.main]]
+    identifier = "post"
+    name       = "Blog"
+    url        = "post/"
+  [[menu.main]]
+    identifier = "publications"
+    name       = "Publications"
+    url        = "publications/"
+  [[menu.main]]
+    identifier = "teaching"
+    name       = "Teaching"
+    url        = "teaching/"

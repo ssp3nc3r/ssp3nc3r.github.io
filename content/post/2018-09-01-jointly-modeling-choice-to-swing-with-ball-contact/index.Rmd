@@ -1,0 +1,99 @@
+---
+title: Jointly modeling choice to swing with ball contact
+author: Scott Spencer
+date: '2018-09-01'
+slug: jointly-modeling-choice-to-swing-with-ball-contact
+categories: []
+tags:
+  - Stan
+  - Baseball
+  - Swing
+  - Choice
+  - Whiff
+  - Contact
+description: 'Batters do not usually swing at balls without believing they can make contact. As the two events lack indepencence, we explore a joint model.'
+draft: no
+disable_comments: yes
+output:
+  blogdown::html_page:
+    toc: true
+    dev: "svg"
+bibliography: ["pitching_command.bib"]
+biblio-style: "apalike"
+link-citations: true
+linkcolor: black
+urlcolor: MidnightBlue
+---
+
+
+```{r setup, include=FALSE}
+require(knitr); require(kableExtra); require(dplyr)
+opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE, cache = F, eval=T)
+skimr::skim_with(numeric = list(hist = NULL, n = NULL), 
+                 integer = list(hist = NULL, n = NULL), 
+                 factor = list(n = NULL, ordered = NULL))
+```
+
+------  
+
+# Modeling batters' choices to swing and abilities to contact the ball
+
+Models for decisions to swing and ball contact are more nuanced than a model for called pitches (see *Modeling Umpire Calls*). Batters' abilities to contact the ball at a given pitch location are presumably not independent of their decisions to swing. Common approaches for jointly modeling selections (choices to swing) that influence outcomes (ball contact) are called *sample selection* models [@vanHasselt:2011jd], and can generally be written as,
+
+\begin{equation}
+\begin{split}
+S^* &= X_1 \beta_1 + U_1,\\
+S &= I(S^*>0),\\
+  Y &= \left\{
+  \begin{array}{@{}ll@{}}
+    X_2 \beta_2 + U_2, & \text{if}\ S=1 \\
+    \textrm{missing}, & \textrm{otherwise}
+  \end{array}\right.
+\end{split}
+(\#eq:heckman)
+\end{equation} 
+
+where $S$ is a binary selection variable (a swing) that indicates whether the unobserved $S^*$ is above a threshold. $X_1$ and $X_2$ are independent variables where $X_2 \subset X_1$. $\beta_1$ and $\beta_2$ are coefficients, and $U_1$ and $U_2$ are unobserved variance. $Y$ is our outcome (ball contact). Using a Bayesian approach [@Jeliazkov:2014tg, Chapter 4], we can jointly model selection and outcome as bivariate normal with variance reparameterized as,
+
+\begin{equation}
+\textrm{Var}(U \mid X) = \Sigma = \begin{bmatrix} 1 & \sigma_{12} \\ \sigma_{12} & \sigma_{12}^2 + \xi^2 \end{bmatrix} 
+(\#eq:covar1)
+\end{equation}
+
+$\sigma_{12}$ is the covariance between $U_1$ and $U_2$ while $\xi^2$ is the conditional variance of $U_2$, given $U_1$. We separate the task into steps. First, we identify variables that inform the batters' choices to swing (the selection submodel). We repeat this step, identifying variables that inform the batters' ability to contact the ball (the outcome submodel). Then we setup a joint model. 
+
+## Variables informing the probability of swinging (the selection submodel)
+
+Different from umpires' calls, batters' choices to swing depend on *anticipated* ball location in relation to his strike zone. To make contact, batters must decide whether to swing approximately 175 milliseconds before the ball crosses the plate [@Higuchi:2016iu], [@Adair:2017vc], and [@Cross:2011vi]. Notably, though, some physical properties of ball flight are approximately constant throughout: ball (de)accelerations in the x, y, and z directions. This means that batters may assess ball accelerations in the first portion of the ball flight, and rely on their assessments to estimate ball location and timing for ball contact.
+
+Human perception of acceleration is imperfect, and studies suggest that batters more accurately detect horizontal movement than vertical movement [@Bahill:2010ur]. Recall that we've already seen evidence of depth perception issues when considering umpire calls. Similarly, we anticipate that changes in ball velocity in the vertical direction, relative to vertical location, better inform whether batters (mistakenly) choose to swing at balls, even those outside the strike zone.
+
+Decisions to swing also depend on other factors. Beyond ball flight physics, game context should matter, too. Especially ball-strike count. Whether the pitcher has been throwing strikes should also be important. We can model trends of our estimates for called strike probabilities as
+
+\begin{equation}
+a_t = \alpha x_t + (1 - \alpha) a_{t-1}
+(\#eq:moveavg)
+\end{equation}
+
+where $t$ represents intervals in time (each pitch) and $a_t$ is an exponentially weighted moving average [@Cowpertwait:2009vm] of the called strike probability. The parameter $\alpha \in [0,1]$ determines how much weight batters place on previous pitches. A value of one indicates only the last pitch matters (no smoothing), while a value of zero means all earlier pitches matter (complete smoothing). We omit this time dependency, though, in a first model, to get started. This portion of the model specification includes,
+
+\begin{equation}
+p(\textrm{decision = swing}) \sim \textrm{ball-strike count} + \\
+                                  \mathcal{S}(\textrm{x}, \textrm{z}_{\textrm{centered}}, \textrm{zone height}, \textrm{by = stands, throws}, k = 50) + \\
+                                  \textrm{t2}(\textrm{z}_{\textrm{centered}}, \textrm{z}_{\textrm{acceleration}}) + \\
+                                  (1 \mid \textrm{batter}) + (1 \mid \textrm{pitcher})
+(\#eq:swing1)
+\end{equation}
+
+where $S$ and $t2$ are types of splines. We setup the population level information of the model matrix using `mgcv::jagam`, and provided it, along with batter and pitcher ids, to the Stan model. 
+
+## Variables informing probability of contacting the ball (the outcome submodel)
+
+Estimating probability of contacting the ball, as with estimating probability of swinging, depend on ball location and directional aceleration. But game context should not matter. We omit game state variables in the outcome submodel, but build a second matrix for the model.
+
+## Initial joint model
+
+Next, we combine the identified submodels into a single Stan model of the form described above as a sample selection model. The resulting model, surprisingly, estimated that the mean of $\rho$ --- the correlation between decisions to swing and whether contact was made --- was nearly zero (0.05). This suggests that --- at least as parameterized using a computationally tractable amount of data --- self selection did not prominently affect probabilities of ball contact. We find this odd, and will continue to explore joint models in a future post.
+
+# References {-}
+

@@ -1,0 +1,51 @@
+---
+title: Generating random numbers from custom distributions
+author: Scott Spencer
+date: '2021-11-05'
+slug: generating-random-numbers-from-custom-distributions
+categories: []
+tags:
+  - Stan
+  - Random Numbers
+  - Custom Distributions
+  - Weibull distribution
+  - Extreme value distribution
+draft: false
+comments: no
+images: ~
+---
+
+In an earlier post, I explained how to code custom distributions for use in modeling using the programming language Stan. Expanding upon that post, here, I'll demonstrate how we code a function to generate random values from those distributions.
+
+One direct approach just involves a bit of algebra. As in the earlier post, I'll again use the three-parameter Weibull distribution. Generally, in the first step, we can set the CDF of the distribution equal to a random value from, say, a uniform distribution $u \in [0, 1]$, like so:
+
+$$
+u = F(\cdot)
+$$
+and then solve for the data parameter we want to be generated. Let's do this for the three-parameter Weibull:
+
+And the log of the above CDF is,
+
+$$
+u = 1 - \exp(-\eta (x - \theta)^\lambda)
+$$
+Then, to solve for $x$, we can take the log of each side and rearrange^[My favorite book to refresh on basic algebra here is Simmons, George F. Precalculus Mathematics in a Nutshell. Geometry, Algebra, Trigonometry. Eugene OR: Resource Publications, 1987.],
+
+$$
+x = \left( \frac{\log(1 - u)}{-\eta} \right)^{\lambda^{-1}} + \theta
+$$
+
+To code a function that generates a random value from that custom distribution, we can write a function inside the function block as before. 
+
+```
+functions {
+
+  real weibull_rng(real eta, real lambda, real theta) {
+      real u = uniform_rng(0, 1.0);
+      return ( log(1 - u) / -eta ) ^ inv(lambda) + theta;
+  }
+
+}
+```
+
+Keep coding, stay curious!

@@ -1,0 +1,481 @@
+---
+title: 'Trading Stanton: a modeling sketch'
+author: Scott Spencer
+date: '2017-11-24'
+slug: trading-stanton-a-modeling-sketch
+categories:
+  - R
+  - Stan
+tags:
+  - Baseball
+  - MLB
+  - Stan
+  - R
+description: 'This simplified analysis sketches a distribution of possible trade values of Stanton.'
+draft: no
+disable_comments: yes
+output:
+  blogdown::html_page:
+    toc: true
+    dev: "svg"
+---
+
+# Forecast of Giancarlo Stanton’s Expected Surplus Value
+
+## Summary
+
+In most analyses, I would normally lead with the conclusion---here, surplus value. But, as the perceived goals of analysis are evaluating, well, the analysis, I'll start with my methods. First, I estimate Stanton's performance in terms of WAR, tying Stanton's performance to team wins. Then I connect his wins over replacement to dollars. Finally, I subtract out the contract cost and report surplus as net present value.
+
+## Estimate player past performance as Wins Over Replacement
+
+It is common to estimate "Wins Above Replacement" to estimate a players' total performance value to a team by translating it to a contribution to team wins. The estimation of WAR, unlike other common metrics, is not only tied to discrete events, and the community is divided into how a WAR should be estimated and difference sources report sometimes wildly differing values for a given player/season. Should we be using season averages? Play by play? For purposes here, I'm using WAR as estimated using an R package called openWAR for several reasons, while mentioning its limitations, all important when understanding what the valuation here represents. Open WAR, unlike that reported by popular media, is completely transparent about its calculations. Secondly, unlike with other WARs, openWAR provides an estimate of uncertainty in its estimation (using a technique called bootstrapping). I should note, the openWAR method of estimation suffers its own drawbacks, which I would like to improve at some point, including separately modeling events. A better approach would be to model all aspects of the game as a single, generative model of baseball. That said, this off-the-shelf (and free!) software offers significant improvements over the more opaque, publicly available point-estimates.
+
+Using the openWAR package, I scraped MLB data for seasons 2010 through 2017 (`openWAR::getData`), keeping regular season games. That data provides the information needed to estimate WAR as outlined in the paper on openWAR (using `openWAR::makeWAR`). WARs were generated for all players in all seasons. As WAR is properly an estimate and---importantly, includes uncertainty---I ran `1000` bootstrap simulations (`openWAR::shakeWAR`) and obtain distributions of WAR for each player in each season. 
+
+## Forecasting WAR with a hierarchical model in Stan
+
+Data from the population of players provides a baseline for Stanton's performance, and we shift from that baseline based on what we learn from his data. In the hierarchical model used here, as ratio of variance shifts from the population to Stanton, or the other way around, we lean more heavily where the information is more reliable. This makes sense: If one knew nothing about a player, other than he is in the MLB, one should consider him average, and as we learn more we adjust for what we learn. 
+
+The model regresses WAR as a (quadratic) function of age (by age, here, instead of strictly applying MLB rules, I just subtracted birth year reported in the Register from the season. A more detailed analysis would not just refine the calculation, but would account for the uncertainty of age inflation of players from certain nationalities), making adjustments from the population's aging curve for each player. But not all players provide the same amount of useful information. Generally, players in some fielding positions "age" differently than in others. Stanton protects left and right field. Thus, this simplified model limits the data to players who have played a significant amount in those positions, even if that is not their sole position. Simplifying, using plate appearances in those positions, I've kept players logging the top `75` percent of plate appearances at either position, dropping the lowest `25` percent.
+
+Further simplifying the data for this analysis, I've calculated the mean of each retained player/season's WAR and total plate appearances. Theoretically, I could have fed the entire distributions into the model---which would more ideally propagate the uncertainty---but I suspect the shear volume of this data would make convergence too slow here. Instead, I attempted to propagate uncertainty using plate appearances. The more plate appearances we observe, the more reliable we should feel in the forecasted distributions of WAR.
+
+We should also be clear in interpreting the information as conditioned upon players who remain in the league. Given time, we should also code the probability that a player, given his WAR in one year, will not play in the following year. Without this, the results here should be read as upwardly biased.
+
+I've enclosed the Stan model at the end of this analysis.
+
+```{r gather data, eval=FALSE, include=FALSE}
+
+require(RMySQL)
+conn <- dbConnect(MySQL(), user = 'root', password = 'root', dbname = 'baseball')
+
+ow <- dbGetQuery(conn, "SELECT * FROM openWAR;")
+
+require(openWAR)
+ow2017 <- getData(start = "2017-04-02", end = "2017-10-01")
+
+```
+
+
+```{r eval=FALSE, include=FALSE}
+f <- paste0("~/Dropbox/openWAR/", list.files("~/Dropbox/openWAR/", "swar"))
+for (i in 1:length(f)) load(f[i])
+```
+
+
+```{r eval=FALSE, include=FALSE}
+
+war2010 <- swar2010 %>% group_by(playerId) %>% select(playerId, WAR, TPA, PA.bat, PA.LF, PA.RF) %>% summarise(WAR = mean(WAR), TPA = mean(TPA), PA.bat = mean(PA.bat), PA.LF = mean(PA.LF), PA.RF = mean(PA.RF)) %>% mutate(season = 2010)
+war2011 <- swar2011 %>% group_by(playerId) %>% select(playerId, WAR, TPA, PA.bat, PA.LF, PA.RF) %>% summarise(WAR = mean(WAR), TPA = mean(TPA), PA.bat = mean(PA.bat), PA.LF = mean(PA.LF), PA.RF = mean(PA.RF)) %>% mutate(season = 2011)
+war2012 <- swar2012 %>% group_by(playerId) %>% select(playerId, WAR, TPA, PA.bat, PA.LF, PA.RF) %>% summarise(WAR = mean(WAR), TPA = mean(TPA), PA.bat = mean(PA.bat), PA.LF = mean(PA.LF), PA.RF = mean(PA.RF)) %>% mutate(season = 2012)
+war2013 <- swar2013 %>% group_by(playerId) %>% select(playerId, WAR, TPA, PA.bat, PA.LF, PA.RF) %>% summarise(WAR = mean(WAR), TPA = mean(TPA), PA.bat = mean(PA.bat), PA.LF = mean(PA.LF), PA.RF = mean(PA.RF)) %>% mutate(season = 2013)
+war2014 <- swar2014 %>% group_by(playerId) %>% select(playerId, WAR, TPA, PA.bat, PA.LF, PA.RF) %>% summarise(WAR = mean(WAR), TPA = mean(TPA), PA.bat = mean(PA.bat), PA.LF = mean(PA.LF), PA.RF = mean(PA.RF)) %>% mutate(season = 2014)
+war2015 <- swar2015 %>% group_by(playerId) %>% select(playerId, WAR, TPA, PA.bat, PA.LF, PA.RF) %>% summarise(WAR = mean(WAR), TPA = mean(TPA), PA.bat = mean(PA.bat), PA.LF = mean(PA.LF), PA.RF = mean(PA.RF)) %>% mutate(season = 2015)
+war2016 <- swar2016 %>% group_by(playerId) %>% select(playerId, WAR, TPA, PA.bat, PA.LF, PA.RF) %>% summarise(WAR = mean(WAR), TPA = mean(TPA), PA.bat = mean(PA.bat), PA.LF = mean(PA.LF), PA.RF = mean(PA.RF)) %>% mutate(season = 2016)
+war2017 <- swar2017 %>% group_by(playerId) %>% select(playerId, WAR, TPA, PA.bat, PA.LF, PA.RF) %>% summarise(WAR = mean(WAR), TPA = mean(TPA), PA.bat = mean(PA.bat), PA.LF = mean(PA.LF), PA.RF = mean(PA.RF)) %>% mutate(season = 2017)
+war <- data.frame()
+war <- 
+  bind_rows(war, war2010) %>%
+  bind_rows(war, war2011) %>%
+  bind_rows(war, war2012) %>%
+  bind_rows(war, war2013) %>%
+  bind_rows(war, war2014) %>%
+  bind_rows(war, war2015) %>%
+  bind_rows(war, war2016) %>%
+  bind_rows(war, war2017)
+
+```
+
+
+```{r eval=FALSE, include=FALSE}
+
+war <- war %>% mutate(defense = PA.LF + PA.RF) %>% filter(defense > 0) %>% filter(defense > quantile(defense, probs = .25))
+
+```
+
+
+```{r eval=FALSE, include=FALSE}
+players <- unique(war$playerId)
+
+# get player year, month, and day of birth
+register <- 
+  read.csv(paste0("https://raw.githubusercontent.com/",
+                 "chadwickbureau/register/master/data/people.csv"), 
+           stringsAsFactors = FALSE) %>% 
+  filter(key_mlbam %in% players)
+
+war <- left_join(war, register[c("key_mlbam", "birth_year")], by = c("playerId" = "key_mlbam"))
+
+war <- war %>%
+  mutate(age = season - birth_year,
+         age_sq = age^2) %>% select(-birth_year)
+
+```
+
+
+
+```{r eval=FALSE, include=FALSE}
+
+war <- 
+  war %>% 
+  arrange(playerId, season) %>% 
+  group_by(playerId) %>% 
+  mutate(next_season = ifelse(row_number() < n() & season == lead(season) -1, TRUE, FALSE))
+
+```
+
+
+
+```{r eval=FALSE, include=FALSE}
+
+fit_play <- stan_glm(next_season ~ WAR, 
+                     data = war, 
+                     family = binomial(link = "logit"),
+                     iter = 500,
+                     chains = 1)
+```
+
+```{r include=FALSE}
+require(dplyr)
+load("~/Dropbox/Mets/war.RData")
+```
+
+
+```{r eval=FALSE, message=F, warning=FALSE, include=FALSE}
+war$playerId <- as.factor(war$playerId)
+
+nd <- war[war$playerId==519317,] %>% select(playerId, age)
+nd1828 <- data.frame(playerId = unique(nd$playerId), age = 29:39)
+nd <- bind_rows(nd, nd1828)
+
+# organize data for Stan
+dat <- list(N = nrow(war),                    
+            age = war$age,                    
+            war = war$WAR,
+            tpa = war$TPA,
+            n_groups = length(unique(war$playerId)), # identify number of groups
+            group_id = as.integer(war$playerId),
+            N_nd = nrow(nd),
+            age_nd = nd$age,
+            n_groups_nd = length(levels(nd$playerId)),
+            group_id_nd = as.integer(nd$playerId)
+            )
+
+require(rstan)
+
+fit_joint <- stan(file = "~/Dropbox/Mets/war_tpa2.stan",
+                  data = dat,
+                  iter = 1000,
+                  chains = 4,
+                  init_r = .05,
+                  cores = 4, 
+                  control = list(max_treedepth = 14, adapt_delta = 0.95))
+
+```
+
+The forecasted posterior estimates of Stanton's WAR---as interpreted with the above simplifying assumptions---are as follows,
+
+```{r echo=FALSE, message=F, warning=F}
+load("~/Dropbox/Mets/fit_joint.RData")
+# extract draws for parameters from model
+require(rstan)
+post <- extract(fit_joint)
+
+# get posterior predictions for Stanton
+stanton <- post$war_pred_nd
+stanton <- data.frame(stanton)
+names(stanton) <- 2010:2028
+stanton <- reshape2::melt(stanton, variable.name = "season", value.name = "WAR")
+
+# plot predictive distribution of Stanton's WAR versus actual WAR
+ggplot() + 
+  geom_violin(data = stanton, mapping = aes(x = season, y = WAR), draw_quantiles = c(.25, .5, .75)) +
+  geom_point(data = war[war$playerId==519317, c("season", "WAR")], mapping = aes(x = factor(season), y = WAR))
+
+```
+
+We can see that the observed values fit within the middle 50 percent of estimates about half the time. I would expect, from past work, that his expected WAR values would drop further than they show here, and the culprit is likely survival bias in the data. As mentioned, jointly modeling the probability of selection next season based using WAR would help solve this issue. With the above framework for estimating Stanton's WAR, we now value that war and compare annual value to future contractually obligated payouts.
+
+## Dollars Per WAR on the Free-Agent Market
+
+It is fairly standard, and sensical, to estimate the marginal cost of WAR as the cost of procuring WAR on the free-agent market. If Stanton was unavailable, the quickest (but most expensive) way to replace him would be with a free agent.
+
+Economist Matt Swartz has written extensively on estimating the average cost of WAR on the free-agent market, and projecting its growth. To estimate average cost and growth reasonably requires various data sets on free agent contract values, and linking that information to the above estimates of WAR. The time to wrangle an analysis that considers at least the factors described by Matt goes beyond the time frame needed to offer an answer. Thus, for purposes of this exercise, I will apply Swartz's recent forecast of WAR values (Swartz, M., *The Recent History of Free-Agent Pricing* (fangraphs.com, July 11, 2017), https://www.fangraphs.com/blogs/the-recent-history-of-free-agent-pricing/) going forward, as follows. He estimates 2017 WAR on the free agent market at $10.5MM/WAR and the growth of that cost exceeding GDP by 2.1 percent. Assuming a 3.8 percent growth in GDP, then, he estimates growth on the free agent market at 5.9 percent. Thus, the cost in millions for WAR on the free agent market from 2018 through 2028 could be:
+
+
+```{r echo=FALSE}
+
+dollar_war <- c(11.1, 11.8, 12.5, 13.2, 14.0, 14.8, 15.7, 16.6, 17.6, 18.6, 19.7)
+knitr::kable(tibble(Season = 2018:2028, `Free agent dollars per WAR (MM)` = dollar_war))
+```
+
+The dollar values here relate to whatever WAR Swartz used, not the specific WAR distributions generated here and, as is well reported, WAR (and, thus, Swartz's dollar per WAR estimates) may not accurately price our specific WARs. Further, other WAR point estimates rely upon a different definition of a replacement player than does openWAR. In further developing the analysis, we should gather all free agent contracts assigned to the players and match their AAV to our WAR distributions. For purposes of the sketch here, we will just assume Swartz's estimates are directly applicable.
+
+Thus, Stanton's unadjusted, annual value contributions are estimated in millions as,
+
+```{r echo=FALSE}
+require(dplyr)
+p <- stanton %>% 
+  group_by(season) %>% 
+  summarise(WAR.50 = mean(WAR), WAR.10 = quantile(WAR, probs = .1), WAR.90 = quantile(WAR, probs = .9)) %>% 
+  filter(as.integer(as.character(season))>2017) %>% 
+  select(season, WAR.10, WAR.50, WAR.90) %>% 
+  mutate(WAR.10 = round(WAR.10 * dollar_war, digits = 0),
+         WAR.50 = round(WAR.50 * dollar_war, digits = 0),
+         WAR.90 = round(WAR.90 * dollar_war, digits = 0)) %>% 
+  rename(`$MM/WAR (10 percent)` = WAR.10,
+         `$MM/WAR (50 percent)` = WAR.50,
+         `$MM/WAR (90 percent)` = WAR.90)
+knitr::kable(p)
+```
+
+## Unadjusted surplus value
+
+Unadjusted surplus value simply sums the annual difference between value generated and contract cost. Per Spotrac (http://www.spotrac.com/mlb/miami-marlins/giancarlo-stanton-6864/), Stanton's remaining contract payouts are as follows:
+
+```{r echo=FALSE}
+K_stanton <- data.frame(year = 2018:2028, 
+                        aav = c(25, 26, 26, 29, 29, 32, 32, 32, 29, 25, 25)
+                        )
+knitr::kable(K_stanton)
+```
+
+Subtracting the payout to Stanton each season from his value generated each season, we get the following unadjusted range of expected surplus,
+
+```{r echo=FALSE}
+
+p <- stanton %>% 
+  group_by(season) %>% 
+  summarise(WAR.50 = mean(WAR), WAR.10 = quantile(WAR, probs = .1), WAR.90 = quantile(WAR, probs = .9)) %>% 
+  filter(as.integer(as.character(season))>2017) %>% 
+  select(season, WAR.10, WAR.50, WAR.90) %>% 
+  mutate(WAR.10 = round(WAR.10 * dollar_war - K_stanton$aav, digits = 0),
+         WAR.50 = round(WAR.50 * dollar_war - K_stanton$aav, digits = 0),
+         WAR.90 = round(WAR.90 * dollar_war - K_stanton$aav, digits = 0)) %>%
+  summarise(WAR.10 = sum(WAR.10), WAR.50 = sum(WAR.50), WAR.90 = sum(WAR.90)) %>% 
+  rename(`10 percent` = WAR.10, `50 percent` = WAR.50, `90 percent` = WAR.90)
+
+knitr::kable(p)
+```
+
+We adjust that value to net present value using Swartz's estimate of GDP and fee agent inflation above the estimate. Assuming the discount rate equals GDP (3.8 percent), his range of expected net present values in millions are,
+
+```{r echo=FALSE}
+
+p <- stanton %>% 
+  group_by(season) %>% 
+  summarise(WAR.50 = mean(WAR), WAR.10 = quantile(WAR, probs = .1), WAR.90 = quantile(WAR, probs = .9)) %>% 
+  filter(as.integer(as.character(season))>2017) %>% 
+  select(season, WAR.10, WAR.50, WAR.90) %>% 
+  mutate(WAR.10 = (WAR.10 * dollar_war - K_stanton$aav) / (1.038^(1:11)),
+         WAR.50 = (WAR.50 * dollar_war - K_stanton$aav) / (1.038^(1:11)),
+         WAR.90 = (WAR.90 * dollar_war - K_stanton$aav) / (1.038^(1:11)))  %>% 
+  summarise(WAR.10 = sum(WAR.10), WAR.50 = sum(WAR.50), WAR.90 = sum(WAR.90)) %>% 
+  rename(`10 percnet` = WAR.10, `50 percent` = WAR.50, `90 percent` = WAR.90)
+
+
+knitr::kable(round(p, digits = 0))
+
+```
+
+We can also understand the full range of his possible net present values,
+
+```{r echo=FALSE, fig.height=4, message=FALSE, warning=FALSE}
+dollar_war <- data.frame(season = as.character(2018:2028), dollar_war = c(11.1, 11.8, 12.5, 13.2, 14.0, 14.8, 15.7, 16.6, 17.6, 18.6, 19.7), period = 1:11)
+K_stanton <- data.frame(season = as.character(2018:2028), 
+                        aav = c(25, 26, 26, 29, 29, 32, 32, 32, 29, 25, 25)
+                        )
+
+p <- stanton %>% mutate(season = as.character(season)) %>%
+  group_by(season) %>% 
+  filter(as.integer(season) > 2017) %>% 
+  left_join(K_stanton) %>%
+  left_join(dollar_war) %>%
+  mutate(WAR = (WAR * dollar_war - aav) / (1.038^(period)))
+
+require(ggthemes)
+g1 <- ggplot(p, aes(x = WAR)) + 
+  geom_density(fill = "#C4D8E2") + 
+  geom_vline(aes(xintercept = 0)) + 
+  facet_wrap(~season) + 
+  theme_tufte() + 
+  labs(x = "Annual Net Present Surplus value (MM)", y = "") + 
+  theme(axis.text.y = element_blank(),
+        axis.ticks = element_blank())
+
+g2 <- p %>% group_by(row_number()) %>% summarise(WAR = sum(WAR)) %>%
+  ggplot(aes(x = WAR)) + 
+  geom_density(fill = "#C4D8E2") + 
+  geom_vline(aes(xintercept = 0)) + 
+  theme_tufte() + 
+  labs(x = "Overall Net Present Surplus value (MM)", y = "Density") + 
+  theme(axis.text.y = element_blank(),
+        axis.ticks = element_blank())
+
+# Show plots side by side
+require(grid)
+require(gridExtra)
+grid.arrange(arrangeGrob(g2, g1, ncol = 2), 
+             nrow = 1,
+             top = textGrob("", 
+             x = 0.5, hjust = .5, vjust = 0, 
+             gp = gpar(fontsize = 10)))  
+
+```
+
+Certainly the model and method can be improved, but I hope this sketch has been a useful starting point for further analysis.
+
+## Appendix: Stan Model for Forcasting WAR
+
+```{r eval=FALSE}
+
+data {
+  // population level information
+  int<lower=1> N;
+  vector<lower=0>[N] age;
+  vector[N] war;
+  vector<lower=0>[N] tpa;
+  
+  // group level information
+  int<lower=1> n_groups;
+  int<lower=1,upper=n_groups> group_id[N];
+  
+  // new data
+  int<lower=1> N_nd;
+  vector<lower=0>[N_nd] age_nd;
+  int<lower=1> n_groups_nd;
+  int<lower=1,upper=n_groups_nd> group_id_nd[N_nd];
+}
+
+transformed data {
+  vector<lower=0>[N] age_sq = age .* age;
+}
+
+parameters {
+  // population parameters for tpa
+  real beta_age;
+  real beta_age_sq;
+  // real beta_tpa;
+  
+  // population parameters for war
+  real theta_age;
+  real theta_age_sq;
+
+  // parameters for sigmas
+  real theta_tpa;
+  // real alpha_sigma_war;
+  real<lower=0> sigma_tpa;
+  // vector<lower=0>[N] sigma_war;
+  real<lower=0> sigma_war;
+  
+  // group level parameters
+  real mu_tpa;
+  real gamma_tpa[n_groups];
+  real mu_war;
+  real gamma_war[n_groups];
+}
+
+model {
+  
+  // setup group level parameters 
+  vector[N] mu_gamma_tpa;
+  vector[N] mu_gamma_war;
+  for(i in 1:N) {
+    mu_gamma_tpa[i] = mu_tpa + gamma_tpa[group_id[i]];
+    mu_gamma_war[i] = mu_war + gamma_war[group_id[i]];
+  }
+
+  // model plate appearances as function of age and player
+  target += normal_lpdf(tpa | beta_age * age + 
+                              beta_age_sq * age_sq + 
+                              mu_gamma_tpa, 
+                              sigma_tpa);
+  
+  // model uncertainty of WAR as function of plate appearances
+  // target += exponential_lpdf(sigma_war | exp(alpha_sigma_war + beta_tpa * tpa));
+  
+  // model war as function of plate appearances, age, and player
+  target += normal_lpdf(war | theta_age * age + 
+                              theta_age_sq * age_sq + 
+                              theta_tpa * tpa + 
+                              mu_gamma_war, 
+                              sigma_war);
+  
+  
+  // priors
+    
+    beta_age ~ normal(0, 100);
+    beta_age_sq ~ normal(0, 10);
+    // beta_tpa ~ normal(0, 100);
+    
+    theta_age ~ normal(0, 100);
+    theta_age_sq ~ normal(0, 10);
+    theta_tpa ~ normal(0, 100);
+    
+    mu_tpa ~ normal(0, 100);
+    mu_war ~ normal(0, 100);
+    gamma_tpa ~ normal(0,100);
+    gamma_war ~ normal(0,100);
+    
+    // alpha_sigma_war ~ cauchy(0, 2.5);
+    sigma_tpa ~ exponential_lpdf(10);
+    sigma_war ~ exponential_lpdf(1);
+}
+
+generated quantities {
+  
+  vector[N] war_pred;
+  vector[N] tpa_pred;
+  // vector<lower=0>[N] sigma_war_pred;
+  vector[N] mu_gamma_tpa;
+  vector[N] mu_gamma_war;
+
+
+  // for new observations
+  vector[N_nd] war_pred_nd;
+  vector[N_nd] tpa_pred_nd;
+  // vector<lower=0>[N_nd] sigma_war_pred_nd;
+  vector[N_nd] mu_gamma_tpa_nd;
+  vector[N_nd] mu_gamma_war_nd;
+
+
+  for(i in 1:N) {
+    mu_gamma_tpa[i] = mu_tpa + gamma_tpa[group_id[i]];  
+    mu_gamma_war[i] = mu_war + gamma_war[group_id[i]];  
+  }
+  
+  
+  for (n in 1:N) {
+    tpa_pred[n] = normal_rng(beta_age * age[n] + 
+                             beta_age_sq * age_sq[n] + 
+                             mu_gamma_tpa[n], 
+                             sigma_tpa);
+    
+    // sigma_war_pred[n] = exponential_rng(exp(alpha_sigma_war + beta_tpa * tpa_pred[n]));
+    
+    war_pred[n] = normal_rng(theta_age * age[n] + 
+                             theta_age_sq * age_sq[n] + theta_tpa * tpa_pred[n] + 
+                             mu_gamma_war[n],
+                             sigma_war);
+  }
+  
+    for(j in 1:N_nd) {
+    mu_gamma_tpa_nd[j] = mu_tpa + gamma_tpa[group_id_nd[j]];  
+    mu_gamma_war_nd[j] = mu_war + gamma_war[group_id_nd[j]];  
+  }
+  
+  for(nd in 1:N_nd) {
+    tpa_pred_nd[nd] = normal_rng(beta_age * age_nd[nd] + 
+                                 beta_age_sq * age_nd[nd] * age_nd[nd] + 
+                                 mu_gamma_tpa_nd[nd], 
+                                 sigma_tpa);
+    // sigma_war_pred_nd[nd] = exponential_rng(exp(alpha_sigma_war + beta_tpa * tpa_pred_nd[nd]));
+    war_pred_nd[nd] = normal_rng(theta_age * age_nd[nd] + 
+                                 theta_age_sq * age_nd[nd] * age_nd[nd] + 
+                                 theta_tpa * tpa_pred[nd] +
+                                 mu_gamma_war_nd[nd], 
+                                 sigma_war);
+  }
+}
+
+```

@@ -1,0 +1,20 @@
+---
+title: 'Stan Is Not an Acronym: Bayesian Solutions to Sabermetric Shortcomings'
+author: Jonah Gabry, Ben Goodrich, Scott Spencer
+date: '2018-08-05'
+slug: stan-is-not-an-acronym-bayesian-solutions-to-sabermetric-shortcomings
+categories:
+  - Stan
+tags:
+  - Baseball
+  - Stan
+  - Expectations
+  - Sabermetrics
+  - Stealing bases
+  - WAR
+description: 'Description of our presentation at Saberseminar discussing Bayesian solutions to sabermetric shortcomings.'
+draft: false
+disable_comments: yes
+---
+
+Here is our description of our presentation at [Saberseminar 2018]("http://www.brooksbaseball.net/ss18/sunday.html"): "A common definition of sabermetrics is the application of statistics to baseball. However, despite clear progress over the past few decades, we argue that sabermetrics has largely ignored the most important statistical principle to baseball: generative modeling. In this talk we discuss several conceptual errors with sabermetrics that preclude optimal decision making. Each of these problems can be overcome using a principled Bayesian approach to inference, which we demonstrate using the Stan statistical software."

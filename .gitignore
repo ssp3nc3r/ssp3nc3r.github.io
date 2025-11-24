@@ -1,0 +1,33 @@
+# Hugo build artifacts
+/public/
+/resources/_gen/
+.hugo_build.lock
+
+# R and blogdown
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+*.rds
+*.csv
+
+# Blogdown/RMarkdown cache and output
+*_cache/
+*_files/
+*.html
+*.utf8.md
+*.knit.md
+
+# Jekyll artifacts (if migrating from Jekyll)
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+
+# macOS
+.DS_Store
+
+# IDEs
+.vscode/
+.idea/

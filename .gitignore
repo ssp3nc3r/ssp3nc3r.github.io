@@ -14,8 +14,9 @@
 
 # Blogdown/RMarkdown cache and output
 *_cache/
-*_files/
-*.html
+# Keep index.html in post bundles (pre-rendered posts)
+# but exclude other HTML at root
+/*.html
 *.utf8.md
 *.knit.md
 

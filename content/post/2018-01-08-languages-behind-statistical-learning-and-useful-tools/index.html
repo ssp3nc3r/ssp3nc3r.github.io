@@ -1,0 +1,778 @@
+---
+title: Languages Behind Statistical Learning, and Useful Tools
+author: Scott Spencer
+date: '2018-01-08'
+categories: []
+tags:
+  - Statistical Learning
+  - R
+  - Calculus
+  - Probability
+  - Linear Algebra
+  - Optimization
+  - Algorithms
+  - Data Visualization
+  - R Markdown
+description: "Understanding the maths behind statistical learning enable coding the techiques and discovering insights. Here, we highight these maths, complementary tools, and related references."
+draft: no
+disable_comments: yes
+slug: 2018-01-08-languages-behind-statistical-learning
+output:
+  blogdown::html_page:
+    toc: true
+    dev: "svg"
+---
+
+<script src="/./rmarkdown-libs/kePrint/kePrint.js"></script>
+
+<div id="TOC">
+<ul>
+<li><a href="#r-markdowna-tool-for-reproducible-reporting">R Markdown—a tool for reproducible reporting</a></li>
+<li><a href="#from-mathematical-notation-to-r">From mathematical notation to R</a><ul>
+<li><a href="#linear-algebra">Linear Algebra</a></li>
+<li><a href="#calculus">Calculus</a></li>
+<li><a href="#probability">Probability</a><ul>
+<li><a href="#distributions">Distributions</a></li>
+<li><a href="#regression">Regression</a></li>
+</ul></li>
+<li><a href="#optimization">Optimization</a><ul>
+<li><a href="#gradient-descent">Gradient descent</a></li>
+<li><a href="#simplex-method">Simplex method</a></li>
+</ul></li>
+<li><a href="#algorithms">Algorithms</a></li>
+</ul></li>
+<li><a href="#data-and-model-visualization">Data and model visualization</a></li>
+<li><a href="#organizing-data">Organizing Data</a></li>
+<li><a href="#closing">Closing</a></li>
+</ul>
+</div>
+
+<hr />
+<p>“Can A.I. Be Taught to Explain Itself?” That’s the question recently posed in <a href="https://www.nytimes.com/2017/11/21/magazine/can-ai-be-taught-to-explain-itself.html">The New York Times Magazine</a>. A search uncovered helpful references — <a href="https://link.springer.com/book/10.1007%2F978-1-4614-7138-7"><em>An Introduction to Statistical Learning with Applications in R</em></a> and <a href="https://link.springer.com/book/10.1007%2F978-0-387-84858-7"><em>The Elements of Statistical Learning</em></a>, for example — but none with A.I. as author.</p>
+<p>The available literature is better understood with some background in the languages and tools behind statistical learning.</p>
+<div id="r-markdowna-tool-for-reproducible-reporting" class="section level1">
+<h1>R Markdown—a tool for reproducible reporting</h1>
+<blockquote>
+<p>More than 70% of researchers have tried and failed to reproduce another scientist’s experiments, and more than half have failed to reproduce their own experiments.</p>
+<p>— Baker, M. (2016). <a href="https://search.proquest.com/docview/1792376854"><em>Is There a Reproducibility Crisis?</em> Nature, 533(26), 452-454</a>.</p>
+</blockquote>
+<p>Learning follows reproducibility. R Markdown provides a tool to aid reproducibility of statistical analyses in <a href="https://cran.r-project.org"><code>R</code></a>. An R Markdown file is just a plain text file containing specific syntax that a program like <a href="https://www.rstudio.com"><em>R Studio</em></a> can use to <em>knit</em> code and results within our common language descriptions of the work seamlessly together into any of several formats, including <em>pdf</em> and <em>html</em>. From the <code>R</code> console, the command to render the markdown file is <code>rmarkdown::render(&lt;input&gt;, &lt;output_format&gt;)</code>. Markdown syntax is easy to master. Beyond using the <em>R Markdown</em> file from which this paper was rendered as a template, R Studio provides ample information for the syntax: <a href="http://rmarkdown.rstudio.com/articles.html"><em>R Markdown from R Studio</em></a>. For a tutorial, <em>see also</em>, Shalizi <a href="https://web.archive.org/web/20170125014202/http://www.stat.cmu.edu/~cshalizi/rmarkdown/"><em>Using R Markdown for Class Reports</em> (Carnegie Mellon University 22 August 2016)</a>. The basics are all most need; power-users can reference Xie’s <a href="https://clio.columbia.edu/catalog/10901595"><em>Dynamic Documents with R and knitr</em> (CRC Press 2015)</a>.</p>
+<p>Mathematical notation can be included in a markdown file using latex — either within a paragraph like this fraction <span class="math inline">\(\frac{2}{3}\)</span> or in its own space, like this representation of binomial probability,</p>
+<p><span class="math display">\[f(y|N,p) = \frac{N!}{y!(N-y)!}\cdot p^y \cdot (1-p)^{N-y} = {{N}\choose{y}} \cdot p^y \cdot (1-p)^{N-y}\]</span></p>
+<p>the expression to which we return when discussing probability. Typesetting latex code for math can be found online at, for example, the <a href="https://www.latex-project.org">The LaTeX Project</a>, but web-enabled math editors (<em>e.g.</em>, <a href="http://visualmatheditor.equatheque.net/VisualMathEditor.html">Visual Math Editor</a>) provide the latex code for us when we simply select the symbols, and allow us to copy the code, and paste into a markdown file between dollar signs.</p>
+</div>
+<div id="from-mathematical-notation-to-r" class="section level1">
+<h1>From mathematical notation to R</h1>
+<p>As is evident in statistical learning literature, the subject is grounded upon and explained with the following languages,</p>
+<ul>
+<li><strong>Linear Algebra</strong> (<em>e.g.</em>, vector, matrix, and vector-matrix multiplication, matrix inversion)</li>
+<li><strong>Calculus</strong> (<em>e.g.</em>, derivatives, chain rule, integration)</li>
+<li><strong>Probability</strong> theory and <strong>Statistics</strong> (<em>e.g.</em>, binomial and normal distributions, regression)</li>
+<li><strong>Optimization</strong> (<em>e.g.</em>, necessary conditions for optimality, iterative methods)</li>
+<li><strong>Programming</strong> (<em>e.g.</em>, translate algorithm descriptions into code)</li>
+</ul>
+<p>Let’s review some basics, translating examples of the above into the R programming language.</p>
+<div id="linear-algebra" class="section level2">
+<h2>Linear Algebra</h2>
+<p>We perform mathematical operations on vectors like <span class="math inline">\(\boldsymbol{a} =(v_1, v_2, v_3) \in (\mathbb{R},\mathbb{R},\mathbb{R}) \equiv \mathbb{R}^3\)</span>, and matrices like <span class="math inline">\(\boldsymbol{A} \in \mathbb{R} ^{m\times n}\)</span>, a rectangular array of real numbers with <span class="math inline">\(m\)</span> rows and <span class="math inline">\(n\)</span> columns, for example,</p>
+<p><span class="math display">\[
+\boldsymbol{A} =\left[\begin{matrix} a_{11} &amp; a_{12} &amp; a_{13} \\ a_{21} &amp; a_{22} &amp; a_{23} \\ a_{31} &amp; a_{32} &amp; a_{33} \end{matrix} \right] \in \left[\begin{matrix} \mathbb{R} &amp; \mathbb{R} &amp; \mathbb{R} \\ \mathbb{R} &amp; \mathbb{R} &amp; \mathbb{R} \\ \mathbb{R} &amp; \mathbb{R} &amp; \mathbb{R} \end{matrix} \right] \equiv \mathbb{R}^{3\times3}
+\]</span></p>
+<p>where <span class="math inline">\(m\)</span> and <span class="math inline">\(n\)</span> are both <code>3</code>. Let’s code vectors <span class="math inline">\(\boldsymbol{a}\)</span> and <span class="math inline">\(\boldsymbol{b}\)</span> in R using the standard R function <code>c()</code>, which means <em>combine</em>, and matrix <span class="math inline">\(\boldsymbol{A}\)</span> using <code>matrix()</code>, assigning them some values like so,</p>
+<pre class="r"><code># Vectors a and b
+a &lt;- c(2, 3, -1)
+b &lt;- c(1/2, 0, pi)
+
+# matrix A
+A &lt;- matrix(data = c(4,4,-2,2,6,2,2,8,4),
+            nrow = 3, 
+            ncol = 3, 
+            byrow = F)</code></pre>
+<p>In math notation, we assigned to <span class="math inline">\(\boldsymbol{a}\)</span>, scalars of the form <span class="math inline">\((x_1, x_2, x_3)\)</span> such as: <span class="math inline">\(\mathbf{a}=(2, 3, -1)\)</span> and <span class="math inline">\(\mathbf{b}=(\frac{1}{2}, 0, \pi)\)</span>. We can apply various algebraic operations to vectors including addition, subtraction, scaling, norm (length), dot product, and cross product. For each operation, where <span class="math inline">\(\boldsymbol{a} = (a_1, a_2, a_3)\)</span> and <span class="math inline">\(\boldsymbol{b} = (b_1, b_2, b_3)\)</span>, we code mathematical operations,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{a} + \boldsymbol{b} &amp;= (a_1 + b_1, a_2 + b_2, a_3 + b_3)\\
+\boldsymbol{a} - \boldsymbol{b} &amp;= (a_1 - b_1, a_2 - b_2, a_3 - b_3)\\
+c\boldsymbol{a} &amp;= (ca_1, ca_2, ca_3)\\
+\left\|\boldsymbol{a}\right\| &amp;= \sqrt{a_1^2+a_2^2+a_3^2} \\
+\boldsymbol{a}\cdot \boldsymbol{b} &amp;= a_1b_1+a_2b_2+a_3b_3=\left\|\boldsymbol{a}\right\|\left\|\boldsymbol{b}\right\| cos(\theta)\\
+\boldsymbol{a}\times \boldsymbol{b} &amp;= (a_2b_3-a_3b_2, a_3b_1-a_1b_3,a_1b_2-a_2b_1)
+\end{aligned}
+\]</span></p>
+<p>in R using the syntax,</p>
+<pre class="r"><code>a + b             # adding vectors
+a - b             # subtracting vectors
+3 * a             # scaling vector by three, a constant
+sqrt(sum(a ^ 2))  # norm or length of vector
+a %*% b           # dot product of vectors
+crossprod(a,b)    # cross product of vectors</code></pre>
+<p>In this example, <span class="math inline">\(\boldsymbol{a}\)</span> and <span class="math inline">\(\boldsymbol{b}\)</span> are not <em>orthogonal</em> (<em>i.e.</em>, perpendicular to one another) as their dot product isn’t zero. We are reminded that the dot product also provides that <span class="math inline">\(\boldsymbol{a}\cdot \hat{e_x} = a_x = a \cos\alpha\)</span>, <span class="math inline">\(\boldsymbol{a}\cdot \hat{e_y} = a_y = a \cos\beta\)</span>, <span class="math inline">\(\boldsymbol{a}\cdot \hat{e_z} = a_z = a \cos\gamma\)</span>. Let’s calculate the unit (directional aspect) vector <span class="math inline">\((\hat{e_x}, \hat{e_y}, \hat{e_z})\)</span> of <span class="math inline">\(\boldsymbol{a}\)</span> in R by dividing it with <span class="math inline">\(\left\|\boldsymbol{a}\right\|\)</span>,</p>
+<pre class="r"><code>a / sqrt(sum(a ^ 2))</code></pre>
+<p>For matrices, we code matrix addition and subtraction,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{C}=\boldsymbol{A}+\boldsymbol{B}&amp;\Leftrightarrow c_{ij}=a_{ij}+b_{ij}\\
+\boldsymbol{C}=\boldsymbol{A}-\boldsymbol{B}&amp;\Leftrightarrow c_{ij}=a_{ij}-b_{ij}\\
+\end{aligned}
+\]</span></p>
+<p>in R syntax,</p>
+<pre class="r"><code># matrix B
+B &lt;- matrix(c(2,1,6,1,3,4,6,4,-2), 3, 3)
+
+C &lt;- A + B # matrix addition
+C &lt;- A - B # matrix subtraction</code></pre>
+<p>And we code the product of two matrices <span class="math inline">\(\boldsymbol{A}^{m \times n}\)</span> and <span class="math inline">\(\boldsymbol{B}^{n \times p}\)</span> (note, <span class="math inline">\(\boldsymbol{A}\boldsymbol{B} \neq \boldsymbol{B}\boldsymbol{A}\)</span>),</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{C}=\boldsymbol{A}\boldsymbol{B}&amp;\Leftrightarrow c_{ij}=\sum\limits_{k=1}^{n}{a_{ik}b_{kj}}\\
+\left[\begin{matrix} a_{11} &amp; a_{12}  \\ a_{21} &amp; a_{22}  \\ a_{31} &amp; a_{32}  \end{matrix} \right] \left[\begin{matrix} b_{11} &amp; b_{12} \\ b_{21} &amp; b_{22} \end{matrix} \right] &amp;= \left[\begin{matrix} a_{11}b_{11} + a_{12}b_{21} &amp; a_{11}b_{12}+a_{12}b_{22} \\ a_{21}b_{11} + a_{22}b_{21} &amp; a_{21}b_{12}+a_{22}b_{22}  \\ a_{31}b_{11} + a_{32}b_{21} &amp; a_{31}b_{12}+a_{32}b_{22}  \end{matrix} \right] 
+\end{aligned}
+\]</span></p>
+<p>in R syntax,</p>
+<pre class="r"><code>A %*% B</code></pre>
+<p>Note that column vector <span class="math inline">\(\left[\begin{matrix} b_{11} \\ b_{21} \end{matrix} \right]\)</span> is just a <span class="math inline">\(2\times1\)</span> matrix, so we can take the product of matrix <span class="math inline">\(\boldsymbol{A}\)</span> and a column vector, just as above. In R,</p>
+<pre class="r"><code>A %*% B[,1]</code></pre>
+<p>Matrix inversion <span class="math inline">\(\boldsymbol{A}^{-1}\)</span>, is performed in R — saving us from manually inverting it with, say, the <em>Gauss–Jordan elimination</em> procedure — by simply coding,</p>
+<pre class="r"><code>solve(A)</code></pre>
+<p>while matrix transpose <span class="math inline">\(\boldsymbol{A}^\mathrm{T}\)</span>, which flips and rotates the matrix,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\left[\begin{matrix} a_{1} &amp; a_{2} &amp; a_{3}\\ b_{1} &amp; b_{2} &amp; b_{3}\end{matrix} \right]^\mathrm{T} =\left[\begin{matrix} a_{1} &amp; b_{1} \\ a_{2} &amp; b_{2} \\ a_{3} &amp; b_{3} \end{matrix} \right] 
+\end{aligned}
+\]</span></p>
+<p>is coded as,</p>
+<pre class="r"><code>t(A)</code></pre>
+<p>By multiplying a matrix by its inverse,</p>
+<p><span class="math display">\[\boldsymbol{A}^{-1}\boldsymbol{A} = \mathbb{I} \equiv \left[\begin{matrix} 1 &amp; &amp; 0 \\ &amp;\ddots &amp;  \\ 0 &amp; &amp; 1 \end{matrix} \right]\]</span>
+we obtain an identity matrix <span class="math inline">\(\mathbb{I}\)</span> from <span class="math inline">\(\boldsymbol{A}^{-1}\boldsymbol{A}\)</span> in R by,</p>
+<pre class="r"><code>solve(A) %*% A</code></pre>
+<p>And we can create an identity matrix <span class="math inline">\(\mathbb{I}\)</span> directly,</p>
+<pre class="r"><code>diag(c(1, 1, 1))</code></pre>
+<p>Not all matrices can be inverted, of course, but we can check by finding the determinant of a matrix, <span class="math inline">\(\left|\boldsymbol{A}\right|\)</span> as,</p>
+<pre class="r"><code>det(A)</code></pre>
+<p>Since <span class="math inline">\(\left|\boldsymbol{A}\right| \neq 0\)</span> in our example, it’s invertible.</p>
+<p>The rank of a matrix can be calculated using QR decomposition in R,</p>
+<pre class="r"><code>qr(A)$rank</code></pre>
+<p>Matrix operations in R provide a convenient way to solve systems of equations. Equations,</p>
+<p><span class="math display">\[
+\begin{aligned}
+a_{11} x_1 + a_{12}x_2 &amp;= b_1\\
+a_{21} x_1 + a_{22}x_2 &amp;= b_2\\
+\end{aligned}
+\]</span></p>
+<p>when converted to an augmented matrix of the form <span class="math inline">\(\boldsymbol{A}\boldsymbol{x}=\boldsymbol{b}\)</span>,</p>
+<p><span class="math display">\[
+\begin{bmatrix} a_{11} &amp; a_{12} \\ a_{21} &amp; a_{22} \end{bmatrix} \begin{bmatrix} x_1 \\ x_2 \end{bmatrix} = \begin{bmatrix} b_1 \\ b_2 \end{bmatrix}
+\]</span></p>
+<p>can be solved in R by taking the matrix inverse of both sides. For example, the matrix solution to the following system of linear equations,</p>
+<p><span class="math display">\[
+\begin{aligned}
+1x_1 + 2x_2 &amp;= 5\\
+3x_1 + 9x_2 &amp;= 21
+\end{aligned}
+\]</span></p>
+<p>is <span class="math inline">\(\boldsymbol{x}=\boldsymbol{A}^{-1}\boldsymbol{b}\)</span>, or as solved in R,</p>
+<pre class="r"><code>A &lt;- matrix(c(1,3,2,9), 2, 2)
+b &lt;- c(5, 21)
+x &lt;- solve(A) %*% b</code></pre>
+<p>A quick review of linear algebra is presented in R by Højsgaard and Carstensen, <a href="http://bendixcarstensen.com/APC/linalg-notes-BxC.pdf"><em>Introductory linear algebra with R</em>, Version 5.2 (bendixcarstensen.com April 2016)</a>. Kolter’s short review of the math is excellent: the video <a href="http://www.cs.cmu.edu/~zkolter/course/linalg/index.html"><em>Linear Algebra Review</em></a> and notes <a href="http://www.cs.cmu.edu/~zkolter/course/15-884/linalg-review.pdf"><em>Linear Algebra Review and Reference</em> (Carnegie Mellon University 2008)</a>. The subject is introduced in chapter two of Goodfellow’s <a href="http://www.deeplearningbook.org"><em>Deep Learning</em> (MIT Press 2016)</a>, and with clarity in Lang’s <a href="https://link.springer.com/book/10.1007/978-1-4612-1070-2"><em>Introduction to Linear Algebra</em>, Second Edition (Springer 1986)</a>, Axler’s <a href="https://link.springer.com/book/10.1007/978-3-319-11080-6"><em>Linear Algebra Done Right</em>, Third Edition (Springer 2015)</a>, and Treil’s <a href="https://www.math.brown.edu/~treil/papers/LADW/LADW_2017-09-04.pdf"><em>Linear Algebra Done Wrong</em> (Brown University 2017)</a>, which is free (and <em>not</em> done wrong), as is Pinkham’s <a href="http://www.math.columbia.edu/~pinkham/HCP_LinearAlgebra.pdf"><em>Linear Algebra</em> (Draft July 10, 2015)</a>.</p>
+</div>
+<div id="calculus" class="section level2">
+<h2>Calculus</h2>
+<p>Calculus provides a language for expressing ideas like rates of change using the expression’s <em>derivative</em> <span class="math inline">\(\frac{df(x)}{dx}=\lim _{\epsilon \rightarrow 0}\frac{f(x+\epsilon) -f(x)}{\epsilon }\)</span> or, say, the probability of something as the proportion of an area under a curve, found by integration <span class="math inline">\(\int_{x=1}^{n}{x}\;dx\)</span>. The <code>Deriv</code> package in R provides tools to differentiate expressions analytically. Let’s take the derivative of <span class="math inline">\((x^2+3)^7\)</span> in R,</p>
+<pre class="r"><code>require(Deriv)
+d1 &lt;- Deriv(expression((x ^ 2 + 3) ^ 7), &#39;x&#39;)
+d1</code></pre>
+<pre><code>## expression(14 * (x * (3 + x^2)^6))</code></pre>
+<p>Notice that <code>Deriv</code> automatically applied the <em>chain rule</em>, <span class="math inline">\(F&#39;(x)=f&#39;(g(x))g&#39;(x)\)</span>. We can evaluate the derivative at a specific point too,</p>
+<pre class="r"><code>eval(d1, list(x=1))</code></pre>
+<pre><code>## [1] 57344</code></pre>
+<p>Symbolic <em>integration</em> in R requires a symbolic algebra package, like <code>Ryacas</code>, the <code>R</code> interface to <a href="http://www.yacas.org">Yet Another Computer Algebra System</a>. Let’s integrate the expression <span class="math inline">\(\int{2x^2}\;dx = \frac{2}{3}x^3 + c\)</span> in R,</p>
+<pre class="r"><code>require(Ryacas)
+yacas(&#39;Integrate(x) 2 * x ^ 2&#39;)</code></pre>
+<pre><code>## expression(2 * x^3/3)</code></pre>
+<p>If without an analytical solution, as happens frequently, we can numerically differentiate and integrate in R, too.</p>
+<p>The basics of Calculus have been compactly described (200 pages) in Kleppner’s <a href="https://clio.columbia.edu/catalog/833861"><em>Quick Calculus</em> (Wiley 1985)</a>, which I recommend for anyone needing an, ahem, quick recall of the subject. Along with teaching the basics, it provides a very short (10 pages) summary (pages 208-220), and a short list of worked-out integrals and derivatives (pages 254-256). The basics are also taught in Thompson’s <a href="https://www.gutenberg.org/files/33283/33283-pdf.pdf"><em>Calculus Made Easy</em> Second Edition (Macmillan 1914)</a>. For additional insight, many have learned the workings of Calculus from the umbiquitous textbook by Stewart, <a href="https://clio.columbia.edu/catalog/11547146"><em>Calculus, Early Transcendentals</em> Eighth Edition (Cengage Learning 2016)</a>.</p>
+<p>In the language of linear algebra and calculus, we can touch upon uncertainty of events — <em>i.e.</em>, probability — and statistically describe them.</p>
+</div>
+<div id="probability" class="section level2">
+<h2>Probability</h2>
+<p>We can think of probability as a mathematical language for communicating about uncertain events to aid deduction. Our rules of probability include <span class="math inline">\(0 \leq Pr(X) \leq 1\)</span>; <span class="math inline">\(Pr(\Omega)=1\)</span> where <span class="math inline">\(\Omega\)</span> is the entire sample space of possible events; and the odds <span class="math inline">\(A = \frac{Pr(X)}{1-Pr(X)}\)</span>. We can work with probabilities using the sum rule, written in <a href="https://www.rapidtables.com/math/symbols/Basic_Math_Symbols.html#lnkset"><em>set notation</em></a>,</p>
+<p><span class="math display">\[P(A\cup B)=P(A)+P(B)-P(B \cap A)\]</span>
+and the product rule,</p>
+<p><span class="math display">\[P(A \cap B)=P(A)P(B|A)=P(B)P(A|B)\]</span>
+where <span class="math inline">\(P(A|B)\)</span> means the conditional probability that element <span class="math inline">\(A\)</span> occurs given that element <span class="math inline">\(B\)</span> occurs. We say <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent if and only if <span class="math inline">\(P(A \cap B) = P(A)P(B)\)</span>, which means <span class="math inline">\(P(A|B)=P(A)\)</span> and <span class="math inline">\(P(B|A)=P(B)\)</span>. From these rules, we get Bayes’ rule <span class="math inline">\(P(A|B) = \frac{P(A)P(B|A)}{P(B)}\)</span>. Using a tree diagram, we can show conditional probabilities on edges and total probabilities on nodes. In R using the package <code>igraph</code>,</p>
+<pre class="r"><code>library(igraph)
+
+g &lt;- graph.tree(n = 2 ^ 3 - 1, children = 2)
+node_labels1 &lt;- c(&quot;&quot;, &quot;P(A)&quot;, &quot;P(A&#39;)&quot;, &quot;P(AB)&quot;, &quot;P(AB&#39;)&quot;, &quot;P(A&#39;B)&quot;, &quot;P(A&#39;B&#39;)&quot;)
+edge_labels1 &lt;- c(&quot;P(A)&quot;, &quot;P(A&#39;)&quot;, &quot;P(B|A)&quot;, &quot;P(B&#39;|A)&quot;, &quot;P(B|A&#39;)&quot;, &quot;P(B&#39;|A&#39;)&quot;)
+
+par(mar = c(0.1, 0.1, 0.1, 0.1), mfrow = c(1, 2))
+
+plot(g,                                 # plot tree with probability notation
+     layout = layout_as_tree,           # draw graph as tree
+     vertex.size = 24,                  # node size
+     vertex.color = &#39;#C4D8E2&#39;,          # node color
+     vertex.label = node_labels1,       # node labels
+     vertex.label.cex = .6,             # node label size
+     vertex.label.family = &#39;Helvetica&#39;, # node label family
+     vertex.label.color = &#39;#000000&#39;,    # node label size
+     edge.color = &#39;#EEEEEE&#39;,            # edge color
+     edge.width = 6,                    # edge width
+     edge.label = edge_labels1,         # edge labels
+     edge.label.cex = .6,               # edge label size
+     edge.label.family = &#39;Helvetica&#39;,   # edge label family
+     edge.label.color = &#39;#000000&#39;,      # edge label color
+     asp = .6                           # aspect ratio of plot
+)
+
+node_labels2 &lt;- c(&quot;&quot;, &quot;0.6&quot;, &quot;0.4&quot;, &quot;0.36&quot;, &quot;0.24&quot;, &quot;0.24&quot;, &quot;0.16&quot;)
+edge_labels2 &lt;- c(&quot;0.6&quot;, &quot;0.4&quot;, &quot;0.6&quot;, &quot;0.4&quot;, &quot;0.6&quot;, &quot;0.4&quot;)
+
+plot(g,                                 # plot tree with example values
+     layout = layout_as_tree, 
+     vertex.size = 24, 
+     vertex.color = &#39;#C4D8E2&#39;, 
+     vertex.label = node_labels2,
+     vertex.label.cex = .6, 
+     vertex.label.family = &#39;Helvetica&#39;,
+     vertex.label.color = &#39;#000000&#39;, 
+     edge.color = &#39;#EEEEEE&#39;, 
+     edge.width = 6,
+     edge.label = edge_labels2, 
+     edge.label.cex = .6, 
+     edge.label.family = &#39;Helvetica&#39;,
+     edge.label.color = &#39;#000000&#39;, 
+     asp = .6 
+)</code></pre>
+<p><img src="/./post/2018-01-08-languages-behind-statistical-learning-and-useful-tools_files/figure-html/unnamed-chunk-17-1.svg" width="672" style="display: block; margin: auto;" /></p>
+<p>Other concepts include discrete and continuous random variables (<em>e.g.</em>, observing pairs of coin tosses, we can use random variable <span class="math inline">\(\boldsymbol{X}\)</span> to assign outcomes to numbers, thus <span class="math inline">\(X(HH) = 2,X(HT) = X(TH) = 1,X(TT) = 0\)</span>). The language of probability also includes probability mass functions (PMF), cumulative distribution functions (CDF), and various distributions.</p>
+<div id="distributions" class="section level3">
+<h3>Distributions</h3>
+<p>The <em>bernoulli</em> distribution represents the frequency of successes in a given number of trials. It is just a special case of a <em>binomial</em> distribution (the expression of which we opened this paper) where the number of observations <span class="math inline">\(N\)</span> is <span class="math inline">\(1\)</span> and, thus, the possible outcomes are <span class="math inline">\(y \in [0,1]\)</span>. Let’s simulate coin tosses in R by randomly sampling from possible events in the distribution space,</p>
+<pre class="r"><code>set.seed(TRUE)  # for reproducibility
+
+flips &lt;- sample(x = c(&quot;HH&quot;, &quot;TT&quot;, &quot;HT&quot;, &quot;TH&quot;),    # sample space
+                size = 1000,                      # number of trials
+                prob = c(0.25, 0.25, 0.25, 0.25), # probability of each event
+                replace = TRUE)                   # replace the coins each time
+
+flips &lt;- factor(x = flips, labels = c(&quot;HH&quot;, &quot;TT&quot;, &quot;HT&quot;, &quot;TH&quot;))
+summary(flips)</code></pre>
+<pre><code>##  HH  TT  HT  TH 
+## 248 276 232 244</code></pre>
+<p>Using our presumed probability of obtaining two heads on any given flip as <code>.25</code>, let’s calculate the probability of two heads occuring exactly 248 times out of our <code>1000</code> draws, first expressly coding the binomial function, and then using R’s built-in function.</p>
+<pre class="r"><code>p1 &lt;- choose(1000, sum(flips == &#39;HH&#39;)) * .25 ^ 248 * (1 - .25) ^ (1000 - sum(flips == &#39;HH&#39;))
+p1</code></pre>
+<pre><code>## [1] 0.02889194</code></pre>
+<pre class="r"><code>p2 &lt;- dbinom(sum(flips==&#39;HH&#39;), 1000, .25)
+p2</code></pre>
+<pre><code>## [1] 0.02889194</code></pre>
+<p>We can test to see that both methods are equal:</p>
+<pre class="r"><code>all.equal(p1, p2)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>R offers several functions for common distributions: a probability mass function (PMF) for discrete variables or probability density function (PDF) for continuous variables, a continuous distribution function (CDF), and a function to draw random values from the distribution. R’s naming convention for these functions begin with a letter describing the function type — <code>p</code> for a CDF, <code>d</code> for a PMF/PDF, and <code>r</code> for a random generation function — followed by letters identifying the distribution. Thus, the above <code>dbinom()</code> provides the PMF for the binomial. Let’s apply these and review them in a graph. For a binomial distribution with a 50 percent probability of success in each of 40 observations of that many draws, for example, we can graph its PMF, CDF, and a histogram of these random draws,</p>
+<pre class="r"><code>require(ggplot2)                               # load plotting library
+
+x &lt;- seq(1, 40, 1)                             # create a sequence of values
+
+df &lt;- data.frame(value = x,                    # organize values, cdf, pdf
+                 cdf = pbinom(x, length(x), .5),
+                 pmf = dbinom(x, length(x), .5),
+                 draws = rbinom(length(x), length(x), .5))
+
+ggplot(data = df) +                            # create plot object
+
+  # plot density of draws
+  geom_histogram(aes(x = draws,                
+                     y = ..density..), 
+                 position = &#39;identity&#39;,          
+                 binwidth = 1,
+                 color = &#39;white&#39;,
+                 fill = &#39;gray70&#39;) +
+  
+  # plot the CDF
+  geom_line(aes(x = value,                     
+                y = cdf),
+            color = &#39;#91A5AF&#39;) + 
+  
+  # plot the PMF
+  geom_line(aes(x = value,                     
+                y = pmf)) +
+  
+  # remove default grid lines
+  theme(panel.grid.major = element_blank(),    
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank()) +
+  
+  # add labels to plot elements
+  annotate(&#39;text&#39;, x = 25, y = 0.8, label = &#39;CDF&#39;, color = &#39;#91A5AF&#39;) +
+  annotate(&#39;text&#39;, x = 30, y = 0.1, label = &#39;PMF&#39;, color = &#39;black&#39;) +
+  annotate(&#39;text&#39;, x = 21, y = 0.25, label = &#39;DRAWS&#39;, color = &#39;gray70&#39;) +
+  
+  # add labels to axes
+  labs(x = &quot;Successes of 40\ndraws in 40 trials&quot;,                            
+       y = &quot;Probability&quot;)</code></pre>
+<p><img src="/./post/2018-01-08-languages-behind-statistical-learning-and-useful-tools_files/figure-html/unnamed-chunk-22-1.svg" width="480" style="display: block; margin: auto;" /></p>
+<p>(Recall that a PDF, unlike a PMF, does not represent probability; it represents the slope of the CDF.) Other common (and interrelated) distributions encountered include the multinomial <code>dmultinom()</code>, normal or gaussian <code>dnorm()</code>, cauchy <code>dcauchy()</code>, student-t <code>dt()</code>, poisson <code>dpois()</code>, negative binomial <code>dnbinom()</code>, exponential <code>dexp()</code>, gamma <code>dgamma()</code>, beta <code>dbeta()</code>. The LKJ correlation matrix distribution is <code>dlkjcorr()</code>.</p>
+<p>Some probability is reviewed in chapter three of <em>Deep Learing</em>. More briefly, we get a quick reference on probability from Chen, et al. <a href="http://www.wzchen.com/probability-cheatsheet/"><em>Probability Cheatsheet</em>, (2015)</a>, which closely follows Blitzstein’s <a href="https://projects.iq.harvard.edu/stat110"><em>Introduction to Probability</em> (CRC Press 2014)</a>. A clear and concise statement on probability is found in, believe it or not, Feynman’s <a href="http://www.feynmanlectures.caltech.edu/I_06.html">Chapter 6 <em>Probability</em> in <em>Lectures on Physics</em>, Volume I Millennium Edition (Basic Books 2010)</a>. Another helpful review is found in Murphy’s <a href="https://clio.columbia.edu/catalog/10509129"><em>Machine Learning, A Probablistic Perspective</em>, Chapter 2 Probability (MIT Press 2012)</a>.</p>
+</div>
+<div id="regression" class="section level3">
+<h3>Regression</h3>
+<p>Borrowing from Gelman and Hill’s <a href="https://clio.columbia.edu/catalog/6095997"><em>Data Analysis Using Regression and Multilevel/Heirarchical Models</em> (Cambridge University Press 2007)</a>, linear “regression can be used to represent relationships between variables,” and “is a method that summarizes how the average values of a numerical outcome variable vary over subpopulations defined by linear functions of predictors.” With mathematical notation, we can represent Gelman’s description as <span class="math inline">\(y_i = \boldsymbol{X}_i \boldsymbol{\beta}+\epsilon = \beta_1\boldsymbol{X}_{i1}+\dots+\beta_k\boldsymbol{X}_{ik}+\epsilon\)</span>, for <span class="math inline">\(i=1, \dots, n\)</span>, where errors <span class="math inline">\(\epsilon_i\)</span> are normally distributed with mean <span class="math inline">\(0\)</span> and standard deviation <span class="math inline">\(\sigma\)</span>.</p>
+
+<div id="least-squares" class="section level4">
+<h4>Least squares</h4>
+<p>Many methods are available to find <span class="math inline">\(\beta\)</span> coefficients that provide the “best fit” to the data, depending on how we define the quality of fit. Commonly, we measure how we approximate <span class="math inline">\(\boldsymbol{Y}_i\)</span> with <span class="math inline">\(\boldsymbol{X}_i \boldsymbol{\beta}\)</span> in terms of the squared difference <span class="math inline">\(\boldsymbol{Y}_i-(\boldsymbol{X}_i \boldsymbol{\beta})^2\)</span>. More specifically, we measure the quality of our approximation globally using the <em>loss function</em>,</p>
+<p><span class="math display">\[
+L=\sum\limits_{i=1}^{n}{(\underbrace{Y_i}_{actual} -\underbrace{(\beta_1\boldsymbol{X}_{i1}+\dots+\beta_k\boldsymbol{X}_{ik})}_{estimate} )^2} \longrightarrow \text{minimize over } \boldsymbol{\beta}
+\]</span>
+minimizing (a type of optimizing) the measure over all values of <span class="math inline">\(\boldsymbol{\beta}\)</span>. We call the minimized, linear expression the <em>least squares</em> line. Note that we can think of <span class="math inline">\(\boldsymbol{X}\)</span> as either a random variable (bayesian view) or fixed (frequentist view). First, we’ll consider <span class="math inline">\(\boldsymbol{X}\)</span> fixed, leaving <span class="math inline">\(\epsilon\)</span> as random. In the simplest case, <span class="math inline">\(\epsilon\)</span> is assumed to have normal distribution <span class="math inline">\(N(0, \sigma^2)\)</span>. By minimizing our estimate, we find the maximum likelihood estimate of <span class="math inline">\(\epsilon\)</span>, thus</p>
+<p><span class="math display">\[
+\hat{\sigma}^2=\frac{1}{n}\sum{(\boldsymbol{Y}_i-(\boldsymbol{X}_i \boldsymbol{\beta}))^2}
+\]</span>
+One measure of fit is <span class="math inline">\(r^2 = \frac{SSR}{SST}\)</span> where SSR is the regression sum of squares and quantifies how far the estimated sloped regression line <span class="math inline">\(\hat{y}_i\)</span> is from the horizontal sample mean <span class="math inline">\(\bar{y}\)</span>, and SST is the total sum of squares and quantifies how much <span class="math inline">\(y_i\)</span> vary around their mean <span class="math inline">\(\bar{y}\)</span>. Mathematically,</p>
+<p><span class="math display">\[r^2=\frac{\text{SSR}}{\text{SST}}=\frac{\sum\limits_{i=1}^{n}{(\hat{y}_i - \bar{y})^2} }{\sum\limits_{i=1}^{n}{(y_i - \bar{y})^2} }\]</span></p>
+<p>With a bit more math, we get the minimizing coefficients,</p>
+<p><span class="math display">\[
+\boldsymbol{\beta}=\frac{\sum\limits_{i=1}^{n}{(x_i- \bar{x})(y_i- \bar{y})} }{\sum\limits_{i=1}^{n}{(x_i- \bar{x})^2} }
+\]</span></p>
+<p>Let’s represent <span class="math inline">\(\text{SSR}\)</span>, <span class="math inline">\(\text{SST}\)</span>, and <span class="math inline">\(\sigma\)</span> visually in R using toy data,</p>
+<pre class="r"><code># prepare data and linear model
+# -----------------------------------------------------------------------------
+# save toy baseball data into object
+df &lt;- subset(plyr::baseball, year == 2007 &amp; ab &gt; 100)
+
+# use basic linear model
+mod &lt;- lm(hr ~ ab, data = df)
+
+# add fitted values to data
+df &lt;- transform(df, Fitted = fitted(mod))
+
+# Create plot for SSR
+# -----------------------------------------------------------------------------
+SSR &lt;- ggplot(df, aes(x = ab, y = hr)) + 
+
+  # plot yhat - ybar
+  geom_segment(aes(x = ab, 
+                   y = mean(hr),
+                   xend = ab, 
+                   yend = Fitted),
+               size = .2,
+               color = &#39;#888888&#39;) +
+
+  # plot observations as points
+  geom_point(color = &#39;gray85&#39;) +
+
+  # plot linear regression line
+  geom_smooth(method=&#39;lm&#39;, 
+              formula = y ~ x,
+              se = FALSE,
+              color = &#39;black&#39;,
+              size = 0.5) + 
+  
+  # include origin for proper reference point in plot and to show scale
+  scale_x_continuous(limits = c(80, 550)) + 
+  scale_y_continuous(limits = c(0, 40)) +
+  
+  # plot mean of samples ybar
+  geom_hline(aes(yintercept = mean(hr)),
+             size = .5,
+             color = &#39;black&#39;) +
+  
+  # remove all default decoration                
+  theme_void() +
+  
+  # add annotations for title, yhat, ybar
+  annotate(&quot;text&quot;, x = 100, y = 30,
+           label = &#39;italic(hat(y))[i]-italic(bar(y))&#39;,
+           parse = T, hjust = 0) +
+  
+  annotate(&quot;text&quot;, x = 500, y= 22, 
+           label = &#39;bolditalic(hat(y))&#39;, 
+           parse = T, hjust = 0) +
+  
+  annotate(&quot;text&quot;, x = 100, y= 14, 
+           label = &#39;italic(bar(y))&#39;, 
+           parse = T, hjust = 0)
+
+# Create plot for SST
+# -----------------------------------------------------------------------------
+SST &lt;- ggplot(df, aes(x = ab, y = hr)) + 
+
+  # plot y - ybar
+  geom_segment(aes(x = ab, 
+                   y = hr,
+                   xend = ab, 
+                   yend = mean(hr)),
+               size = .2,
+               color = &#39;#888888&#39;) +
+
+  # plot observations as points
+  geom_point(color = &#39;gray30&#39;) +
+
+  # plot linear regression line
+  geom_smooth(method=&#39;lm&#39;, 
+              formula = y ~ x,
+              se = FALSE,
+              color = &#39;gray85&#39;,
+              size = 0.5) + 
+  
+  # include origin for proper reference point in plot and to show scale
+  scale_x_continuous(limits = c(80, 550)) + 
+  scale_y_continuous(limits = c(0, 40)) +
+  
+  # plot mean of samples ybar
+  geom_hline(aes(yintercept = mean(hr)),
+             size = .5,
+             color = &#39;black&#39;) +
+  
+  # remove all default decoration                
+  theme_void() +
+  
+  # add annotations for title, yhat, ybar
+  annotate(&quot;text&quot;, x = 100, y = 30,
+           label = &#39;italic(y)[i]-italic(bar(y))&#39;,
+           parse = T, hjust = 0) +
+
+  annotate(&quot;text&quot;, x = 500, y= 22, 
+           label = &#39;bolditalic(hat(y))&#39;, 
+           parse = T, hjust = 0) +
+  
+  annotate(&quot;text&quot;, x = 100, y= 14, 
+           label = &#39;italic(bar(y))&#39;, 
+           parse = T, hjust = 0)
+
+# create plot for epsilon
+# -----------------------------------------------------------------------------
+epsilon &lt;- ggplot(df, aes(x = ab, y = hr)) + 
+
+  # draw y - yhat
+  geom_segment(aes(x = ab, 
+                   y = hr,
+                   xend = ab, 
+                   yend = Fitted),
+               size = .2,
+               color = &#39;#888888&#39;) +
+
+  # plot observations as points
+  geom_point(color = &#39;gray30&#39;) +
+
+  # plot linear regression line
+  geom_smooth(method=&#39;lm&#39;, 
+              formula = y ~ x,
+              se = FALSE,
+              color = &#39;black&#39;,
+              size = 0.5) + 
+  
+  # include origin for proper reference point in plot and to show scale
+  scale_x_continuous(limits = c(80, 550)) + 
+  scale_y_continuous(limits = c(0, 40)) +
+  
+  # plot mean of samples ybar
+  geom_hline(aes(yintercept = mean(hr)),
+             size = .3,
+             color = &#39;gray85&#39;) +
+                  
+  # remove all default decoration                
+  theme_void() +
+  
+  # add annotations for title, yhat, ybar
+  annotate(&quot;text&quot;, x = 100, y = 30,
+           label = &#39;italic(y)[i]-italic(hat(y))[i]&#39;,
+           parse = T, hjust = 0) +
+
+  annotate(&quot;text&quot;, x = 500, y= 22, 
+           label = &#39;bolditalic(hat(y))&#39;, 
+           parse = T, hjust = 0) +
+  
+  annotate(&quot;text&quot;, x = 100, y= 14, 
+           label = &#39;italic(bar(y))&#39;, 
+           parse = T, hjust = 0)
+
+# plot SSR, SST, and epsilon together
+# -----------------------------------------------------------------------------
+require(grid)
+require(gridExtra)
+
+grid.arrange(SSR, SST, epsilon, ncol = 3)</code></pre>
+<p><img src="/./post/2018-01-08-languages-behind-statistical-learning-and-useful-tools_files/figure-html/unnamed-chunk-23-1.svg" width="768" style="display: block; margin: auto auto auto 0;" /></p>
+</div>
+</div>
+</div>
+<div id="optimization" class="section level2">
+<h2>Optimization</h2>
+<p>Our regression line above, as mentioned, resulted from an <em>optimization</em> method, least squares. Mathematically, optimization takes the form,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{minimize } f_0(x)&amp; \\
+\text{subject to } f_i(x)&amp; \leq b_i \text{, where } i = 1,\dots,m
+\end{aligned}
+\]</span></p>
+<div id="gradient-descent" class="section level3">
+<h3>Gradient descent</h3>
+<p>Let’s estimate our linear regression using gradient descent for the gradient <span class="math inline">\(\nabla f(\theta)\)</span>. A gradient as the analogue of the first derivative for functions of vectors. The gradient of a function <span class="math inline">\(f\)</span> is the matrix of partial derivatives, taken generally as one or more partial derivatives,</p>
+<p><span class="math display">\[
+\nabla_\theta f(\theta) \in \mathbb{R}^{m \times n} = \left[\begin{matrix} \frac{\partial f(\theta)}{\partial \theta_{11}} &amp; \dots &amp; \frac{\partial f(\theta)}{\partial \theta_{1n}} \\ \vdots &amp; \ddots &amp; \vdots \\ \frac{\partial f(\theta)}{\partial \theta_{m1}} &amp; \dots &amp; \frac{\partial f(\theta)}{\partial \theta_{mn}} \end{matrix}\right]
+\]</span>
+and as specific to linear regression,</p>
+<p><span class="math display">\[
+\nabla f(\theta) = \frac{1}{N}(\boldsymbol{y}^T - \theta \boldsymbol{X}^T)\boldsymbol{X}
+\]</span>
+Our iterative procedure is simply,</p>
+<p><span class="math display">\[
+\text{Repeat until convergence:}\\
+\theta := \theta - \alpha \sum{(\boldsymbol{y}^T - \theta \boldsymbol{X}^T)\boldsymbol{X}} 
+\]</span>
+Let’s code an example in R,</p>
+<pre class="r"><code># generate matrix with intercept and random variable
+X &lt;- cbind(1, matrix(runif(1000,-5, 5)))
+y &lt;- X[,2] + rnorm(1000) + 3
+
+# alpha and threshold manually chosen for toy data
+gradient_descent &lt;- function(X, y, alpha = 0.01, threshold = .0001) {
+  
+  # initialize variables
+  gradient &lt;- Inf
+  i &lt;- 1
+  
+  # initialize coefficients
+  theta &lt;- matrix(rep(0, dim(X)[2]), nrow = 2)
+
+  # intermediate values
+  cost_history &lt;- double()
+  theta_history &lt;- list()
+
+  # Repeat until convergence
+  while(abs(max(gradient)) &gt; threshold) {
+    
+    # update theta with gradient each iteration
+    gradient &lt;- ( t(X) %*% (X %*% theta - y) / length(y) )
+    theta &lt;- theta - alpha * gradient
+  
+    # store theta and cost (sse) each iteration
+    cost_history[i] &lt;- sum((X %*% theta - y) ^ 2) / (2 * length(y))
+    theta_history[[i]] &lt;- theta
+    i &lt;- i + 1
+  }
+  
+  cost_history &lt;- as.array(cost_history)
+  theta_history &lt;- matrix(unlist(theta_history), ncol = 2, byrow = T)
+  return(list(cost = cost_history,
+              theta = theta_history))
+}
+
+gd &lt;- gradient_descent(X, y)</code></pre>
+<p>Plotting each iteration of <span class="math inline">\(\theta\)</span> from our algorithm, along with the data,</p>
+<pre class="r"><code>ggplot() + 
+  
+  # plot simulated data
+  geom_point(aes(x = X[,2], y = y), color = &#39;gray90&#39;) +
+
+  # plot intermediate gradients
+  geom_abline(aes(slope = gd$theta[,2], 
+                  intercept = gd$theta[,1]),
+              color = &#39;gray&#39;, 
+              alpha = .3) +
+
+  # plot starting gradient
+  geom_abline(aes(slope = gd$theta[1, 2], 
+                  intercept = gd$theta[1, 1]),
+              color = &#39;gray50&#39;) +
+
+  # plot final gradient
+  geom_abline(aes(slope = gd$theta[nrow(gd$theta),2], 
+                  intercept = gd$theta[nrow(gd$theta),1]),
+              color = &#39;#000000&#39;) +
+  
+  # clean plot
+  theme(panel.grid.major = element_blank(),    
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(),
+        axis.line = element_blank(),
+        plot.title = element_text(hjust = 0.5)) +
+  
+  # annotations
+  annotate(&quot;text&quot;, x = 2.9, y = -.5,
+           label = &#39;Initial Gradient&#39;,
+           parse = F, hjust = 0,
+           color = &#39;gray50&#39;) +
+
+  annotate(&quot;text&quot;, x = 3, y = 7,
+           label = &#39;Final Gradient&#39;,
+           parse = F, hjust = 0,
+           angle = 25,
+           color = &#39;#000000&#39;) +
+  
+  # add labels to axes
+  labs(x = &#39;Theta&#39;,                            
+       y = &#39;y&#39;) </code></pre>
+<p><img src="/./post/2018-01-08-languages-behind-statistical-learning-and-useful-tools_files/figure-html/unnamed-chunk-25-1.svg" width="672" /></p>
+<p>shows the algorithm converging from an initial to final gradient. This simplified version of a gradient descent is fragile and requires manually choosing an <span class="math inline">\(\alpha\)</span> and threshold for convergence, but demonstrates the idea. The R package <code>numDeriv</code> provides functions to calculate gradients <code>grad()</code>. Of note, our example <span class="math inline">\(\theta\)</span> was of a single dimension. When the problem includes multiple dimensions of partial second derivatives, they may be collected together in an <span class="math inline">\(n \times n\)</span> matrix, called a <em>Hessian</em> — the analogue of the second derivative — in R, <code>hessian()</code>.</p>
+</div>
+<div id="simplex-method" class="section level3">
+<h3>Simplex method</h3>
+<p>In the above example, we optimized over a continuous variable. Let’s look at another example where the optimal answer must be constrained to integers. For these constraints, we typically use linear programming.</p>
+<p>In linear programming, optimization follows a common solution structure. We specify what to minimize or maximize, identify the objective function and constraints (if any, note that the simple least squares problem is a special case of optimization with no constraints). In matrix form,</p>
+<p><span class="math display">\[
+\text{minimize x}\underbrace{\left[\begin{matrix} c_{1} \\ \vdots \\ c_{n} \end{matrix} \right] ^\mathrm{T} \left[\begin{matrix} x_{1} \\ \vdots \\ x_{n} \end{matrix} \right] }_{\text{Objective}} \text{s.t.}\underbrace{\left[\begin{matrix} a_{11} &amp; \dots &amp; a_{1n} \\ \vdots &amp; \ddots &amp; \vdots \\ a_{m1} &amp; \dots &amp; a_{mn} \end{matrix} \right] \left[\begin{matrix} x_{1} \\ \vdots \\ x_{n} \end{matrix} \right] \geq\left[\begin{matrix} b_{1} \\ \vdots \\ b_{n} \end{matrix} \right]}_{\text{First constraint}},\underbrace{\left[\begin{matrix} x_{1} \\ \vdots \\ x_{n} \end{matrix} \right] \geq 0}_{\text{Second constraint}} 
+\]</span></p>
+<p>Or as restated,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{min  } z &amp;= \boldsymbol{c}\boldsymbol{x} \\
+\text{subject to } \boldsymbol{A}\boldsymbol{x} &amp;= \boldsymbol{b} \\
+\boldsymbol{x} &amp;\geq 0
+\end{aligned}
+\]</span>
+The number of functional constraints may be less than the number of variables (<em>i.e.</em>, <span class="math inline">\(n &lt; m\)</span>); thus, we separate <span class="math inline">\(\boldsymbol{A}=[\boldsymbol{B}, \boldsymbol{N}]\)</span> where <span class="math inline">\(\boldsymbol{B}\)</span> is a <em>feasible</em> basis. We re-write our problem as,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{min } \boldsymbol{z} &amp;= \boldsymbol{c}_B \boldsymbol{x}_B + \boldsymbol{c}_N \boldsymbol{x}_N \\
+\text{subject to } \boldsymbol{B} \boldsymbol{x}_B + \boldsymbol{N} \boldsymbol{x}_N &amp;= \boldsymbol{b} \\
+\boldsymbol{x}_B, \boldsymbol{x}_N &amp;\geq 0
+\end{aligned}
+\]</span></p>
+<p>Solving for <span class="math inline">\(\boldsymbol{x}_B\)</span>, <span class="math inline">\(\mathbb{I} \boldsymbol{x}_B = \boldsymbol{B}^{-1} \boldsymbol{b} - \boldsymbol{B}^{-1} \boldsymbol{N} \boldsymbol{x}_N\)</span>. If <span class="math inline">\(\boldsymbol{x}_B \geq 0\)</span> (<em>i.e.</em>, a feasible solution), we set <span class="math inline">\(\boldsymbol{x}_N = 0\)</span> (because any other number would increase <span class="math inline">\(\boldsymbol{z}\)</span>), and substitute both <span class="math inline">\(\boldsymbol{x}_B\)</span> and <span class="math inline">\(\boldsymbol{x}_N\)</span> into our objective function, solving for <span class="math inline">\(\boldsymbol{z}\)</span>.</p>
+<p>We iterate through each possible combination of bases such that the basis that minimizes <span class="math inline">\(\boldsymbol{z}\)</span> given the constraints is our optimum. Consider the following example,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{minimize } z &amp;= 3x_1+x_2+9x_3+x_4 \\ \\
+\text{subject to } x_1 + 2x_3 + x_4 &amp;= 4\\
+x_2 + x_3 - x_4 &amp;= 2\\
+x_i &amp;\geq 0
+\end{aligned}
+\]</span></p>
+<p>In R,</p>
+<pre class="r"><code># create a function for our &quot;brute force&quot; simplex method
+simplex &lt;- function(A, b, c_x) {
+  # number of basis (m) and non-basis (n) variables
+  m &lt;- dim(A)[1]
+  n &lt;- dim(A)[2] - m
+  
+  # set up combinations of basis variables
+  combs &lt;- t( combn(1:(m + n), n) )
+  
+  # loop through possible combinations to find lowest cost
+  z &lt;- array()
+  solution &lt;- array()
+  
+  for( i in 1:choose(m + n, m) ) {
+    
+    # get basis variables and related objective constraints
+    B &lt;- A[ 1:m, combs[i,] ]
+    
+    # solve x_B
+    x_B &lt;- solve(B) %*% b
+    
+    # If all x_B &gt;= 0 (feasible solution), find cost
+    if( all(x_B &gt;= 0) ) {
+      c_B &lt;- c_x[ combs[i,] ]
+      
+      # get non-basis variables and related objective constraints
+      N &lt;- A[ 1:m, setdiff(1:(m + n), combs[i,]) ]
+      c_N &lt;- c_x[ setdiff(1:(m + n), combs[i,]) ]
+      
+      # set non-basis variables to zero
+      x_N &lt;- rep(0, n)
+      
+      # solve for z in objective function
+      z[i] &lt;- c_B %*% solve(B) %*% b + 
+              ( c_N - c_B %*% solve(B) %*% N ) %*% x_N
+      
+      # keep minimum cost solution
+      if ( z[i] == min(z) ) solution &lt;- x_B 
+    }
+    else z[i] &lt;- Inf
+    
+  }
+  
+  # return NULL if no solution found
+  if( min(z) == Inf ) { print(&quot;No soluion&quot;); return(NULL) }
+  
+  # handle multiple solutions
+  if( sum( z == min(z) ) &gt; 1 ) { 
+    print(&quot;Multiple solutions&quot;); 
+    return(NULL) 
+    }
+    
+  # return unique solution
+  x &lt;- rep(0, m + n)
+  x[ combs[which.min(z),] ] &lt;- solution
+  s &lt;- list(x = x, 
+            z = min(z))
+  return(s)
+}
+
+# constraint matrix: Ax = b
+A &lt;- rbind(c(1, 0, 2, 1),
+           c(0, 1, 1, -1))
+
+# right hand side
+b &lt;- c(4, 2)
+
+# objective function
+c_x &lt;- c(3, 1, 9, 1)
+
+# find an optimum
+simplex(A, b, c_x)</code></pre>
+<pre><code>## $x
+## [1] 0 6 0 4
+## 
+## $z
+## [1] 10</code></pre>
+<p>Our above version of a simplex method is <em>brute force</em>. We perform mutiple matrix operations for each possible combination of bases <code>choose(m + n, m)</code> but this gets large quick. A bases with 15 of 30 variables, for example, require the above function to iterate 155,117,520 times! Various packages are available with much more stable and efficient linear programming functions, including <code>lp()</code> in the package <code>lpSolve</code>,</p>
+<pre class="r"><code>x &lt;- lpSolve::lp(direction = &quot;min&quot;, 
+                 objective.in = c_x,
+                 const.mat = A,
+                 const.dir = c(&quot;=&quot;, &quot;=&quot;),
+                 const.rhs = b)
+x$solution</code></pre>
+<pre><code>## [1] 0 6 0 4</code></pre>
+<p>An introductory-level review of optimization, beginning with discrete variables and the <em>simplex method</em> is found in Pedregal, <a href="https://link.springer.com/book/10.1007/b97412"><em>Introduction to Optimization</em> (Springer 2004)</a>. Optimization over continuous variables is well-presented with modest mathematics in Nocedal &amp; Wright’s <a href="https://link.springer.com/book/10.1007/978-0-387-40065-5"><em>Numerical Optimization</em> (Springer 2006)</a>. Rigorous treatments are taught in Pinkham, <a href="http://math.columbia.edu/~pinkham/Optimizationbook.pdf"><em>Analysis, Convexity, and Optimization</em> (Draft September 4, 2014)</a>; Boyd &amp; Vandenberghe, <a href="https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf"><em>Convex Optimization</em> (Cambridge University Press 2014)</a>; Bertsimas &amp; Tsitsiklis <a href="https://clio.columbia.edu/catalog/2166323"><em>Introduction to Linear Optimization</em> (Athena Scientific 1997)</a>; and Sra, et al. <a href="https://clio.columbia.edu/catalog/12703957"><em>Optimization for Machine Learning</em> (MIT Press 2014)</a>.</p>
+</div>
+</div>
+<div id="algorithms" class="section level2">
+<h2>Algorithms</h2>
+<blockquote>
+<p>Machine learning algorithms usually require a high amount of numerical computation. This typically refers to algorithms that solve mathematical problems by methods that update estimates of the solution via an iterative process, rather than analytically deriving a formula providing a symbolic expression for the correct solution.</p>
+<p>— <em>Deep Learning</em>, Chapter 4: Numerical Computation.</p>
+</blockquote>
+<p>Algorithms — the logical steps or procedures we implement to (re)produce a result — are, as we’ve touched upon, described by mathematics and logic. Logic such as <em>if</em> … <em>then</em> … <em>else</em> …, <em>do</em> … <em>until</em> …, <em>and</em> …, <em>or</em> …, <em>etc.</em>, are given precise syntax in R, which has a rich set of functions for specific logical procedures and can be expanded, as we’ve seen, by including libraries or packages of ever more functions. We can also code our own. We find a clear guide to <code>R</code>’s functional programming language in Mailund’s <a href="https://link.springer.com/book/10.1007/978-1-4842-2746-6"><em>Functional Programming in R</em> (Apress 2017)</a>.</p>
+<p>General programming best practices (no less applicable for R) are timelessly described in Hunt, <a href="https://clio.columbia.edu/catalog/9411523"><em>The Pragmatic Programmer: From Journeyman to Master</em> (Addison-Wesley 2000)</a>. Basic implementation of algorithms in R are explained well in Braun’s <a href="https://clio.columbia.edu/catalog/10284357"><em>A First Course in Statistical Programming with R</em> (Cambridge University Press 2009)</a> and with more detail in Cichosz’s <a href="https://clio.columbia.edu/catalog/12877779"><em>Data Mining Algorithms</em> (Wiley 2015)</a>. For algorithms generally, rigorous treatments are taught in Sedgewick’s <a href="https://algs4.cs.princeton.edu/home/"><em>Algorithms</em> Fourth Edition (Addison-Wesley 2016)</a> and Cormen’s <a href="https://clio.columbia.edu/catalog/10797733"><em>Introduction to Algorithms</em>, Third Edition (MIT Press 2009)</a>.</p>
+</div>
+</div>
+<div id="data-and-model-visualization" class="section level1">
+<h1>Data and model visualization</h1>
+<p>In a paper about the languages behind statistical learning, why discuss data visualization?</p>
+<blockquote>
+<p><strong>[T]he data display is the model</strong>, as it exposes the sources of variation and describes each source’s contribution to the total.</p>
+<p>— Donahue, R. <a href="http://biostat.mc.vanderbilt.edu/wiki/pub/Main/RafeDonahue/fscipdpfcbg_currentversion.pdf"><em>Fundamental Statistical Concepts in Presenting Data</em> (July 2011)</a>.</p>
+</blockquote>
+<p>Visual representation of data offers insight into our review of data, inspection of models, and conclusions drawn. R’s base graphics enable coding of data visualizations (<a href="http://www.joyce-robbins.com/wp-content/uploads/2016/04/BaseGraphicsCheatsheet.pdf"><em>R Base Graphics Cheatsheet</em></a> by Joyce Robbins), which are thoroughly reviewed by Murrell in <a href="https://clio.columbia.edu/catalog/9623931"><em>R Graphics</em> Second Edition (CRC Press 2011)</a>. The base functions, however, lack consistency across functions. Just as mathematics provide a formal language for describing and modeling data, a <em>grammar of graphics</em> have been developed to formalize data visualization. <em>See</em>, Wilkinson’s <a href="https://link.springer.com/book/10.1007/0-387-28695-0"><em>The Grammar of Graphics</em> Second Edition (Springer 2005)</a>. Such a grammar has been applied in the R package <code>ggplot2</code> — as used above. The package’s reference manual is available at <a href="http://ggplot2.tidyverse.org">ggplot2.tidyverse.org</a>. An example of the seven general layers of the grammar of graphics applied using <code>ggplot2</code>, and as used in the above plots is,</p>
+<pre eval="FALSE"><code>ggplot(data = &lt;DATA&gt;, aes(&lt;MAPPINGS)) + # Data layer, global aesthetics mapping
+  &lt;GEOM_FUNCTION&gt;(                      # Geometrics
+     mapping = aes(&lt;MAPPINGS&gt;),         # Specific aesthetics mapping
+     stat = &lt;STAT&gt;,                     # Stastistical layer
+     position = &lt;POSITION&gt;
+  ) +
+  &lt;COORDINATE_FUNCTION&gt; +               # Coordinates, axes scaling
+  &lt;FACET_FUNCTION&gt; +                    # Facetting (subplots)
+  &lt;THEME&gt;                               # Non-data ink, annotations</code></pre>
+<p>From this code framework, we replace <code>&lt;...&gt;</code> in the template with the type of data or function implied. This framework is flexible, and the options vast. We are not limited, for example, to any single <code>&lt;GEOM_FUNCTION&gt;</code>, which map the data to specific visual representation; each <em>geom</em> adds a visual layer. Reviewing the code for our plots above reveals that we can, for example, chain consecutive plotting functions together with the <code>+</code> operator, each time adding a plot layer.</p>
+<p>While the above references explain <em>the language</em> of coding visualizations of data, other references explain <em>why</em> particular visual representations may be effective for data exploration. Unwin answers the <em>why</em>, blending theory and application with R in <a href="https://clio.columbia.edu/catalog/12354620"><em>Graphical Data Analysis with R</em> (CRC Press 2015)</a>, and Murray teaches interactive graphics using d3 (which R implements as <em>htmlwidgets</em>) in <a href="http://shop.oreilly.com/product/0636920037316.do"><em>Interactive Data Visualization for the Web</em>, 2nd Edition (O’Reilly 2017)</a>. Canonical references include Tukey’s <a href="https://clio.columbia.edu/catalog/4036966"><em>Exploratory Data Analysis</em> (Addison-Wesley 1977)</a>, Cleveland’s <a href="https://clio.columbia.edu/catalog/305073"><em>The Elements of Graphing Data</em> (Wadsworth 1985)</a> and <a href="https://clio.columbia.edu/catalog/1669019"><em>Visualizing Data</em> (Hobart Press 1993)</a>.</p>
+<p>Related work considers the effect of certain visualizations in aiding or obscuring the intended messages and explorations. These include Tufte’s <a href="https://clio.columbia.edu/catalog/195232"><em>The Visual Display of Quantitative Information</em> (Graphics Press 2001)</a>. Knaflic provides a modern retelling of Tufte’s ideas in <a href="https://clio.columbia.edu/catalog/12311716"><em>Storytelling with Data</em> (Wiley 2015)</a>. Both borrow from Bertin’s <a href="https://clio.columbia.edu/catalog/214112"><em>Semiology of Graphics</em> (University of Wisconsin Press 1983)</a>. Data visualization is communication, and that context is usefully set forth by Jean-luc Doumont in <a href="https://clio.columbia.edu/catalog/11663244"><em>Trees, maps, and theorems: Effective communication for rational minds</em> (Principiae 2009)</a>. Updated science of visual perception is in Ware’s <a href="https://clio.columbia.edu/catalog/9544096"><em>Information Visualization: perception for design</em>, Third Edition (Morgan Kaufmann 2013)</a>.</p>
+</div>
+<div id="organizing-data" class="section level1">
+<h1>Organizing Data</h1>
+<p>Statistical models and algorithms require the data be particularly structured or organized. Some may require a <em>wide</em> format, for example, while other models require data be in <em>long</em> format. Or they may require the data be <em>sorted</em> or <em>grouped</em>, <em>labeled</em> as <em>missing</em>, or otherwise <em>transformed</em>, such as working with <em>strings</em> and <em>data</em> formats. Along with R’s data structures for vectors and matrices, it provides <em>data frames</em> (<code>data.frame()</code>) and <em>lists</em> (<code>list()</code>) (both of which we used above), which are invaluable for data organization. R’s base functions and add-on packages — notably <code>plyr</code>, <code>dplyr</code>, <code>tidyr</code>, <code>reshape</code>, <code>stringr</code> — have functions to organize and transform.</p>
+<p>We can quickly reference the needed data munging functions in <a href="https://www.rstudio.com/resources/cheatsheets/"><em>RStudio</em>’s “cheat sheets”</a> or learn more about them from Grolemund and Wickham in <a href="http://r4ds.had.co.nz"><em>R for Data Science</em> (O’Reilly 2017)</a>. The two authors also recommend a systematic <em>workflow</em>, to which I’ll add,</p>
+<p><span class="math display">\[
+\textrm{Gather} \rightarrow \textrm{Import} \rightarrow \textrm{Tidy} \rightarrow \textrm{Repeat:}\left[ \textrm{Transform} \rightleftarrows \textrm{Visualize} \rightleftarrows \textrm{Model} \right] \rightarrow \textrm{Communicate}
+\]</span></p>
+</div>
+<div id="closing" class="section level1">
+<h1>Closing</h1>
+<p>The more we understand these languages and tools, the more success we will have in studying and implementing new tools of prediction and inference, as taught in the references mentioned in opening this paper and others like MacKay’s <a href="http://www.inference.org.uk/itprnn/book.pdf"><em>Information Theory, Inference, and Learning Algorithms</em> (Cambridge University Press 2003)</a> and Kuhn’s <a href="http://appliedpredictivemodeling.com"><em>Applied Predictive Modeling</em> (Springer 2013)</a>. At least until A.I. explains itself.</p>
+</div>

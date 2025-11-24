@@ -1,0 +1,18 @@
+<footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            {{ if .Site.Params.Author.name }}
+                <span><a href="{{ .Site.BaseURL }}">{{ .Site.Params.Author.name }}</a></span>
+            {{ end }}
+            <span>{{ .Site.Copyright| safeHTML }}</span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+        </div>
+    </div>
+    <script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</footer>

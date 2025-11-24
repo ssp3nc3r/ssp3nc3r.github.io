@@ -1,0 +1,67 @@
+---
+title: Coding custom distribution functions in Stan
+author: Scott Spencer
+date: '2021-02-18'
+slug: coding-custom-distribution-functions-in-stan
+categories: []
+tags:
+  - Stan
+  - Custom Distributions
+  - Probability Density Functions
+  - Cumulative Distribution Functions
+  - Weibull distribution
+  - Extreme value distribution
+draft: false
+comments: no
+images: ~
+---
+
+
+
+<p>The probabilistic programming language called <a href="https://mc-stan.org">Stan</a> is a powerful tools for modeling. It includes numerous distribution functions we can use to model. While it cannot include every conceivable distribution in its available functions, it does enable the next best thing: <em>we can code our own</em>!</p>
+<p>The Stan library does not, for example, currently include the <a href="https://en.wikipedia.org/wiki/Weibull_distribution#Related_distributions">three-parameter Weibull distribution</a>. In this tutorial, I’ll code its PDF and CDF to demonstrate coding custom distributions in Stan.</p>
+<p>The probability density function of the three-parameter Weibull includes a shape parameter <span class="math inline">\(\eta\)</span> &gt; 0, a scale parameter <span class="math inline">\(\lambda\)</span> &gt; 0, and a location parameter <span class="math inline">\(\theta\)</span> in the following form:</p>
+<p><span class="math display">\[
+f(x; \eta, \lambda, \theta) = \eta \lambda (x - \theta) ^{\lambda - 1} \cdot \exp(-\eta(x - \theta) ^ \lambda)
+\]</span></p>
+<p>And the cumulative distribution function fits the following form:</p>
+<p><span class="math display">\[
+F(x; \eta, \lambda, \theta) = 1 - \exp(-\eta(x - \theta)^\lambda)
+\]</span></p>
+<p>We can code these in Stan directly, but our most common use-case will be to use the log PDF or log CDF. The log of the above PDF is,</p>
+<p><span class="math display">\[
+f_{\log}(x; \eta, \lambda, \theta) = \log(\eta) + \log(\lambda) + (\lambda - 1) \log(x - \theta) - \eta (x - \theta) ^ \lambda
+\]</span></p>
+<p>And the log of the above CDF is,</p>
+<p><span class="math display">\[
+F_{\log}(x; \eta, \lambda, \theta) = \eta (x - \theta) ^ \lambda
+\]</span></p>
+<p>The Stan code will read very similarly to the math. We place this code into the beginning of a Stan program in a “block” called <code>functions {}</code>, shown below with the regular and log form of the PDF and CDF:</p>
+<pre><code>functions {
+
+  real weibull_pdf(data real x, real eta, real lambda, real theta) {
+    return eta * lambda * (x - theta) ^ (lambda - 1) * exp(-eta * (x - theta) ^ lambda);
+  }
+  
+  real weibull_cdf(data real x, real eta, real lambda, real theta) {
+    return 1 - exp(-eta * (x - theta) ^ lambda);
+  }
+  
+  real weibull_lpdf(data real x, real eta, real lambda, real theta) {
+    return log(eta) + log(lambda) - eta * (x - theta) ^ lambda + (lambda - 1) * log(x - theta);
+  } 
+
+  real weibull_lcdf(data real x, real eta, real lambda, real theta) {
+    return 1 - exp(-eta * (x - theta) ^ lambda);
+  }
+  
+}</code></pre>
+<p>That’s the bare minimum to get these working, though I also recommend adding code within the functions to test that <code>x</code> &gt; <span class="math inline">\(\theta\)</span>, <span class="math inline">\(\eta\)</span> &gt; 0, and <span class="math inline">\(\lambda\)</span> &gt; 0. We can accomplish that by include an <code>if</code> statement where, if true, we stop the sampling with a <code>reject</code> function.</p>
+<p>We may, of course, also vectorize these statements for convenience and efficiency<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. Once we have them coded, we can use them just like any other distribution statement in Stan. Happy coding.</p>
+<p>Stay curious!</p>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>If coding them this way, be sure to sum the vector before returning for use when adding it to the log likelihood.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>

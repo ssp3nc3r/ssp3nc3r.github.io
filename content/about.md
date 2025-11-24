@@ -20,4 +20,4 @@ To assist visual communication, I have developed R packages, including one for m
 
 Along with honors recognition for research and writing, my visualizations have been showcased and longlisted in the Kantar *Information is Beautiful* Awards, and my analyses won analytics competitions, including the Society for American Baseball Research's analytics competition, graduate division for my work involving human decision-making based on perception of spatial and temporal event information.
 
-Preferred tools include Stan, R (incl. tidyverse, plus advanced visualization packages), Git, Quarto, SQL, C++, macOS, Davinci Resolve, and more. Where appropriate, I'm also able to employ locally-hosted LLM, AI, and agentic CLI tooling to streamline workflow.
+Preferred tools include Stan, R (incl. tidyverse, plus advanced visualization packages), Git, Quarto, SQL, C++, macOS, Davinci Resolve, and more. Where appropriate, I employ my own locally-hosted LLM, AI, and agentic CLI tooling to streamline workflow.

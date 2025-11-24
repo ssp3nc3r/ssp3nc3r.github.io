@@ -9,6 +9,20 @@
     <lastBuildDate>Mon, 24 Nov 2025 14:36:39 -0500</lastBuildDate>
     <atom:link href="https://ssp3nc3r.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Education</title>
+      <link>https://ssp3nc3r.github.io/tags/education/</link>
+      <pubDate>Wed, 18 Jun 2025 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/tags/education/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Stan</title>
+      <link>https://ssp3nc3r.github.io/tags/stan/</link>
+      <pubDate>Wed, 18 Jun 2025 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/tags/stan/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Bayesian Data Analysis</title>
       <link>https://ssp3nc3r.github.io/tags/bayesian-data-analysis/</link>
       <pubDate>Wed, 08 Jan 2025 00:00:00 +0000</pubDate>
@@ -27,13 +41,6 @@
       <link>https://ssp3nc3r.github.io/tags/course/</link>
       <pubDate>Wed, 08 Jan 2025 00:00:00 +0000</pubDate>
       <guid>https://ssp3nc3r.github.io/tags/course/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Education</title>
-      <link>https://ssp3nc3r.github.io/tags/education/</link>
-      <pubDate>Wed, 08 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>https://ssp3nc3r.github.io/tags/education/</guid>
       <description></description>
     </item>
     <item>
@@ -111,13 +118,6 @@
       <link>https://ssp3nc3r.github.io/tags/random-forest/</link>
       <pubDate>Fri, 04 Oct 2024 00:00:00 +0000</pubDate>
       <guid>https://ssp3nc3r.github.io/tags/random-forest/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Stan</title>
-      <link>https://ssp3nc3r.github.io/tags/stan/</link>
-      <pubDate>Fri, 04 Oct 2024 00:00:00 +0000</pubDate>
-      <guid>https://ssp3nc3r.github.io/tags/stan/</guid>
       <description></description>
     </item>
     <item>

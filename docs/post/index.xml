@@ -9,6 +9,13 @@
     <lastBuildDate>Mon, 24 Nov 2025 14:36:39 -0500</lastBuildDate>
     <atom:link href="https://ssp3nc3r.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>My new advanced Stan course now live!</title>
+      <link>https://ssp3nc3r.github.io/post/new-advanced-stan-course-now-live/</link>
+      <pubDate>Wed, 18 Jun 2025 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/new-advanced-stan-course-now-live/</guid>
+      <description>&lt;p&gt;Finally! My second, advanced Stan course is ready: &lt;a href=&#34;https://athlyticz.com/stan-ii&#34;&gt;https://athlyticz.com/stan-ii&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;This course continues from where my first course ended, and took almost a year to develop the additional curricula, content, code, and videos that teach advanced Stan for Bayesian analysis in the context of sports examples.&lt;/p&gt;&#xA;&lt;p&gt;As with the first course, this course format teaches actual Stan code instead of a higher level interface, videos where you watch me live-code each model with function-by-function, line-by-line explanations in a hosted RStudio session where you can practice alongside me.&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>Online course development notes</title>
       <link>https://ssp3nc3r.github.io/post/online-course-development-notes/</link>
       <pubDate>Wed, 08 Jan 2025 00:00:00 +0000</pubDate>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cumulative Distribution Functions on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/tags/cumulative-distribution-functions/</link>
+    <description>Recent content in Cumulative Distribution Functions on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Nov 2025 11:17:09 -0500</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/cumulative-distribution-functions/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Coding custom distribution functions in Stan</title>
+      <link>https://ssp3nc3r.github.io/post/coding-custom-distribution-functions-in-stan/</link>
+      <pubDate>Thu, 18 Feb 2021 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/coding-custom-distribution-functions-in-stan/</guid>
+      <description>&lt;p&gt;The probabilistic programming language called &lt;a href=&#34;https://mc-stan.org&#34;&gt;Stan&lt;/a&gt; is a powerful tools for modeling. It includes numerous distribution functions we can use to model. While it cannot include every conceivable distribution in its available functions, it does enable the next best thing: &lt;em&gt;we can code our own&lt;/em&gt;!&lt;/p&gt;&#xA;&lt;p&gt;The Stan library does not, for example, currently include the &lt;a href=&#34;https://en.wikipedia.org/wiki/Weibull_distribution#Related_distributions&#34;&gt;three-parameter Weibull distribution&lt;/a&gt;. In this tutorial, I’ll code its PDF and CDF to demonstrate coding custom distributions in Stan.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

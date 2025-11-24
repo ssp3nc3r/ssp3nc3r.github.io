@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Video on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/categories/video/</link>
+    <description>Recent content in Video on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Nov 2025 11:23:15 -0500</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/categories/video/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Online course development notes</title>
+      <link>https://ssp3nc3r.github.io/post/online-course-development-notes/</link>
+      <pubDate>Wed, 08 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/online-course-development-notes/</guid>
+      <description>&lt;p&gt;I&amp;rsquo;ve completed pre-production on my second, advanced course &amp;mdash; &lt;em&gt;Becoming a Bayesian II&lt;/em&gt; &amp;mdash; which I intend to launch soon. As I move into production of the video material, I though it would be helpful to reflect on and share my approach last time, which resulted in launching &lt;em&gt;Becoming a Bayesian I.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;To produce the previous course &lt;em&gt;Becoming a Bayesian I&lt;/em&gt;, I generally followed the production workflow described below, which includes pre-production, production, and post-production. By pre-production, I&amp;rsquo;m referring to development of course script, code, and visuals. Production refers to recording the content onto video. And post-production refers to editing content.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

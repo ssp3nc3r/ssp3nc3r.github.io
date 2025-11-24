@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Run Expectancy on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/tags/run-expectancy/</link>
+    <description>Recent content in Run Expectancy on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Nov 2025 11:17:09 -0500</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/run-expectancy/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Estimating the marginal value of baseball events</title>
+      <link>https://ssp3nc3r.github.io/post/estimating-the-marginal-value-of-baseball-events/</link>
+      <pubDate>Sat, 08 Dec 2018 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/estimating-the-marginal-value-of-baseball-events/</guid>
+      <description>&lt;script src=&#34;https://ssp3nc3r.github.io/./rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;&#xA;&#xA;&#xA;&lt;p&gt;Teams score — or &lt;em&gt;don’t&lt;/em&gt; — event by event. Events change the state of the game. Solo home runs aside, whether a score results from any event depends upon prior events: &lt;em&gt;a batter’s double only “drives in a score” when an earlier batter made it on base.&lt;/em&gt; By the collection of events a player generates, or more accurately, by the change in expected runs to which they contribute, we can measure players offensive values.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Run Expectancy Distributions of MLB Game States</title>
+      <link>https://ssp3nc3r.github.io/post/2017-12-03-run-expectancy-distributions/</link>
+      <pubDate>Sun, 03 Dec 2017 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/2017-12-03-run-expectancy-distributions/</guid>
+      <description>&lt;div id=&#34;TOC&#34;&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#team-winsa-chain-of-player-events&#34;&gt;Team wins—a chain of player events&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#data-and-sources-for-estimating-run-expectancies&#34;&gt;Data and sources for estimating run expectancies&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#calculate-runs-scored-after-every-game-state-of-a-half-inning&#34;&gt;Calculate runs scored after every game state of a half inning&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#estimating-run-expectancy&#34;&gt;Estimating run expectancy&lt;/a&gt;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#preserving-and-understanding-uncertainty-of-our-estimates&#34;&gt;Preserving and understanding uncertainty of our estimates&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#in-half-innings-more-runs-occur-less-frequently&#34;&gt;In half innings, more runs occur less frequently&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#building-a-bayesian-run-expectancy-model&#34;&gt;Building a bayesian run expectancy model&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#model-summary&#34;&gt;Model summary&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#the-median-run-expectancy-matrix&#34;&gt;The median run expectancy matrix&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/div&gt;&#xA;&#xA;&lt;div id=&#34;team-winsa-chain-of-player-events&#34; class=&#34;section level1&#34;&gt;&#xA;&lt;h1&gt;Team wins—a chain of player events&lt;/h1&gt;&#xA;&lt;p&gt;The performance of a baseball player includes numerous on-field (and off-field) activities, roughly divided into skills of offensive (&lt;em&gt;e.g.&lt;/em&gt;, batting, baserunning) and defensive (&lt;em&gt;e.g.&lt;/em&gt;, pitching, fielding). The value of each skill depends upon its contribution to team wins, and wins are the difference in team score (runs). Breaking this down further, runs depend on advancing each half inning of baseball from one “state” to another. By state, we mean the base locations of any runners and the number of outs.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

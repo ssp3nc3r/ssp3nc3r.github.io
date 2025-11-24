@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Scott Spencer">
+<meta name="description" content="In the last post, I showed how we can speed up computation for splines in Stan. This post is, ahem, derivative. Perhaps we have noisy data of position and time, and we want to estimate speed and acceleration. We can use b-splines and their derivatives for this.
+So let’s pick up where we left off, and add calculations in Stan to calculate the first and second derivatives of the spline in Stan. Much of the code below mirrors that of the previous post. There are multiple approaches to calculating derivatives of splines. We can take the derivative of the basis functions (Rogers 2001, sec. 3.10 B-Spline Curve Derivatives) or we can difference the coefficients (Boor 2001, X. The Stable Evaluation of B-Splines and Splines). In the Stan functions block below, I’ve added calculations for the first and second derivatives of the basis functions.
+" />
+<meta name="keywords" content="Scott Spencer, statistical, generative modeling, bayesian inference, writing, data visualization, sports, columbia university, Stan, splines, derivatives" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="https://ssp3nc3r.github.io/post/derivative-work-on-speedy-splines/" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1V94CLF78W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1V94CLF78W');
+</script>
+
+
+    <title>
+        
+            Speedy splines part two, derivative work :: p( ssp3nc3r | Columbian ) 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.d814cf833213d446ba235aa22dd9d7b7ea71e9f96be092ffac602d0030f4f2c2.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://ssp3nc3r.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://ssp3nc3r.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://ssp3nc3r.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://ssp3nc3r.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://ssp3nc3r.github.io/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="https://ssp3nc3r.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+
+  <meta itemprop="name" content="Speedy splines part two, derivative work">
+  <meta itemprop="description" content="In the last post, I showed how we can speed up computation for splines in Stan. This post is, ahem, derivative. Perhaps we have noisy data of position and time, and we want to estimate speed and acceleration. We can use b-splines and their derivatives for this.
+So let’s pick up where we left off, and add calculations in Stan to calculate the first and second derivatives of the spline in Stan. Much of the code below mirrors that of the previous post. There are multiple approaches to calculating derivatives of splines. We can take the derivative of the basis functions (Rogers 2001, sec. 3.10 B-Spline Curve Derivatives) or we can difference the coefficients (Boor 2001, X. The Stable Evaluation of B-Splines and Splines). In the Stan functions block below, I’ve added calculations for the first and second derivatives of the basis functions.">
+  <meta itemprop="datePublished" content="2023-08-31T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-11-24T11:17:09-05:00">
+  <meta itemprop="wordCount" content="944">
+  <meta itemprop="image" content="https://ssp3nc3r.github.io/">
+  <meta itemprop="keywords" content="Stan,Splines,Derivatives">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ssp3nc3r.github.io/">
+  <meta name="twitter:title" content="Speedy splines part two, derivative work">
+  <meta name="twitter:description" content="In the last post, I showed how we can speed up computation for splines in Stan. This post is, ahem, derivative. Perhaps we have noisy data of position and time, and we want to estimate speed and acceleration. We can use b-splines and their derivatives for this.
+So let’s pick up where we left off, and add calculations in Stan to calculate the first and second derivatives of the spline in Stan. Much of the code below mirrors that of the previous post. There are multiple approaches to calculating derivatives of splines. We can take the derivative of the basis functions (Rogers 2001, sec. 3.10 B-Spline Curve Derivatives) or we can difference the coefficients (Boor 2001, X. The Stable Evaluation of B-Splines and Splines). In the Stan functions block below, I’ve added calculations for the first and second derivatives of the basis functions.">
+
+
+
+    <meta property="article:section" content="Stan" />
+
+    <meta property="article:section" content="splines" />
+
+    <meta property="article:section" content="derivatives" />
+
+
+
+    <meta property="article:published_time" content="2023-08-31 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://ssp3nc3r.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#67a2c9;
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://ssp3nc3r.github.io/about/">About</a></li><li><a href="https://ssp3nc3r.github.io/post/">Blog</a></li><li><a href="https://ssp3nc3r.github.io/publications/">Publications</a></li><li><a href="https://ssp3nc3r.github.io/teaching/">Teaching</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://ssp3nc3r.github.io/post/derivative-work-on-speedy-splines/">Speedy splines part two, derivative work</a></h2>
+
+            
+
+            <div class="post-content">
+                
+
+
+<p>In the last post, I showed how we can speed up computation for splines in Stan. This post is, ahem, derivative. Perhaps we have noisy data of position and time, and we want to estimate speed and acceleration. We can use b-splines and their derivatives for this.</p>
+<p>So let’s pick up where we left off, and add calculations in Stan to calculate the first and second derivatives of the spline in Stan. Much of the code below mirrors that of the previous post. There are multiple approaches to calculating derivatives of splines. We can take the derivative of the basis functions <span class="citation">(<a href="#ref-rogers2001">Rogers 2001, sec. 3.10</a> B-Spline Curve Derivatives)</span> or we can difference the coefficients <span class="citation">(<a href="#ref-deboor2001">Boor 2001</a>, X. The Stable Evaluation of B-Splines and Splines)</span>. In the Stan functions block below, I’ve added calculations for the first and second derivatives of the basis functions.</p>
+<pre class="stan"><code>
+functions {
+  
+  tuple(vector, vector, vector) build_b_spline(vector x, array[] real ext_knots, 
+                        int ind, int k) {
+    
+    int n_x = size(x);
+    vector[n_x] zeros = rep_vector(0, n_x);
+    // basis functions &amp; weights
+    vector[n_x] d0, w1 = zeros, w2 = zeros;
+    // first derivative &amp; weights
+    vector[n_x] d1, f1 = zeros, f2 = zeros, f3 = zeros, f4 = zeros;
+    // second derivative &amp; weights
+    vector[n_x] d2, s1 = zeros, s2 = zeros, s3 = zeros, s4 = zeros;
+    
+    if (k == 1) {
+      
+      // first order splines
+      for (i in 1:n_x) {
+        d0[i] = (ext_knots[ind] &lt;= x[i]) &amp;&amp; (x[i] &lt; ext_knots[ind + 1]); 
+        d1[i] = 0;
+        d2[i] = 0;
+      }
+        
+    } else {
+    
+      // calculate weights for b, b&#39;, b&quot;
+      if (ext_knots[ind] != ext_knots[ind + k - 1]) {
+        w1 = (x - rep_vector(ext_knots[ind], n_x))   
+           / (ext_knots[ind + k - 1] - ext_knots[ind]);
+        f1 = rep_vector(1, n_x) 
+           / (ext_knots[ind + k - 1] - ext_knots[ind]);
+        f3 = w1;
+        s1 = rep_vector(2, n_x) 
+           / (ext_knots[ind + k - 1] - ext_knots[ind]);
+        s3 = w1;
+      }
+      
+      if (ext_knots[ind + 1] != ext_knots[ind + k]) {
+        w2 = 1 - (x - rep_vector(ext_knots[ind + 1], n_x)) 
+           / (ext_knots[ind + k] - ext_knots[ind + 1]);
+        f2 = rep_vector(-1, n_x) 
+           / (ext_knots[ind + k] - ext_knots[ind + 1]);
+        f4 = w2;
+        s2 = rep_vector(-2, n_x) 
+           / (ext_knots[ind + k] - ext_knots[ind + 1]);
+        s4 = w2;
+      }
+
+      // calculate b, b&#39;, b&quot;
+      tuple(vector[n_x], vector[n_x], vector[n_x]) b1 = 
+        build_b_spline(x, ext_knots, ind, k - 1);
+      tuple(vector[n_x], vector[n_x], vector[n_x]) b2 = 
+        build_b_spline(x, ext_knots, ind + 1, k - 1);
+      
+      d0 = w1 .* b1.1 + w2 .* b2.1;
+      d1 = f1 .* b1.1 + f2 .* b2.1 + f3 .* b1.2 + f4 .* b2.2;
+      d2 = s1 .* b1.2 + s2 .* b2.2 + s3 .* b1.3 + s4 .* b2.3;
+    }
+
+    return( (d0, d1, d2) );
+  
+  }
+  
+
+  tuple(matrix, matrix, matrix) build_B(int degree, int T, array[] real t, 
+                 int X, vector x) {
+    
+    tuple(matrix[T + degree - 1, X],
+          matrix[T + degree - 1, X],
+          matrix[T + degree - 1, X]) B;
+    
+    tuple(vector[X], vector[X], vector[X]) bv;
+    
+    array[2 * degree + T] real ext_knots =
+    append_array(append_array(rep_array(t[1], degree), t), rep_array(t[T], degree));
+    for (ind in 1:(T + degree - 1)) {
+      bv = build_b_spline(x, ext_knots, ind, degree + 1);
+      B.1[ind,:] = to_row_vector(bv.1);
+      B.2[ind,:] = to_row_vector(bv.2);
+      B.3[ind,:] = to_row_vector(bv.3);
+    }
+      
+    B.1[T + degree - 1, X] = 1;
+  
+    return B;
+  }
+  
+  
+}
+
+
+data {
+  
+  int&lt;lower=1&gt; X;                 // number of times measured
+  vector[X] x;                    // each time point measured
+  vector[X] y;                    // the measurement at each time point x
+  
+  int&lt;lower=1&gt; T;                 // number of knots
+  array[2] real xb;               // boundary knot locations (outside data)
+  int&lt;lower=1&gt; degree;            // degree of the spline
+  int&lt;lower=0,upper=1&gt; penalized; // whether to use prior for smoothing
+  
+}
+
+
+transformed data {
+  
+  // T number of knots t created at evenly-spaced quantiles of data x
+  array[T] real p;
+  for(i in 1:T) p[i] = (i - 1.0) / (T-1.0);
+  array[T] real t = quantile(append_row(xb[1], append_row(x, xb[2])), p);
+
+  // build the spline matrix B, B&#39;, and B&quot; and decompose B
+  int n_basis = T + degree - 1; 
+  
+  tuple(matrix[n_basis, X],
+        matrix[n_basis, X],
+        matrix[n_basis, X]) B = build_B(degree, T, t, X, x);
+  
+  matrix[X, n_basis] Q_ast = qr_thin_Q(B.1&#39;) * sqrt(X - 1);
+  matrix[n_basis, n_basis] R_ast = qr_thin_R(B.1&#39;) / sqrt(X - 1);
+  matrix[n_basis, n_basis] R_ast_inverse = inverse(R_ast);
+  
+  // helpers
+  vector[X] zeros_X = rep_vector(0, X);
+}
+
+
+parameters {
+  
+  vector[n_basis] theta_raw; // coefficients on Q_ast
+  real&lt;lower=0&gt; sigma;       // scale of the variation
+  real&lt;lower=0&gt; tau;         // penalization on wiggles
+  
+}
+
+
+transformed parameters {
+  
+  // coefficients for Q_ast, orthogonal 
+  // projection of basis function B
+  vector[n_basis] alpha;
+  
+  // random walk to smooth &quot;wigglyness&quot;
+  if(penalized) {
+    alpha[1] = theta_raw[1];
+    for(i in 2:n_basis) alpha[i] = alpha[i-1] + theta_raw[i] * tau;
+  } else {
+    alpha = theta_raw * tau;
+  }
+
+}
+
+
+model {
+  
+  theta_raw ~ normal(0, 1);
+  tau ~ normal(0, 1);
+  sigma ~ exponential(1);  
+  y ~ normal_id_glm(Q_ast, zeros_X, alpha, sigma);
+
+}
+
+
+generated quantities {
+  
+  vector[n_basis] beta = R_ast_inverse * alpha;
+  vector[X] y_hat = B.1&#39; * beta;
+  vector[X] dydt1 = B.2&#39; * beta;
+  vector[X] dydt2 = B.3&#39; * beta;
+  
+}
+</code></pre>
+<p>To calculate the derivative basis functions, we simply pass in which derivative we want to the main function <code>build_B</code>, where <code>deriv</code> <span class="math inline">\(\in \{0,1,2\}\)</span> for none, first, and second derivative, respectively.</p>
+<p>To demonstrate, the program above calculates all three, the basis function, the first derivative, and the second derivative in the transformed data block.</p>
+<p>Then, to estimate those derivatives, we matrix multiply those with our coefficients, here <code>beta</code>, which I’ve calculated in generated quantities.</p>
+<p>Let’s see how the <span style="color:darkorange">first</span> and <span style="color:steelblue">second</span> derivative estimates play out from the simulated data of the last post:</p>
+<p><img src="https://ssp3nc3r.github.io/post/derivative-work-on-speedy-splines/index_files/figure-html/position-1.png" width="672" /></p>
+<p><img src="https://ssp3nc3r.github.io/post/derivative-work-on-speedy-splines/index_files/figure-html/velocity-1.png" width="672" /></p>
+<p><img src="https://ssp3nc3r.github.io/post/derivative-work-on-speedy-splines/index_files/figure-html/acceleration-1.png" width="672" /></p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-deboor2001" class="csl-entry">
+Boor, Carl de. 2001. <em>A Practical Guide to Splines</em>. Revised Edition. Vol. 27. Applied Mathematical Sciences. New York: Springer-Verlag.
+</div>
+<div id="ref-rogers2001" class="csl-entry">
+Rogers, David F. 2001. <em>An Introduction to NURBS: With Historical Perspective</em>. San Francisco: Morgan Kaufmann Publishers.
+</div>
+</div>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ssp3nc3r.github.io/tags/stan">Stan</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/splines">splines</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/derivatives">derivatives</a></span>
+  				</p>
+			    <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-git-commit"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17.01" y1="12" x2="22.96" y2="12"></line></svg><a href="b1c91be2edb7e698ec54d8be08346568c51248a4" target="_blank" rel="noopener">b1c91be</a> @ 2025-11-24</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+        </div>
+    </div>
+    <script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="https://ssp3nc3r.github.io/bundle.min.74fe699bb673e8362137b575513abfcf73303855d923eea09c0e507deab0ca7f8321880b672790b9e63cc109a18189deebfd13899a8ff536e858791973ffd487.js" integrity="sha512-dP5pm7Zz6DYhN7V1UTq/z3MwOFXZI&#43;6gnA5Qfeqwyn&#43;DIYgLZyeQueY8wQmhgYne6/0TiZqP9TboWHkZc//Uhw=="></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'G-1V94CLF78W', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+
+    </body>
+</html>

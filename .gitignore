@@ -1,5 +1,5 @@
 # Hugo build artifacts
-/public/
+# Note: public/ is NOT ignored because GitHub Pages serves from it
 /resources/_gen/
 .hugo_build.lock
 

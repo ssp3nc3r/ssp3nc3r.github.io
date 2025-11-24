@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Package Build">
+<meta name="description" content="In this post, I want to address why Bayesian modeling approaches, especially those implemented in Stan, should be considered as a valid alternative to common machine learning techniques in sports analytics. Specifically, I’ll focus on a well-established criterion for model evaluation: leave-one-out cross-validation (LOO-CV) and its use to calculate the expected log predictive density (ELPD). This scoring rule measures how well a model predicts unseen data. If you’d like a deeper explanation of ELPD and its interpretation in the context of this example, I’ll include one in an appendix at the end.
+" />
+<meta name="keywords" content="Scott Spencer, statistical, generative modeling, bayesian inference, writing, data visualization, sports, columbia university, Stan, Bayesian, Random Forest, Gaussian processes, LOO-CV, ELPD, Jensen&#39;s inequality" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="https://ssp3nc3r.github.io/post/lost-in-the-forest/" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1V94CLF78W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1V94CLF78W');
+</script>
+
+
+    <title>
+        
+            Lost in the forest :: p( ssp3nc3r | Columbian ) 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.d814cf833213d446ba235aa22dd9d7b7ea71e9f96be092ffac602d0030f4f2c2.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://ssp3nc3r.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://ssp3nc3r.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://ssp3nc3r.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://ssp3nc3r.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://ssp3nc3r.github.io/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="https://ssp3nc3r.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+
+  <meta itemprop="name" content="Lost in the forest">
+  <meta itemprop="description" content="In this post, I want to address why Bayesian modeling approaches, especially those implemented in Stan, should be considered as a valid alternative to common machine learning techniques in sports analytics. Specifically, I’ll focus on a well-established criterion for model evaluation: leave-one-out cross-validation (LOO-CV) and its use to calculate the expected log predictive density (ELPD). This scoring rule measures how well a model predicts unseen data. If you’d like a deeper explanation of ELPD and its interpretation in the context of this example, I’ll include one in an appendix at the end.">
+  <meta itemprop="datePublished" content="2024-10-04T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-11-24T11:17:09-05:00">
+  <meta itemprop="wordCount" content="1558">
+  <meta itemprop="image" content="https://ssp3nc3r.github.io/">
+  <meta itemprop="keywords" content="Stan,Bayesian,Random Forest,Gaussian Processes,LOO-CV,ELPD,Jensen&#39;s Inequality">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ssp3nc3r.github.io/">
+  <meta name="twitter:title" content="Lost in the forest">
+  <meta name="twitter:description" content="In this post, I want to address why Bayesian modeling approaches, especially those implemented in Stan, should be considered as a valid alternative to common machine learning techniques in sports analytics. Specifically, I’ll focus on a well-established criterion for model evaluation: leave-one-out cross-validation (LOO-CV) and its use to calculate the expected log predictive density (ELPD). This scoring rule measures how well a model predicts unseen data. If you’d like a deeper explanation of ELPD and its interpretation in the context of this example, I’ll include one in an appendix at the end.">
+
+
+
+    <meta property="article:section" content="Stan" />
+
+    <meta property="article:section" content="Bayesian" />
+
+    <meta property="article:section" content="Gaussian processes" />
+
+    <meta property="article:section" content="Random Forest" />
+
+    <meta property="article:section" content="LOO-CV" />
+
+    <meta property="article:section" content="ELPD" />
+
+    <meta property="article:section" content="Jensen&#39;s inequality" />
+
+
+
+    <meta property="article:published_time" content="2024-10-04 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://ssp3nc3r.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#67a2c9;
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://ssp3nc3r.github.io/about/">About</a></li><li><a href="https://ssp3nc3r.github.io/post/">Blog</a></li><li><a href="https://ssp3nc3r.github.io/publications/">Publications</a></li><li><a href="https://ssp3nc3r.github.io/teaching/">Teaching</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://ssp3nc3r.github.io/post/lost-in-the-forest/">Lost in the forest</a></h2>
+
+            
+
+            <div class="post-content">
+                
+
+
+<p>In this post, I want to address why Bayesian modeling approaches, especially those implemented in Stan, should be considered as a valid alternative to common machine learning techniques in sports analytics. Specifically, I’ll focus on a well-established criterion for model evaluation: leave-one-out cross-validation (LOO-CV) and its use to calculate the expected log predictive density (ELPD). This scoring rule measures how well a model predicts unseen data. If you’d like a deeper explanation of ELPD and its interpretation in the context of this example, I’ll include one in an appendix at the end.</p>
+<p>Let’s begin by generating some simple, non-linear data:</p>
+<pre class="r"><code>set.seed(123)
+N &lt;- 200
+x &lt;- runif(N, -3, 3)
+y &lt;- sin(x) + rnorm(N, sd = 0.3)
+df &lt;- data.frame(x = x, y = y)</code></pre>
+<p>Here’s what our data looks like:</p>
+<p><img src="https://ssp3nc3r.github.io/post/lost-in-the-forest/index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<div id="modeling-with-random-forests" class="section level2">
+<h2>Modeling with Random Forests</h2>
+<p>Now, let’s try fitting a random forest model, a popular machine learning method. Random forests, while useful for finding patterns, don’t explicitly model uncertainty in predictions. Nevertheless, we can approximate the ELPD by predicting the mean and variance across trees:</p>
+<pre class="r"><code>library(randomForest)
+
+predict_with_variance &lt;- function(rf_model, newdata) {
+  all_tree_preds &lt;- predict(rf_model, newdata = newdata, predict.all = TRUE)$individual
+  pred_mean &lt;- rowMeans(all_tree_preds)
+  pred_var &lt;- apply(all_tree_preds, 1, var)
+  return(list(mean = pred_mean, variance = pred_var))
+}</code></pre>
+<p>To calculate LOO-CV for the random forest model, we iteratively refit the model on training data with one observation left out at a time, predicting the left-out observation and accumulating the log-likelihood of the predictions:</p>
+<pre class="r"><code>loo_cv_random_forest &lt;- function(data) {
+  n &lt;- nrow(data)
+  log_lik &lt;- numeric(n)
+  
+  for (i in 1:n) {
+    train_data &lt;- data[-i, ]
+    test_data &lt;- data[i, , drop = FALSE]
+    rf_model &lt;- randomForest(y ~ x, data = train_data)
+    pred_with_var &lt;- predict_with_variance(rf_model, newdata = test_data)
+    log_lik[i] &lt;- dnorm(test_data$y, mean = pred_with_var$mean, sd = sqrt(pred_with_var$variance), log = TRUE)
+  }
+  
+  return(sum(log_lik))
+}</code></pre>
+<p>Here’s the result for the random forest’s approximate LOO-CV ELPD:</p>
+<pre class="r"><code>approx_elpd_loo &lt;- loo_cv_random_forest(df)
+approx_elpd_loo</code></pre>
+<pre><code>## [1] -393.1147</code></pre>
+</div>
+<div id="bayesian-gaussian-process-in-stan" class="section level2">
+<h2>Bayesian Gaussian Process in Stan</h2>
+<p>Next, let’s use a Bayesian approach. Specifically, we’ll fit the same data with a Gaussian process model using Stan, a flexible and probabilistic programming language that allows us to properly account for uncertainty. Nothing fancy, we’ll just grab the basic model <a href="https://mc-stan.org/docs/stan-users-guide/gaussian-processes.html#fit-gp.section">described in the Stan User Guide</a>:</p>
+<pre class="stan"><code>data {
+  int&lt;lower=1&gt; N;
+  array[N] real x;
+  vector[N] y;
+}
+transformed data {
+  real delta = 1e-9;
+}
+parameters {
+  real&lt;lower=0&gt; rho;
+  real&lt;lower=0&gt; alpha;
+  real&lt;lower=0&gt; sigma;
+  vector[N] eta;
+}
+model {
+  vector[N] f;
+  {
+    matrix[N, N] L_K;
+    matrix[N, N] K = gp_exp_quad_cov(x, alpha, rho);
+
+    // diagonal elements
+    for (n in 1:N) {
+      K[n, n] = K[n, n] + delta;
+    }
+
+    L_K = cholesky_decompose(K);
+    f = L_K * eta;
+  }
+
+  rho ~ inv_gamma(5, 5);
+  alpha ~ std_normal();
+  sigma ~ std_normal();
+  eta ~ std_normal();
+
+  y ~ normal(f, sigma);
+}
+
+generated quantities {
+  
+    vector[N] f;
+  {
+    matrix[N, N] L_K;
+    matrix[N, N] K = gp_exp_quad_cov(x, alpha, rho);
+
+    // diagonal elements
+    for (n in 1:N) {
+      K[n, n] = K[n, n] + delta;
+    }
+
+    L_K = cholesky_decompose(K);
+    f = L_K * eta;
+  }
+  
+  vector[N] log_lik;
+  for (n in 1:N) {
+    log_lik[n] = normal_lpdf(y[n] | f[n], sigma);
+  }
+  
+  array[N] real y_pred = normal_rng(f, sigma);
+}</code></pre>
+<p>After fitting the model with Stan, we calculate the LOO-CV ELPD, where uncertainty is fully propagated through the model:</p>
+<pre class="r"><code>library(cmdstanr)
+
+dat &lt;- list(N = N, x = x, y = y)
+
+m &lt;- cmdstan_model(&#39;basic_gp.stan&#39;)
+f &lt;- m$sample(data = dat, adapt_delta = 0.99, refresh = 0)</code></pre>
+<pre class="r"><code>f$loo(cores = 4)</code></pre>
+<pre><code>
+Computed from 4000 by 200 log-likelihood matrix.
+
+         Estimate   SE
+elpd_loo    -41.0 10.0
+p_loo         8.2  1.4
+looic        82.1 20.0
+------
+MCSE of elpd_loo is 0.1.
+MCSE and ESS estimates assume MCMC draws (r_eff in [0.8, 1.7]).
+
+All Pareto k estimates are good (k &lt; 0.7).
+See help(&#39;pareto-k-diagnostic&#39;) for details.</code></pre>
+</div>
+<div id="the-result-why-bayesian-methods-win" class="section level2">
+<h2>The Result: Why Bayesian Methods Win</h2>
+<p>When comparing the LOO-CV ELPD from the random forest to that of the Bayesian Gaussian process, the difference is stark. The ELPD tells us how well the model generalizes to unseen data. The Bayesian model produces a much higher ELPD, meaning it makes better probabilistic predictions.</p>
+<p>Now, let’s discuss why this happens. A key concept in understanding this is <a href="https://en.wikipedia.org/wiki/Jensen%27s_inequality">Jensen’s inequality</a>, which states that:</p>
+<p><span class="math display">\[
+\mathbb{E}[f(X)] \neq f(\mathbb{E}[X])
+\]</span>
+for a convex or concave function <span class="math inline">\(f\)</span>. In other words, the expected value of a function of a random variable is not necessarily the function of the expected value of the random variable. This becomes important in machine learning models, where people often use point estimates as inputs to non-linear models like random forests.</p>
+<p>When random forests predict an outcome, they use the mean prediction from many trees. However, due to Jensen’s inequality, using the mean prediction can lead to biased estimates in the presence of non-linearity, because the variance in the model is not properly accounted for. Bayesian methods avoid this issue by directly modeling the full probability distribution rather than a point estimate.</p>
+<p>By using a Bayesian approach, not only do we achieve better predictive performance as shown by ELPD, but we also gain the advantage of interpreting results in a probabilistic framework. This can provide deeper insights into the data, offer reliable uncertainty quantification, and ultimately lead to more informed decision-making in sports analytics.</p>
+<p>Let’s not get lost in the forest. If you’re interested in learning more about Bayesian methods and Stan, feel free to join me in my online Bayesian data analysis course using Stan: <a href="https://athlyticz.com/stan-i" class="uri">https://athlyticz.com/stan-i</a></p>
+</div>
+<div id="appendix-a-deeper-look-at-loo-cv-elpd" class="section level2">
+<h2>Appendix: a deeper look at LOO-CV ELPD</h2>
+<p>As mentioned, Expected Log Predictive Density (ELPD) is a scoring rule used to evaluate the predictive performance of statistical models, especially in Bayesian settings. It combines elements of how well a model fits the data and how well it generalizes to unseen data, making it especially useful for model comparison.</p>
+<p>The ELPD essentially evaluates the average log probability of the observed data points under the model’s predictive distribution. More formally:</p>
+<p><span class="math display">\[
+\text{ELPD} = \sum_{i=1}^N \log(y_i \mid \text{model} )
+\]</span></p>
+<p>where:</p>
+<ul>
+<li><p><span class="math inline">\(y_i\)</span> is the observed data point,</p></li>
+<li><p><span class="math inline">\(p(y_i \mid \text{model})\)</span> is the predicted probability of observing <span class="math inline">\(y_i\)</span>, based on the model’s posterior predictive distribution.</p></li>
+</ul>
+<p>The <strong>log probability</strong> measures the likelihood of observing the actual data point <span class="math inline">\(y_i\)</span> given the model’s predictions. Higher values indicate better predictions (<em>i.e.</em>, the model assigns high probability to the observed data). That it’s <strong>expected</strong> reflects the average predictive distribution for unseen data, taking into account the uncertainty in the model parameters. ELPD is typically reported in <strong>log units</strong>. Since it sums log-probabilities across data points, the total ELPD can be thought of as the average log-probability that the model assigns to each observation.</p>
+<p>A higher (less negative) ELPD indicates a better predictive model. It show that the model is assigning relatively higher probabilities to observed data points. The scale of ELPD is influenced by the number of observations <span class="math inline">\(N\)</span>. This means that in practice, ELPD tends to be lower (<em>i.e.</em>, more negative) for larger datasets. It can be normalized by dividing by <span class="math inline">\(N\)</span> to give an <strong>average log predictive density per observation</strong>.</p>
+<p>In practice, especially when evaluating model generalization, we often compute ELPD using <strong>leave-one-out cross validation (LOO-CV)</strong>. The process looks like this: for each data point <span class="math inline">\(y_i\)</span>, fit the model using all other data points except <span class="math inline">\(y_i\)</span>. Predict <span class="math inline">\(y_i\)</span> using this model, and calculate its log predictive density. Sum the log densities over all data points.</p>
+<p>LOO-CV provides a more honest estimate of ELPD by mimicking out-of-sample prediction. ELPD is commonly used to compare models. Given two models, the one with a higher ELPD is considered to have better out-of-sample predictive performance. When comparing models, the difference in their ELPD scores helps us assess which model generalizes better to new data.</p>
+<div id="example-comparing-the-random-forest-and-the-stan-model" class="section level3">
+<h3>Example comparing the random forest and the Stan model</h3>
+<p>Let’s consider the two LOO-CV ELPD scores from the random forest model and the Bayesian Gaussian process, both pretty much right out of the box, so to speak:</p>
+<p>For <span class="math inline">\(N=200\)</span> observations, if the ELPD values are −393 for the random forest and −41 for the Stan model, here’s how to compute the average log predictive density per observation:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{Average log predictive density (random forest)} &amp;= \frac{-393}{200} = -1.965 \\
+\text{Average log predictive density (Stan)} &amp;= \frac{-41}{200} = -0.205 \\
+\end{aligned}
+\]</span></p>
+</div>
+<div id="interpretation-of-the-average-log-predictive-density" class="section level3">
+<h3>Interpretation of the Average Log Predictive Density</h3>
+<p>The average log predictive density reflects how well the model predicts individual data points, on average. Larger values (closer to 0) are better, meaning the model assigns higher probabilities to the observed outcomes. With an average log predictive density of −1.965, the random forest model is assigning lower probabilities (closer to zero) to each observed data point, suggesting that its predictions are relatively poor. With an average log predictive density of −0.205, the Bayesian model is assigning much higher probabilities to each data point, meaning its predictions are much more accurate. You can convert the average log predictive density into an average probability (although this is less common) by exponentiating the value:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{Average probability (random forest)} &amp;= \exp(-1.965) \approx 0.14 \\
+\text{Average probability (Stan)} &amp;= \exp(-0.205) \approx 0.82 \\
+\end{aligned}
+\]</span>
+The average probability tells you, roughly, how confident the model is in predicting the actual observed values. A higher average probability means the model is much better at capturing the true underlying data-generating process. In this case, the Stan model is far superior to the random forest. This kind of analysis reinforces why ELPD is such a valuable metric for comparing models—particularly in terms of generalization and predictive performance.</p>
+</div>
+</div>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ssp3nc3r.github.io/tags/stan">Stan</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/bayesian">Bayesian</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/random-forest">Random Forest</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/gaussian-processes">Gaussian processes</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/loo-cv">LOO-CV</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/elpd">ELPD</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/jensens-inequality">Jensen&#39;s inequality</a></span>
+  				</p>
+			    <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-git-commit"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17.01" y1="12" x2="22.96" y2="12"></line></svg><a href="b1c91be2edb7e698ec54d8be08346568c51248a4" target="_blank" rel="noopener">b1c91be</a> @ 2025-11-24</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+        </div>
+    </div>
+    <script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="https://ssp3nc3r.github.io/bundle.min.74fe699bb673e8362137b575513abfcf73303855d923eea09c0e507deab0ca7f8321880b672790b9e63cc109a18189deebfd13899a8ff536e858791973ffd487.js" integrity="sha512-dP5pm7Zz6DYhN7V1UTq/z3MwOFXZI&#43;6gnA5Qfeqwyn&#43;DIYgLZyeQueY8wQmhgYne6/0TiZqP9TboWHkZc//Uhw=="></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'G-1V94CLF78W', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+
+    </body>
+</html>

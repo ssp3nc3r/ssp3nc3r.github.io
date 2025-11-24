@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Platoon Advantage on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/categories/platoon-advantage/</link>
+    <description>Recent content in Platoon Advantage on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Nov 2025 11:17:09 -0500</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/categories/platoon-advantage/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Pitch selection to maximize motion-in-depth variation</title>
+      <link>https://ssp3nc3r.github.io/post/pitch-selection-to-maximize-motion-in-depth/</link>
+      <pubDate>Wed, 29 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/pitch-selection-to-maximize-motion-in-depth/</guid>
+      <description>&lt;p&gt;Those in baseball are well aware of the concept of platoon advantage: batters tend to have an advantage when facing pitchers of the opposite handedness. But knowledge of a platoon advantage may go beyond choice of relief pitchers on the mound to matchup with the upcoming lineup of power batters. It may inform, among other things, pitching strategy.&lt;/p&gt;&#xA;&lt;p&gt;Considering reasons behind the phenomenon, it may be explained by the greater relative variation in movement of the ball inside a batter’s &lt;strong&gt;plane of sight&lt;/strong&gt;, which I’ll define in a moment, while same-handed pitchers tend to keep the ball’s trajectory more aligned with that plane, making it harder to perceive lateral movement.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

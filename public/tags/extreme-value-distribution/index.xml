@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Extreme Value Distribution on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/tags/extreme-value-distribution/</link>
+    <description>Recent content in Extreme Value Distribution on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Nov 2025 11:17:09 -0500</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/extreme-value-distribution/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Generating random numbers from custom distributions</title>
+      <link>https://ssp3nc3r.github.io/post/generating-random-numbers-from-custom-distributions/</link>
+      <pubDate>Fri, 05 Nov 2021 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/generating-random-numbers-from-custom-distributions/</guid>
+      <description>&lt;p&gt;In an earlier post, I explained how to code custom distributions for use in modeling using the programming language Stan. Expanding upon that post, here, I’ll demonstrate how we code a function to generate random values from those distributions.&lt;/p&gt;&#xA;&lt;p&gt;One direct approach just involves a bit of algebra. As in the earlier post, I’ll again use the three-parameter Weibull distribution. Generally, in the first step, we can set the CDF of the distribution equal to a random value from, say, a uniform distribution &lt;span class=&#34;math inline&#34;&gt;\(u \in [0, 1]\)&lt;/span&gt;, like so:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Coding custom distribution functions in Stan</title>
+      <link>https://ssp3nc3r.github.io/post/coding-custom-distribution-functions-in-stan/</link>
+      <pubDate>Thu, 18 Feb 2021 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/coding-custom-distribution-functions-in-stan/</guid>
+      <description>&lt;p&gt;The probabilistic programming language called &lt;a href=&#34;https://mc-stan.org&#34;&gt;Stan&lt;/a&gt; is a powerful tools for modeling. It includes numerous distribution functions we can use to model. While it cannot include every conceivable distribution in its available functions, it does enable the next best thing: &lt;em&gt;we can code our own&lt;/em&gt;!&lt;/p&gt;&#xA;&lt;p&gt;The Stan library does not, for example, currently include the &lt;a href=&#34;https://en.wikipedia.org/wiki/Weibull_distribution#Related_distributions&#34;&gt;three-parameter Weibull distribution&lt;/a&gt;. In this tutorial, I’ll code its PDF and CDF to demonstrate coding custom distributions in Stan.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

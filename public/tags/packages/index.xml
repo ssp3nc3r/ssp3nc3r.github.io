@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Packages on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/tags/packages/</link>
+    <description>Recent content in Packages on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Nov 2025 11:23:15 -0500</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/packages/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ggSankeyGrad: an R package to create a ggplot-based sankey graphic that encodes flows with color gradients</title>
+      <link>https://ssp3nc3r.github.io/post/2020-03-30-r-package-to-create-a-ggplot-based-sankey-graphic-that-encodes-flows-with-a-color-gradient/</link>
+      <pubDate>Mon, 30 Mar 2020 17:05:13 -0400</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/2020-03-30-r-package-to-create-a-ggplot-based-sankey-graphic-that-encodes-flows-with-a-color-gradient/</guid>
+      <description>&lt;p&gt;&lt;code&gt;ssSankeyGrad&lt;/code&gt; returns a ggplot object encoding the flow between beginning and ending categorical data, &lt;em&gt;i.e.&lt;/em&gt;, a sankey diagram, wherein each flow is encoded as a color gradient. Those color gradients transition between a user-specified color for each category. The parameters are constructed such that &lt;code&gt;c1&lt;/code&gt;, &lt;code&gt;c2&lt;/code&gt;, &lt;code&gt;col1&lt;/code&gt;, &lt;code&gt;col2&lt;/code&gt;, and &lt;code&gt;values&lt;/code&gt; are all vectors of the same length and corresponding positions represent one flow between categories. The categories &lt;code&gt;c1&lt;/code&gt;, &lt;code&gt;c2&lt;/code&gt; are vectors of type character string, &lt;code&gt;col1&lt;/code&gt;, &lt;code&gt;col2&lt;/code&gt; are vectors of type character string and include either named colors or hexidecimal representations of color, and &lt;code&gt;values&lt;/code&gt; are of an integer or numeric type that encode the amount of “flow” between each category.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>HSLuv: an R Package to convert HSLuv colorspace to RGB and hex</title>
+      <link>https://ssp3nc3r.github.io/post/2020-03-30-hsluv-an-r-package-to-convert-hsluv-colorspace-to-rgb-and-hex/</link>
+      <pubDate>Mon, 30 Mar 2020 16:49:54 -0400</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/2020-03-30-hsluv-an-r-package-to-convert-hsluv-colorspace-to-rgb-and-hex/</guid>
+      <description>&lt;p&gt;HSLuv is a human-friendly way to describe hue, saturation, and luminance — three attributes of color. The R package includes functions to convert HSLuv colorspace to computer RGB, either as separate red, green, and blue values or as a hex code.&lt;/p&gt;&#xA;&lt;p&gt;To install, you will need a working toolchain on your computer for compiling C++ code, and the R package devtools installed. Once those are working, simply run the following code in an R session:&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

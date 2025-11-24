@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Olympics on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/tags/olympics/</link>
+    <description>Recent content in Olympics on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Nov 2025 11:17:09 -0500</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/olympics/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Modeling forces in 100m Olympic sprint, a study in physics and probability</title>
+      <link>https://ssp3nc3r.github.io/post/estimating-force-of-100m-olympic-sprint-with-physics/</link>
+      <pubDate>Tue, 11 Jun 2019 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/estimating-force-of-100m-olympic-sprint-with-physics/</guid>
+      <description>&lt;link href=&#34;https://ssp3nc3r.github.io/post/estimating-force-of-100m-olympic-sprint-with-physics/index_files/tabwid/tabwid.css&#34; rel=&#34;stylesheet&#34; /&gt;&#xA;&#xA;&#xA;&lt;p&gt;Let’s practice expressing a probabilistic model aided by physics. Physics have been used, of course, to mathematically describe the forces involved in running short distances. To estimate sprint speed we can inform our models with basic anatomical information and physics. The mathematical physics of running speed depend on body weight, and stride length and rate. Let’s begin with those.&lt;/p&gt;&#xA;&lt;p&gt;Let’s start with physics equations to describe speed, and accelerating to maximum speed. We can express this by considering acceleration per stride, as explained in &lt;span class=&#34;citation&#34;&gt;Herman (&lt;a href=&#34;#ref-hermanPhysicsHumanBody2016&#34; role=&#34;doc-biblioref&#34;&gt;2016&lt;/a&gt;)&lt;/span&gt;. Imagine stepping into the starting blocks on a 100m sprint. On the first push with our legs, we accelerate to a speed &lt;span class=&#34;math inline&#34;&gt;\(v_1\)&lt;/span&gt; at the end of the stride from a force &lt;span class=&#34;math inline&#34;&gt;\(F\)&lt;/span&gt; moved by a distance &lt;span class=&#34;math inline&#34;&gt;\(L\)&lt;/span&gt;. To accelerate, we must produce the required work &lt;span class=&#34;math inline&#34;&gt;\(W\)&lt;/span&gt;, as force &lt;span class=&#34;math inline&#34;&gt;\(F\)&lt;/span&gt; times stride length &lt;span class=&#34;math inline&#34;&gt;\(L\)&lt;/span&gt; — all together, &lt;span class=&#34;math inline&#34;&gt;\(W = FL\)&lt;/span&gt; — further expressed by the kinetic energy in our body, &lt;span class=&#34;math inline&#34;&gt;\(\frac{1}{2}ma\)&lt;/span&gt;, or more specifically, &lt;span class=&#34;math inline&#34;&gt;\(\frac{1}{2}(m_{\text{b}} - 2m_{\text{leg}})v_1^2\)&lt;/span&gt;, with one leg in the air &lt;span class=&#34;math inline&#34;&gt;\(\frac{1}{2}m_{\text{leg}}v_1^2\)&lt;/span&gt;. After the first stride, then, we can express our speed or velocity as,&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

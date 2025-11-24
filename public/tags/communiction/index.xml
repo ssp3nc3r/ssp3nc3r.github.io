@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Communiction on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/tags/communiction/</link>
+    <description>Recent content in Communiction on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Nov 2025 11:17:09 -0500</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/communiction/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tables in tooltips</title>
+      <link>https://ssp3nc3r.github.io/post/tables-in-tooltips/</link>
+      <pubDate>Sun, 07 Jun 2020 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/tables-in-tooltips/</guid>
+      <description>&lt;script src=&#34;https://ssp3nc3r.github.io/post/tables-in-tooltips/index_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;&#xA;&lt;link href=&#34;https://ssp3nc3r.github.io/post/tables-in-tooltips/index_files/tabwid/tabwid.css&#34; rel=&#34;stylesheet&#34; /&gt;&#xA;&lt;script src=&#34;https://ssp3nc3r.github.io/post/tables-in-tooltips/index_files/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;&#xA;&lt;script src=&#34;https://ssp3nc3r.github.io/post/tables-in-tooltips/index_files/d3-bundle/d3-bundle.min.js&#34;&gt;&lt;/script&gt;&#xA;&lt;script src=&#34;https://ssp3nc3r.github.io/post/tables-in-tooltips/index_files/d3-lasso/d3-lasso.min.js&#34;&gt;&lt;/script&gt;&#xA;&lt;script src=&#34;https://ssp3nc3r.github.io/post/tables-in-tooltips/index_files/save-svg-as-png/save-svg-as-png.min.js&#34;&gt;&lt;/script&gt;&#xA;&lt;link href=&#34;https://ssp3nc3r.github.io/post/tables-in-tooltips/index_files/ggiraphjs/ggiraphjs.min.css&#34; rel=&#34;stylesheet&#34; /&gt;&#xA;&lt;script src=&#34;https://ssp3nc3r.github.io/post/tables-in-tooltips/index_files/ggiraphjs/ggiraphjs.min.js&#34;&gt;&lt;/script&gt;&#xA;&lt;script src=&#34;https://ssp3nc3r.github.io/post/tables-in-tooltips/index_files/girafe-binding/girafe.js&#34;&gt;&lt;/script&gt;&#xA;&#xA;&#xA;&lt;p&gt;With interactive communications, we frequently encourage the graphic to provide some form of &lt;em&gt;overview&lt;/em&gt;, and use interactions for adding &lt;em&gt;details on demand&lt;/em&gt;. For these details, tables provide a flexible way to organize the information. And we can link the view of such tables to user actions like a &lt;em&gt;pointer hover event&lt;/em&gt; where the table of details is in a &lt;em&gt;tooltip&lt;/em&gt;. In this tutorial, we construct an &lt;code&gt;html&lt;/code&gt; table for our tooltip so that we can organize lots of details on demand.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

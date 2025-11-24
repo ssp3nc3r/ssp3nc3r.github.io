@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cycling on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/tags/cycling/</link>
+    <description>Recent content in Cycling on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Nov 2025 11:23:15 -0500</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/cycling/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Calculating training load in cycling</title>
+      <link>https://ssp3nc3r.github.io/post/2020-05-08-calculating-training-load-in-cycling/</link>
+      <pubDate>Fri, 08 May 2020 14:34:25 -0400</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/2020-05-08-calculating-training-load-in-cycling/</guid>
+      <description>&lt;script src=&#34;https://ssp3nc3r.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;&#xA;&#xA;&#xA;&lt;p&gt;In cycling, (Allen 2019) has been an influential instruction for training and racing with a power meter. The authors discuss training load in the context of a few functions: one they call a &lt;em&gt;training stress score&lt;/em&gt;, the other two &lt;em&gt;acute&lt;/em&gt; and &lt;em&gt;chronic training load&lt;/em&gt;, respectively. Training stress score is an estimate of the amount of work going into a single workout while acute and chronic training loads are estimates of the short and medium term accumulated loads from training. We can think of ATL as fatigue, CTL as fitness.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Exploring CitiBike ride data</title>
+      <link>https://ssp3nc3r.github.io/post/exploring-citibike-ride-data/</link>
+      <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/exploring-citibike-ride-data/</guid>
+      <description>&lt;div id=&#34;TOC&#34;&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#background&#34;&gt;Background&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#the-challenge&#34;&gt;The Challenge&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#how-can-we-identify-causes-relationships&#34;&gt;How can we identify causes, relationships&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#one-approach-for-this-analysis&#34;&gt;One approach for this analysis&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#identified-data-of-measurements&#34;&gt;Identified data of measurements&lt;/a&gt;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#citibike-ride-data&#34;&gt;CitiBike ride data&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#alternative-transportation-data&#34;&gt;Alternative transportation data&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#weather-information&#34;&gt;Weather information&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#traffic-information&#34;&gt;Traffic information&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#beginning-data-exploration-daily-bike-usage&#34;&gt;Beginning data exploration — daily bike usage&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/div&gt;&#xA;&#xA;&lt;hr /&gt;&#xA;&lt;div id=&#34;background&#34; class=&#34;section level1&#34;&gt;&#xA;&lt;h1&gt;Background&lt;/h1&gt;&#xA;&lt;p&gt;In 2013, the NYC Department of Transportation sought to start a bike share to reduce emissions, road wear, congestion, and improve public health.&lt;/p&gt;&#xA;&lt;p&gt;After selecting an operator and sponsor, the Citi Bike bike share was established with a bike fleet distributed over a network of docking stations throughout the city. The bike share allows customers to unlock a bike at one station and return it at any other empty dock.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

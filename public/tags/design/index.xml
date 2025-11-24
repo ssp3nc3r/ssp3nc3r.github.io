@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Design on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/tags/design/</link>
+    <description>Recent content in Design on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Nov 2025 11:17:09 -0500</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/design/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Approximating the components of Lupi&#39;s Nobel no degrees</title>
+      <link>https://ssp3nc3r.github.io/post/approximating-the-components-of-lupi-s-nobel-no-degrees/</link>
+      <pubDate>Fri, 15 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/approximating-the-components-of-lupi-s-nobel-no-degrees/</guid>
+      <description>&lt;div id=&#34;TOC&#34;&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#exemplary-award-winning-information-graphic&#34;&gt;Exemplary, award-winning information graphic&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#approximating-the-reference-in-r&#34;&gt;Approximating the reference in &lt;code&gt;R&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#an-exercise-in-design-using-r&#34;&gt;An exercise in design using &lt;code&gt;R&lt;/code&gt;&lt;/a&gt;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#data-for-lupis-display&#34;&gt;Data for Lupi’s display&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#main-display-of-points-and-lines&#34;&gt;Main display of points and lines&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#per-category-histograms-or-bar-charts&#34;&gt;Per-category histograms or bar charts&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#per-era-stacked-bar-charts&#34;&gt;Per-era stacked bar charts&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#sankey-diagram&#34;&gt;Sankey diagram&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#next-steps&#34;&gt;Next steps&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#references&#34;&gt;References&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/div&gt;&#xA;&#xA;&lt;hr /&gt;&#xA;&lt;div id=&#34;exemplary-award-winning-information-graphic&#34; class=&#34;section level1&#34;&gt;&#xA;&lt;h1&gt;Exemplary, award-winning information graphic&lt;/h1&gt;&#xA;&lt;p&gt;Giorgia Lupi is a master at designing information for visual narrative — telling stories through visualization. Her &lt;a href=&#34;http://giorgialupi.com&#34;&gt;portfolio&lt;/a&gt; includes a series of exploratory data visualizations published for the largest circulating Italian newspaper, &lt;em&gt;La Lettura&lt;/em&gt;. She thinks hard about her audience, does not underestimate them. Her work gently guides those less familiar with information graphics, while organizing data complexity for a deep reader experience.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

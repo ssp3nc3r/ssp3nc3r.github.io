@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Survival on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/tags/survival/</link>
+    <description>Recent content in Survival on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Nov 2025 11:17:09 -0500</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/survival/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bayesian modeling recurring sports injuries</title>
+      <link>https://ssp3nc3r.github.io/post/modeling-recurring-sports-injuries/</link>
+      <pubDate>Fri, 06 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/modeling-recurring-sports-injuries/</guid>
+      <description>&lt;p&gt;Each sport carries with it specific types of injury risks. Pitching in baseball: UCL, rotator cuffs, and elbow injuries. Soccer: ACL tears, hamstrings, ankles. And so forth. Understanding the risks of injury is the first step in minimizing or preventing such injuries. In this post, I outline a Bayesian model for modeling these risks.&lt;/p&gt;&#xA;&lt;p&gt;Let’s say we want to model &lt;span class=&#34;math inline&#34;&gt;\(K\)&lt;/span&gt; types of injury in a given sport, with the possibility of a player having multiple injuries over time. Each athlete may experience multiple injuries and each injury corresponds to one of the &lt;span class=&#34;math inline&#34;&gt;\(K\)&lt;/span&gt; types. If over the time in question, no injury occurs, we can call that “censored”.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Visual exploration of starting pitcher duration</title>
+      <link>https://ssp3nc3r.github.io/post/visual-exploration-of-starting-pitcher-duration/</link>
+      <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/visual-exploration-of-starting-pitcher-duration/</guid>
+      <description>&lt;div id=&#34;TOC&#34;&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#exploring-influence-of-times-through-the-order-on-manager-decisions&#34;&gt;Exploring influence of times-through-the-order on manager decisions&lt;/a&gt;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#describing-survival-with-a-life-table&#34;&gt;Describing survival with a life table&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#modeling-survival-with-conditional-logistic-regression&#34;&gt;Modeling survival with conditional logistic regression&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#exploring-game-states-context-on-pitcher-survival&#34;&gt;Exploring game states (context) on pitcher survival&lt;/a&gt;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#runs-accumulated&#34;&gt;Runs accumulated&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#baserunners-accumulated&#34;&gt;Baserunners accumulated&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#outs-in-the-half-inning&#34;&gt;Outs in the half-inning&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#platooned-matchups&#34;&gt;Platooned matchups&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#pitch-count&#34;&gt;Pitch count&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#further-work&#34;&gt;Further work&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li class=&#34;appendix&#34;&gt;&lt;span&gt;&lt;b&gt;Appendix&lt;/b&gt;&lt;/span&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#App-A&#34;&gt;Variables as cleaned for these analyses&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#references&#34;&gt;References&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/div&gt;&#xA;&#xA;&lt;hr /&gt;&#xA;&lt;div id=&#34;introduction&#34; class=&#34;section level1&#34;&gt;&#xA;&lt;h1&gt;Introduction&lt;/h1&gt;&#xA;&lt;p&gt;This analysis explores major league baseball decisions of when starting pitchers are removed from the game. Baseball, among other wonderful things, is a collection of discrete events measured in time. Fans and analysts alike debate, for example, how long a starting pitcher should remain in a game. More so do managers. In game seven of the 2017 World Series, we witnessed then Los Angeles Dodgers pitcher Yu Darvish removed from the game in less than two innings. On rare occasions, however, starting pitchers complete an entire game. This occurred 59 times during the 2017 MLB regular season. Between these extremes, of course, we find most pitchers.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

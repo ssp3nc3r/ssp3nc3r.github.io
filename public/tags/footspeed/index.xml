@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Footspeed on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/tags/footspeed/</link>
+    <description>Recent content in Footspeed on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Nov 2025 11:17:09 -0500</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/footspeed/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Dynamic, physics-informed systems in Bayesian models</title>
+      <link>https://ssp3nc3r.github.io/post/dynamic-systems-in-bayesian-models/</link>
+      <pubDate>Thu, 31 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/dynamic-systems-in-bayesian-models/</guid>
+      <description>&lt;p&gt;By dynamic systems, I mean using differential equations to describe how data changes over time. Take running speed, for example. Several physics-based models of running speed have been developed, which I’ve previously discussed. The primary goal in those previous discussions involving sprint speed have been in estimating a maximum speed. But the underlying structure of these models estimate change in speed at time two from speed at time one: a differential equation.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Estimating human limits of running speed</title>
+      <link>https://ssp3nc3r.github.io/post/estimating-human-limits-to-running-speed/</link>
+      <pubDate>Thu, 10 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/estimating-human-limits-to-running-speed/</guid>
+      <description>&lt;link href=&#34;https://ssp3nc3r.github.io/post/estimating-human-limits-to-running-speed/index_files/tabwid/tabwid.css&#34; rel=&#34;stylesheet&#34; /&gt;&#xA;&#xA;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;Prefontaine “finally got it through my head that the real purpose of running isn’t to win a race. It’s to test the limits of the human heart. And that he did. Nobody did it more often. Nobody did it better.”&lt;/p&gt;&#xA;&lt;p&gt;— Bill Bowerman.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;We’ve been recording progress towards those limits, whatever they are, for some time. World records have been collected for running distances, from 50 meters on an indoor track to marathons and beyond. These records also include single-age records. Just what may be the limits that “Pre” pushed to test in running, and how might those limits depend on our age?&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Toeing the Line: Altuve and Trout</title>
+      <link>https://ssp3nc3r.github.io/post/toeing-the-line-altuve-and-trout/</link>
+      <pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/toeing-the-line-altuve-and-trout/</guid>
+      <description>&lt;div id=&#34;TOC&#34;&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#analysis&#34;&gt;Analysis&lt;/a&gt;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#load-and-combine-data&#34;&gt;Load and combine data&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#summarise-and-prepare-data&#34;&gt;Summarise and prepare data&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#getting-running-speed-from-timestamped-coordinates&#34;&gt;Getting running speed from timestamped coordinates&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#define-variables&#34;&gt;Define variables&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#graphical-overview-of-coordinates-and-running-speeds&#34;&gt;Graphical overview of coordinates and running speeds&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#scenario-1-times-to-first-when-attempting-a-double&#34;&gt;Scenario 1: times to first &lt;em&gt;when attempting a double&lt;/em&gt;&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#scenario-2-batters-trying-to-beat-a-throw-to-first&#34;&gt;Scenario 2: batters trying to beat a throw to first&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#conclusions-and-next-steps&#34;&gt;Conclusions and Next Steps&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/div&gt;&#xA;&#xA;&lt;hr /&gt;&#xA;&lt;p&gt;In these analyzed data, described below, Trout demonstrated slightly higher expected footspeed and slightly shorter expected times to first base than did Altuve; although their performance is close and we expect a near toss up, given the data used, as to who comes out ahead on any given play.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

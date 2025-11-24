@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Scott Spencer">
+<meta name="description" content="Each sport carries with it specific types of injury risks. Pitching in baseball: UCL, rotator cuffs, and elbow injuries. Soccer: ACL tears, hamstrings, ankles. And so forth. Understanding the risks of injury is the first step in minimizing or preventing such injuries. In this post, I outline a Bayesian model for modeling these risks.
+Let’s say we want to model \(K\) types of injury in a given sport, with the possibility of a player having multiple injuries over time. Each athlete may experience multiple injuries and each injury corresponds to one of the \(K\) types. If over the time in question, no injury occurs, we can call that “censored”.
+" />
+<meta name="keywords" content="Scott Spencer, statistical, generative modeling, bayesian inference, writing, data visualization, sports, columbia university, Bayes, Bayesian, Sports, Injuries, Survival, Competing risks, recurring events" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="https://ssp3nc3r.github.io/post/modeling-recurring-sports-injuries/" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1V94CLF78W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1V94CLF78W');
+</script>
+
+
+    <title>
+        
+            Bayesian modeling recurring sports injuries :: p( ssp3nc3r | Columbian ) 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.d814cf833213d446ba235aa22dd9d7b7ea71e9f96be092ffac602d0030f4f2c2.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://ssp3nc3r.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://ssp3nc3r.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://ssp3nc3r.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://ssp3nc3r.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://ssp3nc3r.github.io/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="https://ssp3nc3r.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+
+  <meta itemprop="name" content="Bayesian modeling recurring sports injuries">
+  <meta itemprop="description" content="Each sport carries with it specific types of injury risks. Pitching in baseball: UCL, rotator cuffs, and elbow injuries. Soccer: ACL tears, hamstrings, ankles. And so forth. Understanding the risks of injury is the first step in minimizing or preventing such injuries. In this post, I outline a Bayesian model for modeling these risks.
+Let’s say we want to model \(K\) types of injury in a given sport, with the possibility of a player having multiple injuries over time. Each athlete may experience multiple injuries and each injury corresponds to one of the \(K\) types. If over the time in question, no injury occurs, we can call that “censored”.">
+  <meta itemprop="datePublished" content="2024-09-06T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-11-24T11:17:09-05:00">
+  <meta itemprop="wordCount" content="898">
+  <meta itemprop="image" content="https://ssp3nc3r.github.io/">
+  <meta itemprop="keywords" content="Bayes,Bayesian,Sports,Injuries,Survival,Competing Risks,Recurring Events">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ssp3nc3r.github.io/">
+  <meta name="twitter:title" content="Bayesian modeling recurring sports injuries">
+  <meta name="twitter:description" content="Each sport carries with it specific types of injury risks. Pitching in baseball: UCL, rotator cuffs, and elbow injuries. Soccer: ACL tears, hamstrings, ankles. And so forth. Understanding the risks of injury is the first step in minimizing or preventing such injuries. In this post, I outline a Bayesian model for modeling these risks.
+Let’s say we want to model \(K\) types of injury in a given sport, with the possibility of a player having multiple injuries over time. Each athlete may experience multiple injuries and each injury corresponds to one of the \(K\) types. If over the time in question, no injury occurs, we can call that “censored”.">
+
+
+
+    <meta property="article:section" content="Bayes" />
+
+    <meta property="article:section" content="Bayesian" />
+
+    <meta property="article:section" content="Sports" />
+
+    <meta property="article:section" content="Injuries" />
+
+    <meta property="article:section" content="Survival" />
+
+    <meta property="article:section" content="Competing risks" />
+
+    <meta property="article:section" content="recurring events" />
+
+
+
+    <meta property="article:published_time" content="2024-09-06 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://ssp3nc3r.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#67a2c9;
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://ssp3nc3r.github.io/about/">About</a></li><li><a href="https://ssp3nc3r.github.io/post/">Blog</a></li><li><a href="https://ssp3nc3r.github.io/publications/">Publications</a></li><li><a href="https://ssp3nc3r.github.io/teaching/">Teaching</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://ssp3nc3r.github.io/post/modeling-recurring-sports-injuries/">Bayesian modeling recurring sports injuries</a></h2>
+
+            
+
+            <div class="post-content">
+                
+
+
+<p>Each sport carries with it specific types of injury risks. Pitching in baseball: UCL, rotator cuffs, and elbow injuries. Soccer: ACL tears, hamstrings, ankles. And so forth. Understanding the risks of injury is the first step in minimizing or preventing such injuries. In this post, I outline a Bayesian model for modeling these risks.</p>
+<p>Let’s say we want to model <span class="math inline">\(K\)</span> types of injury in a given sport, with the possibility of a player having multiple injuries over time. Each athlete may experience multiple injuries and each injury corresponds to one of the <span class="math inline">\(K\)</span> types. If over the time in question, no injury occurs, we can call that “censored”.</p>
+<p>To make this easier to follow, let’s create some notation. We will index athletes by <span class="math inline">\(i\)</span> where <span class="math inline">\(i = 1, ...,N\)</span>. Events will also be indexed, <span class="math inline">\(e = 1,...,E\)</span>. Each time to the e-th event (if censored, no event), we’ll call <span class="math inline">\(T_e\)</span>. Since there are multiple types of injuries, we’ll include an event indicator <span class="math inline">\(\delta_e = 0\)</span> for no injury, or <span class="math inline">\(\delta_e = k\)</span> for an injury where injury types are <span class="math inline">\(k = 1,...,K\)</span>.</p>
+<p>We may also have possible predictors for these injuries, which may either be time independent or time dependent. Let’s label these <span class="math inline">\(\bf{X}_k\)</span> and include an intercept and things like prior injury indicators.</p>
+<p>The time to injury for each of these injury types <span class="math inline">\(k\)</span> can be modeled with a Weibull distribution, which has a scale parameter <span class="math inline">\(\lambda_k\)</span> and a shape parameter <span class="math inline">\(\alpha_k\)</span>.</p>
+<p>The function describing the risk of instantaneous injury (aka hazard) for type <span class="math inline">\(k\)</span>, then, is:</p>
+<p><span class="math display">\[
+h_k(T_e \mid \lambda_k, \alpha_k) = \frac{\alpha_k}{\lambda_k}\left( \frac{T_e}{\lambda_k} \right)^{\alpha_k-1}
+\]</span></p>
+<p>No event (surviving), then, corresponds to:</p>
+<p><span class="math display">\[
+S_k(T_e \mid \lambda_k, \alpha_k) = \exp\left( -\left(\frac{T_e}{\lambda_k}\right)^{\alpha_k} \right)
+\]</span></p>
+<p>For each injury type <span class="math inline">\(k\)</span>, we can use a Weibull distribution with its own scale parameter <span class="math inline">\(\lambda_k\)</span> and shape parameter <span class="math inline">\(\alpha_k\)</span>. We can adjust the scale parameter <span class="math inline">\(\lambda_k\)</span> with the covariates we explained above (<em>e.g.</em>, intercept, prior injuries, …) and a shared athlete-specific “frailty” term. Let’s call those terms <span class="math inline">\(\eta_i\)</span>. Then, the scale parameter for injury type <span class="math inline">\(k\)</span>, we model as:</p>
+<p><span class="math display">\[
+\lambda_{k,e} = \lambda_k \exp \left(\bf{X}_{k,e}\cdot\beta_k \right) \eta_i
+\]</span></p>
+<p>where</p>
+<p><span class="math inline">\(\lambda_k\)</span> is the baseline scale parameter for injury type <span class="math inline">\(k\)</span>; <span class="math inline">\(\bf{X}_{k,e}\)</span> are the covariates for injury type <span class="math inline">\(k\)</span> at event <span class="math inline">\(e\)</span>; <span class="math inline">\(\beta_k\)</span> are the coefficients for injury type <span class="math inline">\(k\)</span>; and <span class="math inline">\(\eta_i\)</span> is the athlete-specific susceptibility parameter shared across all injury types. Of note, the shape parameter <span class="math inline">\(\alpha_k\)</span> we will assume to be constant across athletes and events for each injury type.</p>
+<p>Let’s discuss a bit more deeply the athlete-specific susceptibility <span class="math inline">\(\eta_i\)</span>. This term estimates the unobserved heterogeneity across athletes. It is shared across injury types and events for the same athlete, allowing for some athletes to be more or less injury-prone due to unobserved factors. As a value of 1 in the model is a baseline, we can model our prior information as:</p>
+<p><span class="math display">\[
+\eta_i \sim \text{Log-Normal}(0, \sigma_\eta^2)
+\]</span>
+Thus, our prior allows for individual-level variability in the model.</p>
+<p>Now, for each event <span class="math inline">\(e\)</span>, we can calculate the likelihood contribution based on whether the event was an injury of type <span class="math inline">\(k\)</span>, or was censored. If an injury (<em>i.e.</em>, <span class="math inline">\(\delta_e = k\)</span>), then the likelihood is the Weibull distribution for injury type <span class="math inline">\(k\)</span>, and the complementary cumulative distribution of the Weibull,</p>
+<p><span class="math display">\[
+L_e = f_\text{Weibull}(T_e \mid \alpha_k, \lambda_{k,e}) \cdot \prod_{j \ne k} (1 - F_\text{Weibull}(T_e \mid \alpha_j, \lambda_{j,e}))
+\]</span>
+and if no event occurred (<span class="math inline">\(\delta_k=0\)</span>), then the likelihood is the product of all complementary cumulative distributions of each injury type:</p>
+<p><span class="math display">\[
+L_e = \prod_{k=1}^K (1 - F_\text{Weibull}(T_e \mid \alpha_k, \lambda_{k,e}))
+\]</span>
+The total log-likelihood for the model, then, is the sum of the log-likelihood contributions for all events:</p>
+<p><span class="math display">\[
+\log L = \sum_{e=1}^E \log L_e
+\]</span>
+where <span class="math inline">\(L_e\)</span> is the likelihood for the <span class="math inline">\(e\)</span>-th event based on whether it was an injury of type <span class="math inline">\(k\)</span> or a censored event (no injury for the time frame).</p>
+<p>Next, let’s discuss our predictors or covariates. Including an intercept will represent the baseline effect when none of the other predictors occur. Other predictors, <em>e.g.</em>, indicator for prior injury, let’s consider the effect of those prior injuries (any type or a specific type), and will help us account for increased risk of recurring injuries.</p>
+<p>Thus, in this generalized model structure for <span class="math inline">\(K\)</span> injuries, we are using a Weibull distribution to model the time to each injury type. These are competing risks for <span class="math inline">\(K\)</span> injury types, where the covariates may influence the risk of each type. In this arrangement, recurring risks are naturally modeled, allowing for multiple injuries over time for each athlete. And the covariates capture a baseline risk and, perhaps, history-dependent effects.</p>
+<p>Such a model can be implemented in the Stan programming language to properly handle and propogate uncertainty of these risks.</p>
+<p>In sum, this generalized model can be applied to any scenario involving multiple types of competing risks. For each risk (injury type <span class="math inline">\(k\)</span>), a Weibull distribution is used to model the time to injury, and covariates (e.g., intercepts, prior injuries) and a shared frailty term are used to capture individual-level risk factors. The model accounts for both censored and recurring events, making it flexible for use in survival analysis with competing and recurrent risks.</p>
+<p>I hope this helps sports teams and other stakeholders in assessing multiple risks of recurring injury on their athletes. Understanding the risks is a first step in minimizing or preventing them!</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ssp3nc3r.github.io/tags/bayes">Bayes</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/bayesian">Bayesian</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/sports">Sports</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/injuries">Injuries</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/survival">Survival</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/competing-risks">Competing risks</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/recurring-events">recurring events</a></span>
+  				</p>
+			    <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-git-commit"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17.01" y1="12" x2="22.96" y2="12"></line></svg><a href="b1c91be2edb7e698ec54d8be08346568c51248a4" target="_blank" rel="noopener">b1c91be</a> @ 2025-11-24</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+        </div>
+    </div>
+    <script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="https://ssp3nc3r.github.io/bundle.min.74fe699bb673e8362137b575513abfcf73303855d923eea09c0e507deab0ca7f8321880b672790b9e63cc109a18189deebfd13899a8ff536e858791973ffd487.js" integrity="sha512-dP5pm7Zz6DYhN7V1UTq/z3MwOFXZI&#43;6gnA5Qfeqwyn&#43;DIYgLZyeQueY8wQmhgYne6/0TiZqP9TboWHkZc//Uhw=="></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'G-1V94CLF78W', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+
+    </body>
+</html>

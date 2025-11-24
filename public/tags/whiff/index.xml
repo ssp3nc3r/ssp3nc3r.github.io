@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Whiff on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/tags/whiff/</link>
+    <description>Recent content in Whiff on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Nov 2025 11:17:09 -0500</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/whiff/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Jointly modeling choice to swing with ball contact</title>
+      <link>https://ssp3nc3r.github.io/post/jointly-modeling-choice-to-swing-with-ball-contact/</link>
+      <pubDate>Sat, 01 Sep 2018 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/jointly-modeling-choice-to-swing-with-ball-contact/</guid>
+      <description>&lt;div id=&#34;TOC&#34;&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#modeling-batters-choices-to-swing-and-abilities-to-contact-the-ball&#34;&gt;Modeling batters’ choices to swing and abilities to contact the ball&lt;/a&gt;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#variables-informing-the-probability-of-swinging-the-selection-submodel&#34;&gt;Variables informing the probability of swinging (the selection submodel)&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#variables-informing-probability-of-contacting-the-ball-the-outcome-submodel&#34;&gt;Variables informing probability of contacting the ball (the outcome submodel)&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#initial-joint-model&#34;&gt;Initial joint model&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#references&#34;&gt;References&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/div&gt;&#xA;&#xA;&lt;hr /&gt;&#xA;&lt;div id=&#34;modeling-batters-choices-to-swing-and-abilities-to-contact-the-ball&#34; class=&#34;section level1&#34;&gt;&#xA;&lt;h1&gt;Modeling batters’ choices to swing and abilities to contact the ball&lt;/h1&gt;&#xA;&lt;p&gt;Models for decisions to swing and ball contact are more nuanced than a model for called pitches (see &lt;em&gt;Modeling Umpire Calls&lt;/em&gt;). Batters’ abilities to contact the ball at a given pitch location are presumably not independent of their decisions to swing. Common approaches for jointly modeling selections (choices to swing) that influence outcomes (ball contact) are called &lt;em&gt;sample selection&lt;/em&gt; models &lt;span class=&#34;citation&#34;&gt;(Hasselt &lt;a href=&#34;#ref-vanHasselt:2011jd&#34;&gt;2011&lt;/a&gt;)&lt;/span&gt;, and can generally be written as,&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Contours of batter comparisons: a trick up the sleeve</title>
+      <link>https://ssp3nc3r.github.io/post/2017-08-04-contours-of-batter-comparisons/</link>
+      <pubDate>Fri, 04 Aug 2017 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/2017-08-04-contours-of-batter-comparisons/</guid>
+      <description>&lt;p&gt;Through the eyes of writer Roger Kahn, we’ve witnessed major league pitchers working to fool batters for ages. Regarding one Brooklyn Dodgers pitcher,&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;“Dazzy Vance in his prime had a different trick,” [Kahn’s] father said. “For seven years he was the best strikeout pitcher in the league. Vance wore a long undershirt and he took a scissors and cut slits in the right sleeve. It ran clear down to the wrist. When Vance pitched, the long sleeve flapped. It was a white sleeve and the hitters had one heck of a time seeing that white baseball coming out of that white sleeve. Before they knew it, the fastball was in the catcher’s mitt. Strike three” (Kahn, 1997)[1].&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

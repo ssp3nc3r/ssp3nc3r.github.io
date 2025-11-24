@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="We dread an empty ticket booth. The Dodgers’ average game attendance, for example, can be below capacity — they have seats to fill, despite having winning seasons.
+To draw more fans, consider the words of famed economist Simon Rotternberg, who said “uncertainty of outcome is necessary for consumers to pay admission to ball games.” While winning is important, it’s the not knowing that creates excitement. Have the Dodgers maximized winning with uncertainty of outcome? Let’s see.
+" />
+<meta name="keywords" content="Scott Spencer, statistical, generative modeling, bayesian inference, writing, data visualization, sports, columbia university, R, Stan, Baseball, Uncertainty, Betting, Attendance" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="https://ssp3nc3r.github.io/post/2020-01-03-exploratory-modeling-on-how-win-uncertainty-affects-game-attendance/" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1V94CLF78W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1V94CLF78W');
+</script>
+
+
+    <title>
+        
+            Exploratory modeling on how win uncertainty affects baseball game attendance :: p( ssp3nc3r | Columbian ) 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.d814cf833213d446ba235aa22dd9d7b7ea71e9f96be092ffac602d0030f4f2c2.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://ssp3nc3r.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://ssp3nc3r.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://ssp3nc3r.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://ssp3nc3r.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://ssp3nc3r.github.io/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="https://ssp3nc3r.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+
+  <meta itemprop="name" content="Exploratory modeling on how win uncertainty affects baseball game attendance">
+  <meta itemprop="description" content="We dread an empty ticket booth. The Dodgers’ average game attendance, for example, can be below capacity — they have seats to fill, despite having winning seasons.
+To draw more fans, consider the words of famed economist Simon Rotternberg, who said “uncertainty of outcome is necessary for consumers to pay admission to ball games.” While winning is important, it’s the not knowing that creates excitement. Have the Dodgers maximized winning with uncertainty of outcome? Let’s see.">
+  <meta itemprop="datePublished" content="2020-01-03T18:01:28-04:00">
+  <meta itemprop="dateModified" content="2025-11-24T11:23:15-05:00">
+  <meta itemprop="wordCount" content="354">
+  <meta itemprop="image" content="https://ssp3nc3r.github.io/">
+  <meta itemprop="keywords" content="R,Stan,Baseball,Uncertainty,Betting,Attendance">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ssp3nc3r.github.io/">
+  <meta name="twitter:title" content="Exploratory modeling on how win uncertainty affects baseball game attendance">
+  <meta name="twitter:description" content="We dread an empty ticket booth. The Dodgers’ average game attendance, for example, can be below capacity — they have seats to fill, despite having winning seasons.
+To draw more fans, consider the words of famed economist Simon Rotternberg, who said “uncertainty of outcome is necessary for consumers to pay admission to ball games.” While winning is important, it’s the not knowing that creates excitement. Have the Dodgers maximized winning with uncertainty of outcome? Let’s see.">
+
+
+
+
+
+    <meta property="article:published_time" content="2020-01-03 18:01:28 -0400 -0400" />
+
+
+
+
+
+
+
+
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://ssp3nc3r.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#67a2c9;
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://ssp3nc3r.github.io/about/">About</a></li><li><a href="https://ssp3nc3r.github.io/post/">Blog</a></li><li><a href="https://ssp3nc3r.github.io/publications/">Publications</a></li><li><a href="https://ssp3nc3r.github.io/teaching/">Teaching</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://ssp3nc3r.github.io/post/2020-01-03-exploratory-modeling-on-how-win-uncertainty-affects-game-attendance/">Exploratory modeling on how win uncertainty affects baseball game attendance</a></h2>
+
+            
+
+            <div class="post-content">
+                
+
+
+<p>We dread an empty ticket booth. The Dodgers’ average game attendance, for example, can be below capacity — they have seats to fill, despite having winning seasons.</p>
+<p>To draw more fans, consider the words of famed economist Simon Rotternberg, who said “uncertainty of outcome is necessary for consumers to pay admission to ball games.” While winning is important, it’s the not knowing that creates excitement. Have the Dodgers maximized winning with uncertainty of outcome? Let’s see.</p>
+<p>To start exploring the question, we model attendance as a function of the uncertainty of outcome, attempting to account for other factors like day of the week, time of day, and their cumulative fraction of wins. It seems reasonable to believe that some uncertainty helps attract people to the game. It also seems reasonable to believe that the function is non-linear: <em>a change in probability of a win from 0 percent to 1 percent may well attract fewer fans than if from 49 percent to 50 percent.</em> Thus, let’s try modeling the marginal effect of wins as quadratic. Our overall model, then, looks like:</p>
+<p><span class="math display">\[\textrm{Normal}(\theta, \sigma)\]</span></p>
+<p>for game <span class="math inline">\(i\)</span>, where</p>
+<p><span class="math display">\[\theta_i \sim \alpha_{1[i]} \cdot \textrm{day}_i + \alpha_{2[i]} \cdot \textrm{time}_i + \beta_{1[i]} \cdot \frac{\sum{\textrm{wins}_i}}{\sum{\textrm{games}_i}} + \beta_{2[i]} \cdot p(\textrm{win}_i) + \beta_{3[i]} \cdot p(\textrm{win}_i)^2\]</span>
+Once we get our posterior estimates, we can set the partial derivative of estimates of win uncertainty (<span class="math inline">\(\beta_2\)</span> and <span class="math inline">\(\beta_3\)</span>) to find a maximum:</p>
+<p><span class="math display">\[\textrm{Maximum} = \frac{-\beta_2}{2 \cdot \beta_3 }\]</span>
+We’ll run the analysis in <code>Stan</code>.</p>
+<p>For our analysis, let’s use betting market odds as a proxy for fans’ estimation their teams chances of winning. The betting company Pinnacle has made these data available for the 2016 season in their R package <code>pinnacle.data::MLB2016</code>. As with Pinnacle’s generosity, <a href="https://www.retrosheet.org/gamelogs/index.html">Retrosheets has made data available for per-game attendance along with game outcomes</a>.</p>
+<p>In code, our basic model is as follows:</p>
+<pre class="r"><code>fit &lt;- stan_glm(Attendence ~ 1 + DayOfWeek + DayNight + winpct + Pr_win + Pr_win2, 
+                data = dodgers2016,
+                cores = 4, chains = 4)</code></pre>
+<p>Our resulting estimate for the distribution of the marginal perception of outcome uncertainty that maximizes butts in seats was a median of 0.61 with the distribution:</p>
+<p><img src="https://ssp3nc3r.github.io/post/2020-01-03-exploratory-modeling-on-how-win-uncertainty-affects-game-attendance_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ssp3nc3r.github.io/tags/r">R</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/stan">Stan</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/baseball">Baseball</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/uncertainty">Uncertainty</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/betting">Betting</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/attendance">Attendance</a></span>
+  				</p>
+			    <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-git-commit"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17.01" y1="12" x2="22.96" y2="12"></line></svg><a href="755ca5294fbfb8020986d24dae308be8cb985396" target="_blank" rel="noopener">755ca52</a> @ 2025-11-24</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+        </div>
+    </div>
+    <script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="https://ssp3nc3r.github.io/bundle.min.74fe699bb673e8362137b575513abfcf73303855d923eea09c0e507deab0ca7f8321880b672790b9e63cc109a18189deebfd13899a8ff536e858791973ffd487.js" integrity="sha512-dP5pm7Zz6DYhN7V1UTq/z3MwOFXZI&#43;6gnA5Qfeqwyn&#43;DIYgLZyeQueY8wQmhgYne6/0TiZqP9TboWHkZc//Uhw=="></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'G-1V94CLF78W', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+
+    </body>
+</html>

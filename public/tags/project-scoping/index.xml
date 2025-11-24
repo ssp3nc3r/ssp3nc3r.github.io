@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Project Scoping on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/tags/project-scoping/</link>
+    <description>Recent content in Project Scoping on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Nov 2025 11:17:09 -0500</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/project-scoping/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Scoping a data analytics project</title>
+      <link>https://ssp3nc3r.github.io/post/scoping-a-data-analytics-project/</link>
+      <pubDate>Thu, 03 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/scoping-a-data-analytics-project/</guid>
+      <description>&lt;div id=&#34;TOC&#34;&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#scoping-an-analytics-project&#34;&gt;Scoping an analytics project&lt;/a&gt;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#defining-goals-actions-and-problems&#34;&gt;Defining goals, actions, and problems&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#identifying-accessible-data&#34;&gt;Identifying accessible data&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#identifying-the-analyses-and-tools&#34;&gt;Identifying the analyses and tools&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#estimating-time-constraints-and-finances&#34;&gt;Estimating time constraints and finances&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#writing-to-clarify-and-communicate&#34;&gt;Writing to clarify and communicate&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#examples-of-writeups-about-projects-and-workflow&#34;&gt;Examples of writeups about projects and workflow&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#references&#34;&gt;References&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/div&gt;&#xA;&#xA;&lt;hr /&gt;&#xA;&lt;div id=&#34;scoping-an-analytics-project&#34; class=&#34;section level1&#34;&gt;&#xA;&lt;h1&gt;Scoping an analytics project&lt;/h1&gt;&#xA;&lt;p&gt;Here is the wrong way to think about a data analytics project: begin with some data, apply tools you are familiar, and stop when you find something to talk about. This approach gets the concept backwards. To get to deeper, interesting results, we should begin by thinking hard about &lt;strong&gt;goals&lt;/strong&gt; and &lt;strong&gt;actions&lt;/strong&gt; to achieve those goals. Then, ask questions: what information may be useful in enabling those actions? Identifying such goals, actions, and information, and developing questions around this information requires domain experience.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

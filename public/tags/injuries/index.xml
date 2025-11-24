@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Injuries on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/tags/injuries/</link>
+    <description>Recent content in Injuries on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Nov 2025 11:17:09 -0500</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/injuries/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bayesian modeling recurring sports injuries</title>
+      <link>https://ssp3nc3r.github.io/post/modeling-recurring-sports-injuries/</link>
+      <pubDate>Fri, 06 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/modeling-recurring-sports-injuries/</guid>
+      <description>&lt;p&gt;Each sport carries with it specific types of injury risks. Pitching in baseball: UCL, rotator cuffs, and elbow injuries. Soccer: ACL tears, hamstrings, ankles. And so forth. Understanding the risks of injury is the first step in minimizing or preventing such injuries. In this post, I outline a Bayesian model for modeling these risks.&lt;/p&gt;&#xA;&lt;p&gt;Let’s say we want to model &lt;span class=&#34;math inline&#34;&gt;\(K\)&lt;/span&gt; types of injury in a given sport, with the possibility of a player having multiple injuries over time. Each athlete may experience multiple injuries and each injury corresponds to one of the &lt;span class=&#34;math inline&#34;&gt;\(K\)&lt;/span&gt; types. If over the time in question, no injury occurs, we can call that “censored”.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

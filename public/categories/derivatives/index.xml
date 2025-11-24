@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Derivatives on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/categories/derivatives/</link>
+    <description>Recent content in Derivatives on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Nov 2025 11:17:09 -0500</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/categories/derivatives/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Speedy splines part two, derivative work</title>
+      <link>https://ssp3nc3r.github.io/post/derivative-work-on-speedy-splines/</link>
+      <pubDate>Thu, 31 Aug 2023 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/derivative-work-on-speedy-splines/</guid>
+      <description>&lt;p&gt;In the last post, I showed how we can speed up computation for splines in Stan. This post is, ahem, derivative. Perhaps we have noisy data of position and time, and we want to estimate speed and acceleration. We can use b-splines and their derivatives for this.&lt;/p&gt;&#xA;&lt;p&gt;So let’s pick up where we left off, and add calculations in Stan to calculate the first and second derivatives of the spline in Stan. Much of the code below mirrors that of the previous post. There are multiple approaches to calculating derivatives of splines. We can take the derivative of the basis functions &lt;span class=&#34;citation&#34;&gt;(&lt;a href=&#34;#ref-rogers2001&#34;&gt;Rogers 2001, sec. 3.10&lt;/a&gt; B-Spline Curve Derivatives)&lt;/span&gt; or we can difference the coefficients &lt;span class=&#34;citation&#34;&gt;(&lt;a href=&#34;#ref-deboor2001&#34;&gt;Boor 2001&lt;/a&gt;, X. The Stable Evaluation of B-Splines and Splines)&lt;/span&gt;. In the Stan functions block below, I’ve added calculations for the first and second derivatives of the basis functions.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

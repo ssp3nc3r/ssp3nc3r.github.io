@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Adobe Illustrator on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/categories/adobe-illustrator/</link>
+    <description>Recent content in Adobe Illustrator on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Nov 2025 11:17:09 -0500</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/categories/adobe-illustrator/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Exploring CitiBike ride data</title>
+      <link>https://ssp3nc3r.github.io/post/exploring-citibike-ride-data/</link>
+      <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/exploring-citibike-ride-data/</guid>
+      <description>&lt;div id=&#34;TOC&#34;&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#background&#34;&gt;Background&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#the-challenge&#34;&gt;The Challenge&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#how-can-we-identify-causes-relationships&#34;&gt;How can we identify causes, relationships&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#one-approach-for-this-analysis&#34;&gt;One approach for this analysis&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#identified-data-of-measurements&#34;&gt;Identified data of measurements&lt;/a&gt;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#citibike-ride-data&#34;&gt;CitiBike ride data&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#alternative-transportation-data&#34;&gt;Alternative transportation data&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#weather-information&#34;&gt;Weather information&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#traffic-information&#34;&gt;Traffic information&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#beginning-data-exploration-daily-bike-usage&#34;&gt;Beginning data exploration — daily bike usage&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/div&gt;&#xA;&#xA;&lt;hr /&gt;&#xA;&lt;div id=&#34;background&#34; class=&#34;section level1&#34;&gt;&#xA;&lt;h1&gt;Background&lt;/h1&gt;&#xA;&lt;p&gt;In 2013, the NYC Department of Transportation sought to start a bike share to reduce emissions, road wear, congestion, and improve public health.&lt;/p&gt;&#xA;&lt;p&gt;After selecting an operator and sponsor, the Citi Bike bike share was established with a bike fleet distributed over a network of docking stations throughout the city. The bike share allows customers to unlock a bike at one station and return it at any other empty dock.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

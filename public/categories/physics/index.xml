@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Physics on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/categories/physics/</link>
+    <description>Recent content in Physics on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Nov 2025 11:23:43 -0500</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/categories/physics/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The case for physics, geometry, and variation in sports models</title>
+      <link>https://ssp3nc3r.github.io/post/the-case-for-physics-geometry-and-variation-in-sports-models/</link>
+      <pubDate>Wed, 08 May 2019 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/the-case-for-physics-geometry-and-variation-in-sports-models/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;Traditional machine learning&lt;/strong&gt; of sports performance often overlooks the physical constraints of the game, making models prone to identifying patterns driven by selection bias rather than actual game dynamics. Machine learning models may overfit to confounding variables, generating predictions that are not generalizable or realistic without grounding predictions in the known physics and geometry of sports, including baseball.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Physics, geometry, and trigonometry&lt;/strong&gt; govern &lt;em&gt;&lt;strong&gt;all movement&lt;/strong&gt;&lt;/em&gt; in sports performance, like baseball&amp;mdash;from the ball&amp;rsquo;s trajectories off the mound or in the outfield to player positioning, rounding bases, throws, and ball contact with bats, dirt, and grass. Players, coaches, and managers make decisions based on these physical realities. Ignoring them in data models risks producing outputs that don&amp;rsquo;t align with how the game is actually played.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

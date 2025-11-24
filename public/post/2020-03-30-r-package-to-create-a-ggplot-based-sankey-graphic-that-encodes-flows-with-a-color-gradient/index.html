@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="ssSankeyGrad returns a ggplot object encoding the flow between beginning and ending categorical data, i.e., a sankey diagram, wherein each flow is encoded as a color gradient. Those color gradients transition between a user-specified color for each category. The parameters are constructed such that c1, c2, col1, col2, and values are all vectors of the same length and corresponding positions represent one flow between categories. The categories c1, c2 are vectors of type character string, col1, col2 are vectors of type character string and include either named colors or hexidecimal representations of color, and values are of an integer or numeric type that encode the amount of “flow” between each category.
+" />
+<meta name="keywords" content="Scott Spencer, statistical, generative modeling, bayesian inference, writing, data visualization, sports, columbia university, R, Packages, Data Visualization, Flow Diagram, Sankey" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="https://ssp3nc3r.github.io/post/2020-03-30-r-package-to-create-a-ggplot-based-sankey-graphic-that-encodes-flows-with-a-color-gradient/" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1V94CLF78W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1V94CLF78W');
+</script>
+
+
+    <title>
+        
+            ggSankeyGrad: an R package to create a ggplot-based sankey graphic that encodes flows with color gradients :: p( ssp3nc3r | Columbian ) 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.d814cf833213d446ba235aa22dd9d7b7ea71e9f96be092ffac602d0030f4f2c2.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://ssp3nc3r.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://ssp3nc3r.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://ssp3nc3r.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://ssp3nc3r.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://ssp3nc3r.github.io/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="https://ssp3nc3r.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+
+  <meta itemprop="name" content="ggSankeyGrad: an R package to create a ggplot-based sankey graphic that encodes flows with color gradients">
+  <meta itemprop="description" content="ssSankeyGrad returns a ggplot object encoding the flow between beginning and ending categorical data, i.e., a sankey diagram, wherein each flow is encoded as a color gradient. Those color gradients transition between a user-specified color for each category. The parameters are constructed such that c1, c2, col1, col2, and values are all vectors of the same length and corresponding positions represent one flow between categories. The categories c1, c2 are vectors of type character string, col1, col2 are vectors of type character string and include either named colors or hexidecimal representations of color, and values are of an integer or numeric type that encode the amount of “flow” between each category.">
+  <meta itemprop="datePublished" content="2020-03-30T17:05:13-04:00">
+  <meta itemprop="dateModified" content="2025-11-24T11:23:15-05:00">
+  <meta itemprop="wordCount" content="281">
+  <meta itemprop="image" content="https://ssp3nc3r.github.io/">
+  <meta itemprop="keywords" content="R,Packages,Data Visualization,Flow Diagram,Sankey">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ssp3nc3r.github.io/">
+  <meta name="twitter:title" content="ggSankeyGrad: an R package to create a ggplot-based sankey graphic that encodes flows with color gradients">
+  <meta name="twitter:description" content="ssSankeyGrad returns a ggplot object encoding the flow between beginning and ending categorical data, i.e., a sankey diagram, wherein each flow is encoded as a color gradient. Those color gradients transition between a user-specified color for each category. The parameters are constructed such that c1, c2, col1, col2, and values are all vectors of the same length and corresponding positions represent one flow between categories. The categories c1, c2 are vectors of type character string, col1, col2 are vectors of type character string and include either named colors or hexidecimal representations of color, and values are of an integer or numeric type that encode the amount of “flow” between each category.">
+
+
+
+
+
+    <meta property="article:published_time" content="2020-03-30 17:05:13 -0400 EDT" />
+
+
+
+
+
+
+
+
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://ssp3nc3r.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#67a2c9;
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://ssp3nc3r.github.io/about/">About</a></li><li><a href="https://ssp3nc3r.github.io/post/">Blog</a></li><li><a href="https://ssp3nc3r.github.io/publications/">Publications</a></li><li><a href="https://ssp3nc3r.github.io/teaching/">Teaching</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://ssp3nc3r.github.io/post/2020-03-30-r-package-to-create-a-ggplot-based-sankey-graphic-that-encodes-flows-with-a-color-gradient/">ggSankeyGrad: an R package to create a ggplot-based sankey graphic that encodes flows with color gradients</a></h2>
+
+            
+
+            <div class="post-content">
+                
+
+
+<p><code>ssSankeyGrad</code> returns a ggplot object encoding the flow between beginning and ending categorical data, <em>i.e.</em>, a sankey diagram, wherein each flow is encoded as a color gradient. Those color gradients transition between a user-specified color for each category. The parameters are constructed such that <code>c1</code>, <code>c2</code>, <code>col1</code>, <code>col2</code>, and <code>values</code> are all vectors of the same length and corresponding positions represent one flow between categories. The categories <code>c1</code>, <code>c2</code> are vectors of type character string, <code>col1</code>, <code>col2</code> are vectors of type character string and include either named colors or hexidecimal representations of color, and <code>values</code> are of an integer or numeric type that encode the amount of “flow” between each category.</p>
+<p>To install the function from Github, simply run the following line of code:</p>
+<pre><code>devtools::install_github(&quot;ssp3nc3r/ggSankeyGrad&quot;, ref = &quot;master&quot;)</code></pre>
+<p>In a first example, we setup some dummy data,</p>
+<pre class="r"><code>library(ggSankeyGrad)
+
+c1     &lt;- c(&quot;A&quot;, &quot;A&quot;, &quot;B&quot;, &quot;B&quot;)
+c2     &lt;- c(&quot;C&quot;, &quot;D&quot;, &quot;C&quot;, &quot;D&quot;)
+values &lt;- c(2L, 5L, 8L, 3L)
+col1   &lt;- c(&quot;red&quot;, &quot;red&quot;, &quot;green&quot;, &quot;green&quot;)
+col2   &lt;- c(&quot;blue&quot;, &quot;orange&quot;, &quot;blue&quot;, &quot;orange&quot;)
+
+ggSankeyGrad(c1, c2, col1, col2, values, label = TRUE)</code></pre>
+<p><img src="https://ssp3nc3r.github.io/post/2020-03-30-r-package-to-create-a-ggplot-based-sankey-graphic-that-encodes-flows-with-a-color-gradient_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>Let’s consider a second example. This data is inspired by Giorgia Lupi’s award-winning infographic, <a href="https://www.informationisbeautifulawards.com/showcase/204-nobels-no-degrees">Nobels, No Degrees</a>. We prepare the data in the same format as before, which encodes the categories of Nobel winners and from which of several schools they are associated, if any.</p>
+<pre class="r"><code>d5 &lt;- read.csv(text = &#39;
+&quot;Category&quot;,&quot;University&quot;,&quot;n&quot;,&quot;col1&quot;,&quot;col2&quot;
+&quot;Chemistry&quot;,&quot;Berkeley&quot;,5,&quot;#cc5b47&quot;,&quot;#003262&quot;
+&quot;Chemistry&quot;,&quot;Caltech&quot;,4,&quot;#cc5b47&quot;,&quot;#FF6C0C&quot;
+&quot;Chemistry&quot;,&quot;Cambridge&quot;,3,&quot;#cc5b47&quot;,&quot;#A3C1AD&quot;
+&quot;Chemistry&quot;,&quot;Columbia&quot;,3,&quot;#cc5b47&quot;,&quot;#B9D9EB&quot;
+&quot;Chemistry&quot;,&quot;Harvard&quot;,7,&quot;#cc5b47&quot;,&quot;#A51C30&quot;
+&quot;Chemistry&quot;,&quot;MIT&quot;,2,&quot;#cc5b47&quot;,&quot;#8A8B8C&quot;
+&quot;Chemistry&quot;,&quot;Stanford&quot;,7,&quot;#cc5b47&quot;,&quot;#B1040E&quot;
+&quot;Economics&quot;,&quot;Berkeley&quot;,5,&quot;#488595&quot;,&quot;#003262&quot;
+&quot;Economics&quot;,&quot;Cambridge&quot;,3,&quot;#488595&quot;,&quot;#A3C1AD&quot;
+&quot;Economics&quot;,&quot;Columbia&quot;,4,&quot;#488595&quot;,&quot;#B9D9EB&quot;
+&quot;Economics&quot;,&quot;Harvard&quot;,7,&quot;#488595&quot;,&quot;#A51C30&quot;
+&quot;Economics&quot;,&quot;MIT&quot;,5,&quot;#488595&quot;,&quot;#8A8B8C&quot;
+&quot;Economics&quot;,&quot;Stanford&quot;,2,&quot;#488595&quot;,&quot;#B1040E&quot;
+&quot;Literature&quot;,NA,0,&quot;#96c17c&quot;,NA
+&quot;Medicine&quot;,&quot;Berkeley&quot;,2,&quot;#decd7c&quot;,&quot;#003262&quot;
+&quot;Medicine&quot;,&quot;Caltech&quot;,5,&quot;#decd7c&quot;,&quot;#FF6C0C&quot;
+&quot;Medicine&quot;,&quot;Cambridge&quot;,4,&quot;#decd7c&quot;,&quot;#A3C1AD&quot;
+&quot;Medicine&quot;,&quot;Columbia&quot;,4,&quot;#decd7c&quot;,&quot;#B9D9EB&quot;
+&quot;Medicine&quot;,&quot;Harvard&quot;,12,&quot;#decd7c&quot;,&quot;#A51C30&quot;
+&quot;Medicine&quot;,&quot;MIT&quot;,5,&quot;#decd7c&quot;,&quot;#8A8B8C&quot;
+&quot;Medicine&quot;,&quot;Stanford&quot;,3,&quot;#decd7c&quot;,&quot;#B1040E&quot;
+&quot;Peace&quot;,&quot;Caltech&quot;,1,&quot;#924855&quot;,&quot;#FF6C0C&quot;
+&quot;Peace&quot;,&quot;Columbia&quot;,1,&quot;#924855&quot;,&quot;#B9D9EB&quot;
+&quot;Peace&quot;,&quot;Harvard&quot;,1,&quot;#924855&quot;,&quot;#A51C30&quot;
+&quot;Physics&quot;,&quot;Berkeley&quot;,8,&quot;#e79275&quot;,&quot;#003262&quot;
+&quot;Physics&quot;,&quot;Caltech&quot;,7,&quot;#e79275&quot;,&quot;#FF6C0C&quot;
+&quot;Physics&quot;,&quot;Cambridge&quot;,7,&quot;#e79275&quot;,&quot;#A3C1AD&quot;
+&quot;Physics&quot;,&quot;Columbia&quot;,6,&quot;#e79275&quot;,&quot;#B9D9EB&quot;
+&quot;Physics&quot;,&quot;Harvard&quot;,9,&quot;#e79275&quot;,&quot;#A51C30&quot;
+&quot;Physics&quot;,&quot;MIT&quot;,7,&quot;#e79275&quot;,&quot;#8A8B8C&quot;
+&quot;Physics&quot;,&quot;Stanford&quot;,10,&quot;#e79275&quot;,&quot;#B1040E&quot;
+&#39;, stringsAsFactors = FALSE)
+
+with(d5, ggSankeyGrad(c1 = Category,
+                        c2 = University,
+                        col1 = col1,
+                        col2 = col2,
+                        values = n,
+                        label = TRUE))</code></pre>
+<p><img src="https://ssp3nc3r.github.io/post/2020-03-30-r-package-to-create-a-ggplot-based-sankey-graphic-that-encodes-flows-with-a-color-gradient_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ssp3nc3r.github.io/tags/r">R</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/packages">Packages</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/data-visualization">Data Visualization</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/flow-diagram">Flow Diagram</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/sankey">Sankey</a></span>
+  				</p>
+			    <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-git-commit"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17.01" y1="12" x2="22.96" y2="12"></line></svg><a href="755ca5294fbfb8020986d24dae308be8cb985396" target="_blank" rel="noopener">755ca52</a> @ 2025-11-24</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+        </div>
+    </div>
+    <script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="https://ssp3nc3r.github.io/bundle.min.74fe699bb673e8362137b575513abfcf73303855d923eea09c0e507deab0ca7f8321880b672790b9e63cc109a18189deebfd13899a8ff536e858791973ffd487.js" integrity="sha512-dP5pm7Zz6DYhN7V1UTq/z3MwOFXZI&#43;6gnA5Qfeqwyn&#43;DIYgLZyeQueY8wQmhgYne6/0TiZqP9TboWHkZc//Uhw=="></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'G-1V94CLF78W', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+
+    </body>
+</html>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Neural Networks on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/tags/neural-networks/</link>
+    <description>Recent content in Neural Networks on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Nov 2025 11:17:09 -0500</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/neural-networks/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Neural networks — the real basics</title>
+      <link>https://ssp3nc3r.github.io/post/neural-networks-the-real-basics/</link>
+      <pubDate>Thu, 05 Apr 2018 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/neural-networks-the-real-basics/</guid>
+      <description>&lt;div id=&#34;TOC&#34;&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#from-logistic-regression-to-a-neural-net&#34;&gt;From logistic regression to a &lt;em&gt;neural net&lt;/em&gt;&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#fitting-a-logistic-regression-in-r&#34;&gt;Fitting a logistic regression in R&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#basic-neural-network&#34;&gt;Basic Neural network&lt;/a&gt;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#forward-propogation&#34;&gt;Forward propogation&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#back-propogation&#34;&gt;Back propogation&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#training-the-network&#34;&gt;Training the network&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#our-neural-network&#34;&gt;Our neural network&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#bibliography&#34;&gt;Bibliography&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/div&gt;&#xA;&#xA;&lt;div id=&#34;from-logistic-regression-to-a-neural-net&#34; class=&#34;section level1&#34;&gt;&#xA;&lt;h1&gt;From logistic regression to a &lt;em&gt;neural net&lt;/em&gt;&lt;/h1&gt;&#xA;&lt;p&gt;With all the terminology and perhaps unfamiliar looking plots designed to resemble the inner workings of a brain, neural networks may seem confusing. So let’s bypass all the jargon and such for a few minutes. A basic neural network can be thought of as just chaining together regressions that use a nonlinear function to transform &lt;span class=&#34;math inline&#34;&gt;\(\boldsymbol{X}\)&lt;/span&gt;. &lt;span class=&#34;citation&#34;&gt;(Murphy &lt;a href=&#34;#ref-Murphy:2012ua&#34;&gt;2012&lt;/a&gt;)&lt;/span&gt; writes,&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

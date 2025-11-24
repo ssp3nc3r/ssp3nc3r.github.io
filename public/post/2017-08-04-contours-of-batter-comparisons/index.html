@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Scott Spencer">
+<meta name="description" content="Through the eyes of writer Roger Kahn, we’ve witnessed major league pitchers working to fool batters for ages. Regarding one Brooklyn Dodgers pitcher,
+“Dazzy Vance in his prime had a different trick,” [Kahn’s] father said. “For seven years he was the best strikeout pitcher in the league. Vance wore a long undershirt and he took a scissors and cut slits in the right sleeve. It ran clear down to the wrist. When Vance pitched, the long sleeve flapped. It was a white sleeve and the hitters had one heck of a time seeing that white baseball coming out of that white sleeve. Before they knew it, the fastball was in the catcher’s mitt. Strike three” (Kahn, 1997)[1].
+" />
+<meta name="keywords" content="Scott Spencer, statistical, generative modeling, bayesian inference, writing, data visualization, sports, columbia university, Baseball, Bayes, MLB, rstanarm, Stan, Batters, Whiff" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="https://ssp3nc3r.github.io/post/2017-08-04-contours-of-batter-comparisons/" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1V94CLF78W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1V94CLF78W');
+</script>
+
+
+    <title>
+        
+            Contours of batter comparisons: a trick up the sleeve :: p( ssp3nc3r | Columbian ) 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.d814cf833213d446ba235aa22dd9d7b7ea71e9f96be092ffac602d0030f4f2c2.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://ssp3nc3r.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://ssp3nc3r.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://ssp3nc3r.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://ssp3nc3r.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://ssp3nc3r.github.io/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="https://ssp3nc3r.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+
+  <meta itemprop="name" content="Contours of batter comparisons: a trick up the sleeve">
+  <meta itemprop="description" content="This analysis considers pitch tunneling in a comparison of the abilities of batters to make contact with the ball.">
+  <meta itemprop="datePublished" content="2017-08-04T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-11-24T11:17:09-05:00">
+  <meta itemprop="wordCount" content="3188">
+  <meta itemprop="image" content="https://ssp3nc3r.github.io/">
+  <meta itemprop="keywords" content="Baseball,Bayes,MLB,Rstanarm,Stan,Batters,Whiff">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ssp3nc3r.github.io/">
+  <meta name="twitter:title" content="Contours of batter comparisons: a trick up the sleeve">
+  <meta name="twitter:description" content="This analysis considers pitch tunneling in a comparison of the abilities of batters to make contact with the ball.">
+
+
+
+
+
+    <meta property="article:published_time" content="2017-08-04 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://ssp3nc3r.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#67a2c9;
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://ssp3nc3r.github.io/about/">About</a></li><li><a href="https://ssp3nc3r.github.io/post/">Blog</a></li><li><a href="https://ssp3nc3r.github.io/publications/">Publications</a></li><li><a href="https://ssp3nc3r.github.io/teaching/">Teaching</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://ssp3nc3r.github.io/post/2017-08-04-contours-of-batter-comparisons/">Contours of batter comparisons: a trick up the sleeve</a></h2>
+
+            
+
+            <div class="post-content">
+                
+
+
+<p>Through the eyes of writer Roger Kahn, we’ve witnessed major league pitchers working to fool batters for ages. Regarding one Brooklyn Dodgers pitcher,</p>
+<blockquote>
+<p>“Dazzy Vance in his prime had a different trick,” [Kahn’s] father said. “For seven years he was the best strikeout pitcher in the league. Vance wore a long undershirt and he took a scissors and cut slits in the right sleeve. It ran clear down to the wrist. When Vance pitched, the long sleeve flapped. It was a white sleeve and the hitters had one heck of a time seeing that white baseball coming out of that white sleeve. Before they knew it, the fastball was in the catcher’s mitt. Strike three” (Kahn, 1997)[1].</p>
+</blockquote>
+<p>Kahn left to our imagination whether Vance had other tricks up his sleeve. But many things can interfere with a batter’s ability to connect (and make solid contact) with the ball: pitch speed, speed difference between pitches, break, location, peculiarities of each pitcher (whether or not observed), pitch count. And white sleeves aside, pitchers can also hide a pitch in the path of the previous pitch—called tunneling—for similar effect. Batters need time to “read” a pitch and additional time to react to that pitch, which flies from pitcher to mitt in under half a second: the blink of an eye. If a pitcher can keep the paths of a first and second pitch together and diverge their paths only after the batter must react (about 23.8 feet from home plate, the “tunnel exit”), the batter may whiff entirely or at least miss connecting with that second pitch on the sweet spot of the bat: that’s tunneling theory. For righty-righty matchups, this article uses 2016 tunneling data on batters provided by Baseball Prospectus to explore whiff probabilities conditioned on the batter swinging, the location at the plate of the second of consecutive pitches, and the difference in those pitch paths.</p>
+<div id="modeling-pitch-tunneling" class="section level3">
+<h3>Modeling pitch tunneling</h3>
+<p>This exploration begins by modeling the probability that a batter whiffs as a function of five criteria: the spatial distance (measured in inches) between consecutive pitches at the tunnel exit (illustration, label A) and at home plate (illustration, label B); the horizontal and vertical location of the second of two consecutive pitches crossing home plate (measured in inches from the center of the strike zone), and the man holding the bat. <img src="https://bayesleaf.files.wordpress.com/2017/07/illustration1.png" alt="Illustration1" /></p>
+<div id="illustration-1.-tunneling-can-be-partly-described-by-measuring-the-distance-between-consecutive-pitches-along-their-paths-at-the-tunnel-exit-a-and-at-the-plate-b." class="section level6">
+<h6>Illustration 1. Tunneling can be partly described by measuring the distance between consecutive pitches along their paths at the tunnel exit (A) and at the plate (B).</h6>
+<p>For the model sketched above, the next couple paragraphs explain the gritty details computationally and in terms of Baseball Prospectus’s tunneling data. The model was coded using the Bayesian R package <span style="color:#42befc;">rstanarm</span> as</p>
+<p><span style="color:#42befc;">stan_gamm4(whiff.pitch2 ~ s(tunnel.diff, plate.diff, px.pitch2, pz.pitch2),</span> <span style="color:#42befc;">random = ~ (1 | mlbcode),</span> <span style="color:#42befc;">family = binomial(link = “logit”),</span> <span style="color:#42befc;">subset = b_side == “R” &amp; p_hand == “R” &amp; swing.pitch2 == TRUE …)</span></p>
+<p>where <span style="color:#42befc;">whiff.pitch2</span> indicates the outcome of the latter of consecutive pitches when the batter has swung, and whether the batter whiffed or not; <span style="color:#42befc;">tunnel.diff</span> and <span style="color:#42befc;">plate.diff</span> denote the distance in inches between two consecutive pitches measured at the tunnel exit and the plate, respectively; <span style="color:#42befc;">px.pitch2</span> and <span style="color:#42befc;">pz.pitch2</span> denote, from the batter’s perspective, the <em>horizontal</em> and vertical distance in inches from the center of his strike zone[2].</p>
+<p>As each batter’s strike zone may differ vertically, the top and bottom for each was estimated with linear regression using batter heights and data from a U.S. Army Anthropometry Survey[3]. As <span style="color:#42befc;">whiff.pitch2</span> measures a binary outcome (contact or no contact), it was modeled as a probability using the logit link function. The probability of a whiff is neither linear, nor depends on any of one variable independent of the others. Thus, we can model the interactions between variables using a spline (that’s what the <span style="color:#42befc;">s(…)</span> means). “Splines are continuous, piece-wise polynomial functions,”[4] which can better capture the chance of a whiff, as this outcome is not proportional to its causes.</p>
+<p>In the model we simultaneously consider each batter’s unmeasured characteristics, which create variation in whiff rates across the league of batters even when all measured characteristics in an observed pitch have the same value. If we ignored specific batters (assigning the same whiff probability to each for the same measured values) we risk ignoring important variation in baseline whiffs. The variation could hide association between characteristics. Conversely, if we estimated a unique rate for each batter, ignoring the league, we ignore that each batter helps us estimate the whiff rates of other batters. In short, our multilevel model takes the best of both worlds, in one level modeling the league of batters and, in the other, modeling specific batters (<span style="color:#00ccff;">mlbcode</span>).</p>
+<p>Further, this analysis focused on matchups between righties (<span style="color:#42befc;">b_side</span>, <span style="color:#42befc;">p_hand</span>) to avoid the complexity of modeling platoon advantages and other characteristics that depend on matchup handedness. Righty-righty matchups are also the most common, giving us plenty of data for an analysis. Finally, as mentioned, Bayesian modeling software—Stan (specifically, <span style="color:#42befc;">stan_gamm4</span>)—was used for modelling so that we can describe uncertainty in our estimates and predictions.</p>
+</div>
+</div>
+<div id="pitch-locations-at-the-plate-relate-to-whiffs" class="section level3">
+<h3>Pitch locations at the plate relate to whiffs</h3>
+<p>Before dissecting the full effects of tunneling, it’s useful to begin by visualizing whiffs in a general sense. We’ll do this by first varying the location of the second of consecutive pitches at the plate, while holding constant the tunnel of the pitch pair at the league average (8.2 inches apart at the tunnel exit and 15.5 inches apart at the plate). The contour lines of Figure 1, simulated from the above model, represent the expected probability of a whiff around the strike zone. Mean probabilities on the contour lines are shown in ten percent increments measured in inches from center of the strike zone, interpreted from the batter’s perspective. For example, as shown in Figure 1, the model estimates that batters whiff around 55 percent of the time when swinging at balls crossing the upper-inside corner (<span style="color:#00ccff;">blue</span>), and around 40 percent when swinging at balls crossing the lower-outside corner (<span style="color:#ff0000;">red</span>)—all without the distraction of a flapping white sleeve! <img src="https://bayesleaf.files.wordpress.com/2017/07/figure1.png" alt="Figure1" /></p>
+<div id="figure-1.-whiff-probabilities-when-swinging-are-shown-as-contour-lines-at-10-percent-intervals.-in-this-example-the-distances-between-consecutive-pitches-is-held-constant-at-8.2-inches-at-the-tunnel-exit-and-15.5-inches-at-the-plate.-low-and-in-from-this-perspective-is-the-location-where-a-swinging-batter-is-most-likely-to-make-contact." class="section level6">
+<h6>Figure 1. Whiff probabilities when swinging are shown as contour lines at 10 percent intervals. In this example, the distances between consecutive pitches is held constant at 8.2 inches at the tunnel exit and 15.5 inches at the plate. Low-and-in, from this perspective, is the location where a swinging batter is most likely to make contact.</h6>
+<p>Of course, these contour lines represent mean probabilities of a whiff. Depending on location of the second pitch, our uncertainty in the probability varies. The posterior distribution of mean probabilities of a whiff when balls cross the upper- inside corner (<span style="color:#00ccff;">blue dot</span> in Fig. 1), the middle of the strike zone (<span style="color:#808080;">gray</span>), and the lower-outside corner (<span style="color:#ff0000;">red</span>) differentiate themselves below in Figure 2. <img src="https://bayesleaf.files.wordpress.com/2017/07/figure2.png" alt="Figure2" /></p>
+</div>
+<div id="figure-2.-the-expected-probabilities-of-a-whiff-at-any-point-along-the-contour-lines-in-figure-1-follow-distributions.-here-are-distributions-at-three-locations-in-relation-to-the-strike-zone." class="section level6">
+<h6>Figure 2. The expected probabilities of a whiff at any point along the contour lines in Figure 1 follow distributions. Here are distributions at three locations in relation to the strike zone.</h6>
+<p>The results here agree with intuition: the probability distribution of a whiff in the upper-inside corner (<span style="color:#00ccff;">blue</span>) is markedly higher than for pitches crossing center (<span style="color:#808080;">gray</span>). Less obviously: the probability distribution of a whiff in the upper-inside corner reflects more uncertainty in outcome than does the distribution in the lower-outside corner (<span style="color:#ff0000;">red</span>).</p>
+</div>
+</div>
+<div id="differences-between-consecutive-pitch-paths-relate-to-whiffs" class="section level3">
+<h3>Differences between consecutive pitch paths relate to whiffs</h3>
+<p>Now that we’ve established the likelihood for making contact at different areas of the plate, it’s time to vary the pitch tunneling. This is done by analyzing how expected whiff probabilities change in relation to changes in distances between pitches at the tunnel exit and at the plate. Actual distances between pitches at the tunnel exit and plate are on continuums, but can be approximated by comparing a series of small-multiple contour plots of the type in Figure 1, where the series of plots show progressively larger distances between pitches at the tunnel exit (Figure 3, top to bottom) and at the plate (Figure 3, left to right). <img src="https://bayesleaf.files.wordpress.com/2017/07/figure3.png" alt="Figure3" /></p>
+<div id="figure-3.-these-small-multiples-represent-the-change-in-expected-whiff-probabilities-30-percent-shown-blue-along-nine-discrete-combinations-of-distances-between-pitch-pairs-at-the-tunnel-exit-rows-inches-and-at-the-plate-columns-inches.-the-center-plot-is-also-figure-1." class="section level6">
+<h6>Figure 3. These small-multiples represent the change in expected whiff probabilities (30 percent shown <span style="color:#00ccff;">blue</span>) along nine discrete combinations of distances between pitch pairs at the tunnel exit (rows, inches) and at the plate (columns, inches). The center plot is also Figure 1.</h6>
+<p>Tunneling distances were chosen to show how whiff probabilities change across the middle 80 percent of the data. Thus, read from left to right, the predicted whiff probabilities change as the distance between consecutive pitches at the plate increases from 5.9 inches (10th percentile) through a league (righty-righty) mean of 15.5 inches and finally 29.3 inches (90th percentile). Similarly, read from top to bottom, the predicted whiff probabilities shift as distance between pitches at the tunnel exit increases from 3.1 inches (10th percentile) through the league average of 8.2 inches and finally to 15.5 inches (90th percentile). The looser the circles in each plot, the easier it is for the batter to make contact. To aid comparison, an estimated whiff probability of 30 percent is shown in <span style="color:#00ccff;">blue</span>.</p>
+<p>As a group, the plots provide several insights. First, the top row of plots—representing probabilities where the pitches are proximal at the tunnel exit and range in distance at the plate—show relative stability across that range of adjustments. That stability stands in contrast to the predictions represented along the bottom row of the same range where the distance between consecutive pitches at the tunnel exit increases. Probabilities in this progression—unlike those of the top row— change markedly across the range of distances between pitches at the plate. When the distance between pitches at the tunnel exit is large and at the plate is small, for example, the contours of whiff probabilities spread and flatten. The second of consecutive pitches may include roundhouse curves that cross the plate near the first pitch: “the roundhouse curve is not usually effective . . . because the slow break is easy to follow.” (Kahn, 1997).</p>
+<p>But even where the general contours seem more stable across the range, real differences between the contours of whiff probabilities exist, and suggest that moderate distances between pitch pairs at the plate relate to higher whiff rates more than pairs with either low (e.g., 5.9 inches) or high (e.g., 29.3 inches) distances between pitch pairs at the plate. With the distance between pitch pairs at the tunnel exit held constant at 3.1 inches, for example, the model estimates that the league average distance between pitch pairs at the plate sees higher whiff rates than those with a large distance 97 percent of the time and more than those with a small distance 91 percent of the time. Distributions of whiff probabilities in these scenarios follow: <img src="https://bayesleaf.files.wordpress.com/2017/07/figure4.png" alt="Figure4" /></p>
+</div>
+<div id="figure-4.-holding-the-distance-between-pitch-pairs-at-the-tunnel-exit-constant-at-3.1-inches-figure-3-top-row-the-whiff-rate-is-higher-when-distance-between-pitch-pairs-at-the-plate-is-league-average-compared-with-either-the-shorter-differences-in-blue-or-larger-distance-differences-in-gray." class="section level6">
+<h6>Figure 4. Holding the distance between pitch pairs at the tunnel exit constant at 3.1 inches (Figure 3, top row), the whiff rate is higher when distance between pitch pairs at the plate is league average compared with either the shorter (differences in <span style="color:#00ccff;">blue</span>) or larger distance (differences in <span style="color:#808080;">gray</span>).</h6>
+<p>Simply put: throwing consecutive pitches that look the same are more likely to earn swinging strikes than pitches that look vastly different. These results agree with anecdotal evidence of results by former Yankee closer Mariano Rivera who achieved greatness using a moderate break and avoiding the middle of the plate.</p>
+</div>
+</div>
+<div id="the-types-of-pitch-pairs-affect-differences-in-tunneling" class="section level3">
+<h3>The types of pitch pairs affect differences in tunneling</h3>
+<p>Now that we’ve measured pitch location and tunneling, it’s time to see how these measurements relate to the types of pitches being thrown. As suggested, the types of pitch pairs thrown shape the continuums of differences between those pairs measured at the tunnel exit and plate. Relative to other pitch combinations, curve/fastball combos, for example, seem more likely to result in higher differences at the tunnel exit with lower differences at the plate (Figure 5, lower-left histogram). <img src="https://bayesleaf.files.wordpress.com/2017/07/figure5.png" alt="Figure5" /></p>
+<div id="figure-5.-pitch-combos-coincide-with-the-various-distances-between-pitches.-here-are-the-top-fifteen-pairs-top-three-blue-for-each-of-the-nine-discrete-distances-between-pitches-again-aligned-by-distance-at-tunnel-exit-rows-increasing-top-to--bottom-and-distance-at-the-plate-columns-increasing-left-to-right." class="section level6">
+<h6>Figure 5. Pitch combos coincide with the various distances between pitches. Here are the top fifteen pairs (top three, <span style="color:#00ccff;">blue</span>) for each of the nine discrete distances between pitches, again aligned by distance at tunnel exit (rows, increasing top-to- bottom) and distance at the plate (columns, increasing left-to-right).</h6>
+<p>Each histogram shows the fifteen most frequent pitch-pair combos corresponding with the given distances between pitch pairs at the tunnel exit and plate. The pitch pairs are listed alphabetically top to bottom by the first two letters of their names[5]. The fastball/fastball (FA | FA) appears most frequently along the middle diagonal of histograms above, while, fastball-curveball (FA | CU, CU | FA) combinations arise most where the difference between pitch pairs is low at the tunnel exit and high at the plate. More generally, basic physics presents itself: high distances between pitch pairs at the plate generally follow greater distances between pitch pairs at the tunnel exit. That’s because pitch paths form a parabolic curve.</p>
+</div>
+</div>
+<div id="quality-of-contact-appears-to-co-vary-with-whiffs-along-the-contours" class="section level3">
+<h3>Quality of contact appears to co-vary with whiffs along the contours</h3>
+<p>So far we have focused on modelling whiffs. But we can also get a sense as to how tunneling may more generally affect quality of contact, even without measuring exit velocity and launch angle of hits (variables not in this dataset). In this dataset, we know whether a hit resulted in a home run; thus, with whiffs and home runs we have both extremes in quality of contact.</p>
+<p>With caution, we can overlay two types of measurement: the nine contour plots representing specific tunneling distances (Figure 3), and the pitches most closely matching that tunnel. Doing so, in Figure 6 we see some suggestion that home runs—stepping in the shoes of solid contact—co-vary with whiffs along the contour lines we’ve already examined. In other words, where whiffs are more common, contact with the ball also seems to deteriorate in quality and vice versa. <img src="https://bayesleaf.files.wordpress.com/2017/07/figure6.png" alt="Figure6" /></p>
+<div id="figure-6.-here-we-overlay-home-runs-blue-and-all-pitches-gray-onto-the-contour-plots-weve-been-studying-figure-3.-roughly-the-frequency-of-home-runs-seems-to-co-vary-with-whiff-rate." class="section level6">
+<h6>Figure 6. Here, we overlay home runs (<span style="color:#00ccff;">blue</span>) and all pitches (<span style="color:#808080;">gray</span>) onto the contour plots we’ve been studying (Figure 3). Roughly, the frequency of home runs seems to co-vary with whiff rate.</h6>
+</div>
+</div>
+<div id="league-wide-predictions-inform-batter-specific-predictions" class="section level3">
+<h3>League-wide predictions inform batter-specific predictions</h3>
+<p>So far, the focus of analysis has been on league averages of righty-righty matchups. The model, however, also considers shifts in the general probability of a whiff per batter. Since the model accounts for pitch location and measurements of tunneling along with batters, the whiff probabilities of batters can now be compared controlling for this information.</p>
+<p>Compare Chris Carter and Jose Iglesias, for example. Carter, first baseman for the Yankees, is known as an all-or-nothing power hitter, getting nothing in 38 percent of his swings. Detroit’s shortstop Jose Iglesias, on the other hand, has a great glove but approaches batting quite differently than Carter. Iglesias had no home runs last year, but is known for making contact (11 percent whiff rate). But, importantly, the two batters didn’t always see the same pitch pairs. The two batters have faced, for example, the second of consecutive pitches at markedly different locations at the plate (Figure 7). <img src="https://bayesleaf.files.wordpress.com/2017/07/figure7.png" alt="Figure7" /></p>
+<div id="figure-7.-the-second-of-consecutive-pitches-faced-by-carter-crossed-the-plate-at-markedly-different-locations-than-did-those-faced-by-iglesias.-contours-here-unlike-elsewhere-demarcate-the-density-or-relative-frequency-of-pitches." class="section level6">
+<h6>Figure 7. The second of consecutive pitches faced by Carter crossed the plate at markedly different locations than did those faced by Iglesias. Contours here, unlike elsewhere, demarcate the density or relative frequency of pitches.</h6>
+<p>The two batters have also faced comparatively different frequencies of pitch pairs, especially when it comes to slider combinations. The six most frequent pitch pairs are shown below. <img src="https://bayesleaf.files.wordpress.com/2017/07/figure8.png" alt="Figure8" /></p>
+</div>
+<div id="figure-8.-pitch-pairings-seen-by-carter-and-iglesias-2016." class="section level6">
+<h6>Figure 8. Pitch pairings seen by Carter and Iglesias, 2016.</h6>
+<p>Carter has seen more pitches overall, but the combinations are a little surprising. The less-dangerous Iglesias has seen a greater degree of fastballs, as pitchers are more likely to challenge the shortstop. But he’s also more likely to see sinker/sinker, perhaps counterintuitive for a batter already hovering around a 50 percent groundball rate. <img src="https://bayesleaf.files.wordpress.com/2017/07/figure9.png" alt="Figure9" /></p>
+</div>
+<div id="figure-9.-the-distribution-of-distances-between-pitches-at-the-tunnel-exit-gray-and-at-the-plate-blue-for-carter-left-and-iglesias-right-the-former-is-more-likely-to-see-different-looks-given-the-greater-number-of-off-speed-pitches-heading-his-way." class="section level6">
+<h6>Figure 9. The distribution of distances between pitches at the tunnel exit (<span style="color:#808080;">gray</span>) and at the plate (<span style="color:#00ccff;">blue</span>) for Carter (left) and Iglesias (right): the former is more likely to see different looks, given the greater number of off speed pitches heading his way.</h6>
+<p>After controlling for these differences, Carter’s overall estimated chance of a whiff is about 9.6 percentage points lower than Iglesias’s! So, when the two batters face consecutive pitches in the upper, inside corner where the difference in pitch paths are, say, 8.2 inches at the tunnel exit and 15.5 inches at the plate, Carter’s estimated chance of a whiff is around 45 percent. Iglesias’s estimated chance—facing that same pitch sequence—is around 55 percent. This example is represented at the <span style="color:#00ccff;">blue</span> point in Figure 10, which generally shows Carter’s whiff probabilities minus Iglesias’s at all locations for the nine discrete distances at the tunnel exit and the plate. <img src="https://bayesleaf.files.wordpress.com/2017/07/figure10.png" alt="Figure10" /></p>
+</div>
+<div id="figure-10.-these-small-multiple-contour-plots-represent-iglesiass-expected-whiff-probabilities-minus-carters." class="section level6">
+<h6>Figure 10. These small-multiple contour plots represent Iglesias’s expected whiff probabilities minus Carter’s.</h6>
+<p>More importantly, the model provides a tool that allows different kinds of questions to be asked: which player is less likely to whiff when facing similarly tunneled pitches? How might a batter fare against a new pitcher? The model examined here can be improved, too, by considering additional characteristics of pitches.</p>
+</div>
+</div>
+<div id="concluding-thoughts-and-thanks" class="section level3">
+<h3>Concluding thoughts and thanks</h3>
+<p>As with batters facing Dazzy Vance, those today may have “one heck of a time seeing that baseball coming out of” the path of a previously thrown ball, but at least they don’t face the added confusion of a white, flapping sleeve. The model here suggests that varying the pitch tunnels and break points can have a significant effect on how likely a batter is to swing through a pitch. Not only that, but while we tend to think of contact ability as a trait independently inherent in the batter, the way pitchers approach him can significantly affect whether, and to what extent, holes exist in batters swings.</p>
+<p>“All models are wrong,” notes statistician George Box; but hopefully this one has added a trick up our sleeve. Additional insight may be found by folding into the model any one or all of pitch speed, within pitch pair differences in speed and angular direction from the batter’s perspective, qualities of the pitcher, and pitch count, to name a few.</p>
+<p>Pitch tunneling was the topic of the SABR 2017 Diamond Dollars case competition, which I entered as part of the Columbia University graduate team with Conor Cashel, Alex Juszczak, and Shane Kelly. I’d like to thank them for all their hard work needed to not only win, but also catch the eye of Baseball Prospectus who has graciously provided the data that made this article possible. Our group presented tunneling in part from a batter’s perspective and this article builds on our collective ideas. Thank you, too, Baseball Prospectus.</p>
+<hr />
+<p>This article was originally published on <a href="http://www.baseballprospectus.com/article.php?articleid=32453">Baseball Prospectus, August 4, 2017</a>.</p>
+<p>[1] Kahn, R. <em>Memories of Summer: when baseball was an art, and writing about it a game</em> (Hyperion, 1997).</p>
+<p>[2] Baseball Prospectus’s <span style="color:#00ccff;">tunnel.diff</span>, <span style="color:#00ccff;">plate.diff</span>, <span style="color:#00ccff;">px.pitch2</span>, and <span style="color:#00ccff;">pz.pitch2</span> data were converted from feet to inches, and the latter also normalized to the center of each batter’s strike zone.</p>
+<p>[3] This approach is a modification of that previously described. Baggett, A. <em>Conceptualizing the MLB Strike Zone Using PITCHf/x Data Part II</em> (April 8, 2015, baseballwithr.wordpress.com).</p>
+<p>[4] Kharratzadeh, M. <em>Splines in Stan</em> (Feb. 22, 2017, github.com/milkha/Splines_in_Stan/blob/master/splines_in_stan.pdf).</p>
+<p>[5] Pitch abbreviations correspond with the first two letters of the name. Hence: CU (curveball), FA (fastball), FC (fastball-cutter), SI (sinker), SL (slider).</p>
+</div>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ssp3nc3r.github.io/tags/baseball">Baseball</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/bayes">Bayes</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/mlb">MLB</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/rstanarm">rstanarm</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/stan">Stan</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/batters">Batters</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/whiff">Whiff</a></span>
+  				</p>
+			    <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-git-commit"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17.01" y1="12" x2="22.96" y2="12"></line></svg><a href="b1c91be2edb7e698ec54d8be08346568c51248a4" target="_blank" rel="noopener">b1c91be</a> @ 2025-11-24</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+        </div>
+    </div>
+    <script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="https://ssp3nc3r.github.io/bundle.min.74fe699bb673e8362137b575513abfcf73303855d923eea09c0e507deab0ca7f8321880b672790b9e63cc109a18189deebfd13899a8ff536e858791973ffd487.js" integrity="sha512-dP5pm7Zz6DYhN7V1UTq/z3MwOFXZI&#43;6gnA5Qfeqwyn&#43;DIYgLZyeQueY8wQmhgYne6/0TiZqP9TboWHkZc//Uhw=="></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'G-1V94CLF78W', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+
+    </body>
+</html>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bayesian on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/tags/bayesian/</link>
+    <description>Recent content in Bayesian on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Nov 2025 11:17:09 -0500</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/bayesian/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Lost in the forest</title>
+      <link>https://ssp3nc3r.github.io/post/lost-in-the-forest/</link>
+      <pubDate>Fri, 04 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/lost-in-the-forest/</guid>
+      <description>&lt;p&gt;In this post, I want to address why Bayesian modeling approaches, especially those implemented in Stan, should be considered as a valid alternative to common machine learning techniques in sports analytics. Specifically, I’ll focus on a well-established criterion for model evaluation: leave-one-out cross-validation (LOO-CV) and its use to calculate the expected log predictive density (ELPD). This scoring rule measures how well a model predicts unseen data. If you’d like a deeper explanation of ELPD and its interpretation in the context of this example, I’ll include one in an appendix at the end.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Bayesian modeling recurring sports injuries</title>
+      <link>https://ssp3nc3r.github.io/post/modeling-recurring-sports-injuries/</link>
+      <pubDate>Fri, 06 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/modeling-recurring-sports-injuries/</guid>
+      <description>&lt;p&gt;Each sport carries with it specific types of injury risks. Pitching in baseball: UCL, rotator cuffs, and elbow injuries. Soccer: ACL tears, hamstrings, ankles. And so forth. Understanding the risks of injury is the first step in minimizing or preventing such injuries. In this post, I outline a Bayesian model for modeling these risks.&lt;/p&gt;&#xA;&lt;p&gt;Let’s say we want to model &lt;span class=&#34;math inline&#34;&gt;\(K\)&lt;/span&gt; types of injury in a given sport, with the possibility of a player having multiple injuries over time. Each athlete may experience multiple injuries and each injury corresponds to one of the &lt;span class=&#34;math inline&#34;&gt;\(K\)&lt;/span&gt; types. If over the time in question, no injury occurs, we can call that “censored”.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>New online Stan coding course</title>
+      <link>https://ssp3nc3r.github.io/post/new-online-stan-coding-course/</link>
+      <pubDate>Mon, 17 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/new-online-stan-coding-course/</guid>
+      <description>&lt;p&gt;Hey everyone! I’m excited to announce my new online course for learning&#xA;direct Stan coding for Bayesian analysis. Available now; enroll here:&#xA;&lt;a href=&#34;https://athlyticz.com/stan-i&#34; class=&#34;uri&#34;&gt;https://athlyticz.com/stan-i&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;&lt;span class=&#34;smallcaps&#34;&gt;— &lt;strong&gt;TL;DR&lt;/strong&gt; —&lt;/span&gt;&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Actual Stan coding, not a high-level interface&lt;/li&gt;&#xA;&lt;li&gt;At-your-own-pace videos: shows live coding while explaining&lt;/li&gt;&#xA;&lt;li&gt;Hosted RStudio session to practice alongside me&lt;/li&gt;&#xA;&lt;li&gt;Starts with fundamentals, builds to hierarchical models&lt;/li&gt;&#xA;&lt;li&gt;Emphasizes a Bayesian workflow&lt;/li&gt;&#xA;&lt;li&gt;Modeling applied to sports data&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;My goal is to &lt;strong&gt;make learning Stan as easy and fast as possible&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Pitch selection to maximize motion-in-depth variation</title>
+      <link>https://ssp3nc3r.github.io/post/pitch-selection-to-maximize-motion-in-depth/</link>
+      <pubDate>Wed, 29 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/pitch-selection-to-maximize-motion-in-depth/</guid>
+      <description>&lt;p&gt;Those in baseball are well aware of the concept of platoon advantage: batters tend to have an advantage when facing pitchers of the opposite handedness. But knowledge of a platoon advantage may go beyond choice of relief pitchers on the mound to matchup with the upcoming lineup of power batters. It may inform, among other things, pitching strategy.&lt;/p&gt;&#xA;&lt;p&gt;Considering reasons behind the phenomenon, it may be explained by the greater relative variation in movement of the ball inside a batter’s &lt;strong&gt;plane of sight&lt;/strong&gt;, which I’ll define in a moment, while same-handed pitchers tend to keep the ball’s trajectory more aligned with that plane, making it harder to perceive lateral movement.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

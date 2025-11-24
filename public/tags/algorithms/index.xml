@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Algorithms on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/tags/algorithms/</link>
+    <description>Recent content in Algorithms on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Nov 2025 11:17:09 -0500</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/algorithms/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Languages Behind Statistical Learning, and Useful Tools</title>
+      <link>https://ssp3nc3r.github.io/post/2018-01-08-languages-behind-statistical-learning/</link>
+      <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/2018-01-08-languages-behind-statistical-learning/</guid>
+      <description>&lt;script src=&#34;https://ssp3nc3r.github.io/./rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;&#xA;&#xA;&lt;div id=&#34;TOC&#34;&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#r-markdowna-tool-for-reproducible-reporting&#34;&gt;R Markdown—a tool for reproducible reporting&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#from-mathematical-notation-to-r&#34;&gt;From mathematical notation to R&lt;/a&gt;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#linear-algebra&#34;&gt;Linear Algebra&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#calculus&#34;&gt;Calculus&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#probability&#34;&gt;Probability&lt;/a&gt;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#distributions&#34;&gt;Distributions&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#regression&#34;&gt;Regression&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#optimization&#34;&gt;Optimization&lt;/a&gt;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#gradient-descent&#34;&gt;Gradient descent&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#simplex-method&#34;&gt;Simplex method&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#algorithms&#34;&gt;Algorithms&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#data-and-model-visualization&#34;&gt;Data and model visualization&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#organizing-data&#34;&gt;Organizing Data&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#closing&#34;&gt;Closing&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/div&gt;&#xA;&#xA;&lt;hr /&gt;&#xA;&lt;p&gt;“Can A.I. Be Taught to Explain Itself?” That’s the question recently posed in &lt;a href=&#34;https://www.nytimes.com/2017/11/21/magazine/can-ai-be-taught-to-explain-itself.html&#34;&gt;The New York Times Magazine&lt;/a&gt;. A search uncovered helpful references — &lt;a href=&#34;https://link.springer.com/book/10.1007%2F978-1-4614-7138-7&#34;&gt;&lt;em&gt;An Introduction to Statistical Learning with Applications in R&lt;/em&gt;&lt;/a&gt; and &lt;a href=&#34;https://link.springer.com/book/10.1007%2F978-0-387-84858-7&#34;&gt;&lt;em&gt;The Elements of Statistical Learning&lt;/em&gt;&lt;/a&gt;, for example — but none with A.I. as author.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

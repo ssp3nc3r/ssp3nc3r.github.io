@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content=" In cycling, (Allen 2019) has been an influential instruction for training and racing with a power meter. The authors discuss training load in the context of a few functions: one they call a training stress score, the other two acute and chronic training load, respectively. Training stress score is an estimate of the amount of work going into a single workout while acute and chronic training loads are estimates of the short and medium term accumulated loads from training. We can think of ATL as fatigue, CTL as fitness.
+" />
+<meta name="keywords" content="Scott Spencer, statistical, generative modeling, bayesian inference, writing, data visualization, sports, columbia university, cycling, training load, R, TSS, ATL, CTL, TSB" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="https://ssp3nc3r.github.io/post/2020-05-08-calculating-training-load-in-cycling/" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1V94CLF78W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1V94CLF78W');
+</script>
+
+
+    <title>
+        
+            Calculating training load in cycling :: p( ssp3nc3r | Columbian ) 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.d814cf833213d446ba235aa22dd9d7b7ea71e9f96be092ffac602d0030f4f2c2.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://ssp3nc3r.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://ssp3nc3r.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://ssp3nc3r.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://ssp3nc3r.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://ssp3nc3r.github.io/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="https://ssp3nc3r.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+
+  <meta itemprop="name" content="Calculating training load in cycling">
+  <meta itemprop="description" content="In cycling, (Allen 2019) has been an influential instruction for training and racing with a power meter. The authors discuss training load in the context of a few functions: one they call a training stress score, the other two acute and chronic training load, respectively. Training stress score is an estimate of the amount of work going into a single workout while acute and chronic training loads are estimates of the short and medium term accumulated loads from training. We can think of ATL as fatigue, CTL as fitness.">
+  <meta itemprop="datePublished" content="2020-05-08T14:34:25-04:00">
+  <meta itemprop="dateModified" content="2025-11-24T11:23:15-05:00">
+  <meta itemprop="wordCount" content="939">
+  <meta itemprop="image" content="https://ssp3nc3r.github.io/">
+  <meta itemprop="keywords" content="Cycling,Training Load,R,TSS,ATL,CTL,TSB">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ssp3nc3r.github.io/">
+  <meta name="twitter:title" content="Calculating training load in cycling">
+  <meta name="twitter:description" content="In cycling, (Allen 2019) has been an influential instruction for training and racing with a power meter. The authors discuss training load in the context of a few functions: one they call a training stress score, the other two acute and chronic training load, respectively. Training stress score is an estimate of the amount of work going into a single workout while acute and chronic training loads are estimates of the short and medium term accumulated loads from training. We can think of ATL as fatigue, CTL as fitness.">
+
+
+
+
+
+    <meta property="article:published_time" content="2020-05-08 14:34:25 -0400 EDT" />
+
+
+
+
+
+
+
+
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://ssp3nc3r.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#67a2c9;
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://ssp3nc3r.github.io/about/">About</a></li><li><a href="https://ssp3nc3r.github.io/post/">Blog</a></li><li><a href="https://ssp3nc3r.github.io/publications/">Publications</a></li><li><a href="https://ssp3nc3r.github.io/teaching/">Teaching</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://ssp3nc3r.github.io/post/2020-05-08-calculating-training-load-in-cycling/">Calculating training load in cycling</a></h2>
+
+            
+
+            <div class="post-content">
+                
+<script src="https://ssp3nc3r.github.io/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>In cycling, (Allen 2019) has been an influential instruction for training and racing with a power meter. The authors discuss training load in the context of a few functions: one they call a <em>training stress score</em>, the other two <em>acute</em> and <em>chronic training load</em>, respectively. Training stress score is an estimate of the amount of work going into a single workout while acute and chronic training loads are estimates of the short and medium term accumulated loads from training. We can think of ATL as fatigue, CTL as fitness.</p>
+<p>All these are a function of an athlete’s ability to maintain power: <em>functional threshold power</em>. Let’s begin with that. The authors, trying to improve over Banister’s Impulse-Response model of fitness (Allen 2019, Clark 2013), define FTP,</p>
+<blockquote>
+<p>FTP is the highest power that a rider can maintain in a quasi–steady state without fatiguing. When power exceeds FTP, fatigue will occur much sooner (generally after approximately one hour in well-trained cyclists), whereas power just below FTP can be maintained considerably longer (<em>id</em>. 54).</p>
+</blockquote>
+<p>We estimate FTP one way as 95 percent of the maximum average power in watts that the athlete <em>holds</em> over a 20-minute interval after warming up:</p>
+<p><span class="math display">\[\text{FTP} = 0.95 \cdot \text{power}_{\text{20 min}}\]</span></p>
+<p>From FTP, we calculate training stress score:</p>
+<p><span class="math display">\[
+\text{TSS} = \frac{s \cdot W \cdot \text{IF}}{\text{FTP} \cdot 3600} \cdot 100
+\]</span>
+where <span class="math inline">\(s\)</span> is time in seconds, <span class="math inline">\(W\)</span> is <em>normalized power</em> in watts, and <span class="math inline">\(\text{IF}\)</span> is an intensity factor. The intensity factor allows work-load comparisons: a one-hour time trial is 1. The constant 3,600 converts <span class="math inline">\(s\)</span> seconds to hours, and 100 just scales the fraction to a number. (Allen 2019) estimate normalized power as a smooth version of raw power, specifically, if a per-second raw power <span class="math inline">\(\{p_i\}_{i = 1}^N\)</span>, a 30-second rolling average is <span class="math inline">\(s_i = \frac{1}{n} \cdot \sum_{j=i}^{i+n-1} p_j\)</span>, then normalized power is</p>
+<p><span class="math display">\[W = \sqrt[\leftroot{-2}\uproot{2}4]{ \frac{s^4}{\bar{s^4}}}\]</span></p>
+<p>Training stress score is, again, the work load of a single workout. From the above, we can now calculate acute and chronic accumulated training load. (Allen 2019) defines these:</p>
+<blockquote>
+<p><strong>Chronic Training Load (CTL)</strong>. Taking into consideration both volume and intensity, CTL provides a measure of how much an athlete has been training historically, or chronically. It is calculated as an <em>exponentially weighted</em> moving average of daily TSS (or TRIMP) values, with the default <em>time constant</em> set to 42 days. (In effect, what this means is that your CTL is primarily a function of the training that you have done in the past three months.) CTL can therefore be viewed as analogous to the positive effect of training on performance in the impulse-response model—that is, the first integral term in the equation given earlier—with the caveat that CTL is a relative indicator of changes in performance ability due to changes in fitness, not an absolute predictor (since the gain factor, ka, has been eliminated) (<em>id.</em> at 242).</p>
+</blockquote>
+<p>and</p>
+<blockquote>
+<p><strong>Acute Training Load (ATL)</strong>. Again, taking into consideration both volume and intensity, ATL provides a measure of how much an athlete has been training recently, or acutely. It is calculated as an <em>exponentially weighted</em> moving average of daily TSS values, with the default <em>time constant</em> set to seven days. (In effect, what this means is that your ATL is primarily a function of the training that you have done in the past two weeks.) ATL can therefore be viewed as analogous to the negative effect of training on performance in the impulse-response model—that is, the second integral term in the equation—with the caveat that ATL is a relative indicator of changes in performance ability due to fatigue, not an absolute predictor (since the gain factor, kf, has been eliminated) (<em>id.</em>).</p>
+</blockquote>
+<p>I’ve read confusion on the interwebs over what an <em>exponentially weighted</em> moving average with a default <em>time constant</em> is, exactly. First, an exponentially-weighted moving average <span class="math inline">\(S\)</span> at time <span class="math inline">\(t\)</span> is:</p>
+<p><span class="math display">\[
+S_t = 
+\begin{cases}
+X_1, &amp;\text{t=1} \\
+\alpha \cdot X_t + (1 - \alpha)\cdot S_{t-1}, &amp;\text{ t&gt;1}
+\end{cases}
+\]</span>
+where <span class="math inline">\(\alpha \in [0,1]\)</span> weights current and past values. Higher values discount older observations. If <span class="math inline">\(\alpha = 1\)</span>, only the latest value matters whereas if <span class="math inline">\(\alpha = 0\)</span>, only the past matters. Thus, the value of <span class="math inline">\(\alpha\)</span> tunes the amount that past work influences current training load. Second, we estimate an <span class="math inline">\(\alpha\)</span> for ATL and CTL with the time constants. (Murray 2017) gives us,</p>
+<p><span class="math display">\[
+\alpha = \frac{2}{n + 1}
+\]</span>
+where <span class="math inline">\(n\)</span> are the number of training days, (Allen 2019) prescribes 7 for ATL and 42 for CTL.</p>
+<p>Finally, we can use ATL and CTL to prescribe workouts and prep for races. To race, we want CTL - ATL (fitness minus fatigue) to be positive. For workouts, on the other hand, we want to hold CTL - ATL negative: (Allen 2019) suggests somewhere between -10 and -30.</p>
+<p>Let’s keep in mind that we’re relying a lot on the assumptions by (Allen 2019) that their heuristic of 7 and 42 days are a fair representation of general fitness and fatigue. In a future post, we’ll explore this assumption and try to estimate optimal training load as unknown parameters in a Bayesian, more generative model.</p>
+<hr />
+<p><strong>Allen</strong>, Hunter. <em>Training and Racing with a Power Meter</em>. Third Edition. Boulder, Colorado: VeloPress, 2019.</p>
+<p><strong>Clarke</strong>, David C., and Philip F. Skiba. <em>Rationale and Resources for Teaching the Mathematical Modeling of Athletic Training and Performance.</em> Advances in Physiology Education 37, no. 2 (June 2013): 134–52. <a href="https://doi.org/10.1152/advan.00078.2011" class="uri">https://doi.org/10.1152/advan.00078.2011</a>.</p>
+<p><strong>Murray</strong>, Nicholas B, Tim J Gabbett, Andrew D Townshend, and Peter Blanch. <em>Calculating Acute:Chronic Workload Ratios Using Exponentially Weighted Moving Averages Provides a More Sensitive Indicator of Injury Likelihood than Rolling Averages.</em> British Journal of Sports Medicine 51, no. 9 (May 2017): 749–54. <a href="https://doi.org/10.1136/bjsports-2016-097152" class="uri">https://doi.org/10.1136/bjsports-2016-097152</a>.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ssp3nc3r.github.io/tags/cycling">cycling</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/training-load">training load</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/r">R</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/tss">TSS</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/atl">ATL</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/ctl">CTL</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/tsb">TSB</a></span>
+  				</p>
+			    <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-git-commit"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17.01" y1="12" x2="22.96" y2="12"></line></svg><a href="755ca5294fbfb8020986d24dae308be8cb985396" target="_blank" rel="noopener">755ca52</a> @ 2025-11-24</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+        </div>
+    </div>
+    <script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="https://ssp3nc3r.github.io/bundle.min.74fe699bb673e8362137b575513abfcf73303855d923eea09c0e507deab0ca7f8321880b672790b9e63cc109a18189deebfd13899a8ff536e858791973ffd487.js" integrity="sha512-dP5pm7Zz6DYhN7V1UTq/z3MwOFXZI&#43;6gnA5Qfeqwyn&#43;DIYgLZyeQueY8wQmhgYne6/0TiZqP9TboWHkZc//Uhw=="></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'G-1V94CLF78W', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+
+    </body>
+</html>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bayes on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/tags/bayes/</link>
+    <description>Recent content in Bayes on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Nov 2025 11:17:09 -0500</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/bayes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bayesian modeling recurring sports injuries</title>
+      <link>https://ssp3nc3r.github.io/post/modeling-recurring-sports-injuries/</link>
+      <pubDate>Fri, 06 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/modeling-recurring-sports-injuries/</guid>
+      <description>&lt;p&gt;Each sport carries with it specific types of injury risks. Pitching in baseball: UCL, rotator cuffs, and elbow injuries. Soccer: ACL tears, hamstrings, ankles. And so forth. Understanding the risks of injury is the first step in minimizing or preventing such injuries. In this post, I outline a Bayesian model for modeling these risks.&lt;/p&gt;&#xA;&lt;p&gt;Let’s say we want to model &lt;span class=&#34;math inline&#34;&gt;\(K\)&lt;/span&gt; types of injury in a given sport, with the possibility of a player having multiple injuries over time. Each athlete may experience multiple injuries and each injury corresponds to one of the &lt;span class=&#34;math inline&#34;&gt;\(K\)&lt;/span&gt; types. If over the time in question, no injury occurs, we can call that “censored”.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>New online Stan coding course</title>
+      <link>https://ssp3nc3r.github.io/post/new-online-stan-coding-course/</link>
+      <pubDate>Mon, 17 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/new-online-stan-coding-course/</guid>
+      <description>&lt;p&gt;Hey everyone! I’m excited to announce my new online course for learning&#xA;direct Stan coding for Bayesian analysis. Available now; enroll here:&#xA;&lt;a href=&#34;https://athlyticz.com/stan-i&#34; class=&#34;uri&#34;&gt;https://athlyticz.com/stan-i&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;&lt;span class=&#34;smallcaps&#34;&gt;— &lt;strong&gt;TL;DR&lt;/strong&gt; —&lt;/span&gt;&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Actual Stan coding, not a high-level interface&lt;/li&gt;&#xA;&lt;li&gt;At-your-own-pace videos: shows live coding while explaining&lt;/li&gt;&#xA;&lt;li&gt;Hosted RStudio session to practice alongside me&lt;/li&gt;&#xA;&lt;li&gt;Starts with fundamentals, builds to hierarchical models&lt;/li&gt;&#xA;&lt;li&gt;Emphasizes a Bayesian workflow&lt;/li&gt;&#xA;&lt;li&gt;Modeling applied to sports data&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;My goal is to &lt;strong&gt;make learning Stan as easy and fast as possible&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Estimating human limits of running speed</title>
+      <link>https://ssp3nc3r.github.io/post/estimating-human-limits-to-running-speed/</link>
+      <pubDate>Thu, 10 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/estimating-human-limits-to-running-speed/</guid>
+      <description>&lt;link href=&#34;https://ssp3nc3r.github.io/post/estimating-human-limits-to-running-speed/index_files/tabwid/tabwid.css&#34; rel=&#34;stylesheet&#34; /&gt;&#xA;&#xA;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;Prefontaine “finally got it through my head that the real purpose of running isn’t to win a race. It’s to test the limits of the human heart. And that he did. Nobody did it more often. Nobody did it better.”&lt;/p&gt;&#xA;&lt;p&gt;— Bill Bowerman.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;We’ve been recording progress towards those limits, whatever they are, for some time. World records have been collected for running distances, from 50 meters on an indoor track to marathons and beyond. These records also include single-age records. Just what may be the limits that “Pre” pushed to test in running, and how might those limits depend on our age?&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>McElreath&#39;s Statistical Rethinking examples recoded into Stan</title>
+      <link>https://ssp3nc3r.github.io/post/mcelreath-s-statistical-rethinking-examples-recoded-into-stan/</link>
+      <pubDate>Tue, 09 Oct 2018 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/mcelreath-s-statistical-rethinking-examples-recoded-into-stan/</guid>
+      <description>&lt;hr /&gt;&#xA;&lt;p&gt;McElreath’s &lt;em&gt;Statistical Rethinking&lt;/em&gt; is among the best books for learning Bayesian statistics (he has a second edition coming out too). As an exercise in pedagogy, I’ve recoded all his examples directly into Stan, a probabilistic programming language. Recoding examples from one programming language into another is a great way to practice learning that other language. Give it a try. I’ve made my recoded examples available &lt;a href=&#34;https://github.com/ssp3nc3r/rethinking&#34;&gt;here&lt;/a&gt; if you get stuck or want to compare methods of coding.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Run Expectancy Distributions of MLB Game States</title>
+      <link>https://ssp3nc3r.github.io/post/2017-12-03-run-expectancy-distributions/</link>
+      <pubDate>Sun, 03 Dec 2017 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/2017-12-03-run-expectancy-distributions/</guid>
+      <description>&lt;div id=&#34;TOC&#34;&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#team-winsa-chain-of-player-events&#34;&gt;Team wins—a chain of player events&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#data-and-sources-for-estimating-run-expectancies&#34;&gt;Data and sources for estimating run expectancies&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#calculate-runs-scored-after-every-game-state-of-a-half-inning&#34;&gt;Calculate runs scored after every game state of a half inning&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#estimating-run-expectancy&#34;&gt;Estimating run expectancy&lt;/a&gt;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#preserving-and-understanding-uncertainty-of-our-estimates&#34;&gt;Preserving and understanding uncertainty of our estimates&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#in-half-innings-more-runs-occur-less-frequently&#34;&gt;In half innings, more runs occur less frequently&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#building-a-bayesian-run-expectancy-model&#34;&gt;Building a bayesian run expectancy model&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#model-summary&#34;&gt;Model summary&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#the-median-run-expectancy-matrix&#34;&gt;The median run expectancy matrix&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/div&gt;&#xA;&#xA;&lt;div id=&#34;team-winsa-chain-of-player-events&#34; class=&#34;section level1&#34;&gt;&#xA;&lt;h1&gt;Team wins—a chain of player events&lt;/h1&gt;&#xA;&lt;p&gt;The performance of a baseball player includes numerous on-field (and off-field) activities, roughly divided into skills of offensive (&lt;em&gt;e.g.&lt;/em&gt;, batting, baserunning) and defensive (&lt;em&gt;e.g.&lt;/em&gt;, pitching, fielding). The value of each skill depends upon its contribution to team wins, and wins are the difference in team score (runs). Breaking this down further, runs depend on advancing each half inning of baseball from one “state” to another. By state, we mean the base locations of any runners and the number of outs.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Contours of batter comparisons: a trick up the sleeve</title>
+      <link>https://ssp3nc3r.github.io/post/2017-08-04-contours-of-batter-comparisons/</link>
+      <pubDate>Fri, 04 Aug 2017 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/2017-08-04-contours-of-batter-comparisons/</guid>
+      <description>&lt;p&gt;Through the eyes of writer Roger Kahn, we’ve witnessed major league pitchers working to fool batters for ages. Regarding one Brooklyn Dodgers pitcher,&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;“Dazzy Vance in his prime had a different trick,” [Kahn’s] father said. “For seven years he was the best strikeout pitcher in the league. Vance wore a long undershirt and he took a scissors and cut slits in the right sleeve. It ran clear down to the wrist. When Vance pitched, the long sleeve flapped. It was a white sleeve and the hitters had one heck of a time seeing that white baseball coming out of that white sleeve. Before they knew it, the fastball was in the catcher’s mitt. Strike three” (Kahn, 1997)[1].&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Scott Spencer">
+<meta name="description" content=" Scoping an analytics project Defining goals, actions, and problems Identifying accessible data Identifying the analyses and tools Estimating time constraints and finances Writing to clarify and communicate Examples of writeups about projects and workflow References Scoping an analytics project Here is the wrong way to think about a data analytics project: begin with some data, apply tools you are familiar, and stop when you find something to talk about. This approach gets the concept backwards. To get to deeper, interesting results, we should begin by thinking hard about goals and actions to achieve those goals. Then, ask questions: what information may be useful in enabling those actions? Identifying such goals, actions, and information, and developing questions around this information requires domain experience.
+" />
+<meta name="keywords" content="Scott Spencer, statistical, generative modeling, bayesian inference, writing, data visualization, sports, columbia university, Project Scoping" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="https://ssp3nc3r.github.io/post/scoping-a-data-analytics-project/" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1V94CLF78W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1V94CLF78W');
+</script>
+
+
+    <title>
+        
+            Scoping a data analytics project :: p( ssp3nc3r | Columbian ) 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.d814cf833213d446ba235aa22dd9d7b7ea71e9f96be092ffac602d0030f4f2c2.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://ssp3nc3r.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://ssp3nc3r.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://ssp3nc3r.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://ssp3nc3r.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://ssp3nc3r.github.io/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="https://ssp3nc3r.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+
+  <meta itemprop="name" content="Scoping a data analytics project">
+  <meta itemprop="description" content="Scopes of data analytics projects include various considerations. We provide an overview.">
+  <meta itemprop="datePublished" content="2019-01-03T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-11-24T11:17:09-05:00">
+  <meta itemprop="wordCount" content="1036">
+  <meta itemprop="image" content="https://ssp3nc3r.github.io/">
+  <meta itemprop="keywords" content="Project Scoping">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ssp3nc3r.github.io/">
+  <meta name="twitter:title" content="Scoping a data analytics project">
+  <meta name="twitter:description" content="Scopes of data analytics projects include various considerations. We provide an overview.">
+
+
+
+
+
+    <meta property="article:published_time" content="2019-01-03 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://ssp3nc3r.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#67a2c9;
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://ssp3nc3r.github.io/about/">About</a></li><li><a href="https://ssp3nc3r.github.io/post/">Blog</a></li><li><a href="https://ssp3nc3r.github.io/publications/">Publications</a></li><li><a href="https://ssp3nc3r.github.io/teaching/">Teaching</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://ssp3nc3r.github.io/post/scoping-a-data-analytics-project/">Scoping a data analytics project</a></h2>
+
+            
+
+            <div class="post-content">
+                
+
+<div id="TOC">
+<ul>
+<li><a href="#scoping-an-analytics-project">Scoping an analytics project</a><ul>
+<li><a href="#defining-goals-actions-and-problems">Defining goals, actions, and problems</a></li>
+<li><a href="#identifying-accessible-data">Identifying accessible data</a></li>
+<li><a href="#identifying-the-analyses-and-tools">Identifying the analyses and tools</a></li>
+<li><a href="#estimating-time-constraints-and-finances">Estimating time constraints and finances</a></li>
+<li><a href="#writing-to-clarify-and-communicate">Writing to clarify and communicate</a></li>
+<li><a href="#examples-of-writeups-about-projects-and-workflow">Examples of writeups about projects and workflow</a></li>
+</ul></li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
+
+<hr />
+<div id="scoping-an-analytics-project" class="section level1">
+<h1>Scoping an analytics project</h1>
+<p>Here is the wrong way to think about a data analytics project: begin with some data, apply tools you are familiar, and stop when you find something to talk about. This approach gets the concept backwards. To get to deeper, interesting results, we should begin by thinking hard about <strong>goals</strong> and <strong>actions</strong> to achieve those goals. Then, ask questions: what information may be useful in enabling those actions? Identifying such goals, actions, and information, and developing questions around this information requires domain experience.</p>
+<p>The framework of identifying goals and actions, and following with information and techniques gives us a structure not unlike having the outline of a story, beginning with why we are working on a problem and ending with how we expect to solve it. Just as stories sometimes evolve when retold, our ideas and structure of the problem may shift as we progress on the project. But like the well-posed story, once we have our project well-scoped we should be able to easily discuss or write about its arc: purpose, problem, and solution.</p>
+<p>Specificity in framing and answering basic questions is important: <em>What problem is to be solved? Is it important? Does it have impact? Do data play a role in solving the problem? Are the right data available? Is the organization ready to tackle the problem and take actions from insights?</em> These are the initial questions of a data analytics project. Project successes inevitably depend on our specificity in answering these questions.</p>
+<div id="defining-goals-actions-and-problems" class="section level2">
+<h2>Defining goals, actions, and problems</h2>
+<p>Identifying a specific problem is the first step in any project. And a well-defined problem illuminates its importance and impact. The problem should be solvable with identified resources. If the problem seems unsolvable, try focusing on one or more aspects of the problem. Think in terms of goals, actions, data, and analysis. Our objective is to take the outcome we want to achieve and turn it into a <strong>measurable</strong> and <strong>optimizable</strong> goal.</p>
+<p>Consider what actions can be taken to achieve the identified goal. Such actions usually need to be specific. A well-specified project ideally has a set of actions that the organization is taking — or can take — that can now be better informed through data science. While improving on existing actions is a good general starting point in defining a project, the scope does not need to be so limited. New actions may be defined too. Conversely, if the problem stated and anticipated analyses does not inform an action, it is usually not helpful in achieving organizational goals. Conversely, to optimize our goal, we need to define the <strong>expected utility</strong> of each possible action.</p>
+</div>
+<div id="identifying-accessible-data" class="section level2">
+<h2>Identifying accessible data</h2>
+<p>Do data play a role in solving the problem? Before a project can move forward, data must be both accessible and relevant to the problem. Consider what variables each data source contributes. While some data are publicly available, other data are privately owned and permission becomes a prerequisite. To be sure, obtaining the right data is usually a top challenge: sometimes the variable is unmeasured or not recorded.</p>
+<p>In cataloguing the data, be specific. Identify where data are stored and their form. Are data recorded on paper or electronically, such as in a database or on a website? Are the data structured — such as a <code>CSV</code> file — or unstructured, like comments on a twitter feed? Provenance is important <span class="citation">(Moreau et al. <a href="#ref-Moreau:2008vn">2008</a>)</span>: how were the data recorded? By a human or by an instrument, such as optically or through radar?</p>
+<p>What quality are the data <span class="citation">(Fan <a href="#ref-Fan:2015wx">2015</a>)</span>? Measurement error? Are observations missing? How frequently is it collected? Is it available historically, or only in real-time? Do the data have documentation describing what it represents? These are but a few questions whose answers may impact your project or approach.</p>
+</div>
+<div id="identifying-the-analyses-and-tools" class="section level2">
+<h2>Identifying the analyses and tools</h2>
+<p>The workflow needed to bridge the gap between raw data and actions typically involves an iterative process of exploratory and confirmatory analysis <span class="citation">(Pu and Kay <a href="#ref-Pu:2018vo">2018</a>)</span>, see Figure 1, which employs visualization, transformation, modeling, and testing.</p>
+<div class="figure"><span id="fig:workflow"></span>
+<img src="statistical-workflow.pdf" alt="General statistical workflow."  />
+<p class="caption">
+Figure 1: General statistical workflow.
+</p>
+</div>
+</div>
+<div id="estimating-time-constraints-and-finances" class="section level2">
+<h2>Estimating time constraints and finances</h2>
+<p>Can the identified project be completed within financial constraints in time to support the relevant actions and decisions?</p>
+</div>
+<div id="writing-to-clarify-and-communicate" class="section level2">
+<h2>Writing to clarify and communicate</h2>
+<p>Writing is part and parcel to the analysis.</p>
+<blockquote>
+<p>I write entirely to find out what I’m thinking, what I’m looking at, what I see, and what it means.
+— Joan Didion, <em>What I Write</em></p>
+</blockquote>
+<p>We generally revise our written words and refine our thoughts together; the improvements made in our thinking and improvements made in our writing reinforce each other. Clear writing signals clear thinking. To test our project, then, we should clarify it in writing. Once it is clear, we can begin the processes of data collection, further clarify our understanding, begin technical work, again clarify our understanding, and continuing the iterative process until we converge on interesting answers that support actions and goals.</p>
+</div>
+<div id="examples-of-writeups-about-projects-and-workflow" class="section level2">
+<h2>Examples of writeups about projects and workflow</h2>
+<p>We can find numerous examples describing workflow and projects and proposals. The <a href="https://aiforsocialgood.github.io/2018/acceptedpapers.htm">AI for Social Good Workshop NIPS2018</a>, for example, recognized <span class="citation">(Caldeira et al. <a href="#ref-Caldeira:2018uu">2018</a>)</span> with an award for their project and write up.</p>
+<p>A Bayesian general workflow is described with a simulated project in <span class="citation">(Stan Development Team <a href="#ref-StanDevelopmentTeam:2018uaa">2018</a>, Chapter 5 <em>Workflow in Action</em>)</span>.</p>
+</div>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<div id="refs" class="references">
+<div id="ref-Caldeira:2018uu">
+<p>Caldeira, Joao, Alex Fout, Aniket Kesari, Raesetje Sefala, Joseph Walsh, Katy Dupre, Muhammad Rizal Khaefi, et al. 2018. “Improving Traffic Safety Through Video Analysis in Jakarta, Indonesia.” In <em>Nd Conference on Neural Information Processing Systems Neurips</em>, 1–5.</p>
+</div>
+<div id="ref-Fan:2015wx">
+<p>Fan, Wenfei. 2015. “Data Quality: From Theory to Practice.” <em>SIGMOD Record</em> 44 (3): 7–18.</p>
+</div>
+<div id="ref-Moreau:2008vn">
+<p>Moreau, Luc, Paul Groth, Simon Miles, Javier Vazquez-Salceda, John Ibbotson, Sheng Jiang, Steve Munroe, et al. 2008. “The Provenance of Electronic Data.” <em>Communications of the ACM</em> 51 (4): 52–58.</p>
+</div>
+<div id="ref-Pu:2018vo">
+<p>Pu, Xiaoying, and Matthew Kay. 2018. “The Garden of Forking Paths in Visualization: A Design Space for Reliable Exploratory Visual Analytics.” In <em>BELIV Workshop 2018</em>, 1–9.</p>
+</div>
+<div id="ref-StanDevelopmentTeam:2018uaa">
+<p>Stan Development Team. 2018. <em>Bayesian Statistics Using Stan</em>. 2.18 ed. mc-stan.org.</p>
+</div>
+</div>
+</div>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ssp3nc3r.github.io/tags/project-scoping">Project Scoping</a></span>
+  				</p>
+			    <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-git-commit"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17.01" y1="12" x2="22.96" y2="12"></line></svg><a href="b1c91be2edb7e698ec54d8be08346568c51248a4" target="_blank" rel="noopener">b1c91be</a> @ 2025-11-24</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+        </div>
+    </div>
+    <script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="https://ssp3nc3r.github.io/bundle.min.74fe699bb673e8362137b575513abfcf73303855d923eea09c0e507deab0ca7f8321880b672790b9e63cc109a18189deebfd13899a8ff536e858791973ffd487.js" integrity="sha512-dP5pm7Zz6DYhN7V1UTq/z3MwOFXZI&#43;6gnA5Qfeqwyn&#43;DIYgLZyeQueY8wQmhgYne6/0TiZqP9TboWHkZc//Uhw=="></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'G-1V94CLF78W', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+
+    </body>
+</html>

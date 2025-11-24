@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Strike Zone on p( ssp3nc3r | Columbian )</title>
+    <link>https://ssp3nc3r.github.io/tags/strike-zone/</link>
+    <description>Recent content in Strike Zone on p( ssp3nc3r | Columbian )</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Nov 2025 11:17:09 -0500</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/strike-zone/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Modeling Umpire Calls</title>
+      <link>https://ssp3nc3r.github.io/post/modeling-umpire-calls/</link>
+      <pubDate>Wed, 25 Apr 2018 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/modeling-umpire-calls/</guid>
+      <description>&lt;script src=&#34;https://ssp3nc3r.github.io/./rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;&#xA;&#xA;&lt;div id=&#34;TOC&#34;&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#batting-and-pitching-data-from-major-league-baseball-advance-media&#34;&gt;Batting and pitching data from Major League Baseball Advance Media&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#modeling-called-strike-probabilities&#34;&gt;Modeling called strike probabilities&lt;/a&gt;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#previous-work&#34;&gt;Previous work&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#general-model-description&#34;&gt;General model description&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#called-strike-probabilities-modeled-in-stan&#34;&gt;Called strike probabilities modeled in Stan&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#model-diagnostics&#34;&gt;Model diagnostics&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#called-strike-probability-predictions-from-the-modeled-posterior&#34;&gt;Called strike probability predictions from the modeled posterior&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;#bibliography&#34;&gt;Bibliography&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/div&gt;&#xA;&#xA;&lt;hr /&gt;&#xA;&lt;div id=&#34;introduction&#34; class=&#34;section level1&#34;&gt;&#xA;&lt;h1&gt;Introduction&lt;/h1&gt;&#xA;&lt;p&gt;The goal of baseball pitchers — when contributing to team defense — is to put out batters. Two ways are (mostly) within the pitchers’ control. They may earn a &lt;em&gt;called strike&lt;/em&gt; or a &lt;em&gt;swinging strike&lt;/em&gt;. The “definition of a good pitcher”, explains Sandy Koufax, is a “guy that throws what he intends to throw.” &lt;span class=&#34;citation&#34;&gt;(Morrison, Pavlidis, and Long &lt;a href=&#34;#ref-Morrison:2018vd&#34;&gt;2018&lt;/a&gt;)&lt;/span&gt; said that quantifying pitchers’ abilities to “throw the ball where he intends to”, called pitching command, is “one of the most challenging aspects of pitching to quantify.” As data of where the pitcher “intends to” throw are not publicly available, we agree. Various approaches have been tried. Baseball Info Solutions has measured catcher mitt starting locations for each pitch &lt;span class=&#34;citation&#34;&gt;(Dewan &lt;a href=&#34;#ref-Dewan:2011uj&#34;&gt;2011&lt;/a&gt;)&lt;/span&gt;, to which ball catch locations are compared. But pitchers are not necessarily aiming at the mitt: consider catcher mitt location, for example, when a ball curves through the strike zone before diving into the dirt.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

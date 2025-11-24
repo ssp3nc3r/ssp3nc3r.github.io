@@ -1,0 +1,59 @@
+---
+title: "Calculating training load in cycling"
+date: 2020-05-08T14:34:25-04:00
+draft: false
+comments: false
+images: null
+tags:
+  - cycling
+  - training load
+  - R
+  - TSS
+  - ATL
+  - CTL
+  - TSB
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>In cycling, (Allen 2019) has been an influential instruction for training and racing with a power meter. The authors discuss training load in the context of a few functions: one they call a <em>training stress score</em>, the other two <em>acute</em> and <em>chronic training load</em>, respectively. Training stress score is an estimate of the amount of work going into a single workout while acute and chronic training loads are estimates of the short and medium term accumulated loads from training. We can think of ATL as fatigue, CTL as fitness.</p>
+<p>All these are a function of an athlete’s ability to maintain power: <em>functional threshold power</em>. Let’s begin with that. The authors, trying to improve over Banister’s Impulse-Response model of fitness (Allen 2019, Clark 2013), define FTP,</p>
+<blockquote>
+<p>FTP is the highest power that a rider can maintain in a quasi–steady state without fatiguing. When power exceeds FTP, fatigue will occur much sooner (generally after approximately one hour in well-trained cyclists), whereas power just below FTP can be maintained considerably longer (<em>id</em>. 54).</p>
+</blockquote>
+<p>We estimate FTP one way as 95 percent of the maximum average power in watts that the athlete <em>holds</em> over a 20-minute interval after warming up:</p>
+<p><span class="math display">\[\text{FTP} = 0.95 \cdot \text{power}_{\text{20 min}}\]</span></p>
+<p>From FTP, we calculate training stress score:</p>
+<p><span class="math display">\[
+\text{TSS} = \frac{s \cdot W \cdot \text{IF}}{\text{FTP} \cdot 3600} \cdot 100
+\]</span>
+where <span class="math inline">\(s\)</span> is time in seconds, <span class="math inline">\(W\)</span> is <em>normalized power</em> in watts, and <span class="math inline">\(\text{IF}\)</span> is an intensity factor. The intensity factor allows work-load comparisons: a one-hour time trial is 1. The constant 3,600 converts <span class="math inline">\(s\)</span> seconds to hours, and 100 just scales the fraction to a number. (Allen 2019) estimate normalized power as a smooth version of raw power, specifically, if a per-second raw power <span class="math inline">\(\{p_i\}_{i = 1}^N\)</span>, a 30-second rolling average is <span class="math inline">\(s_i = \frac{1}{n} \cdot \sum_{j=i}^{i+n-1} p_j\)</span>, then normalized power is</p>
+<p><span class="math display">\[W = \sqrt[\leftroot{-2}\uproot{2}4]{ \frac{s^4}{\bar{s^4}}}\]</span></p>
+<p>Training stress score is, again, the work load of a single workout. From the above, we can now calculate acute and chronic accumulated training load. (Allen 2019) defines these:</p>
+<blockquote>
+<p><strong>Chronic Training Load (CTL)</strong>. Taking into consideration both volume and intensity, CTL provides a measure of how much an athlete has been training historically, or chronically. It is calculated as an <em>exponentially weighted</em> moving average of daily TSS (or TRIMP) values, with the default <em>time constant</em> set to 42 days. (In effect, what this means is that your CTL is primarily a function of the training that you have done in the past three months.) CTL can therefore be viewed as analogous to the positive effect of training on performance in the impulse-response model—that is, the first integral term in the equation given earlier—with the caveat that CTL is a relative indicator of changes in performance ability due to changes in fitness, not an absolute predictor (since the gain factor, ka, has been eliminated) (<em>id.</em> at 242).</p>
+</blockquote>
+<p>and</p>
+<blockquote>
+<p><strong>Acute Training Load (ATL)</strong>. Again, taking into consideration both volume and intensity, ATL provides a measure of how much an athlete has been training recently, or acutely. It is calculated as an <em>exponentially weighted</em> moving average of daily TSS values, with the default <em>time constant</em> set to seven days. (In effect, what this means is that your ATL is primarily a function of the training that you have done in the past two weeks.) ATL can therefore be viewed as analogous to the negative effect of training on performance in the impulse-response model—that is, the second integral term in the equation—with the caveat that ATL is a relative indicator of changes in performance ability due to fatigue, not an absolute predictor (since the gain factor, kf, has been eliminated) (<em>id.</em>).</p>
+</blockquote>
+<p>I’ve read confusion on the interwebs over what an <em>exponentially weighted</em> moving average with a default <em>time constant</em> is, exactly. First, an exponentially-weighted moving average <span class="math inline">\(S\)</span> at time <span class="math inline">\(t\)</span> is:</p>
+<p><span class="math display">\[
+S_t = 
+\begin{cases}
+X_1, &amp;\text{t=1} \\
+\alpha \cdot X_t + (1 - \alpha)\cdot S_{t-1}, &amp;\text{ t&gt;1}
+\end{cases}
+\]</span>
+where <span class="math inline">\(\alpha \in [0,1]\)</span> weights current and past values. Higher values discount older observations. If <span class="math inline">\(\alpha = 1\)</span>, only the latest value matters whereas if <span class="math inline">\(\alpha = 0\)</span>, only the past matters. Thus, the value of <span class="math inline">\(\alpha\)</span> tunes the amount that past work influences current training load. Second, we estimate an <span class="math inline">\(\alpha\)</span> for ATL and CTL with the time constants. (Murray 2017) gives us,</p>
+<p><span class="math display">\[
+\alpha = \frac{2}{n + 1}
+\]</span>
+where <span class="math inline">\(n\)</span> are the number of training days, (Allen 2019) prescribes 7 for ATL and 42 for CTL.</p>
+<p>Finally, we can use ATL and CTL to prescribe workouts and prep for races. To race, we want CTL - ATL (fitness minus fatigue) to be positive. For workouts, on the other hand, we want to hold CTL - ATL negative: (Allen 2019) suggests somewhere between -10 and -30.</p>
+<p>Let’s keep in mind that we’re relying a lot on the assumptions by (Allen 2019) that their heuristic of 7 and 42 days are a fair representation of general fitness and fatigue. In a future post, we’ll explore this assumption and try to estimate optimal training load as unknown parameters in a Bayesian, more generative model.</p>
+<hr />
+<p><strong>Allen</strong>, Hunter. <em>Training and Racing with a Power Meter</em>. Third Edition. Boulder, Colorado: VeloPress, 2019.</p>
+<p><strong>Clarke</strong>, David C., and Philip F. Skiba. <em>Rationale and Resources for Teaching the Mathematical Modeling of Athletic Training and Performance.</em> Advances in Physiology Education 37, no. 2 (June 2013): 134–52. <a href="https://doi.org/10.1152/advan.00078.2011" class="uri">https://doi.org/10.1152/advan.00078.2011</a>.</p>
+<p><strong>Murray</strong>, Nicholas B, Tim J Gabbett, Andrew D Townshend, and Peter Blanch. <em>Calculating Acute:Chronic Workload Ratios Using Exponentially Weighted Moving Averages Provides a More Sensitive Indicator of Injury Likelihood than Rolling Averages.</em> British Journal of Sports Medicine 51, no. 9 (May 2017): 749–54. <a href="https://doi.org/10.1136/bjsports-2016-097152" class="uri">https://doi.org/10.1136/bjsports-2016-097152</a>.</p>

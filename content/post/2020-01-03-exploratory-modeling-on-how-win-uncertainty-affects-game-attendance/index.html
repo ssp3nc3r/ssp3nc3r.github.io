@@ -1,0 +1,32 @@
+---
+title: "Exploratory modeling on how win uncertainty affects baseball game attendance"
+date: 2020-01-03T18:01:28-04:00
+draft: false
+comments: false
+tags:
+  - R
+  - Stan
+  - Baseball
+  - Uncertainty
+  - Betting
+  - Attendance
+---
+
+
+
+<p>We dread an empty ticket booth. The Dodgers’ average game attendance, for example, can be below capacity — they have seats to fill, despite having winning seasons.</p>
+<p>To draw more fans, consider the words of famed economist Simon Rotternberg, who said “uncertainty of outcome is necessary for consumers to pay admission to ball games.” While winning is important, it’s the not knowing that creates excitement. Have the Dodgers maximized winning with uncertainty of outcome? Let’s see.</p>
+<p>To start exploring the question, we model attendance as a function of the uncertainty of outcome, attempting to account for other factors like day of the week, time of day, and their cumulative fraction of wins. It seems reasonable to believe that some uncertainty helps attract people to the game. It also seems reasonable to believe that the function is non-linear: <em>a change in probability of a win from 0 percent to 1 percent may well attract fewer fans than if from 49 percent to 50 percent.</em> Thus, let’s try modeling the marginal effect of wins as quadratic. Our overall model, then, looks like:</p>
+<p><span class="math display">\[\textrm{Normal}(\theta, \sigma)\]</span></p>
+<p>for game <span class="math inline">\(i\)</span>, where</p>
+<p><span class="math display">\[\theta_i \sim \alpha_{1[i]} \cdot \textrm{day}_i + \alpha_{2[i]} \cdot \textrm{time}_i + \beta_{1[i]} \cdot \frac{\sum{\textrm{wins}_i}}{\sum{\textrm{games}_i}} + \beta_{2[i]} \cdot p(\textrm{win}_i) + \beta_{3[i]} \cdot p(\textrm{win}_i)^2\]</span>
+Once we get our posterior estimates, we can set the partial derivative of estimates of win uncertainty (<span class="math inline">\(\beta_2\)</span> and <span class="math inline">\(\beta_3\)</span>) to find a maximum:</p>
+<p><span class="math display">\[\textrm{Maximum} = \frac{-\beta_2}{2 \cdot \beta_3 }\]</span>
+We’ll run the analysis in <code>Stan</code>.</p>
+<p>For our analysis, let’s use betting market odds as a proxy for fans’ estimation their teams chances of winning. The betting company Pinnacle has made these data available for the 2016 season in their R package <code>pinnacle.data::MLB2016</code>. As with Pinnacle’s generosity, <a href="https://www.retrosheet.org/gamelogs/index.html">Retrosheets has made data available for per-game attendance along with game outcomes</a>.</p>
+<p>In code, our basic model is as follows:</p>
+<pre class="r"><code>fit &lt;- stan_glm(Attendence ~ 1 + DayOfWeek + DayNight + winpct + Pr_win + Pr_win2, 
+                data = dodgers2016,
+                cores = 4, chains = 4)</code></pre>
+<p>Our resulting estimate for the distribution of the marginal perception of outcome uncertainty that maximizes butts in seats was a median of 0.61 with the distribution:</p>
+<p><img src="/post/2020-01-03-exploratory-modeling-on-how-win-uncertainty-affects-game-attendance_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>

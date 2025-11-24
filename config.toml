@@ -1,5 +1,5 @@
 baseURL = "https://ssp3nc3r.github.io"
-title   = "p( ssp3nc3r | Columbian )"
+title   = "Dr. Scott Spencer"
 
 theme = "hugo-theme-hello-friend-ng"
 
@@ -54,11 +54,11 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
 
 
   # Metadata mostly used in document's head
-  description = "Scott Spencer's blog and publications on statistical, generative modeling, bayesian inference, writing, data visualization, and sports."
-  keywords = "Scott Spencer, statistical, generative modeling, bayesian inference, writing, data visualization, sports, columbia university"
+  description = "Dr. Scott Spencer: Bayesian consultant to professional sports organizations, Columbia University lecturer, and Stan modeling expert. Physics-informed generative models for sports analytics."
+  keywords = "Scott Spencer, Bayesian modeling, Stan, sports analytics, Columbia University, MLB, Premier League, physics-informed models, generative modeling"
   images = [""]
 
-  homeSubtitle = "statistical, generative modeling. bayesian inference. writing. data visualization. sports."
+  homeSubtitle = "Bayesian Modeling • Sports Analytics • Columbia University"
 
   # Prefix of link to the git commit detail page. GitInfo must be enabled.
   # gitUrl = ""
@@ -88,7 +88,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
     theme = "#252627"
 
   [params.logo]
-    logoText     = "$ cd /home/"
+    logoText     = " update_beliefs()"
     logoHomeLink = "/"
     # Set true to remove the logo cursor entirely.
     logoCursorDisabled = false

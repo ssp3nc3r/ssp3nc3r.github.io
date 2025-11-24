@@ -8,16 +8,37 @@ author:
 title: About
 ---
 
-I provide consulting and advanced Bayesian modeling to organizations, including Premier League and Major League Baseball teams and teache in the [applied analytics graduate program at Columbia University](https://sps.columbia.edu/faculty/scott-spencer "Columbia University, Faculty and Lecturer"), my alma mater. To make probabilistic programming in Stan and Bayesian data analysis more accessible, I develop and teach online courses too: e.g., <https://athlyticz.com/stan-i>
+I develop sophisticated probabilistic models that transform complex data into strategic insights for elite sports organizations. My work integrates disparate data sources, physics-based constraints, and domain knowledge while properly accounting for uncertainty. I communicate complex mathematical concepts through bespoke visualizations and decision support tools that I design and build, bridging the gap between advanced statistics and executive decision-making.
 
-Working with core developers of Stan and consulting, I build Bayesian, generative models of complex processes involving both human behavior and physical phenomena. My applied work focuses on modeling data for good and on professional sports.
+## Consulting
 
-Recent efforts are on the spatial and temporal impact of sea-level rise on the perceived value of coastal land, and estimating and forecasting player and team performance. My work in modeling and communication arise from a doctorate with honors in research and writing, master of science in sports management focused on data science analytics, and bachelor of science in chemical engineering focused on numerical methods and statistical process control.
+I've consulted for organizations in Major League Baseball and the Premier League. Working with core developers of Stan, I develop generative models that reflect the actual data-generating processes in sports---combining physics, geometry, and human decision-making. Recent work includes architecting a player evaluation framework that jointly models over 80 leagues spanning a decade of match data.
 
-My analyses have extended to other domains too. Previously, I analyzed data, communicated statistical insights through narrative, and static and interactive visuals, persuading various stakeholders of my technology clients on the impact of his analyses and designs for decisions related to process control, operations, and patents.
+What differentiates my approach: I model the physical constraints and human perception that govern performance, rather than relying on summary statistics that mask the underlying mechanisms. This physics-informed Bayesian approach produces more realistic predictions and clearer insights for decision-makers.
 
-To assist visual communication, I have developed R packages, including one for mapping data values to visual encodings perceptually-uniform separately across hue, saturation, and luminance. The most persuasive communications are transparent and account for uncertainty, which are two areas of interest in my research and work in quantitative communication through visualization and storytelling. Along with research I have collaborated and published variously. These include analyses, editing, and research for *The Real Madrid Way* (BenBella Books 2016), of which Billy Beane (Executive Vice President of Baseball Operations at the Oakland A's) has said "will be one of the most influential books on sports ever written."
+## Teaching
 
-Along with honors recognition for research and writing, my visualizations have been showcased and longlisted in the Kantar *Information is Beautiful* Awards, and my analyses won analytics competitions, including the Society for American Baseball Research's analytics competition, graduate division for my work involving human decision-making based on perception of spatial and temporal event information.
+I teach in the [applied analytics graduate program at Columbia University](https://sps.columbia.edu/faculty/scott-spencer), my alma mater, where I've developed and led courses in storytelling with data, research design, and statistical communication. I authored *Data in Wonderland* as a [textbook reader](https://ssp3nc3r.github.io/diw/) for Columbia's graduate program in data storytelling.
 
-Preferred tools include Stan, R (incl. tidyverse, plus advanced visualization packages), Git, Quarto, SQL, C++, macOS, Davinci Resolve, and more. Where appropriate, I employ my own locally-hosted LLM, AI, and agentic CLI tooling to streamline workflow.
+I also develop and teach advanced Stan courses for Athlyticz, an online learning platform: [Becoming a Bayesian I](https://athlyticz.com/stan-i) and [Becoming a Bayesian II](https://athlyticz.com/stan-ii). These comprehensive Bayesian curricula include over 200 instructional videos that I produce, film, and edit myself at professional production quality in masterclass style with live coding, teaching thousands of students and practitioners worldwide. My workflow integrates modern AI tooling (locally-hosted LLMs, agentic CLI) with deep domain expertise, ensuring efficiency without compromising the bespoke analytical approach clients require.
+
+My ability to communicate complex statistical concepts comes from dual backgrounds: a decade at Cadwalader and Jenner & Block as an innovation and regulatory advocate, where I reviewed scientific and engineering ideas within legal constraints and communicated them persuasively to diverse stakeholders---from scientific experts to judges and business decision-makers---and over seven years teaching graduate-level analytics, where I refined how to make Bayesian modeling accessible.
+
+## Education & Recognition
+
+**Columbia University** - Master of Science, Sports Management & Analytics (4.0 GPA)
+Winner, 2017 SABR Analytics Competition (graduate division)
+Primary analyst and editor, *The Real Madrid Way* (BenBella Books 2016)
+
+**University of Illinois Urbana-Champaign** - Doctor of Jurisprudence
+Honors in research and writing
+Specialized in applying formal logic to complex legal and statistical questions
+
+**Texas Tech University** - Bachelor of Science, Chemical Engineering
+Focused on numerical methods and stochastic process control
+
+My work has been recognized in the Kantar Information is Beautiful Awards, and recent research includes the spatial and temporal impact of sea-level rise on coastal property values, and Bayesian approaches to estimating and forecasting player and team performance.
+
+## Stan Community
+
+I contribute software and documentation to the Stan probabilistic programming language as a scientific contributor and educator. I developed pedagogical implementations of McElreath's *Statistical Rethinking* that are widely used in academia, and mentor new users in Bayesian workflow. My Stan work combines open-source contribution with developing the teaching materials that have helped make Bayesian modeling more accessible to thousands worldwide.

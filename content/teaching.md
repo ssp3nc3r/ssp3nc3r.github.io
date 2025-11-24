@@ -8,91 +8,43 @@ author:
 title: Teaching
 ---
 
+I've taught graduate-level analytics at Columbia University since 2018 and developed comprehensive Stan curricula that have reached thousands of students worldwide through Athlyticz.
 
-## 2025 Fall
+## Featured Courses
 
-Columbia University. Applied Analytics. _Storytelling with Data and AI_.
+**Columbia University - Applied Analytics Program**
 
-Athlyticz. [_Becoming a Bayesian I_](https://athlyticz.com/stan-i) and [_Becoming a Bayesian II_](https://athlyticz.com/stan-ii).
+Since 2018, I've designed and taught courses in:
 
-## 2025 Summer
+- *Storytelling with Data and AI* - Communicating complex statistical insights through narrative and visualization
+- *Research Design* - Experimental design, causal inference, and statistical reasoning
+- *Machine Learning* - Statistical learning methods and applications
 
-Athlyticz. [_Becoming a Bayesian I_](https://athlyticz.com/stan-i) and [_Becoming a Bayesian II_](https://athlyticz.com/stan-ii).
+I authored [*Data in Wonderland*](https://ssp3nc3r.github.io/diw/) as the textbook reader for the data storytelling curriculum.
 
-## 2025 Spring
+**Athlyticz - Bayesian Modeling Courses**
 
-Columbia University. Applied Analytics. _Storytelling with Data and AI_.
+I developed two comprehensive Stan courses with over 200 instructional videos that I produce, film, and edit myself:
 
-Athlyticz. [_Becoming a Bayesian I_](https://athlyticz.com/stan-i) and [_Becoming a Bayesian II_](https://athlyticz.com/stan-ii).
+- [*Becoming a Bayesian I*](https://athlyticz.com/stan-i) - Foundational Bayesian modeling and Stan programming
+- [*Becoming a Bayesian II*](https://athlyticz.com/stan-ii) - Advanced topics including survival analysis, differential equations, physics-constrained models, and computational optimization
 
-## 2024 Fall
+These masterclass-style courses with live coding have taught thousands of practitioners worldwide.
 
-Columbia University. Applied Analytics. _Research Design_.
+## Teaching History
 
-Athlyticz. [_Becoming a Bayesian I_](https://athlyticz.com/stan-i).
+**2025** - Columbia: *Storytelling with Data and AI* (Fall, Spring) | Athlyticz: *Becoming a Bayesian I & II* (Fall, Summer, Spring)
 
-## 2024 Summer
+**2024** - Columbia: *Research Design* (Fall), *Storytelling with Data* (Spring) | Athlyticz: *Becoming a Bayesian I* (Fall, Summer)
 
-Athlyticz. [_Becoming a Bayesian I_](https://athlyticz.com/stan-i).
+**2023** - Columbia: *Research Design* (Fall), [*Storytelling with Data*](https://ssp3nc3r.github.io/comm-course-ds-2023-01/) (Spring)
 
-## 2024 Spring
+**2022** - Columbia: *Research Design* (Fall), [*Storytelling with Data*](https://ssp3nc3r.github.io/comm-course-ds-2022-02/) (Summer), [*Storytelling with Data*](https://ssp3nc3r.github.io/comm-course-ds-2022-01/) (Spring)
 
-Columbia University. Applied Analytics. _Storytelling with Data_.
+**2021** - Columbia: [*Storytelling with Data*](https://ssp3nc3r.github.io/20213APAN5800K007/) (Fall), [*Research Design*](https://github.com/ssp3nc3r/20213APAN5300K004) (Fall), *Storytelling with Data* (Spring)
 
-## 2023 Fall
+**2020** - Columbia: *Research Design* (Fall), *Storytelling with Data* (Spring)
 
-Columbia University. Applied Analytics. _Research Design_.
+**2019** - Columbia: *Storytelling with Data* (Fall, Summer, Spring)
 
-## 2023 Spring
-
-[Columbia University. Applied Analytics. _Storytelling with Data_](https://ssp3nc3r.github.io/comm-course-ds-2023-01/).
-
-## 2022 Fall
-
-Columbia University. Applied Analytics. _Research Design_.
-
-## 2022 Summer
-
-[Columbia University. Applied Analytics. _Storytelling with Data_](https://ssp3nc3r.github.io/comm-course-ds-2022-02/).
-
-## 2022 Spring
-
-[Columbia University. Applied Analytics. _Storytelling with Data_](https://ssp3nc3r.github.io/comm-course-ds-2022-01/).
-
-## 2021 Fall
-
-[Columbia University. Applied Analytics. _Storytelling with Data_](https://ssp3nc3r.github.io/20213APAN5800K007/).
-
-[Columbia University. Applied Analytics. _Research Design_](https://github.com/ssp3nc3r/20213APAN5300K004).
-
-## 2021 Spring
-
-Columbia University. Applied Analytics. _Storytelling with Data_.
-
-## 2020 Fall
-
-Columbia University. Applied Analytics. _Research Design_.
-
-## 2020 Spring
-
-Columbia University. Applied Analytics. _Storytelling with Data_.
-
-## 2019 Fall
-
-Columbia University. Applied Analytics. _Storytelling with Data_.
-
-## 2019 Summer
-
-Columbia University. Applied Analytics. _Storytelling with Data_.
-
-## 2019 Spring
-
-Columbia University. Applied Analytics. _Storytelling with Data_.
-
-## 2018 Fall
-
-Columbia University. Applied Analytics. _Storytelling with Data_.
-
-## 2018 Spring
-
-Columbia University. Applied Analytics. _Machine Learning_.
+**2018** - Columbia: *Storytelling with Data* (Fall), *Machine Learning* (Spring)

@@ -8,7 +8,7 @@
 <meta name="description" content="In the last post, I showed how we can speed up computation for splines in Stan. This post is, ahem, derivative. Perhaps we have noisy data of position and time, and we want to estimate speed and acceleration. We can use b-splines and their derivatives for this.
 So let’s pick up where we left off, and add calculations in Stan to calculate the first and second derivatives of the spline in Stan. Much of the code below mirrors that of the previous post. There are multiple approaches to calculating derivatives of splines. We can take the derivative of the basis functions (Rogers 2001, sec. 3.10 B-Spline Curve Derivatives) or we can difference the coefficients (Boor 2001, X. The Stable Evaluation of B-Splines and Splines). In the Stan functions block below, I’ve added calculations for the first and second derivatives of the basis functions.
 " />
-<meta name="keywords" content="Scott Spencer, statistical, generative modeling, bayesian inference, writing, data visualization, sports, columbia university, Stan, splines, derivatives" />
+<meta name="keywords" content="Scott Spencer, Bayesian modeling, Stan, sports analytics, Columbia University, MLB, Premier League, physics-informed models, generative modeling, Stan, splines, derivatives" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="#252627" />
 <link rel="canonical" href="https://ssp3nc3r.github.io/post/derivative-work-on-speedy-splines/" />
@@ -26,7 +26,7 @@ So let’s pick up where we left off, and add calculations in Stan to calculate 
 
     <title>
         
-            Speedy splines part two, derivative work :: p( ssp3nc3r | Columbian ) 
+            Speedy splines part two, derivative work :: Dr. Scott Spencer 
         
     </title>
 
@@ -98,7 +98,7 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
     <div class="logo">
         
             <span class="logo__mark">></span>
-            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__text"> update_beliefs()</span>
             <span class="logo__cursor" style=
                   "
                    background-color:#67a2c9;

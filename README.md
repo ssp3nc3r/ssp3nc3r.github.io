@@ -22,7 +22,7 @@ install.packages("blogdown")
 blogdown::serve_site()
 
 # Build the site
-blogdown::build_site()
+blogdown::build_site(build_rmd = FALSE)
 ```
 
 ### Using Hugo directly:

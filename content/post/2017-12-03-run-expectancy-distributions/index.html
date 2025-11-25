@@ -205,7 +205,7 @@ rs %&gt;%
   scale_x_continuous(breaks = c(0:13)) +
   labs(x = &quot;Runs scored in half-inning&quot;, y = &quot;Frequency&quot;) + 
   theme_tufte(base_family = &quot;sans&quot;)</code></pre>
-<p><img src="/images/2017-12-03-run-expectancy-distributions/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /></p>
 </div>
 <div id="building-a-bayesian-run-expectancy-model" class="section level2">
 <h2>Building a bayesian run expectancy model</h2>
@@ -390,7 +390,7 @@ ggplot(pp) +
         panel.grid.major = element_blank(),
         panel.spacing.x = unit(1, &quot;lines&quot;)) +
   labs(x = &quot;Expected Runs&quot;, y = &quot;Baserunners&quot;)</code></pre>
-<p><img src="/images/2017-12-03-run-expectancy-distributions/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /></p>
 <p>The distributions above reflect the model’s uncertainty in the <em>predictors</em>, but importantly, when predicting or forecasting, we need to consider both this uncertainty <em>and</em> the natural variation in events. The mean posterior estimates of observed at bats in the 2017 season are shown below.</p>
 <pre class="r"><code># combine preditions with original data
 yrep &lt;- posterior_predict(fit)
@@ -420,6 +420,6 @@ ggplot(rs) +
         panel.grid.major = element_blank(),
         panel.spacing.x = unit(1, &quot;lines&quot;)) +
   labs(x = &quot;Expected Runs&quot;, y = &quot;Baserunners&quot;)</code></pre>
-<p><img src="/images/2017-12-03-run-expectancy-distributions/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /></p>
 </div>
 </div>

@@ -174,7 +174,7 @@ sz_top
 </table>
 <p>We supplement these data using prior information. Controlled, anatomical measures of male soldiers have been published by the United States Military <span class="citation">(Benson and Parham <a href="#ref-Benson:2017uy">2017</a>)</span>. Presumably anatomical measurements of male soldiers approximate the stature of pro ball players. These data, shown in Figure <a href="#fig:ansurii">1</a>, include overall, knee (mid-patella), and navel height <span class="citation">(Gordon et al. <a href="#ref-Gordon:2014to">2014</a>)</span>, which should be close to the defined zone as seen by umpires.</p>
 <div class="figure" style="text-align: center"><span id="fig:ansurii"></span>
-<img src="/./post/2018-04-25-modeling-umpire-calls_files/figure-html/ansurii-1.svg" alt="Anthropological survey of male anatomies" width="384" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/ansurii-1.svg" alt="Anthropological survey of male anatomies" width="384" />
 <p class="caption">
 Figure 1: Anthropological survey of male anatomies
 </p>
@@ -383,7 +383,7 @@ Within batter observations
 </table>
 <p>Post-cleaning measurements of the strike zone and pitch locations on called strikes for players José Altuve and Aaron Judge, for perspective, are shown in Figure <a href="#fig:measerr1">2</a> alongside a sketch for context of their relative heights.</p>
 <div class="figure" style="text-align: center"><span id="fig:measerr1"></span>
-<img src="/./post/2018-04-25-modeling-umpire-calls_files/figure-html/measerr1-1.svg" alt="Post-cleaning measurements of the strike zone with called strike locations measured in inches (umpire's view)" width="768" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/measerr1-1.svg" alt="Post-cleaning measurements of the strike zone with called strike locations measured in inches (umpire's view)" width="768" />
 <p class="caption">
 Figure 2: Post-cleaning measurements of the strike zone with called strike locations measured in inches (umpire’s view)
 </p>
@@ -846,14 +846,14 @@ p(\textrm{call = strike}) \sim \textrm{ball-strike count} + \mathcal{S}(\textrm{
 <h2>Model diagnostics</h2>
 <p>Our analysis follows the recommended Bayesian workflow <span class="citation">(Gabry et al., <a href="#ref-Gabry:2017tb">n.d.</a>)</span>. We next check the model for problems. All <span class="math inline">\(\hat{r}\)</span> values are near 1.0, and <span class="math inline">\(\widehat{\textrm{neff}}\)</span> sample sizes are substantial. Approximating leave-one-out cross-validation, reveals that some of the observations used for modeling have somewhat elevated <span class="citation">(Vehtari, Gelman, and Gabry, <a href="#ref-Vehtari:wy">n.d.</a>)</span> Pareto-K values, colored blue in Figure <a href="#fig:loo060">3</a>, which means those observations could have disproportionate influence on model parameters.</p>
 <div class="figure" style="text-align: center"><span id="fig:loo060"></span>
-<img src="/./post/2018-04-25-modeling-umpire-calls_files/figure-html/loo060-1.png" alt="Diagnostics using PSIS-LOO approximation" width="2400" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/loo060-1.png" alt="Diagnostics using PSIS-LOO approximation" width="2400" />
 <p class="caption">
 Figure 3: Diagnostics using PSIS-LOO approximation
 </p>
 </div>
 <p>These observations are well within the empirically accepted threshold and are several inches outside the average strike zone. We check the fit by binning residuals <span class="citation">(Gelman et al. <a href="#ref-Gelman:2000tc">2000</a>, sec. 6.4)</span> on the held-out data. Figure <a href="#fig:binres1">4</a> shows observations binned in one tenth of a percent increments compared with one and two standard deviations of the binomial distribution.</p>
 <div class="figure" style="text-align: center"><span id="fig:binres1"></span>
-<img src="/./post/2018-04-25-modeling-umpire-calls_files/figure-html/binres1-1.svg" alt="Residuals binned by called strike probabilities of held-out data" width="384" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/binres1-1.svg" alt="Residuals binned by called strike probabilities of held-out data" width="384" />
 <p class="caption">
 Figure 4: Residuals binned by called strike probabilities of held-out data
 </p>
@@ -864,7 +864,7 @@ Figure 4: Residuals binned by called strike probabilities of held-out data
 <h2>Called strike probability predictions from the modeled posterior</h2>
 <p>Our model’s estimates of called strike probabilities for right-handed batters are shown in Figure <a href="#fig:plateprobs1">5</a> overlaying a strike zone for the average player, and compared with probabilities for players seeing eye-to-eye with José Altuve and those taller, like Aaron Judge.</p>
 <div class="figure" style="text-align: center"><span id="fig:plateprobs1"></span>
-<img src="/./post/2018-04-25-modeling-umpire-calls_files/figure-html/plateprobs1-1.svg" alt="Posterior called strike probabilities by pitch location, measured in inches (umpire's view)" width="768" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/plateprobs1-1.svg" alt="Posterior called strike probabilities by pitch location, measured in inches (umpire's view)" width="768" />
 <p class="caption">
 Figure 5: Posterior called strike probabilities by pitch location, measured in inches (umpire’s view)
 </p>

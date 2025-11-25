@@ -370,7 +370,7 @@ plot(g,                                 # plot tree with example values
      edge.label.color = &#39;#000000&#39;, 
      asp = .6 
 )</code></pre>
-<p><img src="https://ssp3nc3r.github.io/./post/2018-01-08-languages-behind-statistical-learning-and-useful-tools_files/figure-html/unnamed-chunk-17-1.svg" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="https://ssp3nc3r.github.io/post/2018-01-08-languages-behind-statistical-learning/index_files/figure-html/unnamed-chunk-17-1.svg" width="672" style="display: block; margin: auto;" /></p>
 <p>Other concepts include discrete and continuous random variables (<em>e.g.</em>, observing pairs of coin tosses, we can use random variable <span class="math inline">\(\boldsymbol{X}\)</span> to assign outcomes to numbers, thus <span class="math inline">\(X(HH) = 2,X(HT) = X(TH) = 1,X(TT) = 0\)</span>). The language of probability also includes probability mass functions (PMF), cumulative distribution functions (CDF), and various distributions.</p>
 <div id="distributions" class="section level3">
 <h3>Distributions</h3>
@@ -438,7 +438,7 @@ ggplot(data = df) +                            # create plot object
   # add labels to axes
   labs(x = &quot;Successes of 40\ndraws in 40 trials&quot;,                            
        y = &quot;Probability&quot;)</code></pre>
-<p><img src="https://ssp3nc3r.github.io/./post/2018-01-08-languages-behind-statistical-learning-and-useful-tools_files/figure-html/unnamed-chunk-22-1.svg" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="https://ssp3nc3r.github.io/post/2018-01-08-languages-behind-statistical-learning/index_files/figure-html/unnamed-chunk-22-1.svg" width="480" style="display: block; margin: auto;" /></p>
 <p>(Recall that a PDF, unlike a PMF, does not represent probability; it represents the slope of the CDF.) Other common (and interrelated) distributions encountered include the multinomial <code>dmultinom()</code>, normal or gaussian <code>dnorm()</code>, cauchy <code>dcauchy()</code>, student-t <code>dt()</code>, poisson <code>dpois()</code>, negative binomial <code>dnbinom()</code>, exponential <code>dexp()</code>, gamma <code>dgamma()</code>, beta <code>dbeta()</code>. The LKJ correlation matrix distribution is <code>dlkjcorr()</code>.</p>
 <p>Some probability is reviewed in chapter three of <em>Deep Learing</em>. More briefly, we get a quick reference on probability from Chen, et al. <a href="http://www.wzchen.com/probability-cheatsheet/"><em>Probability Cheatsheet</em>, (2015)</a>, which closely follows Blitzstein’s <a href="https://projects.iq.harvard.edu/stat110"><em>Introduction to Probability</em> (CRC Press 2014)</a>. A clear and concise statement on probability is found in, believe it or not, Feynman’s <a href="http://www.feynmanlectures.caltech.edu/I_06.html">Chapter 6 <em>Probability</em> in <em>Lectures on Physics</em>, Volume I Millennium Edition (Basic Books 2010)</a>. Another helpful review is found in Murphy’s <a href="https://clio.columbia.edu/catalog/10509129"><em>Machine Learning, A Probablistic Perspective</em>, Chapter 2 Probability (MIT Press 2012)</a>.</p>
 </div>
@@ -621,7 +621,7 @@ require(grid)
 require(gridExtra)
 
 grid.arrange(SSR, SST, epsilon, ncol = 3)</code></pre>
-<p><img src="https://ssp3nc3r.github.io/./post/2018-01-08-languages-behind-statistical-learning-and-useful-tools_files/figure-html/unnamed-chunk-23-1.svg" width="768" style="display: block; margin: auto auto auto 0;" /></p>
+<p><img src="https://ssp3nc3r.github.io/post/2018-01-08-languages-behind-statistical-learning/index_files/figure-html/unnamed-chunk-23-1.svg" width="768" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
 </div>
 </div>
@@ -732,7 +732,7 @@ gd &lt;- gradient_descent(X, y)</code></pre>
   # add labels to axes
   labs(x = &#39;Theta&#39;,                            
        y = &#39;y&#39;) </code></pre>
-<p><img src="https://ssp3nc3r.github.io/./post/2018-01-08-languages-behind-statistical-learning-and-useful-tools_files/figure-html/unnamed-chunk-25-1.svg" width="672" /></p>
+<p><img src="https://ssp3nc3r.github.io/post/2018-01-08-languages-behind-statistical-learning/index_files/figure-html/unnamed-chunk-25-1.svg" width="672" /></p>
 <p>shows the algorithm converging from an initial to final gradient. This simplified version of a gradient descent is fragile and requires manually choosing an <span class="math inline">\(\alpha\)</span> and threshold for convergence, but demonstrates the idea. The R package <code>numDeriv</code> provides functions to calculate gradients <code>grad()</code>. Of note, our example <span class="math inline">\(\theta\)</span> was of a single dimension. When the problem includes multiple dimensions of partial second derivatives, they may be collected together in an <span class="math inline">\(n \times n\)</span> matrix, called a <em>Hessian</em> — the analogue of the second derivative — in R, <code>hessian()</code>.</p>
 </div>
 <div id="simplex-method" class="section level3">

@@ -212,7 +212,7 @@ x2     &lt;- c(x2, sqrt(n) * sin(fibonacci_angle * n) + rnorm(n, 0, .5) )
 class &lt;- rep(c(&#39;FALSE&#39;, &#39;TRUE&#39;), each = length(n))
 df    &lt;- data.frame(x1, x2, class)</code></pre>
 <p>These data look like,</p>
-<p><img src="https://ssp3nc3r.github.io/./post/2018-04-05-neural-networks-the-real-basics_files/figure-html/unnamed-chunk-2-1.svg" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="https://ssp3nc3r.github.io/post/neural-networks-the-real-basics/index_files/figure-html/unnamed-chunk-2-1.svg" width="480" style="display: block; margin: auto;" /></p>
 <p>As a baseline, let’s fit a logistic regression on these data:</p>
 <pre class="r"><code># logistic regression
 log_reg &lt;- glm(class ~ x1 + x2, family = binomial(link = &#39;logit&#39;), data = df)
@@ -230,7 +230,7 @@ pred       &lt;- predict.glm(log_reg, newdata = grid)
 invlogit   &lt;- function(x) exp(x) / (1 + exp(x) )
 grid$class &lt;- invlogit(pred) &gt; 0.5</code></pre>
 <p>Our prediction looks like,</p>
-<p><img src="https://ssp3nc3r.github.io/./post/2018-04-05-neural-networks-the-real-basics_files/figure-html/unnamed-chunk-4-1.svg" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="https://ssp3nc3r.github.io/post/neural-networks-the-real-basics/index_files/figure-html/unnamed-chunk-4-1.svg" width="480" style="display: block; margin: auto;" /></p>
 <p>As graphically evident, these data aren’t distinguished along a linear boundary.</p>
 </div>
 <div id="basic-neural-network" class="section level1">
@@ -307,7 +307,7 @@ grid$class &lt;- factor((ff_grid$output &gt; .5) * 1,
   geom_point(df, mapping = aes(x1, x2, color = class)) + 
   scale_colour_manual(values=c(&#39;gray42&#39;, &#39;gray88&#39;)) + 
   theme_void() + theme(legend.position = &#39;&#39;)</code></pre>
-<p><img src="https://ssp3nc3r.github.io/./post/2018-04-05-neural-networks-the-real-basics_files/figure-html/unnamed-chunk-11-1.svg" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="https://ssp3nc3r.github.io/post/neural-networks-the-real-basics/index_files/figure-html/unnamed-chunk-11-1.svg" width="480" style="display: block; margin: auto;" /></p>
 <p>Let’s try again, this time using 30 intermediate transformations:</p>
 <pre class="r"><code>nnet30 &lt;- train(x, y, hidden = 30, iterations = 1e5)
 acc_net30 &lt;- mean((nnet30$output &gt; .5) == y)</code></pre>
@@ -324,7 +324,7 @@ grid$class &lt;- factor((ff_grid$output &gt; .5) * 1,
   geom_point(df, mapping = aes(x1, x2, color = class)) + 
   scale_colour_manual(values=c(&#39;gray42&#39;, &#39;gray88&#39;)) + 
   theme_void() + theme(legend.position = &#39;&#39;)</code></pre>
-<p><img src="https://ssp3nc3r.github.io/./post/2018-04-05-neural-networks-the-real-basics_files/figure-html/unnamed-chunk-14-1.svg" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="https://ssp3nc3r.github.io/post/neural-networks-the-real-basics/index_files/figure-html/unnamed-chunk-14-1.svg" width="480" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="bibliography" class="section level1 unnumbered">

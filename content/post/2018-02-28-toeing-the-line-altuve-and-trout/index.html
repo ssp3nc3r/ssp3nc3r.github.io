@@ -212,7 +212,7 @@ location &lt;-
   labs(x = &#39; &#39;, y = &#39; &#39;)
 
 location</code></pre>
-<p><img src="/./post/2018-02-28-toeing-the-line-altuve-and-trout_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>Runner coordinates show deviations from baserunning paths, which may arise in various contexts. One includes runners overshooting first base along the foul line in attempts to outrun a throw to first base. Another is consistent with runners leaving the field after an out (either by the runner or otherwise an out ending the half-inning). In such circumstances it may be difficult to know exactly when the runner is attempting max effort.</p>
 <pre class="r"><code># -----------------------------------------------------------------------------
 # create plot distributions of speeds at all observed times
@@ -258,7 +258,7 @@ time &lt;-
 # -----------------------------------------------------------------------------
 require(gridExtra)
 grid.arrange(speed, time, ncol = 2)</code></pre>
-<p><img src="/./post/2018-02-28-toeing-the-line-altuve-and-trout_files/figure-html/unnamed-chunk-4-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>Differences in speed distributions between the players as shown here are subtle. We can also see that for both players, their speed changes over time within a given run. These plots suggest that Trout — at least in the circumstances reviewed — accelerates a bit more consistency (the lines showing initial accelleration are more concentrated and slightly steeper) and better holds his speed (his histogram shows more instances gathered at higher speeds).</p>
 <p>Let’s go into more detail, keeping in mind that more likely estimates of max effort for <em>part of the run</em> may be found where batters — along with overshooting first base — have attempted to advance at least to second base. Unless due to a ground rule double or a home run, we may assume that max effort was likely at least to the penultimate base advanced. Max effort was likely at least through, say, first base when the batter ran at least near second base. Let’s study those scenarios, specifically including the reaction time from hitting to running since this scenario would seem to have the most impact on wins.</p>
 </div>
@@ -342,7 +342,7 @@ ggplot() +
            hjust = 1, color = &#39;#000000&#39;) + 
   labs(x = &#39;Trout - Altuve: Difference in seconds to first base&#39;, 
        y = &#39;Number of simulations&#39;)</code></pre>
-<p><img src="/./post/2018-02-28-toeing-the-line-altuve-and-trout_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>suggest that Trout was conditionally quicker to first base than Altuve 96.8 percent of the time. Though we also expect that either may be quicker on any given play. Next, let’s get our expectation of maximum speed with these data.</p>
 </div>
 <div id="identifying-max-speed-to-first-for-each-play" class="section level4">
@@ -412,7 +412,7 @@ max2 &lt;-
 
 # arrange both plots
 grid.arrange(max1, max2, ncol = 2)</code></pre>
-<p><img src="/./post/2018-02-28-toeing-the-line-altuve-and-trout_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 </div>
 <div id="scenario-2-batters-trying-to-beat-a-throw-to-first" class="section level3">
@@ -475,7 +475,7 @@ ggplot() +
            hjust = 1, color = &#39;dodgerblue3&#39;) + 
   labs(x = &#39;Trout - Altuve: Difference in seconds to first base&#39;, 
        y = &#39;Number of simulations&#39;)</code></pre>
-<p><img src="/./post/2018-02-28-toeing-the-line-altuve-and-trout_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 </div>
 </div>
 </div>

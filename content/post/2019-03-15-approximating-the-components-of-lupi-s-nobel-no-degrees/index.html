@@ -45,7 +45,7 @@ urlcolor: MidnightBlue
 <h1>Exemplary, award-winning information graphic</h1>
 <p>Giorgia Lupi is a master at designing information for visual narrative — telling stories through visualization. Her <a href="http://giorgialupi.com">portfolio</a> includes a series of exploratory data visualizations published for the largest circulating Italian newspaper, <em>La Lettura</em>. She thinks hard about her audience, does not underestimate them. Her work gently guides those less familiar with information graphics, while organizing data complexity for a deep reader experience.</p>
 <p>Let’s consider one of her works, <em>Nobels no degrees</em>,</p>
-<p><img src="nobels-no-degrees.png" /></p>
+<p><img src="{{< blogdown/postref >}}nobels-no-degrees.png" /></p>
 <p>Lupi has used this as one of her reference works, <a href="http://giorgialupi.com/lalettura">explaining how she arrived at a final design</a> <span class="citation">(Lupi <a href="#ref-Lupi:2016vk">2016</a>)</span>. From her designer’s eye. Conception should be the most difficult part of designing an information display such as this. I do not add to her wonderful help in this regard. Instead, I consider two concepts important to design efforts — the concepts of layering and components — as an exercise identifying and coding approximations of the major components of her example.</p>
 </div>
 <div id="approximating-the-reference-in-r" class="section level1">
@@ -91,7 +91,7 @@ ggplot() +
   geom_point(aes(x = 1:6, y = 0), 
              shape = 21, size = 5, fill = cols, color = cols) + 
   theme_void()</code></pre>
-<p><img src="/./post/2019-03-15-approximating-the-components-of-lupi-s-nobel-no-degrees_files/figure-html/colorswatch-1.svg" width="480" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/colorswatch-1.svg" width="480" /></p>
 </div>
 <div id="main-display-of-points-and-lines" class="section level2">
 <h2>Main display of points and lines</h2>
@@ -114,7 +114,7 @@ ggplot() +
   theme(legend.position = &quot;&quot;) +
   labs(y = &quot;&quot;, x = &quot;&quot;)</code></pre>
 <p>Here’s our first display, stored in the object <code>p1</code>:</p>
-<p><img src="/./post/2019-03-15-approximating-the-components-of-lupi-s-nobel-no-degrees_files/figure-html/unnamed-chunk-5-1.svg" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.svg" width="672" /></p>
 <p>While the display can be made to look a bit closer to Lupi’s original component, it approximates Lupi’s concept well enough for this exercise.</p>
 </div>
 <div id="per-category-histograms-or-bar-charts" class="section level2">
@@ -159,7 +159,7 @@ dedu &lt;- dedu %&gt;%
         axis.text.x = element_blank(),
         axis.title = element_blank())</code></pre>
 <p>Here’s our series or facets of stacked bars:</p>
-<p><img src="/./post/2019-03-15-approximating-the-components-of-lupi-s-nobel-no-degrees_files/figure-html/unnamed-chunk-9-1.svg" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.svg" width="672" /></p>
 <p>As before, we can get closer to the original, but this approximation gets the idea about how to shape and code the data close enough for now.</p>
 </div>
 <div id="per-era-stacked-bar-charts" class="section level2">
@@ -204,7 +204,7 @@ d4 &lt;- d3 %&gt;%
         axis.text.x = element_blank(),
         axis.title = element_blank())</code></pre>
 <p>As before, this approximation should be close enough for teaching purposes:</p>
-<p><img src="/./post/2019-03-15-approximating-the-components-of-lupi-s-nobel-no-degrees_files/figure-html/unnamed-chunk-12-1.svg" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-1.svg" width="672" /></p>
 </div>
 <div id="sankey-diagram" class="section level2">
 <h2>Sankey diagram</h2>
@@ -269,7 +269,7 @@ data &lt;- data %&gt;%
   theme_void() +
   theme(legend.position = &quot;&quot;)</code></pre>
 <p>which results in,</p>
-<p><img src="/./post/2019-03-15-approximating-the-components-of-lupi-s-nobel-no-degrees_files/figure-html/unnamed-chunk-18-1.svg" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-18-1.svg" width="672" /></p>
 </div>
 </div>
 <div id="next-steps" class="section level1">

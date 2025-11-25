@@ -66,7 +66,7 @@ urlcolor: MidnightBlue
 <p>where period <span class="math inline">\(t\)</span> is measured as each batter faced.</p>
 <p>The results are in Figure <a href="#fig:lifetable">1</a>, which show the chance of survival in blue and the conditional hazard in gray, both including standard errors on the calculations.</p>
 <div class="figure" style="text-align: center"><span id="fig:lifetable"></span>
-<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/lifetable-1.svg" alt="Probabilities of hazard (gray) and survival (blue)" width="768" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/lifetable-1.svg" alt="Probabilities of hazard (gray) and survival (blue)" width="768" />
 <p class="caption">
 Figure 1: Probabilities of hazard (gray) and survival (blue)
 </p>
@@ -84,14 +84,14 @@ Figure 1: Probabilities of hazard (gray) and survival (blue)
 <p>The first model ignores censored observations (<em>i.e.</em>, complete games) and is coded to estimate parameters with Stan’s probabilistic modeling engine.</p>
 <p>Among possible priors, we kept it simple and chose <code>normal(0, 0.2)</code> for the coefficients to provide regularization. Model diagnostics look good. Using pareto smoothed importance sampling for leave-one-out approximation, we find that none of the observed stratum exhibit undue influence over the fit (below 0.5 is generally good), shown in Figure <a href="#fig:loo1">2</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:loo1"></span>
-<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/loo1-1.png" alt="PSIS diagnostic plot" width="384" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/loo1-1.png" alt="PSIS diagnostic plot" width="384" />
 <p class="caption">
 Figure 2: PSIS diagnostic plot
 </p>
 </div>
 <p>Similarly, the <span class="math inline">\(\hat{r}\)</span> values and <span class="math inline">\(\widehat{\textrm{neff}}\)</span> sample sizes show no signs of problem. Transforming the coefficients with an inverse logit, their range of probabilities of pitchers being pulled with each batter faced is shown in Figure <a href="#fig:clogit1">3</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:clogit1"></span>
-<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/clogit1-1.png" alt="Fit clogit 1 model, inverse logit of coefficients" width="768" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/clogit1-1.png" alt="Fit clogit 1 model, inverse logit of coefficients" width="768" />
 <p class="caption">
 Figure 3: Fit clogit 1 model, inverse logit of coefficients
 </p>
@@ -107,14 +107,14 @@ Figure 3: Fit clogit 1 model, inverse logit of coefficients
 <h2>Runs accumulated</h2>
 <p>In Figure <a href="#fig:runsallowed1">4</a>, boxplots of statistics on runs allowed for pitchers <em>who survived</em> each at bat overlay a bar chart of the relative number of remaining starting pitchers — 4801 started the first atbat, just 2 remained by the thirty-sixth.</p>
 <div class="figure" style="text-align: center"><span id="fig:runsallowed1"></span>
-<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/runsallowed1-1.svg" alt="Accumulated runs allowed by starting pitchers surviving at each at bat" width="768" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/runsallowed1-1.svg" alt="Accumulated runs allowed by starting pitchers surviving at each at bat" width="768" />
 <p class="caption">
 Figure 4: Accumulated runs allowed by starting pitchers surviving at each at bat
 </p>
 </div>
 <p>In comparison, Figure <a href="#fig:runsallowednotsurvived1">5</a> shows boxplots of statistics on runs allowed for pitchers <em>who were taken out</em> at each at bat.</p>
 <div class="figure" style="text-align: center"><span id="fig:runsallowednotsurvived1"></span>
-<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/runsallowednotsurvived1-1.svg" alt="Accumulated runs allowed by starting pitchers taken out at each at bat" width="768" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/runsallowednotsurvived1-1.svg" alt="Accumulated runs allowed by starting pitchers taken out at each at bat" width="768" />
 <p class="caption">
 Figure 5: Accumulated runs allowed by starting pitchers taken out at each at bat
 </p>
@@ -125,14 +125,14 @@ Figure 5: Accumulated runs allowed by starting pitchers taken out at each at bat
 <h2>Baserunners accumulated</h2>
 <p>As with accumulated runs allowed, we explore baserunners accumulated by starting pitchers. We count a baserunner for the events: <code>Double</code>, <code>Single</code>, <code>Walk</code>, <code>Home Run</code>, <code>Triple</code>, <code>Hit By Pitch</code>, and <code>Intent Walk</code>. In Figure <a href="#fig:baserunners1">6</a>, boxplots of statistics on baserunners accumulated for pitchers <em>who survived</em> each at bat overlay the bar chart of remaining starting pitchers.</p>
 <div class="figure" style="text-align: center"><span id="fig:baserunners1"></span>
-<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/baserunners1-1.svg" alt="Baserunners accumulated by starting pitchers surviving at each at bat" width="768" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/baserunners1-1.svg" alt="Baserunners accumulated by starting pitchers surviving at each at bat" width="768" />
 <p class="caption">
 Figure 6: Baserunners accumulated by starting pitchers surviving at each at bat
 </p>
 </div>
 <p>In comparison, Figure <a href="#fig:baserunnersnotsurvived1">7</a> shows boxplots of statistics on baserunners accumulated for pitchers <em>who were taken out</em> at each at bat.</p>
 <div class="figure" style="text-align: center"><span id="fig:baserunnersnotsurvived1"></span>
-<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/baserunnersnotsurvived1-1.svg" alt="Baserunners accumulated by starting pitchers when taken out" width="768" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/baserunnersnotsurvived1-1.svg" alt="Baserunners accumulated by starting pitchers when taken out" width="768" />
 <p class="caption">
 Figure 7: Baserunners accumulated by starting pitchers when taken out
 </p>
@@ -143,7 +143,7 @@ Figure 7: Baserunners accumulated by starting pitchers when taken out
 <h2>Outs in the half-inning</h2>
 <p>We anticipate that pitching changes occur — if possible — between innings. The relative frequencies of pitchers removed on a given number of outs are shown in Figure <a href="#fig:count1">8</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:count1"></span>
-<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/count1-1.svg" alt="Outs when pitcher taken out" width="768" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/count1-1.svg" alt="Outs when pitcher taken out" width="768" />
 <p class="caption">
 Figure 8: Outs when pitcher taken out
 </p>
@@ -154,7 +154,7 @@ Figure 8: Outs when pitcher taken out
 <h2>Platooned matchups</h2>
 <p>It seems that for reasons similar to the surprising fact that facing lead (better) batters for a third time did not result in higher probability of removal, we anticipate the prospect of facing an opposite-handed batter (platoon advantage) as tipping the scales toward removal. In Figure <a href="#fig:platoon1">9</a>, the frequencies of starting pitchers taken out before platoon matchups (shown in black) are compared with starting pitchers facing the matchups (shown in gray). Again, these data overlay the bar chart of remaining starting pitchers.</p>
 <div class="figure" style="text-align: center"><span id="fig:platoon1"></span>
-<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/platoon1-1.svg" alt="Percentage of pitchers removed before next-batter platoon" width="768" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/platoon1-1.svg" alt="Percentage of pitchers removed before next-batter platoon" width="768" />
 <p class="caption">
 Figure 9: Percentage of pitchers removed before next-batter platoon
 </p>
@@ -166,7 +166,7 @@ Figure 9: Percentage of pitchers removed before next-batter platoon
 <p>The number of pitches thrown before the pitcher is removed tend to have a mean and median near 100, as going deeper into counts is thought to increase injury risk <span class="citation">(Bradbury and Forman <a href="#ref-Bradbury:2012wc">2012</a>)</span>. Our data so far has been at bat outcomes. In adding data on pitches within each at bat, we’ll also include pitch location at the plate and outcome (<em>e.g.</em>, ball, strike, foul) for later use in this analysis.</p>
 <p>In these data, the distribution of pitch counts before removal is shown in Figure <a href="#fig:pitchcount1">10</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:pitchcount1"></span>
-<img src="/./post/2018-05-09-visual-exploration-of-starting-pitcher-duration_files/figure-html/pitchcount1-1.svg" alt="Distribution of total pitch counts when starter removed" width="384" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/pitchcount1-1.svg" alt="Distribution of total pitch counts when starter removed" width="384" />
 <p class="caption">
 Figure 10: Distribution of total pitch counts when starter removed
 </p>

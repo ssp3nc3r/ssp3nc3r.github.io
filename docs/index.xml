@@ -6,7 +6,7 @@
     <description>Recent content on Dr. Scott Spencer</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 24 Nov 2025 17:28:30 -0500</lastBuildDate>
+    <lastBuildDate>Mon, 24 Nov 2025 19:47:21 -0500</lastBuildDate>
     <atom:link href="https://ssp3nc3r.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>My new advanced Stan course now live!</title>
@@ -174,7 +174,7 @@
       <link>https://ssp3nc3r.github.io/post/nyc-bike-share-rebalancing-information-graphic/</link>
       <pubDate>Mon, 08 Apr 2019 00:00:00 +0000</pubDate>
       <guid>https://ssp3nc3r.github.io/post/nyc-bike-share-rebalancing-information-graphic/</guid>
-      <description>&lt;hr /&gt;&#xA;&lt;p&gt;We continue exploring the NYC bike share program. This time we create an information graphic visualizing bike and docking station availability by time of day and rate of new rides per minute.&lt;/p&gt;&#xA;&lt;embed src=&#34;nycbikeshareavailability.pdf&#34; width=&#34;800&#34; height=&#34;1100&#34; type=&#34;application/pdf&#34; /&gt;</description>
+      <description>&lt;hr /&gt;&#xA;&lt;p&gt;We continue exploring the NYC bike share program. This time we create an information graphic visualizing bike and docking station availability by time of day and rate of new rides per minute.&lt;/p&gt;&#xA;&lt;embed src=&#34;https://ssp3nc3r.github.io/post/nyc-bike-share-rebalancing-information-graphic/nycbikeshareavailability.pdf&#34; width=&#34;800&#34; height=&#34;1100&#34; type=&#34;application/pdf&#34; /&gt;</description>
     </item>
     <item>
       <title>Approximating the components of Lupi&#39;s Nobel no degrees</title>
@@ -202,7 +202,7 @@
       <link>https://ssp3nc3r.github.io/post/baseball-abstract-01/</link>
       <pubDate>Fri, 21 Dec 2018 00:00:00 +0000</pubDate>
       <guid>https://ssp3nc3r.github.io/post/baseball-abstract-01/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;https://ssp3nc3r.github.io/post/2018-12-21-baseball-abstract-01_files/bbabstract01.png&#34; /&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;img src=&#34;https://ssp3nc3r.github.io/post/baseball-abstract-01/index_files/bbabstract01.png&#34; /&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>Estimating the marginal value of baseball events</title>
@@ -230,7 +230,7 @@
       <link>https://ssp3nc3r.github.io/post/stan-is-not-an-acronym-bayesian-solutions-to-sabermetric-shortcomings/</link>
       <pubDate>Sun, 05 Aug 2018 00:00:00 +0000</pubDate>
       <guid>https://ssp3nc3r.github.io/post/stan-is-not-an-acronym-bayesian-solutions-to-sabermetric-shortcomings/</guid>
-      <description>&lt;script src=&#34;https://ssp3nc3r.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;&#xA;&#xA;&#xA;&lt;p&gt;Here is our description of our presentation at &lt;a href=&#34;%22http://www.brooksbaseball.net/ss18/sunday.html%22&#34;&gt;Saberseminar 2018&lt;/a&gt;: “A common definition of sabermetrics is the application of statistics to baseball. However, despite clear progress over the past few decades, we argue that sabermetrics has largely ignored the most important statistical principle to baseball: generative modeling. In this talk we discuss several conceptual errors with sabermetrics that preclude optimal decision making. Each of these problems can be overcome using a principled Bayesian approach to inference, which we demonstrate using the Stan statistical software.”&lt;/p&gt;</description>
+      <description>&lt;script src=&#34;https://ssp3nc3r.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;&#xA;&#xA;&#xA;&lt;p&gt;Here is our description of our presentation at &lt;a href=&#34;https://ssp3nc3r.github.io/publications/talks/SaberSeminar2018.html&#34;&gt;Saberseminar 2018&lt;/a&gt;: &#34;A common definition of sabermetrics is the application of statistics to baseball. However, despite clear progress over the past few decades, we argue that sabermetrics has largely ignored the most important statistical principle to baseball: generative modeling. In this talk we discuss several conceptual errors with sabermetrics that preclude optimal decision making. Each of these problems can be overcome using a principled Bayesian approach to inference, which we demonstrate using the Stan statistical software.&#34;&lt;/p&gt;</description>
     </item>
     <item>
       <title>Visual exploration of starting pitcher duration</title>

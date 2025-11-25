@@ -184,7 +184,7 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
 <p>We should also be clear in interpreting the information as conditioned upon players who remain in the league. Given time, we should also code the probability that a player, given his WAR in one year, will not play in the following year. Without this, the results here should be read as upwardly biased.</p>
 <p>I’ve enclosed the Stan model at the end of this analysis.</p>
 <p>The forecasted posterior estimates of Stanton’s WAR—as interpreted with the above simplifying assumptions—are as follows,</p>
-<p><img src="https://ssp3nc3r.github.io/post/2017-11-24-trading-stanton-a-modeling-sketch_files/figure-html/unnamed-chunk-9-1.svg" width="672" /></p>
+<p><img src="https://ssp3nc3r.github.io/post/trading-stanton-a-modeling-sketch/index_files/figure-html/unnamed-chunk-9-1.svg" width="672" /></p>
 <p>We can see that the observed values fit within the middle 50 percent of estimates about half the time. I would expect, from past work, that his expected WAR values would drop further than they show here, and the culprit is likely survival bias in the data. As mentioned, jointly modeling the probability of selection next season based using WAR would help solve this issue. With the above framework for estimating Stanton’s WAR, we now value that war and compare annual value to future contractually obligated payouts.</p>
 </div>
 <div id="dollars-per-war-on-the-free-agent-market" class="section level2">
@@ -418,7 +418,7 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
 </tbody>
 </table>
 <p>We can also understand the full range of his possible net present values,</p>
-<p><img src="https://ssp3nc3r.github.io/post/2017-11-24-trading-stanton-a-modeling-sketch_files/figure-html/unnamed-chunk-15-1.svg" width="672" /></p>
+<p><img src="https://ssp3nc3r.github.io/post/trading-stanton-a-modeling-sketch/index_files/figure-html/unnamed-chunk-15-1.svg" width="672" /></p>
 <p>Certainly the model and method can be improved, but I hope this sketch has been a useful starting point for further analysis.</p>
 </div>
 <div id="appendix-stan-model-for-forcasting-war" class="section level2">

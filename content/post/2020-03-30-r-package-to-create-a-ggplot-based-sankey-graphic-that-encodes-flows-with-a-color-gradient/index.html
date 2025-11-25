@@ -26,7 +26,7 @@ col1   &lt;- c(&quot;red&quot;, &quot;red&quot;, &quot;green&quot;, &quot;green&
 col2   &lt;- c(&quot;blue&quot;, &quot;orange&quot;, &quot;blue&quot;, &quot;orange&quot;)
 
 ggSankeyGrad(c1, c2, col1, col2, values, label = TRUE)</code></pre>
-<p><img src="/post/2020-03-30-r-package-to-create-a-ggplot-based-sankey-graphic-that-encodes-flows-with-a-color-gradient_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 <p>Let’s consider a second example. This data is inspired by Giorgia Lupi’s award-winning infographic, <a href="https://www.informationisbeautifulawards.com/showcase/204-nobels-no-degrees">Nobels, No Degrees</a>. We prepare the data in the same format as before, which encodes the categories of Nobel winners and from which of several schools they are associated, if any.</p>
 <pre class="r"><code>d5 &lt;- read.csv(text = &#39;
 &quot;Category&quot;,&quot;University&quot;,&quot;n&quot;,&quot;col1&quot;,&quot;col2&quot;
@@ -69,4 +69,4 @@ with(d5, ggSankeyGrad(c1 = Category,
                         col2 = col2,
                         values = n,
                         label = TRUE))</code></pre>
-<p><img src="/post/2020-03-30-r-package-to-create-a-ggplot-based-sankey-graphic-that-encodes-flows-with-a-color-gradient_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>

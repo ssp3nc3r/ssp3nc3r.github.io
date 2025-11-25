@@ -8,6 +8,8 @@ author:
 title: About
 ---
 
+<img src="/images/profile.jpg" alt="Scott Spencer" class="profile-photo">
+
 I develop sophisticated probabilistic models that transform complex data into strategic insights for elite sports organizations. My work integrates disparate data sources, physics-based constraints, and domain knowledge while properly accounting for uncertainty. I communicate complex mathematical concepts through bespoke visualizations and decision support tools that I design and build, bridging the gap between advanced statistics and executive decision-making.
 
 ## Consulting

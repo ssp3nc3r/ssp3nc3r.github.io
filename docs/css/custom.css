@@ -1,0 +1,28 @@
+/* Profile photo styling */
+.profile-photo {
+  float: right;
+  width: 150px;
+  height: 150px;
+  margin: 0 0 20px 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .profile-photo {
+    float: none;
+    display: block;
+    margin: 0 auto 20px auto;
+    width: 120px;
+    height: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-photo {
+    width: 90px;
+    height: 90px;
+  }
+}

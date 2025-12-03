@@ -32,3 +32,6 @@ _site/
 # IDEs
 .vscode/
 .idea/
+
+/.quarto/
+**/*.quarto_ipynb

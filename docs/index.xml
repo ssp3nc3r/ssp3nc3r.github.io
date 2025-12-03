@@ -6,7 +6,7 @@
     <description>Recent content on Dr. Scott Spencer</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 24 Nov 2025 19:47:21 -0500</lastBuildDate>
+    <lastBuildDate>Tue, 25 Nov 2025 17:33:44 -0500</lastBuildDate>
     <atom:link href="https://ssp3nc3r.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>My new advanced Stan course now live!</title>
@@ -293,7 +293,7 @@
       <link>https://ssp3nc3r.github.io/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://ssp3nc3r.github.io/about/</guid>
-      <description>&lt;img src=&#34;https://ssp3nc3r.github.io/images/profile.jpg&#34; alt=&#34;Scott Spencer&#34; class=&#34;profile-photo&#34;&gt;&#xA;&lt;p&gt;I develop sophisticated probabilistic models that transform complex data into strategic insights for elite sports organizations. My work integrates disparate data sources, physics-based constraints, and domain knowledge while properly accounting for uncertainty. I communicate complex mathematical concepts through bespoke visualizations and decision support tools that I design and build, bridging the gap between advanced statistics and executive decision-making.&lt;/p&gt;&#xA;&lt;h2 id=&#34;consulting&#34;&gt;Consulting&lt;/h2&gt;&#xA;&lt;p&gt;I&amp;rsquo;ve consulted for organizations in Major League Baseball and the Premier League. Working with core developers of Stan, I develop generative models that reflect the actual data-generating processes in sports&amp;mdash;combining physics, geometry, and human decision-making. Recent work includes architecting a player evaluation framework that jointly models over 80 leagues spanning a decade of match data.&lt;/p&gt;</description>
+      <description>&lt;img src=&#34;https://ssp3nc3r.github.io/images/profile.jpg&#34; alt=&#34;Scott Spencer&#34; class=&#34;profile-photo&#34;&gt;&#xA;&lt;p&gt;I build bespoke probabilistic models that transform complex data into strategic insights for elite sports organizations, then communicate those insights through visualizations and decision support tools I design myself. My approach centers on modeling the actual data-generating processes—the physics, geometry, and human decisions that produce observable outcomes—rather than fitting statistical patterns to summary statistics. This generative thinking produces models that are both more accurate and more interpretable for decision-makers.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Publications</title>

@@ -81,12 +81,10 @@ Winner, 2017 SABR Analytics Competition (graduate division)\
 Primary analyst and editor, *The Real Madrid Way* (BenBella Books 2016)
 
 **University of Illinois Urbana-Champaign** — Doctor of Jurisprudence\
-Honors in research and writing\
-Specialized in applying formal logic to complex legal and statistical questions
+Honors in research and writing. Specialized in applying formal logic and persuasive communications to complex legal and statistical questions
 
 **Texas Tech University** — Bachelor of Science, Chemical Engineering\
-Focused on numerical methods and stochastic process control\
-Built foundation in mathematical principles underlying physics-informed modeling
+Focused on numerical methods and stochastic process control. Built foundation in mathematical principles underlying physics-informed modeling
 
 My work has been recognized in the Kantar Information is Beautiful Awards.
 

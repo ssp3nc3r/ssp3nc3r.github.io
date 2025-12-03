@@ -12,9 +12,6 @@ title: About
 
 I build bespoke probabilistic models that transform complex data into strategic insights for elite sports organizations, then communicate those insights through visualizations and decision support tools I design myself. My approach centers on modeling the actual data-generating processes—the physics, geometry, and human decisions that produce observable outcomes—rather than fitting statistical patterns to summary statistics. This generative thinking produces models that are both more accurate and more interpretable for decision-makers.
 
-::: toc
-<h4>Contents</h4>
-
 <ul>
 
 <li><a href="#bayesian-modeling">Bayesian Modeling</a></li>
@@ -30,7 +27,6 @@ I build bespoke probabilistic models that transform complex data into strategic 
 <li><a href="#lets-connect">Let's Connect</a></li>
 
 </ul>
-:::
 
 ------------------------------------------------------------------------
 

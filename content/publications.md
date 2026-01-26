@@ -44,6 +44,8 @@ Spencer, Scott. [_Contours in Batter Comparisons: A Trick Up the Sleeve_](https:
 
 Spencer, Scott. [_Ride Against the Flow_](https://www.informationisbeautifulawards.com/showcase/4367-ride-against-the-flow). Kantar Information is Beautiful Awards, 2019. [Interactive version](/publications/visualizations/citibike-interactive-graphic.html).
 
+Spencer, Scott. [_Demonstration of layers in graphics_](/publications/visualizations/Spencer-2020-Demonstration-of-layers-in-graphics.pdf).
+
 ## Software
 
 Spencer, Scott. [_HSLuv: Converts HSLuv to RGB and Hex_](https://github.com/ssp3nc3r/hsluv-rcpp). Last updated 2020 March 30. R package version 0.0.1.

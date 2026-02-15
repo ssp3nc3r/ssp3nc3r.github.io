@@ -6,7 +6,7 @@
     <description>Recent content on Dr. Scott Spencer</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 04 Dec 2025 15:52:18 -0500</lastBuildDate>
+    <lastBuildDate>Mon, 26 Jan 2026 14:10:07 -0500</lastBuildDate>
     <atom:link href="https://ssp3nc3r.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>My new advanced Stan course now live!</title>
@@ -300,7 +300,7 @@
       <link>https://ssp3nc3r.github.io/publications/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://ssp3nc3r.github.io/publications/</guid>
-      <description>&lt;h2 id=&#34;featured-work&#34;&gt;Featured Work&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Books &amp;amp; Major Contributions&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;Spencer, Scott. Primary analyst and editor of &lt;em&gt;The Real Madrid Way: How Values Created the Most Successful Sports Team on the Planet&lt;/em&gt;, written by Steven Mandis. BenBella Books, 2016.&lt;/p&gt;&#xA;&lt;p&gt;Spencer, Scott. &lt;a href=&#34;https://ssp3nc3r.github.io/diw&#34;&gt;&lt;em&gt;Data in Wonderland&lt;/em&gt;&lt;/a&gt; - Textbook for data storytelling. Columbia University. Last updated 2024.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Stan Community&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;Spencer, Scott. &lt;a href=&#34;https://github.com/ssp3nc3r/rethinking&#34;&gt;Recoded in Stan all examples from McElreath&amp;rsquo;s &lt;em&gt;Statistical Rethinking&lt;/em&gt;&lt;/a&gt;. Widely used pedagogical resource in academia. Last updated 2019.&lt;/p&gt;</description>
+      <description>&lt;h2 id=&#34;featured-work&#34;&gt;Featured Work&lt;/h2&gt;&#xA;&lt;p&gt;&lt;strong&gt;Books &amp;amp; Major Contributions&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;Spencer, Scott. Primary analyst and editor of &lt;em&gt;The Real Madrid Way: How Values Created the Most Successful Sports Team on the Planet&lt;/em&gt;, written by Steven Mandis. BenBella Books, 2016.&lt;/p&gt;&#xA;&lt;p&gt;Spencer, Scott. &lt;a href=&#34;https://ssp3nc3r.github.io/diw&#34;&gt;&lt;em&gt;Data in Wonderland&lt;/em&gt;&lt;/a&gt; - Textbook for data storytelling. Columbia University. Last updated 2024.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Stan Community&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;Spencer, Scott. &lt;a href=&#34;https://ssp3nc3r.github.io/publications/papers/stan-custom-cpp-tutorial.html&#34;&gt;&lt;em&gt;Hand-Coded C++ Gradients for Stan: Bypassing the expression graph with &lt;code&gt;make_callback_var&lt;/code&gt;&lt;/em&gt;&lt;/a&gt;. 2025.&lt;/p&gt;&#xA;&lt;p&gt;Spencer, Scott. &lt;a href=&#34;https://github.com/ssp3nc3r/rethinking&#34;&gt;Recoded in Stan all examples from McElreath&amp;rsquo;s &lt;em&gt;Statistical Rethinking&lt;/em&gt;&lt;/a&gt;. Widely used pedagogical resource in academia. Last updated 2019.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Teaching</title>

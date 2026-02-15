@@ -18,6 +18,8 @@ Spencer, Scott. [*Data in Wonderland*](https://ssp3nc3r.github.io/diw) - Textboo
 
 **Stan Community**
 
+Spencer, Scott. [*Hand-Coded C++ Gradients for Stan: Bypassing the expression graph with `make_callback_var`*](/publications/papers/stan-custom-cpp-tutorial.html). 2025.
+
 Spencer, Scott. [Recoded in Stan all examples from McElreath's *Statistical Rethinking*](https://github.com/ssp3nc3r/rethinking). Widely used pedagogical resource in academia. Last updated 2019.
 
 Gabry, Jonah, Ben Goodrich, and Scott Spencer. [*Stan Is Not an Acronym: Bayesian Solutions to Sabermetric Shortcomings*](/publications/talks/SaberSeminar2018.html). SaberSeminar, 2018.

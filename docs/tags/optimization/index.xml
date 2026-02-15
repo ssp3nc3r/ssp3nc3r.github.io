@@ -6,8 +6,15 @@
     <description>Recent content in Optimization on Dr. Scott Spencer</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 25 Nov 2025 17:33:44 -0500</lastBuildDate>
+    <lastBuildDate>Sun, 15 Feb 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://ssp3nc3r.github.io/tags/optimization/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hand-coded C&#43;&#43; gradients for Stan</title>
+      <link>https://ssp3nc3r.github.io/post/hand-coded-cpp-gradients-for-stan/</link>
+      <pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/hand-coded-cpp-gradients-for-stan/</guid>
+      <description>&lt;p&gt;I wrote a &lt;a href=&#34;https://ssp3nc3r.github.io/publications/papers/stan-custom-cpp-tutorial.html&#34;&gt;tutorial&lt;/a&gt; on a technique that isn&amp;rsquo;t in the Stan documentation: hand-coding C++ gradients to bypass Stan&amp;rsquo;s automatic differentiation system.&lt;/p&gt;&#xA;&lt;p&gt;The short version: Stan&amp;rsquo;s autodiff is general-purpose and excellent. But when a model has millions of repetitive operations &amp;mdash; gathering indexed parameters, computing the same likelihood across 1.5 million observations &amp;mdash; the bookkeeping overhead can dominate the actual math. You can replace that overhead with analytic gradients, using the same internal mechanism Stan&amp;rsquo;s own developers use for built-in functions.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Languages Behind Statistical Learning, and Useful Tools</title>
       <link>https://ssp3nc3r.github.io/post/2018-01-08-languages-behind-statistical-learning/</link>

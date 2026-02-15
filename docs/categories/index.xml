@@ -6,20 +6,41 @@
     <description>Recent content in Categories on Dr. Scott Spencer</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 25 Nov 2025 17:33:44 -0500</lastBuildDate>
+    <lastBuildDate>Sun, 15 Feb 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://ssp3nc3r.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Education</title>
-      <link>https://ssp3nc3r.github.io/categories/education/</link>
-      <pubDate>Wed, 18 Jun 2025 00:00:00 +0000</pubDate>
-      <guid>https://ssp3nc3r.github.io/categories/education/</guid>
+      <title>Bayesian</title>
+      <link>https://ssp3nc3r.github.io/categories/bayesian/</link>
+      <pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/categories/bayesian/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>C&#43;&#43;</title>
+      <link>https://ssp3nc3r.github.io/categories/c&#43;&#43;/</link>
+      <pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/categories/c&#43;&#43;/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Performance</title>
+      <link>https://ssp3nc3r.github.io/categories/performance/</link>
+      <pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/categories/performance/</guid>
       <description></description>
     </item>
     <item>
       <title>Stan</title>
       <link>https://ssp3nc3r.github.io/categories/stan/</link>
-      <pubDate>Wed, 18 Jun 2025 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
       <guid>https://ssp3nc3r.github.io/categories/stan/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Education</title>
+      <link>https://ssp3nc3r.github.io/categories/education/</link>
+      <pubDate>Wed, 18 Jun 2025 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/categories/education/</guid>
       <description></description>
     </item>
     <item>
@@ -76,13 +97,6 @@
       <link>https://ssp3nc3r.github.io/categories/video/</link>
       <pubDate>Wed, 08 Jan 2025 00:00:00 +0000</pubDate>
       <guid>https://ssp3nc3r.github.io/categories/video/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Bayesian</title>
-      <link>https://ssp3nc3r.github.io/categories/bayesian/</link>
-      <pubDate>Fri, 04 Oct 2024 00:00:00 +0000</pubDate>
-      <guid>https://ssp3nc3r.github.io/categories/bayesian/</guid>
       <description></description>
     </item>
     <item>

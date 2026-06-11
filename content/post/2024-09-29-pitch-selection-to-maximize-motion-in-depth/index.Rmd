@@ -26,8 +26,6 @@ Those in baseball are well aware of the concept of platoon advantage: batters te
 
 Considering reasons behind the phenomenon, it may be explained by the greater relative variation in movement of the ball inside a batter's **plane of sight**, which I'll define in a moment: same-handed pitchers tend to keep the ball’s trajectory more aligned with that plane, leaving less of its movement in the directions the batter perceives well.
 
-*(Updated June 2026: corrected the projection formulas and tightened the in-plane versus in-depth distinction.)*
-
 I'm only building upon previous ideas, placing earlier theoretical and empirical work (*see e.g.*, @gray2006; @gray2017) into a new context.
 
 I'll define a batter's plane-of-sight from three points in space: the batter's eye location, the ball's release point location, and the center of the strike zone (roughly the center of home plate, for simplicity).

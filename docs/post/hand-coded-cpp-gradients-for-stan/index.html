@@ -60,7 +60,7 @@ The short version: Stan&rsquo;s autodiff is general-purpose and excellent. But w
   <meta itemprop="description" content="I wrote a tutorial on a technique that isn’t in the Stan documentation: hand-coding C&#43;&#43; gradients to bypass Stan’s automatic differentiation system.
 The short version: Stan’s autodiff is general-purpose and excellent. But when a model has millions of repetitive operations — gathering indexed parameters, computing the same likelihood across 1.5 million observations — the bookkeeping overhead can dominate the actual math. You can replace that overhead with analytic gradients, using the same internal mechanism Stan’s own developers use for built-in functions.">
   <meta itemprop="datePublished" content="2026-02-15T00:00:00+00:00">
-  <meta itemprop="dateModified" content="2026-02-15T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2026-02-15T13:58:27-05:00">
   <meta itemprop="wordCount" content="179">
   <meta itemprop="image" content="https://ssp3nc3r.github.io/">
   <meta itemprop="keywords" content="Stan,C&#43;&#43;,Autodiff,Optimization,Bayesian Modeling">
@@ -160,7 +160,7 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
                 <p>I wrote a <a href="https://ssp3nc3r.github.io/publications/papers/stan-custom-cpp-tutorial.html">tutorial</a> on a technique that isn&rsquo;t in the Stan documentation: hand-coding C++ gradients to bypass Stan&rsquo;s automatic differentiation system.</p>
 <p>The short version: Stan&rsquo;s autodiff is general-purpose and excellent. But when a model has millions of repetitive operations &mdash; gathering indexed parameters, computing the same likelihood across 1.5 million observations &mdash; the bookkeeping overhead can dominate the actual math. You can replace that overhead with analytic gradients, using the same internal mechanism Stan&rsquo;s own developers use for built-in functions.</p>
 <p>The tutorial walks through the full pattern, from a toy weighted sum to indexed gather-scatter operations to parallelism with <code>reduce_sum</code> and raw TBB. It includes a real-world case study from a hierarchical model of global football across 85+ leagues and a decade of seasons, where this technique cut the dominant likelihoods by 10x and turned a multi-day run into something more practical for iterative development.</p>
-<p><img src="https://ssp3nc3r.github.io/post/hand-coded-cpp-gradients-for-stan/images/stan-custom-cpp-likelihood-speedup-comparison.jpeg" alt="Performance comparison of pure Stan vs. custom C++ gradients across model likelihoods, showing up to 10.6x speedup."></p>
+<p><img src="images/stan-custom-cpp-likelihood-speedup-comparison.jpeg" alt="Performance comparison of pure Stan vs. custom C++ gradients across model likelihoods, showing up to 10.6x speedup."></p>
 <p>It&rsquo;s the kind of optimization that only matters after you&rsquo;ve already done everything else &mdash; vectorized, parallelized, profiled. But when you&rsquo;re there, it&rsquo;s the difference between waiting for results and working with them.</p>
 
             </div>
@@ -172,6 +172,7 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
   				<p>
   					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ssp3nc3r.github.io/tags/stan">Stan</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/c&#43;&#43;">C&#43;&#43;</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/autodiff">autodiff</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/optimization">optimization</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/bayesian-modeling">Bayesian modeling</a></span>
   				</p>
+			    <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-git-commit"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17.01" y1="12" x2="22.96" y2="12"></line></svg><a href="1a4d4a045ea041674a919ade2cd7c5821c4fd828" target="_blank" rel="noopener">1a4d4a0</a> @ 2026-02-15</p>
   		</div>
     </main>
 

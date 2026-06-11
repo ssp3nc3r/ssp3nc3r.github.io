@@ -71,7 +71,7 @@ $$
 \bf{v}_{\text{POS}} = \bf{v} - \bf{v}_{\text{lat}},
 $$
 
-lies within the plane and carries the motion-in-depth. (An earlier version of this post gave the rejection formula for the perpendicular component — the labels were swapped.)
+lies within the plane and carries the motion-in-depth.
 
 The more motion captured by $\bf{v}_{\text{lat}}$, the more lateral movement the batter perceives, which generally makes the pitch easier to track.
 

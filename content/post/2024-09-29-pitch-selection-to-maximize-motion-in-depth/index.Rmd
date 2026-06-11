@@ -24,15 +24,17 @@ bibliography: references.bib
 
 Those in baseball are well aware of the concept of platoon advantage: batters tend to have an advantage when facing pitchers of the opposite handedness. But knowledge of a platoon advantage may go beyond choice of relief pitchers on the mound to matchup with the upcoming lineup of power batters. It may inform, among other things, pitching strategy.
 
-Considering reasons behind the phenomenon, it may be explained by the greater relative variation in movement of the ball inside a batter's **plane of sight**, which I'll define in a moment, while same-handed pitchers tend to keep the ball’s trajectory more aligned with that plane, making it harder to perceive lateral movement.
+Considering reasons behind the phenomenon, it may be explained by the greater relative variation in movement of the ball inside a batter's **plane of sight**, which I'll define in a moment: same-handed pitchers tend to keep the ball’s trajectory more aligned with that plane, leaving less of its movement in the directions the batter perceives well.
+
+*(Updated June 2026: corrected the projection formulas and tightened the in-plane versus in-depth distinction.)*
 
 I'm only building upon previous ideas, placing earlier theoretical and empirical work (*see e.g.*, @gray2006; @gray2017) into a new context.
 
 I'll define a batter's plane-of-sight from three points in space: the batter's eye location, the ball's release point location, and the center of the strike zone (roughly the center of home plate, for simplicity).
 
-Movement within or near this plane represents motion "in-depth", which the batter finds harder to perceive. When the ball's movement trajectory stays closer to or within this plane, it aligns with the batter's plane of sight, leading to higher uncertainty in location and lower contact rates.
+Movement within or near this plane *contains* the motion "in-depth" — the component along the batter's line of sight — which the batter finds harder to perceive. (In-plane motion is not *all* in depth: the plainly visible vertical drop also lies in this plane; the hard-to-see share is the radial part, and it grows as the ball nears the plate.) When the ball's movement stays closer to or within this plane, more of it loads that poorly-perceived direction, leading to higher uncertainty in location and lower contact rates.
 
-In relation to this plane-of-sight, we can consider ball motion perpendicular to the plane as movement that occurs horizontally.
+In relation to this plane-of-sight, we can consider ball motion perpendicular to the plane as lateral movement — roughly horizontal, though the plane itself tilts off vertical because the batter's eye sits to the side of the release-to-plate line, and that tilt is exactly where handedness enters.
 
 # Plane-of-sight description
 
@@ -58,28 +60,36 @@ $$
 \bf{n}_{\text{POS}} \cdot (\bf{r} - \bf{r}_{\text{eye}}) = 0
 $$
 
-Lateral motion perpendicular to the plane, in contrast, is characterized by the velocity vector **projected** into this plane, representing lateral movement. We can calculate the velocity vector $\bf{v}$ and other characteristics of the ball's motion relative to this perpendicular plane by subtracting its projection onto the normal vector of the **POS**. For example,
+Lateral motion perpendicular to the plane, in contrast, is the velocity's component **along the plane's normal** — its projection onto $\bf{n}_{\text{POS}}$:
 
 $$
-\bf{v}_{\perp} = \bf{v} - \left( \frac{\bf{v} \cdot \bf{n}_{\text{POS}}}{\|\mathbf{n}_{\text{POS}}\|
+\bf{v}_{\text{lat}} = \left( \frac{\bf{v} \cdot \bf{n}_{\text{POS}}}{\|\mathbf{n}_{\text{POS}}\|
 ^2} \right) \bf{n}_{\text{POS}}
-$$ 
+$$
 
-The more motion captured by $\bf{v}_{\perp}$, the more lateral movement the batter perceives, which generally makes the pitch easier to track.
+What remains after subtracting it,
+
+$$
+\bf{v}_{\text{POS}} = \bf{v} - \bf{v}_{\text{lat}},
+$$
+
+lies within the plane and carries the motion-in-depth. (An earlier version of this post gave the rejection formula for the perpendicular component — the labels were swapped.)
+
+The more motion captured by $\bf{v}_{\text{lat}}$, the more lateral movement the batter perceives, which generally makes the pitch easier to track.
 
 # Differences in movement for same vs. opposite handedness
 
-For same-handed pitchers, the release point tends to be closer to the batter's side of the field, which aligns the trajectory more closely with the POS. This results in more motion in-depth along the plane of sight, making it harder for the batter to track the ball’s lateral movement.
+For same-handed pitchers, the release point tends to be closer to the batter's side of the field, which aligns the trajectory more closely with the POS. This results in more motion in-depth along the plane of sight, making the ball harder to track.
 
-But for opposite-handed pitchers, The release point is farther from the batter’s side, creating a more divergent angle relative to the plane of sight. This increases the amount of perceived lateral movement (*i.e.*, motion outside the POS), making it easier for the batter to track the ball's trajectory.
+But for opposite-handed pitchers, the release point is farther from the batter’s side, creating a more divergent angle relative to the plane of sight. This increases the amount of perceived lateral movement (*i.e.*, motion outside the POS), making it easier for the batter to track the ball's trajectory.
 
-In sum, the batter's difficulty comes from the pitches that travel along the POS (motion-in-depth), represented by the projection of the velocity vector onto $\bf{n}_{\text{LOS}}$, whereas the batter's advantage is from pitches that move more laterally (perpendicular to the POS), which is captured by the component of the velocity vector in $\bf{v}_{\perp}$.
+In sum, the batter's difficulty comes from the pitches whose movement stays within the POS (motion-in-depth), captured by $\bf{v}_{\text{POS}}$, whereas the batter's advantage is from pitches that move more laterally (perpendicular to the POS), captured by $\bf{v}_{\text{lat}}$.
 
 # Components of a joint, selection model of choice-to-swing and ball contact.
 
 We can incorporate these plane functions into a model, such that the pitch's characteristics is split into two components: **in-depth** movement $\theta_{\text{POS}}$ (aligned with the POS) and perpendicular movement $\theta_{\perp}$.
 
-When the ball’s motion is harder to perceive (i.e., larger $\sigma_\theta$, it should negatively affect the batter’s likelihood of making contact. Of course, There’s an inherent skill factor associated with each batter in this regard, which can be included as some random effect.
+When the ball’s motion is harder to perceive (i.e., larger $\sigma_\theta$), it should negatively affect the batter’s likelihood of making contact. Of course, there’s an inherent skill factor associated with each batter in this regard, which can be included as some random effect.
 
 In practice, these ideas influence both choice to swing and ball contact, motivating use of the idea and parameters within a joint selection model, which I've discussed elsewhere.
 

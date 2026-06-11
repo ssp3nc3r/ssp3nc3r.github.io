@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Scott Spencer">
+<meta name="description" content="The 2026 World Cup kicks off today. I simulated the whole tournament four million times &mdash; and unlike most forecasts you&rsquo;ll read this week, mine tells you how sure it is.
+The number everyone publishes, and the number almost nobody does Every World Cup forecast gives you a number: Spain 18%. Useful, but it hides a question that matters just as much: how well do we actually know that number? A model that has watched a player&rsquo;s whole career should be more confident than one squinting at six months of form. A squad full of household names playing in well-measured leagues should carry tighter uncertainty than one whose players we&rsquo;ve barely observed.
+" />
+<meta name="keywords" content="Scott Spencer, Bayesian modeling, Stan, sports analytics, Columbia University, MLB, Premier League, physics-informed models, generative modeling, Bayesian modeling, Stan, World Cup, hierarchical models, uncertainty, imputation" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="https://ssp3nc3r.github.io/post/four-million-world-cups/" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1V94CLF78W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1V94CLF78W');
+</script>
+
+
+    <title>
+        
+            Four million World Cups before the first whistle :: Dr. Scott Spencer 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.d814cf833213d446ba235aa22dd9d7b7ea71e9f96be092ffac602d0030f4f2c2.css">
+
+
+    
+        <link rel="stylesheet" type="text/css" href="https://ssp3nc3r.github.io/css/custom.css">
+    
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://ssp3nc3r.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://ssp3nc3r.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://ssp3nc3r.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://ssp3nc3r.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://ssp3nc3r.github.io/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="https://ssp3nc3r.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+
+  <meta itemprop="name" content="Four million World Cups before the first whistle">
+  <meta itemprop="description" content="The 2026 World Cup kicks off today. I simulated the whole tournament four million times — and unlike most forecasts you’ll read this week, mine tells you how sure it is.
+The number everyone publishes, and the number almost nobody does Every World Cup forecast gives you a number: Spain 18%. Useful, but it hides a question that matters just as much: how well do we actually know that number? A model that has watched a player’s whole career should be more confident than one squinting at six months of form. A squad full of household names playing in well-measured leagues should carry tighter uncertainty than one whose players we’ve barely observed.">
+  <meta itemprop="datePublished" content="2026-06-11T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2026-06-11T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1044">
+  <meta itemprop="image" content="https://ssp3nc3r.github.io/">
+  <meta itemprop="keywords" content="Bayesian Modeling,Stan,World Cup,Hierarchical Models,Uncertainty,Imputation">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ssp3nc3r.github.io/">
+  <meta name="twitter:title" content="Four million World Cups before the first whistle">
+  <meta name="twitter:description" content="The 2026 World Cup kicks off today. I simulated the whole tournament four million times — and unlike most forecasts you’ll read this week, mine tells you how sure it is.
+The number everyone publishes, and the number almost nobody does Every World Cup forecast gives you a number: Spain 18%. Useful, but it hides a question that matters just as much: how well do we actually know that number? A model that has watched a player’s whole career should be more confident than one squinting at six months of form. A squad full of household names playing in well-measured leagues should carry tighter uncertainty than one whose players we’ve barely observed.">
+
+
+
+    <meta property="article:section" content="Bayesian" />
+
+    <meta property="article:section" content="Stan" />
+
+    <meta property="article:section" content="Football" />
+
+    <meta property="article:section" content="Simulation" />
+
+
+
+    <meta property="article:published_time" content="2026-06-11 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://ssp3nc3r.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text"> update_beliefs()</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#67a2c9;
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://ssp3nc3r.github.io/about/">About</a></li><li><a href="https://ssp3nc3r.github.io/post/">Blog</a></li><li><a href="https://ssp3nc3r.github.io/publications/">Publications</a></li><li><a href="https://ssp3nc3r.github.io/teaching/">Teaching</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://ssp3nc3r.github.io/post/four-million-world-cups/">Four million World Cups before the first whistle</a></h2>
+
+            
+
+            <div class="post-content">
+                <p><em>The 2026 World Cup kicks off today. I simulated the whole tournament four
+million times &mdash; and unlike most forecasts you&rsquo;ll read this week, mine tells
+you how sure it is.</em></p>
+<h2 id="the-number-everyone-publishes-and-the-number-almost-nobody-does">The number everyone publishes, and the number almost nobody does</h2>
+<p>Every World Cup forecast gives you a number: <em>Spain 18%</em>. Useful, but it
+hides a question that matters just as much: <strong>how well do we actually know
+that number?</strong> A model that has watched a player&rsquo;s whole career should be
+more confident than one squinting at six months of form. A squad full of
+household names playing in well-measured leagues should carry tighter
+uncertainty than one whose players we&rsquo;ve barely observed.</p>
+<p>So I don&rsquo;t publish a probability. I publish the <strong>distribution of the
+probability</strong> &mdash; a full Bayesian answer.</p>
+<p><img src="images/fig1_champion_densities.png" alt="Posterior densities of championship probability, top 12 teams"></p>
+<p>Spain leads at <strong>18% [15–22]</strong>. That bracket isn&rsquo;t decoration; it&rsquo;s the
+model saying <em>given everything I know about every Spanish player &mdash; and
+everything I don&rsquo;t &mdash; the title chance is somewhere in here.</em> Even the
+favourite is 4-to-1 against. Football&rsquo;s single-elimination format guarantees
+that nobody, however good, is ever <em>likely</em> to win.</p>
+<p>A few things only visible because the answers are distributions:</p>
+<ul>
+<li><strong>Germany vs Argentina is a coin flip about who&rsquo;s even the better pick.</strong>
+Their means are nearly identical (11.1% vs 11.0%), and across the
+posterior, Germany is the stronger choice in just 52% of draws. Any
+forecast ranking one cleanly above the other is reporting noise.</li>
+<li><strong>Spain over France is real, but not certain.</strong> Spain is ahead in 83% of
+posterior draws &mdash; strong, not settled.</li>
+<li><strong>Concentration at the top:</strong> Spain, France and England account for 48%
+of simulated titles; the top nine take 96%. The other 39 teams share what&rsquo;s
+left.</li>
+</ul>
+<h2 id="six-gates-forty-eight-teams">Six gates, forty-eight teams</h2>
+<p>The tournament is six gates: reach the round of 32, the 16, the quarters,
+the semis, the final, win it. Below, every team&rsquo;s chance at every gate &mdash;
+with its 50% and 95% credible intervals, because a number without its
+uncertainty is an opinion.</p>
+<p><img src="images/fig2_full_field.png" alt="All 48 teams, all six rounds, with credible intervals"></p>
+<p>Reading it as a fan:</p>
+<ul>
+<li><strong>England&rsquo;s strange shape.</strong> England is <em>more</em> likely to reach the
+quarterfinal (76%) than any other team, because their draw is soft exactly
+where others&rsquo; is brutal: their projected round-of-16 tie is an 87% pass &mdash;
+nearly a bye &mdash; while Argentina&rsquo;s is a 54% coin flip. Bracket geography is
+destiny.</li>
+<li><strong>Brazil peaks late.</strong> Brazil&rsquo;s semifinal probability (45%) is the best
+in the field &mdash; better than Spain&rsquo;s &mdash; but their gate <em>into</em> the final is
+itself a 45% proposition. The model expects them to meet someone serious
+there, and the title probability (10%) reflects it.</li>
+<li><strong>Sixteen teams will fly home after three games.</strong> The bottom of the
+table is not pessimism; it&rsquo;s arithmetic plus evidence. Iraq&rsquo;s 3.4% chance
+of escaping the group is what happens when most of a squad plays in
+leagues the data doesn&rsquo;t cover.</li>
+</ul>
+<h2 id="curaçao-missing-data-properly-imputed">Curaçao: missing data, properly imputed</h2>
+<p>Look at Curaçao&rsquo;s row. The smallest probability in the round-of-32 column
+isn&rsquo;t theirs &mdash; but their <strong>interval</strong> is the widest among the longshots:
+<strong>10% [2–25]</strong>. Why? Not one Curaçao squad member plays in any of the 86
+leagues and competitions the model is trained on. That&rsquo;s a missing-data
+problem, and the Bayesian answer is imputation from the model itself: their
+abilities are drawn, each posterior draw, from the population distribution
+of player abilities the model has already learned. The lack of data doesn&rsquo;t
+get papered over with a made-up rating &mdash; it becomes a wider interval,
+propagated through every match of the bracket.</p>
+<p>This is the part I&rsquo;d highlight for anyone evaluating modeling work: when
+data is missing, the right answer isn&rsquo;t a guess dressed up as a number &mdash;
+it&rsquo;s principled imputation inside the same generative model as everything
+else, so the final answer carries exactly as much uncertainty as the data
+warrants.</p>
+<h2 id="whats-under-the-hood">What&rsquo;s under the hood</h2>
+<p>This isn&rsquo;t an Elo system or a betting-odds aggregator. It&rsquo;s a single <strong>joint
+Bayesian hierarchical model</strong> &mdash; more than 220,000 parameters, <a href="https://ssp3nc3r.github.io/post/hand-coded-cpp-gradients-for-stan/">hand-tuned
+C++ gradients</a>, fit with
+Stan to ten seasons of data across 86 leagues and competitions: 1.6 million
+match segments, 853,000 market valuations, and 27,000 national-team
+selection events, covering 106,962 players. Jointly, the model learns:</p>
+<ul>
+<li><strong>per-player offensive and defensive ability</strong>, correlated, with
+position-specific <strong>age curves</strong> (a 23-year-old midfielder and a
+31-year-old striker age differently);</li>
+<li><strong>league scoring environments</strong> (the same player produces different goal
+rates in different competitions &mdash; measured, not assumed);</li>
+<li><strong>manager behaviour</strong> &mdash; who gets selected, who gets substituted, and when,
+as a function of ability and game state;</li>
+<li><strong>market values, national-team call-ups, and career survival</strong>, which
+sharpen player abilities through entirely different channels of evidence.</li>
+</ul>
+<p>Because everything is estimated <em>jointly</em>, uncertainty flows end-to-end. The
+tournament simulation isn&rsquo;t bolted on: for each of 4,000 posterior draws I
+build every nation&rsquo;s best XI (a 4-2-3-1, selected by that draw&rsquo;s abilities),
+score matches with the model&rsquo;s own goal process &mdash; zero-inflated, with
+match-level shared frailty &mdash; and play all 103 matches that decide the title,
+1,000 times over. Four million World Cups, each one consistent with a
+different, fully-specified state of belief about every player the data has
+measured.</p>
+<p>The same machinery that simulates a tournament answers the questions clubs
+actually pay for: what is this player worth, how will he age, what does he
+add to <em>this</em> squad against <em>this</em> opposition. The World Cup is just the
+fun part.</p>
+<h2 id="after-the-whistle">After the whistle</h2>
+<p>Today at the Azteca, the first whistle collapses four million World Cups
+into one. Every density on this page narrows, match by match, into the
+single tournament we actually get to watch &mdash; one draw from the
+distribution, unrepeatable, and quite possibly won by nobody the model
+favours. That isn&rsquo;t a failure of the forecast; it <em>is</em> the forecast. An 18%
+favourite goes home empty four times in five. The point of simulating four
+million World Cups was never to predict the one that happens. It was to
+know exactly how surprised to be.</p>
+<hr>
+<p><em>Model: joint Bayesian hierarchical model in Stan with custom C++ gradient
+kernels. Rosters: announced or provisional squads as of June 2026, matched
+to the player database; teams without released squads use most-recent
+national-team call-ups. Venue advantage not modeled (neutral-site
+assumption). Penalty shootouts treated as coin flips &mdash; even four million
+simulations can&rsquo;t tell you who blinks from twelve yards.</em></p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ssp3nc3r.github.io/tags/bayesian-modeling">Bayesian modeling</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/stan">Stan</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/world-cup">World Cup</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/hierarchical-models">hierarchical models</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/uncertainty">uncertainty</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/imputation">imputation</a></span>
+  				</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+        </div>
+    </div>
+    <script src="//yihui.name/js/math-code.js"></script>
+<script async
+src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="https://ssp3nc3r.github.io/bundle.min.74fe699bb673e8362137b575513abfcf73303855d923eea09c0e507deab0ca7f8321880b672790b9e63cc109a18189deebfd13899a8ff536e858791973ffd487.js" integrity="sha512-dP5pm7Zz6DYhN7V1UTq/z3MwOFXZI&#43;6gnA5Qfeqwyn&#43;DIYgLZyeQueY8wQmhgYne6/0TiZqP9TboWHkZc//Uhw=="></script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'G-1V94CLF78W', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+	
+		<script src="js/typewriter.js"></script>
+	
+
+
+    </body>
+</html>

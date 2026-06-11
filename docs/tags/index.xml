@@ -9,17 +9,52 @@
     <lastBuildDate>Wed, 10 Jun 2026 22:53:47 -0400</lastBuildDate>
     <atom:link href="https://ssp3nc3r.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Bayesian Modeling</title>
+      <link>https://ssp3nc3r.github.io/tags/bayesian-modeling/</link>
+      <pubDate>Thu, 11 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/tags/bayesian-modeling/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Hierarchical Models</title>
+      <link>https://ssp3nc3r.github.io/tags/hierarchical-models/</link>
+      <pubDate>Thu, 11 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/tags/hierarchical-models/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Imputation</title>
+      <link>https://ssp3nc3r.github.io/tags/imputation/</link>
+      <pubDate>Thu, 11 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/tags/imputation/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Stan</title>
+      <link>https://ssp3nc3r.github.io/tags/stan/</link>
+      <pubDate>Thu, 11 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/tags/stan/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Uncertainty</title>
+      <link>https://ssp3nc3r.github.io/tags/uncertainty/</link>
+      <pubDate>Thu, 11 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/tags/uncertainty/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>World Cup</title>
+      <link>https://ssp3nc3r.github.io/tags/world-cup/</link>
+      <pubDate>Thu, 11 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/tags/world-cup/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Autodiff</title>
       <link>https://ssp3nc3r.github.io/tags/autodiff/</link>
       <pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
       <guid>https://ssp3nc3r.github.io/tags/autodiff/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Bayesian Modeling</title>
-      <link>https://ssp3nc3r.github.io/tags/bayesian-modeling/</link>
-      <pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>https://ssp3nc3r.github.io/tags/bayesian-modeling/</guid>
       <description></description>
     </item>
     <item>
@@ -34,13 +69,6 @@
       <link>https://ssp3nc3r.github.io/tags/optimization/</link>
       <pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
       <guid>https://ssp3nc3r.github.io/tags/optimization/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Stan</title>
-      <link>https://ssp3nc3r.github.io/tags/stan/</link>
-      <pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>https://ssp3nc3r.github.io/tags/stan/</guid>
       <description></description>
     </item>
     <item>
@@ -454,13 +482,6 @@
       <link>https://ssp3nc3r.github.io/tags/betting/</link>
       <pubDate>Fri, 03 Jan 2020 18:01:28 -0400</pubDate>
       <guid>https://ssp3nc3r.github.io/tags/betting/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Uncertainty</title>
-      <link>https://ssp3nc3r.github.io/tags/uncertainty/</link>
-      <pubDate>Fri, 03 Jan 2020 18:01:28 -0400</pubDate>
-      <guid>https://ssp3nc3r.github.io/tags/uncertainty/</guid>
       <description></description>
     </item>
     <item>

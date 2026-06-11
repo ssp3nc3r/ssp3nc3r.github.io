@@ -6,8 +6,15 @@
     <description>Recent content in Bayesian Modeling on Dr. Scott Spencer</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 15 Feb 2026 13:58:27 -0500</lastBuildDate>
+    <lastBuildDate>Thu, 11 Jun 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://ssp3nc3r.github.io/tags/bayesian-modeling/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Four million World Cups before the first whistle</title>
+      <link>https://ssp3nc3r.github.io/post/four-million-world-cups/</link>
+      <pubDate>Thu, 11 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/four-million-world-cups/</guid>
+      <description>&lt;p&gt;&lt;em&gt;The 2026 World Cup kicks off today. I simulated the whole tournament four&#xA;million times &amp;mdash; and unlike most forecasts you&amp;rsquo;ll read this week, mine tells&#xA;you how sure it is.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;the-number-everyone-publishes-and-the-number-almost-nobody-does&#34;&gt;The number everyone publishes, and the number almost nobody does&lt;/h2&gt;&#xA;&lt;p&gt;Every World Cup forecast gives you a number: &lt;em&gt;Spain 18%&lt;/em&gt;. Useful, but it&#xA;hides a question that matters just as much: &lt;strong&gt;how well do we actually know&#xA;that number?&lt;/strong&gt; A model that has watched a player&amp;rsquo;s whole career should be&#xA;more confident than one squinting at six months of form. A squad full of&#xA;household names playing in well-measured leagues should carry tighter&#xA;uncertainty than one whose players we&amp;rsquo;ve barely observed.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Hand-coded C&#43;&#43; gradients for Stan</title>
       <link>https://ssp3nc3r.github.io/post/hand-coded-cpp-gradients-for-stan/</link>

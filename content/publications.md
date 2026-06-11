@@ -26,6 +26,8 @@ Gabry, Jonah, Ben Goodrich, and Scott Spencer. [*Stan Is Not an Acronym: Bayesia
 
 ## Working Papers
 
+Spencer, Scott. [_Pitcher Effectiveness: A Physics- and Perception-Based Generative Model_](/publications/papers/pitcher-effectiveness.html). Last updated 2024 December 8.
+
 Spencer, Scott. [No One's Replaceable: A Joint Model for Peace Amidst WAR](/publications/papers/xruns-jointstan.html). Last updated 2024 Oct 20.
 
 Spencer, Scott. [_Estimating utility of called pitches_](/publications/papers/pitch-utility.html). 2020 June 11.

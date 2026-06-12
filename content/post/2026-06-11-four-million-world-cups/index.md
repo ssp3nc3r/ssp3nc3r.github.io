@@ -25,7 +25,7 @@ you how sure it is.*
 
 ## The number everyone publishes, and the number almost nobody does
 
-Every World Cup forecast gives you a number: *Spain 18%*. Useful, but it
+Every World Cup forecast gives you a number: *Spain 27%*. Useful, but it
 hides a question that matters just as much: **how well do we actually know
 that number?** A model that has watched a player's whole career should be
 more confident than one squinting at six months of form. A squad full of
@@ -37,23 +37,27 @@ probability** --- a full Bayesian answer.
 
 ![Posterior densities of championship probability, top 12 teams](images/fig1_champion_densities.png)
 
-Spain leads at **18% [15–22]**. That bracket isn't decoration; it's the
+Spain leads at **27% [23–32]**. That bracket isn't decoration; it's the
 model saying *given everything I know about every Spanish player --- and
 everything I don't --- the title chance is somewhere in here.* Even the
-favourite is 4-to-1 against. Football's single-elimination format guarantees
-that nobody, however good, is ever *likely* to win.
+favourite is nearly 3-to-1 against. Football's single-elimination format
+guarantees that nobody, however good, is ever *likely* to win.
 
 A few things only visible because the answers are distributions:
 
-- **Germany vs Argentina is a coin flip about who's even the better pick.**
-  Their means are nearly identical (11.1% vs 11.0%), and across the
-  posterior, Germany is the stronger choice in just 52% of draws. Any
-  forecast ranking one cleanly above the other is reporting noise.
-- **Spain over France is real, but not certain.** Spain is ahead in 83% of
-  posterior draws --- strong, not settled.
-- **Concentration at the top:** Spain, France and England account for 48%
+- **Spain vs England is closer than the means suggest.** Their densities
+  sit nearly on top of each other (27% vs 25%), and across the posterior,
+  Spain is the stronger pick in only 69% of draws. Germany vs Argentina is
+  even tighter --- 4.2% vs 3.8%, with Germany ahead in just 64% of draws.
+  Any forecast ranking those pairs cleanly is reporting noise.
+- **Concentration at the top:** Spain, England and Portugal account for 66%
   of simulated titles; the top nine take 96%. The other 39 teams share what's
   left.
+- **The boldest call is Brazil at 1.8%.** The market says roughly ten
+  percent; the model looks at the actual 26 names --- Casemiro at 34, Neymar
+  at 34, Alex Sandro at 35 --- and prices an XI past the peak of its age
+  curves. One of those views is wrong, and that disagreement is exactly what
+  a generative model is for: every assumption behind the 1.8% is inspectable.
 
 ## Six gates, forty-eight teams
 
@@ -67,36 +71,37 @@ uncertainty is an opinion.
 Reading it as a fan:
 
 - **England's strange shape.** England is *more* likely to reach the
-  quarterfinal (76%) than any other team, because their draw is soft exactly
-  where others' is brutal: their projected round-of-16 tie is an 87% pass ---
-  nearly a bye --- while Argentina's is a 54% coin flip. Bracket geography is
-  destiny.
-- **Brazil peaks late.** Brazil's semifinal probability (45%) is the best
-  in the field --- better than Spain's --- but their gate *into* the final is
-  itself a 45% proposition. The model expects them to meet someone serious
-  there, and the title probability (10%) reflects it.
+  quarterfinal (85%) than any other team, because their draw is soft exactly
+  where others' is brutal: their projected round-of-16 tie is a 93% pass ---
+  nearly a bye --- while Argentina's is a 42% coin flip that leans against
+  them. Bracket geography is destiny.
 - **Sixteen teams will fly home after three games.** The bottom of the
-  table is not pessimism; it's arithmetic plus evidence. Iraq's 3.4% chance
+  table is not pessimism; it's arithmetic plus evidence. Iraq's 2.4% chance
   of escaping the group is what happens when most of a squad plays in
   leagues the data doesn't cover.
 
-## Curaçao: missing data, properly imputed
+## Curaçao: missing data, properly imputed --- then the data arrived
 
-Look at Curaçao's row. The smallest probability in the round-of-32 column
-isn't theirs --- but their **interval** is the widest among the longshots:
-**10% [2–25]**. Why? Not one Curaçao squad member plays in any of the 86
-leagues and competitions the model is trained on. That's a missing-data
-problem, and the Bayesian answer is imputation from the model itself: their
-abilities are drawn, each posterior draw, from the population distribution
-of player abilities the model has already learned. The lack of data doesn't
-get papered over with a made-up rating --- it becomes a wider interval,
-propagated through every match of the bracket.
+When this forecast was first built, no announced Curaçao player matched the
+modeled leagues, so the model faced a missing-data problem. The Bayesian
+answer is imputation from the model itself: their abilities were drawn, each
+posterior draw, from the population distribution of player abilities the
+model had already learned. No made-up rating --- just a wide, honest
+interval, propagated through every match of the bracket: their round-of-32
+chance read **10% [2–25]**.
 
-This is the part I'd highlight for anyone evaluating modeling work: when
-data is missing, the right answer isn't a guess dressed up as a number ---
-it's principled imputation inside the same generative model as everything
-else, so the final answer carries exactly as much uncertainty as the data
-warrants.
+Then the final 26-man squads were announced, most of Curaçao's squad turned
+out to play in covered leagues after all, and the imputation was replaced by
+actual player histories. The forecast is now **7% [4–10]** --- the interval
+collapsed from twenty-three points wide to six, and the mean fell, because
+the population prior had been a touch generous to them. That movement is the
+method working: when data is missing you say so with width, and when data
+arrives, the width gives way to it.
+
+This is the part I'd highlight for anyone evaluating modeling work: missing
+data handled inside the same generative model as everything else, so the
+answer carries exactly as much uncertainty as the data warrants --- no more,
+and no less, at every stage of knowledge.
 
 ## What's under the hood
 
@@ -137,16 +142,18 @@ Today at the Azteca, the first whistle collapses four million World Cups
 into one. Every density on this page narrows, match by match, into the
 single tournament we actually get to watch --- one draw from the
 distribution, unrepeatable, and quite possibly won by nobody the model
-favours. That isn't a failure of the forecast; it *is* the forecast. An 18%
-favourite goes home empty four times in five. The point of simulating four
-million World Cups was never to predict the one that happens. It was to
-know exactly how surprised to be.
+favours. That isn't a failure of the forecast; it *is* the forecast. A 27%
+favourite goes home empty nearly three times in four. The point of
+simulating four million World Cups was never to predict the one that
+happens. It was to know exactly how surprised to be.
 
 ---
 
 *Model: joint Bayesian hierarchical model in Stan with custom C++ gradient
-kernels. Rosters: announced or provisional squads as of June 2026, matched
-to the player database; teams without released squads use most-recent
-national-team call-ups. Venue advantage not modeled (neutral-site
-assumption). Penalty shootouts treated as coin flips --- even four million
-simulations can't tell you who blinks from twelve yards.*
+kernels. Rosters: the final 26-man squads, matched to the player database,
+with each player's age taken at the tournament itself. Venue advantage not
+modeled (neutral-site assumption). Penalty shootouts treated as coin flips
+--- even four million simulations can't tell you who blinks from twelve
+yards. Quietly updated June 12, 2026, from the provisional squad lists used
+at first publication to the final squads --- the numbers here are the
+current pre-tournament forecast.*

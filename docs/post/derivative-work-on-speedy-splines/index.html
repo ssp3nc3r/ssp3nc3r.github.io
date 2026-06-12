@@ -37,7 +37,7 @@ So let’s pick up where we left off, and add calculations in Stan to calculate 
 
 
 
-<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.ba7b4319e521494c45e4076ed9ce571323a19b6f2f15f61c2e864cf61e4f5d7c.css">
+<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.d814cf833213d446ba235aa22dd9d7b7ea71e9f96be092ffac602d0030f4f2c2.css">
 
 
     
@@ -55,18 +55,18 @@ So let’s pick up where we left off, and add calculations in Stan to calculate 
     <meta name="theme-color" content="#252627">
 
 
-	<meta itemprop="name" content="Speedy splines part two, derivative work">
-	<meta itemprop="description" content="In the last post, I showed how we can speed up computation for splines in Stan. This post is, ahem, derivative. Perhaps we have noisy data of position and time, and we want to estimate speed and acceleration. We can use b-splines and their derivatives for this.
+  <meta itemprop="name" content="Speedy splines part two, derivative work">
+  <meta itemprop="description" content="In the last post, I showed how we can speed up computation for splines in Stan. This post is, ahem, derivative. Perhaps we have noisy data of position and time, and we want to estimate speed and acceleration. We can use b-splines and their derivatives for this.
 So let’s pick up where we left off, and add calculations in Stan to calculate the first and second derivatives of the spline in Stan. Much of the code below mirrors that of the previous post. There are multiple approaches to calculating derivatives of splines. We can take the derivative of the basis functions (Rogers 2001, sec. 3.10 B-Spline Curve Derivatives) or we can difference the coefficients (Boor 2001, X. The Stable Evaluation of B-Splines and Splines). In the Stan functions block below, I’ve added calculations for the first and second derivatives of the basis functions.">
-	<meta itemprop="datePublished" content="2023-08-31T00:00:00+00:00">
-	<meta itemprop="dateModified" content="2023-08-31T00:00:00+00:00">
-	<meta itemprop="wordCount" content="944">
-	<meta itemprop="image" content="https://ssp3nc3r.github.io/">
-	<meta itemprop="keywords" content="Stan,Splines,Derivatives">
-	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:image" content="https://ssp3nc3r.github.io/">
-	<meta name="twitter:title" content="Speedy splines part two, derivative work">
-	<meta name="twitter:description" content="In the last post, I showed how we can speed up computation for splines in Stan. This post is, ahem, derivative. Perhaps we have noisy data of position and time, and we want to estimate speed and acceleration. We can use b-splines and their derivatives for this.
+  <meta itemprop="datePublished" content="2023-08-31T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-08-31T00:00:00+00:00">
+  <meta itemprop="wordCount" content="944">
+  <meta itemprop="image" content="https://ssp3nc3r.github.io/">
+  <meta itemprop="keywords" content="Stan,Splines,Derivatives">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ssp3nc3r.github.io/">
+  <meta name="twitter:title" content="Speedy splines part two, derivative work">
+  <meta name="twitter:description" content="In the last post, I showed how we can speed up computation for splines in Stan. This post is, ahem, derivative. Perhaps we have noisy data of position and time, and we want to estimate speed and acceleration. We can use b-splines and their derivatives for this.
 So let’s pick up where we left off, and add calculations in Stan to calculate the first and second derivatives of the spline in Stan. Much of the code below mirrors that of the previous post. There are multiple approaches to calculating derivatives of splines. We can take the derivative of the basis functions (Rogers 2001, sec. 3.10 B-Spline Curve Derivatives) or we can difference the coefficients (Boor 2001, X. The Stable Evaluation of B-Splines and Splines). In the Stan functions block below, I’ve added calculations for the first and second derivatives of the basis functions.">
 
 
@@ -150,12 +150,6 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
 
         <article>
             <h2 class="post-title"><a href="https://ssp3nc3r.github.io/post/derivative-work-on-speedy-splines/">Speedy splines part two, derivative work</a></h2>
-                <hr />
-                <aside id="toc">
-                <div class="toc-title">Table of Contents</div>
-                    
-                </aside>
-                <hr />
 
             
 

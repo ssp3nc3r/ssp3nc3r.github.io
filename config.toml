@@ -22,7 +22,7 @@ buildExpired = false
 canonifyURLs = true
 
 enableRobotsTXT = true
-enableGitInfo   = true
+enableGitInfo   = false
 enableEmoji     = true
 enableMissingTranslationPlaceholders = false
 disableRSS     = true
@@ -35,7 +35,12 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
-      
+
+# Hugo >= 0.160 denies text/html content files by default; blogdown renders
+# .Rmd posts to full-HTML index.html files, all self-authored, so allow them.
+[security]
+  allowContent = ['.*']
+
 [permalinks]
   posts = "/post/:year/:month/:title/"
 
@@ -69,7 +74,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
   # Integrate Javascript files or stylesheets by adding the url to the external assets or by
   # linking local files with their path relative to the static folder, e.g. "css/styles.css"
   customCSS = ["/css/custom.css"]
-  customJS  = ["js/typewriter.js"]
+  customJS  = ["/js/typewriter.js"]
 
   # Toggle this option need to rebuild SCSS, requires extended version of Hugo
   justifyContent = false  # Set "text-align: justify" to .content.

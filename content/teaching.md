@@ -33,6 +33,8 @@ These masterclass-style courses with live coding have taught thousands of practi
 
 ## Teaching History
 
+**2026** - Columbia: *Storytelling with Data and AI* (Spring) | Athlyticz: *Becoming a Bayesian I & II* (ongoing)
+
 **2025** - Columbia: *Storytelling with Data and AI* (Fall, Spring) | Athlyticz: *Becoming a Bayesian I & II* (Fall, Summer, Spring)
 
 **2024** - Columbia: *Research Design* (Fall), *Storytelling with Data* (Spring) | Athlyticz: *Becoming a Bayesian I* (Fall, Summer)

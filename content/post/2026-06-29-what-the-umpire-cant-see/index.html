@@ -1,0 +1,131 @@
+---
+title: What the umpire can't see
+author: Scott Spencer
+date: '2026-06-29'
+slug: what-the-umpire-cant-see
+categories:
+  - Baseball
+  - Bayesian
+  - Stan
+  - Pitching
+  - Perception
+tags:
+  - Baseball
+  - Bayesian
+  - Stan
+  - umpires
+  - motion-in-depth
+  - perception
+  - called strike zone
+comments: no
+images: ~
+bibliography: references.bib
+---
+
+
+
+<div id="the-puzzle-the-same-spot-a-different-call" class="section level1">
+<h1>The puzzle: the same spot, a different call</h1>
+<p>Take two pitches that cross home plate at the <em>exact</em> same point — same height, same width, low and on the inner edge. One is a four-seam fastball that rode up on its way in; the other is a curveball that dropped through the bottom of the zone. Statcast records them as crossing the identical location. My model of how umpires actually call pitches says they are not the same call at all.</p>
+<p>At the inside knee, for example, the four-seam is a <strong>39%</strong> called strike and the curve a <strong>52%</strong> called strike — a gap of about <strong>13 percentage points</strong> at one spot on the plate, with nothing different between the two pitches but their movement (see the figure below). They arrive in the same place; the umpire judges them differently because of how that movement is <em>perceived</em> on the way there.</p>
+<p>This is not pitch framing, not the count, not the batter, not which umpire is working. It is a quirk of human vision, and once you account for it, it is large, systematic, and — as far as I can tell — not something anyone has put a number on before.</p>
+</div>
+<div id="what-this-is-not-the-break-statcast-already-reports" class="section level1">
+<h1>What this is <em>not</em>: the break Statcast already reports</h1>
+<p><strong>Motion-in-depth is a fact about the <em>umpire</em>, not the ball.</strong></p>
+<p>Statcast already reports a pitch’s <strong>break</strong> — its horizontal and vertical movement, the inches a curveball drops or a fastball rides relative to a spinless trajectory. That is a measurement of <em>the ball</em>: how it moved through space, the same number no matter who is watching, or whether anyone is watching at all.</p>
+<p>Motion-in-depth is a different thing entirely. It is a fact about <em>the observer</em>. Human vision is markedly worse at perceiving motion directed <strong>along the line of sight</strong> — toward or away from us — than motion <strong>across</strong> it <span class="citation">(<a href="#ref-gray2006">Gray and Regan 2006</a>; <a href="#ref-gray2002">Gray 2002</a>)</span>. The umpire crouched in the slot behind the catcher is sighting down a particular line at the ball as it crosses the plate. Part of every pitch’s break runs <em>along</em> that line of sight, and that part is precisely the part the umpire is least equipped to see.</p>
+<p>So the reported break is the <strong>input</strong>; the perceptual shift is what the umpire’s eye <strong>fails to do</strong> with it. Two pitches with the same crossing location but different break carry different amounts of unseen, along-the-sightline motion — and so get judged differently.</p>
+<p>Two explanations for that gap sound alike but are opposites. One credits the movement the umpire can see — the pitch is genuinely in a different place, or the umpire tracks its flight and adjusts. The other, the mechanism estimated here, has the umpire misjudging an <em>identical</em> crossing location, because a component of the movement runs along the line of sight, where the eye cannot resolve it. The break is real and measured; the error is in the eye.</p>
+</div>
+<div id="what-it-is-motion-in-depth-and-the-umpires-sightline" class="section level1">
+<h1>What it is: motion-in-depth and the umpire’s sightline</h1>
+<p>The perceptual fact is well established. Across reaching, catching, and batting, people estimate motion toward or away from them less precisely than motion side-to-side, because the depth cues (binocular disparity, looming) are noisier than the lateral signal on the retina <span class="citation">(<a href="#ref-gray2006">Gray and Regan 2006</a>; <a href="#ref-gray2018a">Gray and Cañal-Bruland 2018</a>)</span>. In baseball, though, the idea has lived almost entirely in the academic literature, and mostly on the <em>batter’s</em> side — how hitters time a swing and judge where a pitch will be <span class="citation">(<a href="#ref-gray2002">Gray 2002</a>, <a href="#ref-gray2013">2013</a>)</span>; I have argued it also shapes pitching strategy, since same- and opposite-handed matchups present different amounts of movement inside the batter’s plane of sight <span class="citation">(<a href="#ref-spencer2023">Spencer 2023</a>)</span>. Whether it has actually been built into how pitches are modeled — in public work, and as far as I can tell inside teams — is far less clear. That gap is partly one of tooling: a specific viewing geometry feeding a known perceptual limitation is exactly the kind of thing a Bayesian model with the physics built in can state outright — the sightline projection and its gain become explicit parameters, with priors and credible intervals — whereas the gradient-boosted, feature-fed models that dominate pitch analysis <span class="citation">(<a href="#ref-grove2023">Grove 2023</a>; <a href="#ref-drivelinebaseball2021">Baseball 2021</a>)</span> would have to rediscover the geometry from correlations, and would tend to absorb it as noise rather than name it as a cause.</p>
+<p>Here I take it to the person whose entire job is judging location: the <strong>home-plate umpire</strong>. The geometry is concrete. The umpire’s eye sits a few feet behind the plate, in the slot just to the inside of the catcher <span class="citation">(<a href="#ref-umpirebible2020">Umpire Bible 2020</a>)</span>. Draw the line from that eye to the ball at the moment it crosses. A pitch’s break is not an instantaneous jog but an accumulation — the lift (velocity-perpendicular) acceleration integrated over the whole flight, <span class="math inline">\(\mathbf{d} = \int_{0}^{t_f}\!\!\int_{0}^{t}\mathbf{a}_{\text{lift}}\,dt&#39;\,dt \approx \tfrac{1}{2}\,\mathbf{a}_{\text{lift}}\,t_f^{2}\)</span>. That accumulated deviation splits into the part <strong>across</strong> the line of sight (which the umpire perceives well) and the part <strong>along</strong> it (which they do not), and the unseen along-the-line part shifts where the umpire judges the ball to be.</p>
+<p>There is also a difference in dimension worth being explicit about. The perceptual studies isolate the depth-versus-lateral asymmetry in controlled, essentially two-dimensional viewing — motion in depth against a single lateral direction, often in a simulator or a reduced display <span class="citation">(<a href="#ref-gray2006">Gray and Regan 2006</a>; <a href="#ref-gray2002">Gray 2002</a>)</span>. The umpire’s problem is irreducibly three-dimensional, and the relevant depth axis is not the ball’s direction of travel but the umpire’s <em>line of sight</em> — the ray from the eye (set behind, above, and to the inside of the plate) to the ball as it comes in. That ray sweeps inward over the flight; by the moment the ball reaches the plate, where the call is made, it has swung to the crossing point, and what it projects there is the deviation the ball has accumulated the whole way in — the integral above. Resolved against that ray, the unperceived component casts a shadow on <em>two</em> plate axes at once — vertical and horizontal — and separating them is exactly what the per-axis gains <span class="math inline">\(\kappa_{csz}\)</span> and <span class="math inline">\(\kappa_{csx}\)</span> do.</p>
+<p>Two features of the geometry give the effect its shape:</p>
+<ul>
+<li><strong>It is mostly vertical.</strong> The umpire has strong horizontal reference cues — the plate, the catcher, the batter’s box — so the <em>sideways</em> shadow of the depth motion largely washes out. The <em>vertical</em> shadow does not. My estimates put the vertical effect about five times the horizontal one (more below).</li>
+<li><strong>It is strongest at the knees.</strong> The umpire’s eye is anchored near the <em>top</em> of the zone. So the sightline is nearly flat to the top of the zone but steepens as it drops to the knees — and the steeper the line, the more of the break runs along it, unseen. The misjudgment, and the call changes it produces, grow toward the bottom of the zone. The top panel of the figure below shows this directly. (The hitter is the extreme case: looking straight down the ball’s incoming line, the batter’s poorly-seen axis is the <em>whole</em> approach — read not just to place the pitch but to <em>time</em> the swing. The same blind spot, far more of it; more below.)</li>
+</ul>
+</div>
+<div id="visualizing-the-misperception" class="section level1">
+<h1>Visualizing the misperception</h1>
+<div class="float">
+<img src="images/pstrike_depth.png" alt="Motion-in-depth bends the called strike zone: the change in called-strike probability by pitch type, with a side-view of why the effect concentrates at the knees. Fit to 885,309 called pitches, 2024–2026." />
+<div class="figcaption">Motion-in-depth bends the called strike zone: the change in called-strike probability by pitch type, with a side-view of why the effect concentrates at the knees. Fit to 885,309 called pitches, 2024–2026.</div>
+</div>
+<p>Reading the bottom row left to right is reading the vertical break from most up (four-seam) to most down (curve). A riding four-seam loses ~5–8 points of called-strike probability along the bottom edge — it is <strong>squeezed</strong>. A curve gains ~4–5 points there — it <strong>gets the call</strong>. The two effects point in opposite directions against the same straight-pitch reference, which is why a four-seam and a curve at one spot can sit ~13 points apart. The slider, change, and sweeper fall in between, with the sweeper’s signature tilted sideways rather than vertical — the small horizontal piece.</p>
+<p>The figure depicts representative conditions — a typical right-handed batter at a neutral (0–0) count, a typical umpire and catcher, each pitch type drawn at its <em>average</em> break, from posterior-mean parameters. It is meant to isolate the mechanism and show its size, not to forecast any one pitch: an unusually sharp curve or a high-ride four-seam moves more, and there is real spread within a pitch type. The claims that carry weight are the per-axis decomposition and its credible intervals (next); the single-spot percentages are there to make the magnitude tangible.</p>
+</div>
+<div id="what-the-model-finds" class="section level1">
+<h1>What the model finds</h1>
+<p>The motion-in-depth term is one component of a structural model of the called strike zone, fit to 885,309 called pitches (2024–2026; 99 umpires, 856 batters, 142 catchers). It enters as a perceived-location shift with a <em>separate gain on each axis</em> — vertical and horizontal — and estimating the two separately is the point: it lets the data say which axis the misperception lives on rather than assuming it.</p>
+<p>The answer lands firmly on the vertical — about <strong>five times</strong> the horizontal effect. The horizontal piece is small but not zero: on a smaller, early-season sample it was indistinguishable from zero (which would have read as “vertical only”), and only at full scale does it resolve to a real, if minor, effect. So the umpire’s depth misperception is <em>predominantly</em> vertical, not <em>exclusively</em> so.</p>
+<p>And the term earns its place rather than just fitting more flexibly: adding it measurably improves the model’s predictions of held-out calls, so it is capturing signal rather than absorbing noise — the standing worry with any added parameter.</p>
+<p>The model gives each taken pitch a probability of being called a strike. The zone is a <strong>Gaussian-copula bivariate-logistic</strong> surface: two soft edges (a width edge and a height edge), coupled by a latent correlation that produces the familiar rounded-square corners rather than a sharp box. On top of that sit the structural pieces that make it a model of an <em>umpire</em> rather than a rulebook:</p>
+<ul>
+<li>an <strong>eye-anchored angular eccentricity</strong> — the boundary is crisper up-and-in (near the umpire’s central line of sight, ~4 ft back) and softer down-and-away;</li>
+<li>a <strong>per-umpire consistency</strong> term — a multiplicative blur on the edges, so some umpires have a knife-edge zone and some a fuzzy one;</li>
+<li><strong>hierarchical batter, umpire, and catcher effects</strong> — the catcher effect is pitch framing, here separated cleanly from the umpire and the count;</li>
+<li>a <strong>stance-tracked zone</strong> — the zone’s center and height follow the batter’s stance, reconstructed from listed height via anthropometry <span class="citation">(<a href="#ref-gordon2014">Gordon et al. 2014</a>)</span>, against the rulebook definition <span class="citation">(<a href="#ref-mlbrules2023">Major League Baseball 2023</a>)</span>;</li>
+<li>the <strong>motion-in-depth</strong> term described above.</li>
+</ul>
+<p>The induced break is computed from the Statcast nine-parameter release state — the velocity-perpendicular (Magnus) acceleration integrated over the flight <span class="citation">(<a href="#ref-kagan2017">Kagan and Nathan 2017</a>; <a href="#ref-nathan2008">Nathan 2008</a>)</span> — <em>inside</em> the likelihood, so the sightline projection uses the umpire eye that the zone parameters themselves imply. Estimation is full Bayesian via Hamiltonian Monte Carlo in Stan <span class="citation">(<a href="#ref-standevelopmentteam2025">Stan development team 2025</a>; <a href="#ref-gelman2013b">Gelman et al. 2013</a>)</span>, with an analytic C++ likelihood for speed; the reported fit is four chains with no divergences and <span class="math inline">\(\hat R \approx 1.00\)</span>.</p>
+</div>
+<div id="why-it-matters" class="section level1">
+<h1>Why it matters</h1>
+<ul>
+<li><strong>Evaluating umpires fairly.</strong> A “miss” low in the zone on a sharp curve and a “miss” low on a riding fastball are not the same kind of mistake. One is closer to a predictable consequence of human vision than a lapse in judgment. Grading umpires against the rulebook location alone charges them for an illusion.</li>
+<li><strong>Evaluating pitchers and pitch design.</strong> Part of what looks like a pitcher “stealing” strikes at the bottom of the zone may be the pitch type exploiting the umpire’s depth blind spot — a real, repeatable edge, but one attributable to <em>movement</em>, not command.</li>
+<li><strong>Where human calls and a geometric zone diverge.</strong> A camera system measures the rulebook location; a human sees it through the perceptual filter described here, so the two will not agree everywhere — and not at random, but concentrated where motion-in-depth bites, low and pitch-type-dependent. Wherever both are in play — a challenge system, an audit, a training aid — this model anticipates where they part and by how much. That is a description of human vision at the plate, not a claim that either call is the correct one, and not a case for replacing the umpire.</li>
+</ul>
+<p>And the umpire is the <em>mild</em> case. A stationary judge making a location call feels motion-in-depth as a few percentage points at the edge of the zone. The batter — who must also decide <em>when</em> to swing — feels the same perceptual limitation far more sharply: the unperceived depth motion corrupts <em>when</em> as well as <em>where</em>, driving swing-timing errors of tens of milliseconds and much of swing-and-miss <span class="citation">(<a href="#ref-gray2002">Gray 2002</a>)</span>. That is a substantially larger effect, a bigger model than this one, and the subject of separate work.</p>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-drivelinebaseball2021" class="csl-entry">
+Baseball, Driveline. 2021. <span>“Pitch <span>Design</span>: <span>What</span> Is <span>Stuff</span>+? <span>Quantifying Pitches</span> with <span>Pitch Models</span>.”</span> In <em>Driveline Baseball</em>.
+</div>
+<div id="ref-gelman2013b" class="csl-entry">
+Gelman, Andrew, John B Carlin, Hal S Stern, David B Dunson, Aki Vehtari, and Donald B Rubin. 2013. <em>Bayesian <span>Data Analysis</span></em>. Third. CRC Press.
+</div>
+<div id="ref-gordon2014" class="csl-entry">
+Gordon, Claire C, Cynthia L Blackwell, Bruce Bradtmiller, et al. 2014. <em>2012 <span>Anthropometric Survey</span> of <span>U</span>.<span>S</span>. <span>Army Personnel</span></em>. <span>U.S. Army Natick Soldier Research, Development and Engineering Center</span>.
+</div>
+<div id="ref-gray2002" class="csl-entry">
+Gray, Rob. 2002. <span>“Behavior of College Baseball Players in a Virtual Batting Task.”</span> <em>Journal of Experimental Psychology: Human Perception and Performance</em> 28 (5): 1131–48. <a href="https://doi.org/10.1037//0096-1523.28.5.1131">https://doi.org/10.1037//0096-1523.28.5.1131</a>.
+</div>
+<div id="ref-gray2013" class="csl-entry">
+Gray, Rob. 2013. <span>“Being Selective at the Plate: <span>Processing</span> Dependence Between Perceptual Variables Relates to Hitting Goals and Performance.”</span> <em>Journal of Experimental Psychology: Human Perception and Performance</em> 39 (4): 1124–42. <a href="https://doi.org/10.1037/a0030729">https://doi.org/10.1037/a0030729</a>.
+</div>
+<div id="ref-gray2018a" class="csl-entry">
+Gray, Rob, and Rouwen Cañal-Bruland. 2018. <span>“Integrating Visual Trajectory and Probabilistic Information in Baseball Batting.”</span> <em>Psychology of Sport <span>&amp;</span> Exercise</em> 36 (May): 123–31. <a href="https://doi.org/10.1016/j.psychsport.2018.02.009">https://doi.org/10.1016/j.psychsport.2018.02.009</a>.
+</div>
+<div id="ref-gray2006" class="csl-entry">
+Gray, Rob, and David M Regan. 2006. <span>“Unconfounding the Direction of Motion in Depth, Time to Passage and Rotation Rate of an Approaching Object.”</span> <em>Vision Research</em> 46 (15): 2388–402. <a href="https://doi.org/10.1016/j.visres.2006.02.005">https://doi.org/10.1016/j.visres.2006.02.005</a>.
+</div>
+<div id="ref-grove2023" class="csl-entry">
+Grove, Cameron. 2023. <span>“<span>PitchingBot Pitch Modeling Primer</span>.”</span> In <em>Sabermetrics Library</em>. Https://library.fangraphs.com/pitching/pitchingbot-pitch-modeling-primer/.
+</div>
+<div id="ref-kagan2017" class="csl-entry">
+Kagan, David, and Alan M Nathan. 2017. <span>“Statcast and the <span>Baseball Trajectory Calculator</span>.”</span> <em>The Physics Teacher</em> 55 (3): 134–36. <a href="https://doi.org/10.1119/1.4976652">https://doi.org/10.1119/1.4976652</a>.
+</div>
+<div id="ref-mlbrules2023" class="csl-entry">
+Major League Baseball. 2023. <em>Official Baseball Rules</em>.
+</div>
+<div id="ref-nathan2008" class="csl-entry">
+Nathan, Alan M. 2008. <span>“The Effect of Spin on the Flight of a Baseball.”</span> <em>American Journal of Physics</em> 76 (2): 119–24. <a href="https://doi.org/10.1119/1.2805242">https://doi.org/10.1119/1.2805242</a>.
+</div>
+<div id="ref-spencer2023" class="csl-entry">
+Spencer, Scott. 2023. <em>Pitch Selection to Maximize Motion-in-Depth Variation</em>. Blog. Https://ssp3nc3r.github.io/post/pitch-selection-to-maximize-motion-in-depth/.
+</div>
+<div id="ref-standevelopmentteam2025" class="csl-entry">
+Stan development team. 2025. <span>“Stan <span>Modeling Language Users Guide</span> and <span>Reference Manual</span>.”</span> In <em>Stan Documentation</em>. Https://mc-stan.org/docs/.
+</div>
+<div id="ref-umpirebible2020" class="csl-entry">
+Umpire Bible. 2020. <span>“Working the <span>Plate</span>.”</span> In <em>Umpire Bible</em>. Https://www.umpirebible.com/index.php/mechanics/working-the-plate.
+</div>
+</div>
+</div>

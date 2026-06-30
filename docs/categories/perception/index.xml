@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Perception on Dr. Scott Spencer</title>
+		<link>https://ssp3nc3r.github.io/categories/perception/</link>
+		<description>Recent content in Perception on Dr. Scott Spencer</description>
+		<generator>Hugo</generator>
+		<language>en</language>
+		
+		
+		
+		
+			<lastBuildDate>Mon, 29 Jun 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="https://ssp3nc3r.github.io/categories/perception/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>What the umpire can&#39;t see</title>
+				<link>https://ssp3nc3r.github.io/post/what-the-umpire-cant-see/</link>
+				<pubDate>Mon, 29 Jun 2026 00:00:00 +0000</pubDate>
+				<guid>https://ssp3nc3r.github.io/post/what-the-umpire-cant-see/</guid>
+				<description>&lt;div id=&#34;the-puzzle-the-same-spot-a-different-call&#34; class=&#34;section level1&#34;&gt;&#xA;&lt;h1&gt;The puzzle: the same spot, a different call&lt;/h1&gt;&#xA;&lt;p&gt;Take two pitches that cross home plate at the &lt;em&gt;exact&lt;/em&gt; same point — same height, same width, low and on the inner edge. One is a four-seam fastball that rode up on its way in; the other is a curveball that dropped through the bottom of the zone. Statcast records them as crossing the identical location. My model of how umpires actually call pitches says they are not the same call at all.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

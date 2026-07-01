@@ -73,7 +73,7 @@ And the term earns its place rather than just fitting more flexibly: adding it m
 
 The model gives each taken pitch a probability of being called a strike. The zone is a **Gaussian-copula bivariate-logistic** surface: two soft edges (a width edge and a height edge), coupled by a latent correlation that produces the familiar rounded-square corners rather than a sharp box. On top of that sit the structural pieces that make it a model of an *umpire* rather than a rulebook:
 
-- an **eye-anchored angular eccentricity** — the boundary is crisper up-and-in (near the umpire's central line of sight, ~4 ft back) and softer down-and-away;
+- an **eye-anchored angular eccentricity** — the boundary is sharpest at the inside-high corner the umpire fixates (~4 ft back) and softens with the angle off that line of sight, toward down-and-away;
 - a **per-umpire consistency** term — a multiplicative blur on the edges, so some umpires have a knife-edge zone and some a fuzzy one;
 - **hierarchical batter, umpire, and catcher effects** — the catcher effect is pitch framing, here separated cleanly from the umpire and the count;
 - a **stance-tracked zone** — the zone's center and height follow the batter's stance, reconstructed from listed height via anthropometry [@gordon2014], against the rulebook definition [@mlbrules2023];

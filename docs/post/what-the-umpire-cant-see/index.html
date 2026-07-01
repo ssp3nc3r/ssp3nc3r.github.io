@@ -58,7 +58,7 @@
 	<meta itemprop="description" content="The puzzle: the same spot, a different call Take two pitches that cross home plate at the exact same point — same height, same width, low and on the inner edge. One is a four-seam fastball that rode up on its way in; the other is a curveball that dropped through the bottom of the zone. Statcast records them as crossing the identical location. My model of how umpires actually call pitches says they are not the same call at all.">
 	<meta itemprop="datePublished" content="2026-06-29T00:00:00+00:00">
 	<meta itemprop="dateModified" content="2026-06-29T00:00:00+00:00">
-	<meta itemprop="wordCount" content="2409">
+	<meta itemprop="wordCount" content="2417">
 	<meta itemprop="image" content="https://ssp3nc3r.github.io/">
 	<meta itemprop="keywords" content="Baseball,Bayesian,Stan,Umpires,Motion-in-Depth,Perception,Called Strike Zone">
 	<meta name="twitter:card" content="summary_large_image">
@@ -199,7 +199,7 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
 <p>And the term earns its place rather than just fitting more flexibly: adding it measurably improves the model’s predictions of held-out calls, so it is capturing signal rather than absorbing noise — the standing worry with any added parameter.</p>
 <p>The model gives each taken pitch a probability of being called a strike. The zone is a <strong>Gaussian-copula bivariate-logistic</strong> surface: two soft edges (a width edge and a height edge), coupled by a latent correlation that produces the familiar rounded-square corners rather than a sharp box. On top of that sit the structural pieces that make it a model of an <em>umpire</em> rather than a rulebook:</p>
 <ul>
-<li>an <strong>eye-anchored angular eccentricity</strong> — the boundary is crisper up-and-in (near the umpire’s central line of sight, ~4 ft back) and softer down-and-away;</li>
+<li>an <strong>eye-anchored angular eccentricity</strong> — the boundary is sharpest at the inside-high corner the umpire fixates (~4 ft back) and softens with the angle off that line of sight, toward down-and-away;</li>
 <li>a <strong>per-umpire consistency</strong> term — a multiplicative blur on the edges, so some umpires have a knife-edge zone and some a fuzzy one;</li>
 <li><strong>hierarchical batter, umpire, and catcher effects</strong> — the catcher effect is pitch framing, here separated cleanly from the umpire and the count;</li>
 <li>a <strong>stance-tracked zone</strong> — the zone’s center and height follow the batter’s stance, reconstructed from listed height via anthropometry <span class="citation">(<a href="#ref-gordon2014">Gordon et al. 2014</a>)</span>, against the rulebook definition <span class="citation">(<a href="#ref-mlbrules2023">Major League Baseball 2023</a>)</span>;</li>

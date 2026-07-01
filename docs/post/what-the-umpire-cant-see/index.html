@@ -58,7 +58,7 @@
 	<meta itemprop="description" content="The puzzle: the same spot, a different call Take two pitches that cross home plate at the exact same point — same height, same width, low and on the inner edge. One is a four-seam fastball that rode up on its way in; the other is a curveball that dropped through the bottom of the zone. Statcast records them as crossing the identical location. My model of how umpires actually call pitches says they are not the same call at all.">
 	<meta itemprop="datePublished" content="2026-06-29T00:00:00+00:00">
 	<meta itemprop="dateModified" content="2026-06-29T00:00:00+00:00">
-	<meta itemprop="wordCount" content="2417">
+	<meta itemprop="wordCount" content="2499">
 	<meta itemprop="image" content="https://ssp3nc3r.github.io/">
 	<meta itemprop="keywords" content="Baseball,Bayesian,Stan,Umpires,Motion-in-Depth,Perception,Called Strike Zone">
 	<meta name="twitter:card" content="summary_large_image">
@@ -206,6 +206,7 @@ MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
 <li>the <strong>motion-in-depth</strong> term described above.</li>
 </ul>
 <p>The induced break is computed from the Statcast nine-parameter release state — the velocity-perpendicular (Magnus) acceleration integrated over the flight <span class="citation">(<a href="#ref-kagan2017">Kagan and Nathan 2017</a>; <a href="#ref-nathan2008">Nathan 2008</a>)</span> — <em>inside</em> the likelihood, so the sightline projection uses the umpire eye that the zone parameters themselves imply. Estimation is full Bayesian via Hamiltonian Monte Carlo in Stan <span class="citation">(<a href="#ref-standevelopmentteam2025">Stan development team 2025</a>; <a href="#ref-gelman2013b">Gelman et al. 2013</a>)</span>, with an analytic C++ likelihood for speed; the reported fit is four chains with no divergences and <span class="math inline">\(\hat R \approx 1.00\)</span>.</p>
+<p>The structural model here develops a line of work I began with a Bayesian umpire-call model and its joint extension to the swing decision <span class="citation">(<a href="#ref-spencerModelingUmpireCalls2018">Spencer 2018b</a>, <a href="#ref-spencerJointlyModelingChoice2018">2018a</a>)</span>, first drawn together as a physics- and geometry-based model of calls, swings, and contact in <span class="citation">Spencer (<a href="#ref-spencerCallsSwingsContact2019">2019</a>)</span>.</p>
 </div>
 <div id="why-it-matters" class="section level1">
 <h1>Why it matters</h1>
@@ -251,6 +252,15 @@ Major League Baseball. 2023. <em>Official Baseball Rules</em>.
 </div>
 <div id="ref-nathan2008" class="csl-entry">
 Nathan, Alan M. 2008. <span>“The Effect of Spin on the Flight of a Baseball.”</span> <em>American Journal of Physics</em> 76 (2): 119–24. <a href="https://doi.org/10.1119/1.2805242">https://doi.org/10.1119/1.2805242</a>.
+</div>
+<div id="ref-spencerJointlyModelingChoice2018" class="csl-entry">
+Spencer, Scott. 2018a. <em>Jointly Modeling Choice to Swing with Ball Contact</em>. Blog. Https://ssp3nc3r.github.io/post/jointly-modeling-choice-to-swing-with-ball-contact/.
+</div>
+<div id="ref-spencerModelingUmpireCalls2018" class="csl-entry">
+Spencer, Scott. 2018b. <em>Modeling <span>Umpire Calls</span></em>. Blog. Https://ssp3nc3r.github.io/post/modeling-umpire-calls/.
+</div>
+<div id="ref-spencerCallsSwingsContact2019" class="csl-entry">
+Spencer, Scott. 2019. <span>“A Physics and Geometry-Based, Stochastic Model for Calls, Swings, and Contact.”</span> Unpublished manuscript. December.
 </div>
 <div id="ref-spencer2023" class="csl-entry">
 Spencer, Scott. 2023. <em>Pitch Selection to Maximize Motion-in-Depth Variation</em>. Blog. Https://ssp3nc3r.github.io/post/pitch-selection-to-maximize-motion-in-depth/.

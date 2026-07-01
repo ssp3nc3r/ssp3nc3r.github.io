@@ -81,6 +81,8 @@ The model gives each taken pitch a probability of being called a strike. The zon
 
 The induced break is computed from the Statcast nine-parameter release state — the velocity-perpendicular (Magnus) acceleration integrated over the flight [@kagan2017; @nathan2008] — *inside* the likelihood, so the sightline projection uses the umpire eye that the zone parameters themselves imply. Estimation is full Bayesian via Hamiltonian Monte Carlo in Stan [@standevelopmentteam2025; @gelman2013b], with an analytic C++ likelihood for speed; the reported fit is four chains with no divergences and $\hat R \approx 1.00$.
 
+The structural model here develops a line of work I began with a Bayesian umpire-call model and its joint extension to the swing decision [@spencerModelingUmpireCalls2018; @spencerJointlyModelingChoice2018], first drawn together as a physics- and geometry-based model of calls, swings, and contact in @spencerCallsSwingsContact2019.
+
 # Why it matters
 
 - **Evaluating umpires fairly.** A "miss" low in the zone on a sharp curve and a "miss" low on a riding fastball are not the same kind of mistake. One is closer to a predictable consequence of human vision than a lapse in judgment. Grading umpires against the rulebook location alone charges them for an illusion.

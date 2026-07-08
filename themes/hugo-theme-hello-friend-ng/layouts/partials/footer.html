@@ -11,8 +11,32 @@
         <div class="footer__content">
         </div>
     </div>
-    <script src="//yihui.name/js/math-code.js"></script>
-<script async
-src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
+    <script>
+    // MathJax 3 (jsdelivr, https). Inline replacement for the old //yihui.name/js/math-code.js:
+    // unwrap any math a renderer left inside <code> so v3 (which skips code/pre) still typesets it.
+    (function () {
+      var codes = document.getElementsByTagName('code'), i, code, text;
+      for (i = 0; i < codes.length; i++) {
+        code = codes[i];
+        if (code.parentNode.tagName === 'PRE' || code.childElementCount !== 0) continue;
+        text = code.textContent;
+        if (/^\$[^$]+\$$/.test(text)) text = '\\(' + text.slice(1, -1) + '\\)';
+        if (/^\\\([\s\S]+\\\)$/.test(text) || /^\\\[[\s\S]+\\\]$/.test(text) || /^\$\$[\s\S]+\$\$$/.test(text)) {
+          var span = document.createElement('span');
+          span.textContent = text;
+          code.parentNode.replaceChild(span, code);
+          i--;
+        }
+      }
+    })();
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </footer>

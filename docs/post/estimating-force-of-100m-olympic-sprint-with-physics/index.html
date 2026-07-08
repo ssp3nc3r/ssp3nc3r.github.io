@@ -37,7 +37,7 @@ Let’s start with physics equations to describe speed, and accelerating to maxi
 
 
 
-<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.ba7b4319e521494c45e4076ed9ce571323a19b6f2f15f61c2e864cf61e4f5d7c.css">
+<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.d814cf833213d446ba235aa22dd9d7b7ea71e9f96be092ffac602d0030f4f2c2.css">
 
 
     
@@ -55,18 +55,18 @@ Let’s start with physics equations to describe speed, and accelerating to maxi
     <meta name="theme-color" content="#252627">
 
 
-	<meta itemprop="name" content="Modeling forces in 100m Olympic sprint, a study in physics and probability">
-	<meta itemprop="description" content="Let’s practice expressing a probabilistic model aided by physics. Physics have been used, of course, to mathematically describe the forces involved in running short distances. To estimate sprint speed we can inform our models with basic anatomical information and physics. The mathematical physics of running speed depend on body weight, and stride length and rate. Let’s begin with those.
+  <meta itemprop="name" content="Modeling forces in 100m Olympic sprint, a study in physics and probability">
+  <meta itemprop="description" content="Let’s practice expressing a probabilistic model aided by physics. Physics have been used, of course, to mathematically describe the forces involved in running short distances. To estimate sprint speed we can inform our models with basic anatomical information and physics. The mathematical physics of running speed depend on body weight, and stride length and rate. Let’s begin with those.
 Let’s start with physics equations to describe speed, and accelerating to maximum speed. We can express this by considering acceleration per stride, as explained in Herman (2016). Imagine stepping into the starting blocks on a 100m sprint. On the first push with our legs, we accelerate to a speed \(v_1\) at the end of the stride from a force \(F\) moved by a distance \(L\). To accelerate, we must produce the required work \(W\), as force \(F\) times stride length \(L\) — all together, \(W = FL\) — further expressed by the kinetic energy in our body, \(\frac{1}{2}ma\), or more specifically, \(\frac{1}{2}(m_{\text{b}} - 2m_{\text{leg}})v_1^2\), with one leg in the air \(\frac{1}{2}m_{\text{leg}}v_1^2\). After the first stride, then, we can express our speed or velocity as,">
-	<meta itemprop="datePublished" content="2019-06-11T00:00:00+00:00">
-	<meta itemprop="dateModified" content="2019-06-11T00:00:00+00:00">
-	<meta itemprop="wordCount" content="1178">
-	<meta itemprop="image" content="https://ssp3nc3r.github.io/">
-	<meta itemprop="keywords" content="Running,Olympics,Stan,Physics">
-	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:image" content="https://ssp3nc3r.github.io/">
-	<meta name="twitter:title" content="Modeling forces in 100m Olympic sprint, a study in physics and probability">
-	<meta name="twitter:description" content="Let’s practice expressing a probabilistic model aided by physics. Physics have been used, of course, to mathematically describe the forces involved in running short distances. To estimate sprint speed we can inform our models with basic anatomical information and physics. The mathematical physics of running speed depend on body weight, and stride length and rate. Let’s begin with those.
+  <meta itemprop="datePublished" content="2019-06-11T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2019-06-11T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1178">
+  <meta itemprop="image" content="https://ssp3nc3r.github.io/">
+  <meta itemprop="keywords" content="Running,Olympics,Stan,Physics">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ssp3nc3r.github.io/">
+  <meta name="twitter:title" content="Modeling forces in 100m Olympic sprint, a study in physics and probability">
+  <meta name="twitter:description" content="Let’s practice expressing a probabilistic model aided by physics. Physics have been used, of course, to mathematically describe the forces involved in running short distances. To estimate sprint speed we can inform our models with basic anatomical information and physics. The mathematical physics of running speed depend on body weight, and stride length and rate. Let’s begin with those.
 Let’s start with physics equations to describe speed, and accelerating to maximum speed. We can express this by considering acceleration per stride, as explained in Herman (2016). Imagine stepping into the starting blocks on a 100m sprint. On the first push with our legs, we accelerate to a speed \(v_1\) at the end of the stride from a force \(F\) moved by a distance \(L\). To accelerate, we must produce the required work \(W\), as force \(F\) times stride length \(L\) — all together, \(W = FL\) — further expressed by the kinetic energy in our body, \(\frac{1}{2}ma\), or more specifically, \(\frac{1}{2}(m_{\text{b}} - 2m_{\text{leg}})v_1^2\), with one leg in the air \(\frac{1}{2}m_{\text{leg}}v_1^2\). After the first stride, then, we can express our speed or velocity as,">
 
 
@@ -81,11 +81,7 @@ Let’s start with physics equations to describe speed, and accelerating to maxi
 
 
 
-
-        <script type="text/x-mathjax-config">
-MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
-</script>
-    </head>
+</head>
 
     <body class="dark-theme">
         <div class="container">
@@ -318,10 +314,34 @@ Rompottie, K. 1972. <span>“A Study of Stride Length in Running.”</span> <em>
         <div class="footer__content">
         </div>
     </div>
-    <script src="//yihui.name/js/math-code.js"></script>
-<script async
-src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
+    <script>
+    
+    
+    (function () {
+      var codes = document.getElementsByTagName('code'), i, code, text;
+      for (i = 0; i < codes.length; i++) {
+        code = codes[i];
+        if (code.parentNode.tagName === 'PRE' || code.childElementCount !== 0) continue;
+        text = code.textContent;
+        if (/^\$[^$]+\$$/.test(text)) text = '\\(' + text.slice(1, -1) + '\\)';
+        if (/^\\\([\s\S]+\\\)$/.test(text) || /^\\\[[\s\S]+\\\]$/.test(text) || /^\$\$[\s\S]+\$\$$/.test(text)) {
+          var span = document.createElement('span');
+          span.textContent = text;
+          code.parentNode.replaceChild(span, code);
+          i--;
+        }
+      }
+    })();
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </footer>
 
             
@@ -333,10 +353,6 @@ src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
 
 
 <script type="text/javascript" src="https://ssp3nc3r.github.io/bundle.min.6afa5136062f902a84dbe26018a40d09387dada845fd057df361ee98b44cdabf485fc28bd2fc3a0c0a14fb5af28755a6cba473d2153fe01c875872ba20c542a1.js" integrity="sha512-avpRNgYvkCqE2&#43;JgGKQNCTh9rahF/QV982HumLRM2r9IX8KL0vw6DAoU&#43;1ryh1Wmy6Rz0hU/4ByHWHK6IMVCoQ=="></script>
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
-</script>
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

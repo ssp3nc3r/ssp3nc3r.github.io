@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Scott Spencer">
+<meta name="description" content=" A called strike zone, drawn from enough pitches, is not a crisp rectangle. Its edges are soft — there is a band, an inch or two wide, where a taken pitch is sometimes a ball and sometimes a strike — and the softness is not the same on every side. The boundary is tightest in the upper-inside corner and loosest down and away. A descriptive fit — a binned heatmap, a spline, a boosted-tree model — renders the zone as a lopsided, rounded blob, but much of that shape reflects where pitches are thrown rather than how the umpire calls, and it exaggerates. The truer asymmetry is quieter: not the blob’s outline but the width of the edge itself — sharp in some places, soft in others — which those pictures don’t isolate. More than one perceptual force shapes it, and this paper follows the one with the cleanest signature, the one that tracks something specific: where the umpire is looking.
+" />
+<meta name="keywords" content="Scott Spencer, Bayesian modeling, Stan, sports analytics, Columbia University, MLB, Premier League, physics-informed models, generative modeling, Baseball, Bayesian, Stan, umpires, eccentricity, perception, called strike zone" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="https://ssp3nc3r.github.io/post/framing-the-eccentrics/" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1V94CLF78W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1V94CLF78W');
+</script>
+
+
+    <title>
+        
+            Framing the Eccentrics :: Dr. Scott Spencer 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://ssp3nc3r.github.io/main.min.d814cf833213d446ba235aa22dd9d7b7ea71e9f96be092ffac602d0030f4f2c2.css">
+
+
+    
+        <link rel="stylesheet" type="text/css" href="https://ssp3nc3r.github.io/css/custom.css">
+    
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://ssp3nc3r.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://ssp3nc3r.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://ssp3nc3r.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://ssp3nc3r.github.io/site.webmanifest">
+    <link rel="shortcut icon" href="https://ssp3nc3r.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+
+  <meta itemprop="name" content="Framing the Eccentrics">
+  <meta itemprop="description" content="Umpire and batter both judge the pitch from off-axis; the catcher frames it against both. This one is the umpire&#39;s — how eccentricity softens the edge of the strike zone he calls.">
+  <meta itemprop="datePublished" content="2026-06-30T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2026-06-30T00:00:00+00:00">
+  <meta itemprop="wordCount" content="2831">
+  <meta itemprop="image" content="https://ssp3nc3r.github.io/">
+  <meta itemprop="keywords" content="Baseball,Bayesian,Stan,Umpires,Eccentricity,Perception,Called Strike Zone">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ssp3nc3r.github.io/">
+  <meta name="twitter:title" content="Framing the Eccentrics">
+  <meta name="twitter:description" content="Umpire and batter both judge the pitch from off-axis; the catcher frames it against both. This one is the umpire&#39;s — how eccentricity softens the edge of the strike zone he calls.">
+
+
+
+    <meta property="article:section" content="Baseball" />
+
+    <meta property="article:section" content="Bayesian" />
+
+    <meta property="article:section" content="Stan" />
+
+    <meta property="article:section" content="Pitching" />
+
+    <meta property="article:section" content="Perception" />
+
+
+
+    <meta property="article:published_time" content="2026-06-30 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+</head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://ssp3nc3r.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text"> update_beliefs()</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#67a2c9;
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://ssp3nc3r.github.io/about/">About</a></li><li><a href="https://ssp3nc3r.github.io/post/">Blog</a></li><li><a href="https://ssp3nc3r.github.io/publications/">Publications</a></li><li><a href="https://ssp3nc3r.github.io/teaching/">Teaching</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+    
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://ssp3nc3r.github.io/post/framing-the-eccentrics/">Framing the Eccentrics</a></h2>
+
+            
+
+            <div class="post-content">
+                
+
+
+<!-- DRAFT (revised to the reference-width / structure-B fit, 1,912,808 pitches 2021–2026): eccentricity is SUPER-LINEAR,
+     p≈2.14 (90% CI [1.5,2.8]), λ≈0.16; max edge shift ~3.9pp. The model also carries a stance-driven top/bottom edge
+     asymmetry (τ_t/τ_b) that had to be modeled for p to read true; it beats the old symmetric fit by ~+60 ELPD (LOO).
+     Narrative flipped from "saturating→remembered line" to "super-linear→reading fast peripheral motion". -->
+<p>A called strike zone, drawn from enough pitches, is not a crisp rectangle. Its edges are soft — there is a band, an inch or two wide, where a taken pitch is sometimes a ball and sometimes a strike — and the softness is not the same on every side. The boundary is tightest in the upper-inside corner and loosest down and away. A descriptive fit — a binned heatmap, a spline, a boosted-tree model — renders the zone as a lopsided, rounded blob, but much of that shape reflects <em>where pitches are thrown</em> rather than how the umpire calls, and it exaggerates. The truer asymmetry is quieter: not the blob’s outline but the width of the <em>edge</em> itself — sharp in some places, soft in others — which those pictures don’t isolate. More than one perceptual force shapes it, and this paper follows the one with the cleanest signature, the one that tracks something specific: <strong>where the umpire is looking.</strong></p>
+<p>The umpire is not the only one with this problem — nor the one who has it worst. Every judgment of where a pitch crosses is made from the side, in peripheral vision: the umpire’s comes when he <strong>calls</strong> a taken pitch, the batter’s when he <strong>decides whether to swing</strong>. The batter’s is the harder case by far — he stands closer to the ball, cannot hold a fixed gaze, and is tracking a pitch that has already outrun his eyes. But a call and a swing are different events, and the call is the cleaner record: a taken pitch is a verdict on <em>location</em> alone, while a swing folds in timing, intent, and movement. So I begin with the umpire, where the effect reads most directly, and leave the hitter for its own telling.</p>
+<div id="the-textbook-curve" class="section level1">
+<h1>The textbook curve</h1>
+<p>Start with what vision science would predict if an umpire simply read the crossing point off the retina.</p>
+<p>We see in fine detail only at the center of gaze. Step away from it and acuity falls off, steeply and lawfully, with <strong>retinal eccentricity</strong> — the angle between the fovea and the target. The relationship has been pinned down for over half a century: the smallest detail the eye can resolve grows <em>linearly</em> with eccentricity, so that resolution itself drops as a hyperbola,
+<span class="math display">\[
+\text{MAR}(E) \;=\; \text{MAR}_0\,\left(1 + \frac{E}{E_2}\right),
+\]</span>
+where <span class="math inline">\(E_2\)</span> — the eccentricity at which the foveal threshold doubles — is around <span class="math inline">\(2\)</span>–<span class="math inline">\(3^\circ\)</span> for resolution tasks <span class="citation">(<a href="#ref-weymouth1958">Weymouth 1958</a>; <a href="#ref-levi1985">Levi et al. 1985</a>; <a href="#ref-strasburger2011">Strasburger et al. 2011</a>)</span>. The size a letter must be to be read climbs in step with how far out it sits <span class="citation">(<a href="#ref-anstis1974">Anstis 1974</a>)</span>, and the cortex devotes proportionally less tissue to the periphery in exactly the same inverse-linear way <span class="citation">(<a href="#ref-cowey1974">Cowey and Rolls 1974</a>; <a href="#ref-rovamo1979">Rovamo and Virsu 1979</a>)</span>. The crowding that makes peripheral clutter unreadable scales the same way, linearly in eccentricity <span class="citation">(<a href="#ref-rosen2014">Rosen et al. 2014</a>)</span>. The upshot is a clean, <em>steep</em> prediction: a quantity governed by peripheral spatial resolution should grow roughly <strong>linearly</strong> with how far off-axis it is.</p>
+<p>For the umpire, the angles are not small. Set the eye a few feet behind the plate, in the slot just inside the catcher, fixated on the upper-inside corner of the zone — the place umpires are trained to set their line of sight. The opposite, lower-outside corner then sits about <span class="math inline">\(30\)</span> inches away across the plane of the plate, roughly <span class="math inline">\(33^\circ\)</span> off that line of sight: well out in the periphery, where the eye resolves an edge least well. If the umpire’s boundary uncertainty were peripheral acuity, it should rise steeply, near-linearly, from that sharp inside-high corner to the soft outer-low one. But that linear law is measured on <em>still</em> targets held in the periphery — and the pitch at the corner is anything but still, a caveat the data will make decisive.</p>
+</div>
+<div id="reading-the-edge-from-the-calls" class="section level1">
+<h1>Reading the edge from the calls</h1>
+<p>Whether it actually does is an empirical question, and a structural model of the called zone can ask it directly. The model gives every taken pitch a probability of being called a strike, as a smooth two-dimensional surface with soft edges; eccentricity enters as a multiplier on the <em>width</em> of those edges’ transitions,
+<span class="math display">\[
+\text{ecc}(\mathrm{rad}) \;=\; 1 + \lambda\,g(\mathrm{rad};\,p),
+\qquad
+\mathrm{rad} \;=\; \arctan\frac{\sqrt{d_{\text{lat}}^{2} + d_{\text{vert}}^{2}}}{y_{\text{ump}}}\, ,
+\]</span>
+where <span class="math inline">\(\mathrm{rad}\)</span> is the exact angle of the pitch off the line of sight (the eye sits <span class="math inline">\(y_{\text{ump}}\!\approx\!4\)</span> ft back; <span class="math inline">\(d_{\text{lat}},d_{\text{vert}}\)</span> are the pitch’s offsets from the fixated corner). At the fixation the edge is at its sharpest; off-axis it softens. Two numbers govern it: an amplitude <span class="math inline">\(\lambda\)</span> — how much the edge softens at all — and a shape <span class="math inline">\(p\)</span> that decides <em>how the softening grows with distance</em>. Writing the shape as a one-parameter family, <span class="math inline">\(g(\mathrm{rad};p)=\left((1+\mathrm{rad})^{p}-1\right)/p\)</span>, lets the data pick the curve: <span class="math inline">\(p=1\)</span> is the linear falloff the eye’s <em>static</em> acuity follows, <span class="math inline">\(p=0\)</span> is logarithmic, <span class="math inline">\(p&lt;0\)</span> <em>saturates</em> — rises off the fovea, then levels off — and <span class="math inline">\(p&gt;1\)</span> is <em>super-linear</em>, accelerating away from the fovea faster than acuity does.</p>
+<p>The edge-softening itself is not new to this paper. An earlier model already grew the transition width with the pitch’s distance from the umpire’s slot but left the <em>shape</em> open — “the particular function is unknown, but expected to increase non-linearly with distance” <span class="citation">(<a href="#ref-spencerCallsSwingsContact2019">Spencer 2019</a>)</span> — and a later one fixed it to a logarithmic form <span class="citation">(<a href="#ref-spencerPitcherEffectiveness2024">Spencer 2024</a>)</span>, the <span class="math inline">\(p=0\)</span> member of the family above. Letting the calls choose <span class="math inline">\(p\)</span> instead is the step taken here.</p>
+<p>The fit here draws on <strong>1,912,808 called pitches from the 2021–2026 seasons</strong>. That is enough to pin down not just the amplitude <span class="math inline">\(\lambda\)</span> but the shape <span class="math inline">\(p\)</span> — the posterior interval below is narrow enough to locate the curve within the family, not merely to confirm that some softening is there.</p>
+</div>
+<div id="the-umpires-edge-softens-faster-not-more-gently" class="section level1">
+<h1>The umpire’s edge softens faster, not more gently</h1>
+<p>When it does choose, it does not pick the eye’s curve — and it departs on the <em>steep</em> side of it, not the gentle one. The fitted shape lands at <span class="math inline">\(p \approx 2.1\)</span> (90% posterior interval roughly <span class="math inline">\([1.5,\,2.8]\)</span>), well into the <em>super-linear</em> regime: the umpire’s boundary fuzziness barely grows near the line of sight, then <strong>accelerates</strong> toward the deep outer-low, climbing faster than even raw peripheral acuity would (figure below). It sits not below the linear law the retina obeys (<span class="math inline">\(p=1\)</span>) but decisively <em>above</em> it, out on the super-linear side of the family. And it is a real, repeatable feature, not a wrinkle of one season’s noise: it holds firmly super-linear across nearly two million calls, and the fuller model that returns it predicts the contested edge better than the symmetric one it replaces.</p>
+<div class="float">
+<img src="images/eccentricity_shape_distance.png" alt="How the edge softens with distance from the umpire’s gaze. The width of the ball-to-strike transition as a function of how far a pitch lands from the fixated inside-high corner, out to the lower-outside corner (~31 in). Candidate shapes agree near the eye and fan apart only toward the far corner; the fitted curve (p\approx2.1) accelerates, climbing above the linear falloff that peripheral acuity follows. Actual band-widening is this curve times \lambda\approx0.16 — about a 12% widening of the edge at the corner." />
+<div class="figcaption"><strong>How the edge softens with distance from the umpire’s gaze.</strong> The width of the ball-to-strike transition as a function of how far a pitch lands from the fixated inside-high corner, out to the lower-outside corner (~31 in). Candidate shapes agree near the eye and fan apart only toward the far corner; the fitted curve (<span class="math inline">\(p\approx2.1\)</span>) <em>accelerates</em>, climbing above the linear falloff that peripheral acuity follows. Actual band-widening is this curve times <span class="math inline">\(\lambda\approx0.16\)</span> — about a 12% widening of the edge at the corner.</div>
+</div>
+</div>
+<div id="a-moving-target-read-from-the-side" class="section level1">
+<h1>A moving target, read from the side</h1>
+<p>Why would an umpire’s edge soften <em>faster</em> than the eye’s acuity? Because the textbook curve is measured on the wrong target. An acuity experiment sets a <em>stationary</em> letter in the periphery and asks how small it can be; the umpire’s target is a baseball moving far too fast near the plate to keep on the fovea — its angular speed there outruns smooth pursuit, as Bahill and LaRitz measured for batters tracking a fastball <span class="citation">(<a href="#ref-bahill1984">Bahill 1984</a>)</span> — so the final flight is seen peripherally, as <em>motion</em>, not as a still image. Expert plate umpires <strong>anchor</strong> their gaze and let the ball arrive rather than chase it, the “quiet eye” pattern that separates better umpires from worse ones <span class="citation">(<a href="#ref-millslagle2013">Millslagle et al. 2013</a>)</span>; the best hitters do the same, making an anticipatory move and <em>predicting</em> where the ball will be instead of smoothly pursuing it <span class="citation">(<a href="#ref-mann2013">Mann et al. 2013</a>)</span>. But anchoring fixes only <em>where</em> the umpire looks; it does not change <em>what</em> he must read out there — a fast-moving object in the far periphery.</p>
+<p>And peripheral vision gives up a moving target faster than a still one. The eye’s ability to resolve <em>where</em> something is degrades with eccentricity more steeply when the something is moving, and more steeply still the faster it moves — position, near the plate, has to be read through motion smear and a shrinking window of time. If the call at the edge is a read of a fast-moving ball in peripheral vision rather than of a stationary mark, its uncertainty should climb with eccentricity <em>faster</em> than raw static acuity — which is exactly the super-linear shape the data return. The gap between the linear curve the still-target textbook predicts and the steeper one the umpire produces is not a flaw in the fit; it is the measurement. It says calling the corner is a read of <em>motion in the periphery</em>, and the eye surrenders that faster than any letter chart implies.</p>
+</div>
+<div id="where-it-moves-the-call" class="section level1">
+<h1>Where it moves the call</h1>
+<p>Consider where this acts. Holding the rest of the zone exactly as fit and switching eccentricity off, then on, the called-strike probability swings by about six percentage points across a thin band at the edge — concentrated entirely there, in a particular signature: a dipole hugging the boundary (figure below). Just inside the edge the softer transition nudges the call down toward a coin flip, by as much as four points; just outside it nudges it up a couple; the two cancel on the boundary itself and vanish at the inside-high corner the umpire fixates. Read along a single cut from the eye to the outer-low corner — the panels beneath the map in the figure below — that same shift stays flat where the umpire is looking and then dips and rises across the edge. The edge is precisely where it counts. The heart of the zone is a strike and the pitch well outside is a ball under any account of the umpire; everything that separates one model of the zone from another is decided in this thin band of contested calls — and eccentricity reshapes that band along the soft outer-low arc, a <em>precision</em> effect that changes how confidently the line is drawn rather than where it sits.</p>
+<p>And it does not act alone. Eccentricity is one of several perceptual terms working on that same contested band, and their percentage points accumulate. Motion-in-depth is a <em>bias</em> — worth five to thirteen points at the knees, set by a pitch’s movement — that moves <em>which</em> call you get; eccentricity softens <em>how surely</em> the line is held off-axis; the batter’s stance both sets where the zone sits and softens its top edge; and the count swells or shrinks it, height and width each by their own amount. The zone an umpire actually applies is the rulebook rectangle seen through all of them at once: shifted low and pitch-by-pitch by the unseen break, and sharp where the eye points, soft where it doesn’t. Individually each is a point or a few; together they are why the edge of a real strike zone looks the way it does.</p>
+<p>Modeling the softening as eccentricity does more than reproduce the asymmetry — it keeps the rest of the model interpretable, and getting it right required naming a second softening term the eccentricity had been standing in for. A location-dependent <em>width</em> has to come from somewhere, and most structural terms speak to something else: the base widths <span class="math inline">\(\sigma_w,\sigma_h\)</span> are single numbers, per-umpire consistency rescales them by umpire rather than by place, the count, umpire, and catcher terms move <em>where</em> the boundary sits rather than how sharp it is, and the copula correlation rounds all four corners equally. Two terms genuinely touch the edge’s <em>sharpness</em>. One is eccentricity — an off-axis effect anchored to the umpire’s gaze, carried by a single shape. The other is the batter’s stance, which softens the <em>top</em> edge in particular: the top of the zone is set from the shoulders and belt, a line the batter’s crouch shifts from pitch to pitch, so the umpire fixes it less sharply than the knee-anchored bottom. Left unmodeled, that top-edge softness had leaked into eccentricity and dragged the shape toward false saturation; separating the two lets each mean what it should — <span class="math inline">\(\sigma\)</span> the intrinsic edge width, <span class="math inline">\(\rho\)</span> the intrinsic corner rounding, eccentricity the off-axis softening, the stance the softness of a top edge that keeps moving — and, together, they predict the contested band better than the model that conflated them.</p>
+<div class="float">
+<img src="images/ecc_prob_shift.png" alt="Where eccentricity moves the call, and the same cut along the diagonal. Middle: called-strike probability with the eccentric edge minus without it (percentage points), at a mean-height batter and neutral count — blue lowers the call just inside the boundary, red raises it just outside; ~zero at the inside-high corner the umpire fixates, largest along the soft outer-low arc. Black contour is the called zone (p=0.5); the black diagonal runs from the eye fixation to the outer-low corner, orange dots marking its ends. Top and bottom: the called-strike probability and the with-minus-without shift along that diagonal, aligned column-for-column to the map — flat where the umpire is looking, then the dip-then-rise straddling the soft outer-low edge." />
+<div class="figcaption"><strong>Where eccentricity moves the call, and the same cut along the diagonal.</strong> <em>Middle:</em> called-strike probability <em>with</em> the eccentric edge minus <em>without</em> it (percentage points), at a mean-height batter and neutral count — blue lowers the call just inside the boundary, red raises it just outside; ~zero at the inside-high corner the umpire fixates, largest along the soft outer-low arc. Black contour is the called zone (<span class="math inline">\(p=0.5\)</span>); the black diagonal runs from the eye fixation to the outer-low corner, orange dots marking its ends. <em>Top and bottom:</em> the called-strike probability and the with-minus-without shift <strong>along that diagonal</strong>, aligned column-for-column to the map — flat where the umpire is looking, then the dip-then-rise straddling the soft outer-low edge.</div>
+</div>
+</div>
+<div id="the-shape-of-a-human-zone" class="section level1">
+<h1>The shape of a human zone</h1>
+<p>The location of the strike zone is the part everyone argues about. Its <em>shape</em> — why the edges are soft, and softer in some places than others — usually goes unmodeled, left as a quirk of aggregation. Naming eccentricity as a structural term does two things. It gives that soft, rounded, off-center edge a mechanism and an anchor: the boundary is crisp where the umpire looks and blurs away from it, along the geometry of off-axis vision. And, by writing the perceptual curve down explicitly enough to compare it against what the eye is known to do on a <em>still</em> target, it turns the difference between the two into evidence — that calling the corner is, for a major-league umpire, a read of a <em>fast-moving</em> target in the far periphery, where the eye surrenders position faster than any still-target chart predicts.</p>
+</div>
+<div id="the-hitter-has-it-worse" class="section level1">
+<h1>The hitter has it worse</h1>
+<p>Everything here is the umpire’s version of the problem — the one written cleanly into the record, one call at a time. The batter meets the same geometry from a harder seat. Standing beside the plate rather than a few feet behind it, he sees the zone subtend a wider angle, so its far corners fall further into the periphery; he cannot anchor his gaze the way an umpire can, because he must track a ball that outruns his eyes in its final feet; and those eyes are already turned in their sockets to watch the pitcher. If the umpire’s edge softens toward the outer-low corner, the batter’s <em>judgment</em> should soften there far more — which is another way of naming the oldest weakness in hitting, the chase down and away. That effect lives somewhere different from the one measured here: not in the zone the umpire calls, but in the swings the batter offers. Framing it there — a perceptual account of chasing, alongside the timing story of motion-in-depth — is where this goes next.</p>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-anstis1974" class="csl-entry">
+Anstis, S. M. 1974. <span>“A Chart Demonstrating Variations in Acuity with Retinal Position.”</span> <em>Vision Research</em> 14 (7): 589–92. <a href="https://doi.org/10.1016/0042-6989(74)90049-2">https://doi.org/10.1016/0042-6989(74)90049-2</a>.
+</div>
+<div id="ref-bahill1984" class="csl-entry">
+Bahill, Terry. 1984. <em>Why <span>Can</span>’t <span>Batters Keep Their Eyes</span> on the <span>Ball</span>? <span>A</span> Laboratory Study of Batters Tracking a Fastball Shows the Limitations of Some Hoary Baseball Axioms</em>. 72 (3): 249–53.
+</div>
+<div id="ref-cowey1974" class="csl-entry">
+Cowey, A., and E. T. Rolls. 1974. <span>“Human Cortical Magnification Factor and Its Relation to Visual Acuity.”</span> <em>Experimental Brain Research</em> 21 (5). <a href="https://doi.org/10.1007/BF00237163">https://doi.org/10.1007/BF00237163</a>.
+</div>
+<div id="ref-levi1985" class="csl-entry">
+Levi, Dennis M., Stanley A. Klein, and A. P. Aitsebaomo. 1985. <span>“Vernier Acuity, Crowding and Cortical Magnification.”</span> <em>Vision Research</em> 25 (7): 963–77. <a href="https://doi.org/10.1016/0042-6989(85)90207-X">https://doi.org/10.1016/0042-6989(85)90207-X</a>.
+</div>
+<div id="ref-mann2013" class="csl-entry">
+Mann, David L., Wayne Spratford, and Bruce Abernethy. 2013. <span>“The <span>Head Tracks</span> and <span>Gaze Predicts</span>: <span>How</span> the <span>World</span>’s <span>Best Batters Hit</span> a <span>Ball</span>.”</span> <em>PLoS ONE</em> 8 (3): e58289. <a href="https://doi.org/10.1371/journal.pone.0058289">https://doi.org/10.1371/journal.pone.0058289</a>.
+</div>
+<div id="ref-millslagle2013" class="csl-entry">
+Millslagle, Duane G., Bridget B. Hines, and Melissa S. Smith. 2013. <span>“Quiet <span>Eye Gaze Behavior</span> of <span>Expert</span>, and <span>Near-Expert</span>, <span>Baseball Plate Umpires</span>.”</span> <em>Perceptual and Motor Skills</em> 116 (1): 69–77. <a href="https://doi.org/10.2466/24.22.27.PMS.116.1.69-77">https://doi.org/10.2466/24.22.27.PMS.116.1.69-77</a>.
+</div>
+<div id="ref-rosen2014" class="csl-entry">
+Rosen, S., R. Chakravarthi, and D. G. Pelli. 2014. <span>“The <span>Bouma</span> Law of Crowding, Revised: <span>Critical</span> Spacing Is Equal Across Parts, Not Objects.”</span> <em>Journal of Vision</em> 14 (6): 10–10. <a href="https://doi.org/10.1167/14.6.10">https://doi.org/10.1167/14.6.10</a>.
+</div>
+<div id="ref-rovamo1979" class="csl-entry">
+Rovamo, J., and V. Virsu. 1979. <span>“An Estimation and Application of the Human Cortical Magnification Factor.”</span> <em>Experimental Brain Research</em> 37 (3). <a href="https://doi.org/10.1007/BF00236819">https://doi.org/10.1007/BF00236819</a>.
+</div>
+<div id="ref-spencerCallsSwingsContact2019" class="csl-entry">
+Spencer, Scott. 2019. <span>“A Physics and Geometry-Based, Stochastic Model for Calls, Swings, and Contact.”</span> Unpublished manuscript. December.
+</div>
+<div id="ref-spencerPitcherEffectiveness2024" class="csl-entry">
+Spencer, Scott. 2024. <em>Pitcher Effectiveness: A Physics- and Perception-Based Generative Model</em>. Https://ssp3nc3r.github.io/publications/papers/pitcher-effectiveness.html.
+</div>
+<div id="ref-strasburger2011" class="csl-entry">
+Strasburger, Hans, Ingo Rentschler, and Martin Jüttner. 2011. <span>“Peripheral Vision and Pattern Recognition: <span>A</span> Review.”</span> <em>Journal of Vision</em> 11 (5): 13. <a href="https://doi.org/10.1167/11.5.13">https://doi.org/10.1167/11.5.13</a>.
+</div>
+<div id="ref-weymouth1958" class="csl-entry">
+Weymouth, Frank W. 1958. <span>“Visual <span>Sensory Units</span> and the <span>Minimal Angle</span> of <span>Resolution</span>.”</span> <em>American Journal of Ophthalmology</em> 46 (1): 102–13. <a href="https://doi.org/10.1016/0002-9394(58)90042-4">https://doi.org/10.1016/0002-9394(58)90042-4</a>.
+</div>
+</div>
+</div>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://ssp3nc3r.github.io/tags/baseball">Baseball</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/bayesian">Bayesian</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/stan">Stan</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/umpires">umpires</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/eccentricity">eccentricity</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/perception">perception</a></span><span class="tag"><a href="https://ssp3nc3r.github.io/tags/called-strike-zone">called strike zone</a></span>
+  				</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+        </div>
+    </div>
+    <script>
+    
+    
+    (function () {
+      var codes = document.getElementsByTagName('code'), i, code, text;
+      for (i = 0; i < codes.length; i++) {
+        code = codes[i];
+        if (code.parentNode.tagName === 'PRE' || code.childElementCount !== 0) continue;
+        text = code.textContent;
+        if (/^\$[^$]+\$$/.test(text)) text = '\\(' + text.slice(1, -1) + '\\)';
+        if (/^\\\([\s\S]+\\\)$/.test(text) || /^\\\[[\s\S]+\\\]$/.test(text) || /^\$\$[\s\S]+\$\$$/.test(text)) {
+          var span = document.createElement('span');
+          span.textContent = text;
+          code.parentNode.replaceChild(span, code);
+          i--;
+        }
+      }
+    })();
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="https://ssp3nc3r.github.io/bundle.min.6afa5136062f902a84dbe26018a40d09387dada845fd057df361ee98b44cdabf485fc28bd2fc3a0c0a14fb5af28755a6cba473d2153fe01c875872ba20c542a1.js" integrity="sha512-avpRNgYvkCqE2&#43;JgGKQNCTh9rahF/QV982HumLRM2r9IX8KL0vw6DAoU&#43;1ryh1Wmy6Rz0hU/4ByHWHK6IMVCoQ=="></script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'G-1V94CLF78W', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+	
+		<script src="https://ssp3nc3r.github.io/js/typewriter.js"></script>
+	
+
+
+    </body>
+</html>

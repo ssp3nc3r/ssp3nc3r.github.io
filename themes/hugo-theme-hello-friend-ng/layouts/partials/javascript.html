@@ -5,9 +5,7 @@
 {{ $secureJS := slice $main $menu $prism $theme | resources.Concat "bundle.js" | resources.Minify | resources.Fingerprint "sha512" }}
 <script type="text/javascript" src="{{ $secureJS.RelPermalink }}" integrity="{{ $secureJS.Data.Integrity }}"></script>
 
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
-</script>
+{{- /* MathJax config + loader moved to partials/footer.html (MathJax 3) */ -}}
 
 {{- if .Site.Config.Services.GoogleAnalytics.ID }}
     <script>

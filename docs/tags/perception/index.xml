@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-	<channel>
-		<title>Perception on Dr. Scott Spencer</title>
-		<link>https://ssp3nc3r.github.io/tags/perception/</link>
-		<description>Recent content in Perception on Dr. Scott Spencer</description>
-		<generator>Hugo</generator>
-		<language>en</language>
-		
-		
-		
-		
-			<lastBuildDate>Mon, 29 Jun 2026 00:00:00 +0000</lastBuildDate>
-		
-			<atom:link href="https://ssp3nc3r.github.io/tags/perception/index.xml" rel="self" type="application/rss+xml" />
-			<item>
-				<title>What the umpire can&#39;t see</title>
-				<link>https://ssp3nc3r.github.io/post/what-the-umpire-cant-see/</link>
-				<pubDate>Mon, 29 Jun 2026 00:00:00 +0000</pubDate>
-				<guid>https://ssp3nc3r.github.io/post/what-the-umpire-cant-see/</guid>
-				<description>&lt;div id=&#34;the-puzzle-the-same-spot-a-different-call&#34; class=&#34;section level1&#34;&gt;&#xA;&lt;h1&gt;The puzzle: the same spot, a different call&lt;/h1&gt;&#xA;&lt;p&gt;Take two pitches that cross home plate at the &lt;em&gt;exact&lt;/em&gt; same point — same height, same width, low and on the inner edge. One is a four-seam fastball that rode up on its way in; the other is a curveball that dropped through the bottom of the zone. Statcast records them as crossing the identical location. My model of how umpires actually call pitches says they are not the same call at all.&lt;/p&gt;</description>
-			</item>
-			<item>
-				<title>HSLuv: an R Package to convert HSLuv colorspace to RGB and hex</title>
-				<link>https://ssp3nc3r.github.io/post/2020-03-30-hsluv-an-r-package-to-convert-hsluv-colorspace-to-rgb-and-hex/</link>
-				<pubDate>Mon, 30 Mar 2020 16:49:54 -0400</pubDate>
-				<guid>https://ssp3nc3r.github.io/post/2020-03-30-hsluv-an-r-package-to-convert-hsluv-colorspace-to-rgb-and-hex/</guid>
-				<description>&lt;p&gt;HSLuv is a human-friendly way to describe hue, saturation, and luminance — three attributes of color. The R package includes functions to convert HSLuv colorspace to computer RGB, either as separate red, green, and blue values or as a hex code.&lt;/p&gt;&#xA;&lt;p&gt;To install, you will need a working toolchain on your computer for compiling C++ code, and the R package devtools installed. Once those are working, simply run the following code in an R session:&lt;/p&gt;</description>
-			</item>
-	</channel>
+  <channel>
+    <title>Perception on Dr. Scott Spencer</title>
+    <link>https://ssp3nc3r.github.io/tags/perception/</link>
+    <description>Recent content in Perception on Dr. Scott Spencer</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 30 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://ssp3nc3r.github.io/tags/perception/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Framing the Eccentrics</title>
+      <link>https://ssp3nc3r.github.io/post/framing-the-eccentrics/</link>
+      <pubDate>Tue, 30 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/framing-the-eccentrics/</guid>
+      <description>&lt;!-- DRAFT (revised to the reference-width / structure-B fit, 1,912,808 pitches 2021–2026): eccentricity is SUPER-LINEAR,&#xA;     p≈2.14 (90% CI [1.5,2.8]), λ≈0.16; max edge shift ~3.9pp. The model also carries a stance-driven top/bottom edge&#xA;     asymmetry (τ_t/τ_b) that had to be modeled for p to read true; it beats the old symmetric fit by ~+60 ELPD (LOO).&#xA;     Narrative flipped from &#34;saturating→remembered line&#34; to &#34;super-linear→reading fast peripheral motion&#34;. --&gt;&#xA;&lt;p&gt;A called strike zone, drawn from enough pitches, is not a crisp rectangle. Its edges are soft — there is a band, an inch or two wide, where a taken pitch is sometimes a ball and sometimes a strike — and the softness is not the same on every side. The boundary is tightest in the upper-inside corner and loosest down and away. A descriptive fit — a binned heatmap, a spline, a boosted-tree model — renders the zone as a lopsided, rounded blob, but much of that shape reflects &lt;em&gt;where pitches are thrown&lt;/em&gt; rather than how the umpire calls, and it exaggerates. The truer asymmetry is quieter: not the blob’s outline but the width of the &lt;em&gt;edge&lt;/em&gt; itself — sharp in some places, soft in others — which those pictures don’t isolate. More than one perceptual force shapes it, and this paper follows the one with the cleanest signature, the one that tracks something specific: &lt;strong&gt;where the umpire is looking.&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>What the umpire can&#39;t see</title>
+      <link>https://ssp3nc3r.github.io/post/what-the-umpire-cant-see/</link>
+      <pubDate>Mon, 29 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/what-the-umpire-cant-see/</guid>
+      <description>&lt;div id=&#34;the-puzzle-the-same-spot-a-different-call&#34; class=&#34;section level1&#34;&gt;&#xA;&lt;h1&gt;The puzzle: the same spot, a different call&lt;/h1&gt;&#xA;&lt;p&gt;Take two pitches that cross home plate at the &lt;em&gt;exact&lt;/em&gt; same point — same height, same width, low and on the inner edge. One is a four-seam fastball that rode up on its way in; the other is a curveball that dropped through the bottom of the zone. Statcast records them as crossing the identical location. My model of how umpires actually call pitches says they are not the same call at all.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>HSLuv: an R Package to convert HSLuv colorspace to RGB and hex</title>
+      <link>https://ssp3nc3r.github.io/post/2020-03-30-hsluv-an-r-package-to-convert-hsluv-colorspace-to-rgb-and-hex/</link>
+      <pubDate>Mon, 30 Mar 2020 16:49:54 -0400</pubDate>
+      <guid>https://ssp3nc3r.github.io/post/2020-03-30-hsluv-an-r-package-to-convert-hsluv-colorspace-to-rgb-and-hex/</guid>
+      <description>&lt;p&gt;HSLuv is a human-friendly way to describe hue, saturation, and luminance — three attributes of color. The R package includes functions to convert HSLuv colorspace to computer RGB, either as separate red, green, and blue values or as a hex code.&lt;/p&gt;&#xA;&lt;p&gt;To install, you will need a working toolchain on your computer for compiling C++ code, and the R package devtools installed. Once those are working, simply run the following code in an R session:&lt;/p&gt;</description>
+    </item>
+  </channel>
 </rss>

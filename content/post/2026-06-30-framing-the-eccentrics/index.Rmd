@@ -1,0 +1,91 @@
+---
+title: Framing the Eccentrics
+description: "Umpire and batter both judge the pitch from off-axis; the catcher frames it against both. This one is the umpire's — how eccentricity softens the edge of the strike zone he calls."
+author: Scott Spencer
+date: '2026-06-30'
+slug: framing-the-eccentrics
+categories:
+  - Baseball
+  - Bayesian
+  - Stan
+  - Pitching
+  - Perception
+tags:
+  - Baseball
+  - Bayesian
+  - Stan
+  - umpires
+  - eccentricity
+  - perception
+  - called strike zone
+comments: no
+images: ~
+bibliography: references.bib
+---
+
+<!-- DRAFT (revised to the reference-width / structure-B fit, 1,912,808 pitches 2021–2026): eccentricity is SUPER-LINEAR,
+     p≈2.14 (90% CI [1.5,2.8]), λ≈0.16; max edge shift ~3.9pp. The model also carries a stance-driven top/bottom edge
+     asymmetry (τ_t/τ_b) that had to be modeled for p to read true; it beats the old symmetric fit by ~+60 ELPD (LOO).
+     Narrative flipped from "saturating→remembered line" to "super-linear→reading fast peripheral motion". -->
+
+A called strike zone, drawn from enough pitches, is not a crisp rectangle. Its edges are soft — there is a band, an inch or two wide, where a taken pitch is sometimes a ball and sometimes a strike — and the softness is not the same on every side. The boundary is tightest in the upper-inside corner and loosest down and away. A descriptive fit — a binned heatmap, a spline, a boosted-tree model — renders the zone as a lopsided, rounded blob, but much of that shape reflects *where pitches are thrown* rather than how the umpire calls, and it exaggerates. The truer asymmetry is quieter: not the blob's outline but the width of the *edge* itself — sharp in some places, soft in others — which those pictures don't isolate. More than one perceptual force shapes it, and this paper follows the one with the cleanest signature, the one that tracks something specific: **where the umpire is looking.**
+
+The umpire is not the only one with this problem — nor the one who has it worst. Every judgment of where a pitch crosses is made from the side, in peripheral vision: the umpire's comes when he **calls** a taken pitch, the batter's when he **decides whether to swing**. The batter's is the harder case by far — he stands closer to the ball, cannot hold a fixed gaze, and is tracking a pitch that has already outrun his eyes. But a call and a swing are different events, and the call is the cleaner record: a taken pitch is a verdict on *location* alone, while a swing folds in timing, intent, and movement. So I begin with the umpire, where the effect reads most directly, and leave the hitter for its own telling.
+
+# The textbook curve
+
+Start with what vision science would predict if an umpire simply read the crossing point off the retina.
+
+We see in fine detail only at the center of gaze. Step away from it and acuity falls off, steeply and lawfully, with **retinal eccentricity** — the angle between the fovea and the target. The relationship has been pinned down for over half a century: the smallest detail the eye can resolve grows *linearly* with eccentricity, so that resolution itself drops as a hyperbola,
+$$
+\text{MAR}(E) \;=\; \text{MAR}_0\,\left(1 + \frac{E}{E_2}\right),
+$$
+where $E_2$ — the eccentricity at which the foveal threshold doubles — is around $2$–$3^\circ$ for resolution tasks [@weymouth1958; @levi1985; @strasburger2011]. The size a letter must be to be read climbs in step with how far out it sits [@anstis1974], and the cortex devotes proportionally less tissue to the periphery in exactly the same inverse-linear way [@cowey1974; @rovamo1979]. The crowding that makes peripheral clutter unreadable scales the same way, linearly in eccentricity [@rosen2014]. The upshot is a clean, *steep* prediction: a quantity governed by peripheral spatial resolution should grow roughly **linearly** with how far off-axis it is.
+
+For the umpire, the angles are not small. Set the eye a few feet behind the plate, in the slot just inside the catcher, fixated on the upper-inside corner of the zone — the place umpires are trained to set their line of sight. The opposite, lower-outside corner then sits about $30$ inches away across the plane of the plate, roughly $33^\circ$ off that line of sight: well out in the periphery, where the eye resolves an edge least well. If the umpire's boundary uncertainty were peripheral acuity, it should rise steeply, near-linearly, from that sharp inside-high corner to the soft outer-low one. But that linear law is measured on *still* targets held in the periphery — and the pitch at the corner is anything but still, a caveat the data will make decisive.
+
+# Reading the edge from the calls
+
+Whether it actually does is an empirical question, and a structural model of the called zone can ask it directly. The model gives every taken pitch a probability of being called a strike, as a smooth two-dimensional surface with soft edges; eccentricity enters as a multiplier on the *width* of those edges' transitions,
+$$
+\text{ecc}(\mathrm{rad}) \;=\; 1 + \lambda\,g(\mathrm{rad};\,p),
+\qquad
+\mathrm{rad} \;=\; \arctan\frac{\sqrt{d_{\text{lat}}^{2} + d_{\text{vert}}^{2}}}{y_{\text{ump}}}\, ,
+$$
+where $\mathrm{rad}$ is the exact angle of the pitch off the line of sight (the eye sits $y_{\text{ump}}\!\approx\!4$ ft back; $d_{\text{lat}},d_{\text{vert}}$ are the pitch's offsets from the fixated corner). At the fixation the edge is at its sharpest; off-axis it softens. Two numbers govern it: an amplitude $\lambda$ — how much the edge softens at all — and a shape $p$ that decides *how the softening grows with distance*. Writing the shape as a one-parameter family, $g(\mathrm{rad};p)=\left((1+\mathrm{rad})^{p}-1\right)/p$, lets the data pick the curve: $p=1$ is the linear falloff the eye's *static* acuity follows, $p=0$ is logarithmic, $p<0$ *saturates* — rises off the fovea, then levels off — and $p>1$ is *super-linear*, accelerating away from the fovea faster than acuity does.
+
+The edge-softening itself is not new to this paper. An earlier model already grew the transition width with the pitch's distance from the umpire's slot but left the *shape* open — "the particular function is unknown, but expected to increase non-linearly with distance" [@spencerCallsSwingsContact2019] — and a later one fixed it to a logarithmic form [@spencerPitcherEffectiveness2024], the $p=0$ member of the family above. Letting the calls choose $p$ instead is the step taken here.
+
+The fit here draws on **1,912,808 called pitches from the 2021–2026 seasons**. That is enough to pin down not just the amplitude $\lambda$ but the shape $p$ — the posterior interval below is narrow enough to locate the curve within the family, not merely to confirm that some softening is there.
+
+# The umpire's edge softens faster, not more gently
+
+When it does choose, it does not pick the eye's curve — and it departs on the *steep* side of it, not the gentle one. The fitted shape lands at $p \approx 2.1$ (90% posterior interval roughly $[1.5,\,2.8]$), well into the *super-linear* regime: the umpire's boundary fuzziness barely grows near the line of sight, then **accelerates** toward the deep outer-low, climbing faster than even raw peripheral acuity would (figure below). It sits not below the linear law the retina obeys ($p=1$) but decisively *above* it, out on the super-linear side of the family. And it is a real, repeatable feature, not a wrinkle of one season's noise: it holds firmly super-linear across nearly two million calls, and the fuller model that returns it predicts the contested edge better than the symmetric one it replaces.
+
+![**How the edge softens with distance from the umpire's gaze.** The width of the ball-to-strike transition as a function of how far a pitch lands from the fixated inside-high corner, out to the lower-outside corner (~31 in). Candidate shapes agree near the eye and fan apart only toward the far corner; the fitted curve ($p\approx2.1$) *accelerates*, climbing above the linear falloff that peripheral acuity follows. Actual band-widening is this curve times $\lambda\approx0.16$ — about a 12% widening of the edge at the corner.](images/eccentricity_shape_distance.png)
+
+# A moving target, read from the side
+
+Why would an umpire's edge soften *faster* than the eye's acuity? Because the textbook curve is measured on the wrong target. An acuity experiment sets a *stationary* letter in the periphery and asks how small it can be; the umpire's target is a baseball moving far too fast near the plate to keep on the fovea — its angular speed there outruns smooth pursuit, as Bahill and LaRitz measured for batters tracking a fastball [@bahill1984] — so the final flight is seen peripherally, as *motion*, not as a still image. Expert plate umpires **anchor** their gaze and let the ball arrive rather than chase it, the "quiet eye" pattern that separates better umpires from worse ones [@millslagle2013]; the best hitters do the same, making an anticipatory move and *predicting* where the ball will be instead of smoothly pursuing it [@mann2013]. But anchoring fixes only *where* the umpire looks; it does not change *what* he must read out there — a fast-moving object in the far periphery.
+
+And peripheral vision gives up a moving target faster than a still one. The eye's ability to resolve *where* something is degrades with eccentricity more steeply when the something is moving, and more steeply still the faster it moves — position, near the plate, has to be read through motion smear and a shrinking window of time. If the call at the edge is a read of a fast-moving ball in peripheral vision rather than of a stationary mark, its uncertainty should climb with eccentricity *faster* than raw static acuity — which is exactly the super-linear shape the data return. The gap between the linear curve the still-target textbook predicts and the steeper one the umpire produces is not a flaw in the fit; it is the measurement. It says calling the corner is a read of *motion in the periphery*, and the eye surrenders that faster than any letter chart implies.
+
+# Where it moves the call
+
+Consider where this acts. Holding the rest of the zone exactly as fit and switching eccentricity off, then on, the called-strike probability swings by about six percentage points across a thin band at the edge — concentrated entirely there, in a particular signature: a dipole hugging the boundary (figure below). Just inside the edge the softer transition nudges the call down toward a coin flip, by as much as four points; just outside it nudges it up a couple; the two cancel on the boundary itself and vanish at the inside-high corner the umpire fixates. Read along a single cut from the eye to the outer-low corner — the panels beneath the map in the figure below — that same shift stays flat where the umpire is looking and then dips and rises across the edge. The edge is precisely where it counts. The heart of the zone is a strike and the pitch well outside is a ball under any account of the umpire; everything that separates one model of the zone from another is decided in this thin band of contested calls — and eccentricity reshapes that band along the soft outer-low arc, a *precision* effect that changes how confidently the line is drawn rather than where it sits.
+
+And it does not act alone. Eccentricity is one of several perceptual terms working on that same contested band, and their percentage points accumulate. Motion-in-depth is a *bias* — worth five to thirteen points at the knees, set by a pitch's movement — that moves *which* call you get; eccentricity softens *how surely* the line is held off-axis; the batter's stance both sets where the zone sits and softens its top edge; and the count swells or shrinks it, height and width each by their own amount. The zone an umpire actually applies is the rulebook rectangle seen through all of them at once: shifted low and pitch-by-pitch by the unseen break, and sharp where the eye points, soft where it doesn't. Individually each is a point or a few; together they are why the edge of a real strike zone looks the way it does.
+
+Modeling the softening as eccentricity does more than reproduce the asymmetry — it keeps the rest of the model interpretable, and getting it right required naming a second softening term the eccentricity had been standing in for. A location-dependent *width* has to come from somewhere, and most structural terms speak to something else: the base widths $\sigma_w,\sigma_h$ are single numbers, per-umpire consistency rescales them by umpire rather than by place, the count, umpire, and catcher terms move *where* the boundary sits rather than how sharp it is, and the copula correlation rounds all four corners equally. Two terms genuinely touch the edge's *sharpness*. One is eccentricity — an off-axis effect anchored to the umpire's gaze, carried by a single shape. The other is the batter's stance, which softens the *top* edge in particular: the top of the zone is set from the shoulders and belt, a line the batter's crouch shifts from pitch to pitch, so the umpire fixes it less sharply than the knee-anchored bottom. Left unmodeled, that top-edge softness had leaked into eccentricity and dragged the shape toward false saturation; separating the two lets each mean what it should — $\sigma$ the intrinsic edge width, $\rho$ the intrinsic corner rounding, eccentricity the off-axis softening, the stance the softness of a top edge that keeps moving — and, together, they predict the contested band better than the model that conflated them.
+
+![**Where eccentricity moves the call, and the same cut along the diagonal.** *Middle:* called-strike probability *with* the eccentric edge minus *without* it (percentage points), at a mean-height batter and neutral count — blue lowers the call just inside the boundary, red raises it just outside; ~zero at the inside-high corner the umpire fixates, largest along the soft outer-low arc. Black contour is the called zone ($p=0.5$); the black diagonal runs from the eye fixation to the outer-low corner, orange dots marking its ends. *Top and bottom:* the called-strike probability and the with-minus-without shift **along that diagonal**, aligned column-for-column to the map — flat where the umpire is looking, then the dip-then-rise straddling the soft outer-low edge.](images/ecc_prob_shift.png)
+
+# The shape of a human zone
+
+The location of the strike zone is the part everyone argues about. Its *shape* — why the edges are soft, and softer in some places than others — usually goes unmodeled, left as a quirk of aggregation. Naming eccentricity as a structural term does two things. It gives that soft, rounded, off-center edge a mechanism and an anchor: the boundary is crisp where the umpire looks and blurs away from it, along the geometry of off-axis vision. And, by writing the perceptual curve down explicitly enough to compare it against what the eye is known to do on a *still* target, it turns the difference between the two into evidence — that calling the corner is, for a major-league umpire, a read of a *fast-moving* target in the far periphery, where the eye surrenders position faster than any still-target chart predicts.
+
+# The hitter has it worse
+
+Everything here is the umpire's version of the problem — the one written cleanly into the record, one call at a time. The batter meets the same geometry from a harder seat. Standing beside the plate rather than a few feet behind it, he sees the zone subtend a wider angle, so its far corners fall further into the periphery; he cannot anchor his gaze the way an umpire can, because he must track a ball that outruns his eyes in its final feet; and those eyes are already turned in their sockets to watch the pitcher. If the umpire's edge softens toward the outer-low corner, the batter's *judgment* should soften there far more — which is another way of naming the oldest weakness in hitting, the chase down and away. That effect lives somewhere different from the one measured here: not in the zone the umpire calls, but in the swings the batter offers. Framing it there — a perceptual account of chasing, alongside the timing story of motion-in-depth — is where this goes next.
+
+# References
